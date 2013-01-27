@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>网格</title>
+	<link href="style.css" rel="stylesheet" type="text/css" media="screen" />
+	<script src="js/jquery.min.js" type="text/javascript"></script> 
+	<script src="js/animate-bg.js" type="text/javascript"></script>
+	<script src="js/scripts.js" type="text/javascript"></script>
+	<style type="text/css">
+		*{
+			font-family: tahoma,arial,helvetica,verdana;
+		}
+		#left-side{
+			float: left;
+			width: 25%;
+		}
+		#main{
+			float: left;
+			width: 50%;
+		}
+		#right-side{
+			float: left;
+			width: 25%;
+			text-align: right;
+		}
+		footer{
+			clear: both;
+			text-align: center;
+			background-color: silver;
+		}
+		.post{
+			text-align: center;
+		}
+		.post-stream{
+			background-color: lightgreen;
+		}
+		.post-box{
+			/*border: 1px solid gray;*/
+		}
+		.avatar{
+			width: 50px; height: 50px;
+		}
+		.post-content{
+			padding: 2px;
+		}
+	</style>
+</head>
+<body>
+<div id="container">
+	<ul id="nav">
+		<li><a href="#">首页</a></li>
+		<li><a href="#">私人网格</a></li>
+		<li><a href="#">公共网格</a></li>
+		<li><a href="#">帮助</a></li>
+	</ul>
+	<div id="left-side">
+		LEFT
+	</div>
+	<div id="main">
+		<ul class="post">
+			<textarea id="input" style="width:500px;height:100px;"></textarea>
+			<button>发表</button>
+		</ul>
+		<div class="post-stream">
+			<hr />
+			<p id="1101" class="post-box">
+				<span class="author-box">
+					<a href="javascript:void(1);"><img class="avatar" src="miao.jpg"></img>很厉害的傻瓜</a>: 
+				</span>
+				<span class="post-content">
+					"This is a new age! See <a href="http://springsource.org/">New Age</a>"
+				</span>
+				<p class="post-comments" style="display:none;">
+					<span id="5150">Comment</span>
+				</p>
+			</p>
+
+			<hr />
+			<p id="1102" class="post-box">
+				<span class="author-box">
+					<a href="javascript:void(1);"><img class="avatar" src="w-sys.jpg"></img>WJP</a>: 
+				</span>
+				<span class="post-content">
+					"Spring MVC is a great web! See <a href="http://springsource.org/">Great Web</a>"
+				</span>
+				<p class="post-comments" style="display:none;">
+					<span id="5150">Comment</span>
+				</p>
+			</p>
+		</div>
+	</div>
+	<div id="right-side">
+		RIGHT
+	</div>
+	<footer>
+		<p>Copyright 2013 by ...</p>
+		<p>版权所有</p>
+	</footer>
+</div>
+</body>
+</html>
