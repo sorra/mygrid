@@ -6,9 +6,6 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>网格</title>
 	<link href="rs/css/style.css" rel="stylesheet" type="text/css" media="screen" />
-	<script src="rs/js/jquery.min.js" type="text/javascript"></script> 
-	<script src="rs/js/animate-bg.js" type="text/javascript"></script>
-	<script src="rs/js/scripts.js" type="text/javascript"></script>
 	<link href="rs/css/index.css" rel="stylesheet" type="text/css" media="screen" />
 </head>
 <body>
@@ -72,6 +69,9 @@
 		<p>版权所有</p>
 	</footer>
 </div>
+<script src="rs/js/jquery.min.js" type="text/javascript"></script> 
+<script src="rs/js/animate-bg.js" type="text/javascript"></script>
+<script src="rs/js/scripts.js" type="text/javascript"></script>
 <script type="text/javascript" src="rs/js/dojo.js"></script>
 <script type="text/javascript" src="rs/js/ajax.js"></script>
 </body>

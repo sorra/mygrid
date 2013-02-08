@@ -7,7 +7,6 @@ $(document).ready(function() {
       }, 
       function () {
         $(this).animate({backgroundPosition:"(0 -149px)"}, 200);
-
       }
     );
 
