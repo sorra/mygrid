@@ -1,18 +1,26 @@
 package grids.entity;
 
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Transient;
 
 @Entity
 public class User {
-	@Id
 	private long id;
 	private String name;
-	private String profile;
+	private String password;
+	private String intro;
+	private String avatar;
+
+	public User() {
+	}
 	
+	public User(String name, String password, String intro) {
+		this.name = name;
+		this.password = password;
+		this.intro = intro;
+	}
+
+	@Id
 	public long getId() {
 		return id;
 	}
@@ -25,17 +33,24 @@ public class User {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getProfile() {
-		return profile;
+	public String getPassword() {
+		return password;
 	}
-	public void setProfile(String profile) {
-		this.profile = profile;
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public String getIntro() {
+		return intro;
+	}
+	public void setIntro(String intro) {
+		this.intro = intro;
 	}
 	
-	@Transient
-	private List<Follow> followings;
-	@Transient
-	private List<Follow> followers;
-	@Transient
-	private List<Tag> tags;	
+	public String getAvatar() {
+		return avatar;
+	}
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
+
 }

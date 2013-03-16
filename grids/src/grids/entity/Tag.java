@@ -7,12 +7,20 @@ import javax.persistence.Id;
 
 @Entity
 public class Tag {
-	@Id
 	private long id;
 	private String name;
 	private List<Tag> children;
 	private Tag parent;
+
+	public Tag() {
+	}
 	
+	public Tag(long id, String name, Tag parent) {
+		this.id = id;
+		this.name = name;
+		this.parent = parent;
+	}
+	@Id
 	public long getId() {
 		return id;
 	}
