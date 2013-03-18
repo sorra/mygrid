@@ -23,9 +23,9 @@
         org.hibernate.dialect.MySQLDialect
     </property>
 
-    <!-- Enable Hibernate's automatic session context management 
-        <property name="current_session_context_class">thread</property>
-    -->
+    <!-- Enable Hibernate's automatic session context management --> 
+    <property name="current_session_context_class">thread</property>
+   
     <!-- Disable the second-level cache  -->
     <property name="cache.provider_class">
         org.hibernate.cache.internal.NoCacheProvider
@@ -34,6 +34,6 @@
     <!-- Echo all executed SQL to stdout -->
     <property name="show_sql">true</property>
 
-    <property name="hbm2ddl.auto">create</property>
+    <property name="hbm2ddl.auto">create-drop</property>
 </session-factory>
 </hibernate-configuration>

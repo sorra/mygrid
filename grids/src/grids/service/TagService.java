@@ -1,28 +1,50 @@
 package grids.service;
 
+import grids.entity.Tag;
+import grids.repos.TagRepos;
+
 import java.util.Collection;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import grids.entity.Follow;
-import grids.entity.Tag;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class TagService {
-	public void resetFollowTags(List<Tag> tags) {
-		new Follow().setTags(tags);
+	@Autowired
+	TagRepos tagRepos;
+	
+	public long newTag(String name, long parentId) {
+		Tag tag = new Tag(name, tagRepos.load(parentId));
+		if (tagRepos.findByNameAndParent(name, parentId) == null) {
+			tagRepos.save(tag);
+			return tag.getId();
+		}
+		else return -1;
 	}
 	
-	public List<Tag> chainUp(Tag leaf) {
-		return null;
+	@Transactional(readOnly=true)
+	public List<Tag> chainUp(long tagId) {
+		return tagRepos.get(tagId).chainUp();
 	}
 	
-	Collection<Tag> children(Tag tag) {
-		return null;
+	@Transactional(readOnly=true)
+	public Collection<Tag> children(long tagId) {
+		return tagRepos.get(tagId).getChildren();
 	}
 	
-	Collection<Tag> descendants(Tag tag) {
-		return null;
+	@Transactional(readOnly=true)
+	public Collection<Tag> descendants(long tagId) {
+		return tagRepos.get(tagId).descandants();
 	}
+
+	public void init() {
+		if (needInitialize) {
+			tagRepos.save(new Tag("root", null));
+			needInitialize = false;
+		}
+	}
+	private static boolean needInitialize = true;
 }

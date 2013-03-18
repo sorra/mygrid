@@ -2,11 +2,13 @@ package grids.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import grids.entity.User;
 import grids.repos.UserRepos;
 
 @Service
+@Transactional
 public class UserService {
 	@Autowired
 	UserRepos userRepos;
@@ -14,15 +16,17 @@ public class UserService {
 	/**
 	 * Prefer load() for stub proxy
 	 */
-	@Deprecated
+	@Transactional(readOnly=true)
 	public User get(Long id) {
 		return userRepos.get(id);
 	}
-	
+
+	@Transactional(readOnly=true)
 	public User getByName(String name) {
 		return userRepos.findByName(name);
 	}
-	
+
+	@Transactional(readOnly=true)
 	public User login(String username, String password) {
 		User user = getByName(username);
 		if (user == null) {
@@ -34,13 +38,13 @@ public class UserService {
 		} else return null;
 	}
 	
-	public boolean register(User user) {
+	public long register(User user) {
 		if (existsUsername(user)) {
-			return false;
+			return -1;
 		}
 		
 		userRepos.save(user);
-		return true;
+		return user.getId();
 	}
 
 	private boolean existsUsername(User user) {

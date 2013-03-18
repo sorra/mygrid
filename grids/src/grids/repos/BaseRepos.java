@@ -14,12 +14,10 @@ public abstract class BaseRepos<T> {
 		return sessionFactory.getCurrentSession();
 	}
 	
-	@SuppressWarnings("unchecked")
 	public T load(long id) {
 		return (T) session().load(getEntityClass(), id);
 	}
 	
-	@SuppressWarnings("unchecked")
 	public T get(long id) {
 		return (T) session().get(getEntityClass(), id);
 	}
@@ -33,7 +31,7 @@ public abstract class BaseRepos<T> {
 	}
 	
 	public void merge(T entity) {
-		session().merge(entity);
+		session().saveOrUpdate(entity);
 	}
 	
 	public void delete(T entity) {

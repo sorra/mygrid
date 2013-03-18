@@ -6,18 +6,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Stream {
+	private long uid;
 	private List<Tweet> tweets = new ArrayList<>();
+
+	public Stream(long uid) {
+		this.uid = uid;
+	}
+	
+	public long getUid() {
+		return uid;
+	}
 
 	public List<Tweet> getTweets() {
 		return tweets;
 	}
 
-	public void setTweets(List<Tweet> tweets) {
-		this.tweets = tweets;
-	}
-
 	@Override
 	public String toString() {
-		return super.toString() + " Tweets count: " + tweets.size();
+		return "UID: " + uid + " Tweets count: " + tweets.size();
 	}
 }

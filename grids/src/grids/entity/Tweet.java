@@ -1,25 +1,28 @@
 package grids.entity;
 
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
-@Entity
+@Entity(name="Tweet")
 public class Tweet {
 	private long id;
 	private String content;
 	private User author;
 	private Date date;
-	private List<Tag> tags;
+	private Set<Tag> tags = new HashSet<>();
 
-	public Tweet() {}
+	public Tweet() {
+	}
 
-	public Tweet(String content, User author, Date date, List<Tag> tags) {
+	public Tweet(String content, User author, Date date, Set<Tag> tags) {
 		this.content = content;
 		this.author = author;
 		this.date = date;
@@ -27,6 +30,7 @@ public class Tweet {
 	}
 
 	@Id
+	@GeneratedValue
 	public long getId() {return id;}
 	public void setId(long id) {this.id = id;}
 
@@ -40,7 +44,12 @@ public class Tweet {
 	public Date getDate() {return date;}
 	public void setDate(Date date) {this.date = date;}
 
-	@OneToMany(fetch=FetchType.EAGER)
-	public List<Tag> getTags() {return tags;}
-	public void setTags(List<Tag> tags) {this.tags = tags;}
+	@ManyToMany(fetch=FetchType.EAGER)
+	public Set<Tag> getTags() {return tags;}
+	public void setTags(Set<Tag> tags) {this.tags = tags;}
+	
+	@Override
+	public String toString() {
+		return author + ": " + content + tags;
+	}
 }

@@ -49,6 +49,6 @@ public class AuthController {
 	@RequestMapping(value="/register", method=RequestMethod.POST)
 	@ResponseBody
 	public String register() {
-		return userService.register(null) ? SUCCESS : FAILURE;
+		return userService.register(null)>=0 ? SUCCESS : FAILURE;
 	}
 }

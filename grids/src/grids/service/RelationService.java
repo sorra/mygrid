@@ -8,8 +8,10 @@ import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class RelationService {
 	@Autowired
 	UserRepos userRepos;
@@ -20,14 +22,16 @@ public class RelationService {
 
 	public void follow(long userId, long targetId, long[] tagIds) {
 		User user = userRepos.load(userId);
-		Follow follow = new Follow(user, userRepos.load(targetId), tagRepos.tags(tagIds));
+		Follow follow = new Follow(user, userRepos.load(targetId), tagRepos.getTags(tagIds));
 		followRepos.save(follow);
 	}
 	
+	/*
+	 * May optimize it by findByFollowId (surrogate key)
+	 */
 	public void resetFollow(long userId, long targetId, long[] tagIds) {
-		User user = userRepos.load(userId);
-		Follow follow = new Follow(user, userRepos.load(targetId), tagRepos.tags(tagIds));
-		followRepos.merge(follow);
+		Follow follow = followRepos.find(userId, targetId);
+		follow.setTags(tagRepos.getTags(tagIds));
 	}
 	
 	public void unfollow(long userId, long targetId) {
@@ -35,10 +39,12 @@ public class RelationService {
 		followRepos.delete(follow);
 	}
 	
+	@Transactional(readOnly=true)
 	public Collection<Follow> followings(long userId) {
 		return followRepos.followings(userId);
 	}
-	
+
+	@Transactional(readOnly=true)
 	public Collection<Follow> followers(long userId) {
 		return followRepos.followers(userId);
 	}
