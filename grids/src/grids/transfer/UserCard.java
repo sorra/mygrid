@@ -3,38 +3,45 @@ package grids.transfer;
 import grids.entity.User;
 
 public class UserCard {
-	private Long id;
+	private long id;
 	private String name;
+	private String avatar;
 	private String intro;
+	private int followingCount;
+	private int followerCount;
 	
-	public UserCard(User user) {
+	public UserCard(User user, int followingCount, int followerCount) {
 		id = user.getId();
 		name = user.getName();
+		avatar = user.getAvatar();
 		intro = user.getIntro();
+		this.followingCount = followingCount;
+		this.followerCount = followerCount;
 	}
 
-	public Long getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public String getName() {
 		return name;
 	}
-
-	public void setName(String name) {
-		this.name = name;
+	
+	public String getAvatar() {
+		return avatar;
 	}
 
 	public String getIntro() {
 		return intro;
 	}
 
-	public void setIntro(String intro) {
-		this.intro = intro;
+	public int getFollowingCount() {
+		return followingCount;
+	}
+
+	public int getFollowerCount() {
+		return followerCount;
 	}
 	
 }

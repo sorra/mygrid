@@ -21,7 +21,7 @@ public class SceneTest {
 	StreamService streamService;
 	GridService gridService;
 	
-	long root = 1;
+	long root = Tag.ROOT_ID;
 	long society;
 	long culture;
 	long economy;
@@ -31,6 +31,10 @@ public class SceneTest {
 	long art;
 	long painting;
 	long music;
+	
+	long admin;
+	long bethia;
+	long centos;
 	
 	@Before
 	public void setUp() {
@@ -66,9 +70,9 @@ public class SceneTest {
 	}
 	
 	private void user() {
-		userService.register(new User("Admin", "123", "伟大的Admin"));
-		userService.register(new User("Bethia", "", "Elegant user"));
-		userService.register(new User("CentOS社区", "123", "CentOS Fans Community"));
+		admin = userService.register(new User("Admin", "123", "伟大的Admin"));
+		bethia = userService.register(new User("Bethia", "", "Elegant user"));
+		centos = userService.register(new User("CentOS社区", "123", "CentOS Fans Community"));
 	}
 	
 	private void relation() {
@@ -93,9 +97,9 @@ public class SceneTest {
 				"GVIWSWOWdv*&[\n(@)\tpsp\nT^HJ",
 				new long[]{1, 2});
 		tweetService.tweet(1, "Post at root.", new long[]{root});
-		tweetService.tweet(1, "HUUSF", new long[]{view});
-		tweetService.tweet(2, "Better *Wahaha!", new long[]{music});
-		tweetService.tweet(3, "Seen less gebdpro", new long[]{tech});
+		tweetService.tweet(1, "HUUSF View age.", new long[]{view});
+		tweetService.tweet(2, "Music better!", new long[]{music});
+		tweetService.tweet(3, "Tech status", new long[]{tech});
 	}
 	
 	private void istream() {

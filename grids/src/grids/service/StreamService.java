@@ -1,6 +1,6 @@
 package grids.service;
 
-import grids.domain.TweetComparator;
+import grids.domain.TweetOnIdComparator;
 import grids.entity.Follow;
 import grids.entity.Tweet;
 import grids.transfer.Stream;
@@ -31,7 +31,7 @@ public class StreamService {
 			List<Tweet> tweets = tweetRepos.tweets(follow.getTarget().getId(), follow.getTags());
 			stream.getTweets().addAll(tweets);
 		}
-		Collections.sort(stream.getTweets(), new TweetComparator());
+		Collections.sort(stream.getTweets(), new TweetOnIdComparator());
 		return stream;
 	}
 

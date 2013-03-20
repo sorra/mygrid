@@ -5,13 +5,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import grids.entity.User;
+import grids.repos.FollowRepos;
 import grids.repos.UserRepos;
+import grids.transfer.UserCard;
 
 @Service
 @Transactional
 public class UserService {
 	@Autowired
 	UserRepos userRepos;
+	@Autowired
+	FollowRepos followRepos;
 	
 	/**
 	 * Prefer load() for stub proxy
@@ -31,8 +35,7 @@ public class UserService {
 		User user = getByName(username);
 		if (user == null) {
 			return null;
-		}
-		
+		}		
 		if (encrypt(password).equals(user.getPassword())) {
 			return user;
 		} else return null;
@@ -46,6 +49,13 @@ public class UserService {
 		userRepos.save(user);
 		return user.getId();
 	}
+	
+	@Transactional(readOnly=true)
+	public UserCard buildUserCard(long userId) {
+		return new UserCard(userRepos.get(userId),
+				followRepos.followings(userId).size(),
+				followRepos.followers(userId).size());
+	}
 
 	private boolean existsUsername(User user) {
 		return getByName(user.getName()) != null;
@@ -54,6 +64,6 @@ public class UserService {
 	@Deprecated
 	private String encrypt(String password) {
 		//XXX
-		return null;
+		return password;
 	}
 }

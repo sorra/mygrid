@@ -7,7 +7,7 @@ import java.util.Comparator;
 /**
  * Inverse order (larger on front)
  */
-public class TweetComparator implements Comparator<Tweet> {
+public class TweetOnIdComparator implements Comparator<Tweet> {
 
 	@Override
 	public int compare(Tweet o1, Tweet o2) {
