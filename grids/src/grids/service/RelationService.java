@@ -29,7 +29,7 @@ public class RelationService {
 	/*
 	 * May optimize it by findByFollowId (surrogate key)
 	 */
-	public void resetFollow(long userId, long targetId, long[] tagIds) {
+	public void editFollow(long userId, long targetId, long[] tagIds) {
 		Follow follow = followRepos.find(userId, targetId);
 		follow.setTags(tagRepos.getTags(tagIds));
 	}
@@ -37,6 +37,11 @@ public class RelationService {
 	public void unfollow(long userId, long targetId) {
 		Follow follow = followRepos.find(userId, targetId);
 		followRepos.delete(follow);
+	}
+	
+	@Transactional(readOnly=true)
+	public Follow getFollow(long sourceId, long targetId) {
+		return followRepos.find(sourceId, targetId);
 	}
 	
 	@Transactional(readOnly=true)

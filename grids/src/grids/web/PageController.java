@@ -10,17 +10,22 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping
-public class GridController {
+public class PageController {
 	@Autowired
 	UserService userService;
 	
-	@RequestMapping("/publicGrid/{id}")
-	public ModelAndView publicGrid(@PathVariable int id) {
+	@RequestMapping("/public/{id}")
+	public ModelAndView publicPage(@PathVariable int id) {
 		return null;
 	}
 	
-	@RequestMapping("/privateGrid/{id}")
-	public ModelAndView privateGrid(@PathVariable int id) {
+	@RequestMapping("/private/{id}")
+	public ModelAndView privatePage(@PathVariable int id) {
+		return null;
+	}
+	
+	@RequestMapping("/group/{id}")
+	public ModelAndView groupPage(@PathVariable int id) {
 		return null;
 	}
 }

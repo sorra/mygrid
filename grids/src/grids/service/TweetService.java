@@ -1,13 +1,14 @@
 package grids.service;
 
+import grids.entity.Comment;
 import grids.entity.Tweet;
+import grids.repos.CommentRepos;
 import grids.repos.TagRepos;
 import grids.repos.TweetRepos;
 import grids.repos.UserRepos;
 
+import java.util.Collection;
 import java.util.Date;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +22,8 @@ public class TweetService {
 	private TweetRepos tweetRepos;
 	@Autowired
 	private TagRepos tagRepos;
+	@Autowired
+	private CommentRepos commentRepos;
 	
 	@Transactional(readOnly=true)
 	public Tweet get(long tweetId) {
@@ -28,25 +31,28 @@ public class TweetService {
 	}
 	
 	public long tweet(long userId, String content, long[] tagIds) {
-		Tweet t = new Tweet(content, userRepos.get(userId), new Date(), tagRepos.getTags(tagIds));
+		Tweet t = new Tweet(
+				content, userRepos.get(userId), new Date(), tagRepos.getTags(tagIds));
 		tweetRepos.save(t);
 		return t.getId();
 	}
 	
-	public void comment(long originId) {
+	public long comment(long userId, String content, long sourceId) {
+		Comment comment = new Comment(
+				content, userRepos.get(userId), new Date(), tweetRepos.load(sourceId));
+		commentRepos.save(comment);
+		return comment.getId();
+	}
+	
+	public Collection<Comment> getComments(long sourceId) {
+		return tweetRepos.load(sourceId).getComments();
+	}
+	
+	public void share(long userId, String content, String sourceUrl) {
 		//XXX
 	}
 	
-	public List<?> comments(Tweet source) {
-		//XXX
-		return null;
-	}
-	
-	public void share() {
-		//XXX
-	}
-	
-	public void reshare(Tweet origin) {
+	public void reshare(long userId, String content, long originId) {
 		//XXX
 	}
 	

@@ -18,7 +18,7 @@ public class UserService {
 	FollowRepos followRepos;
 	
 	/**
-	 * Prefer load() for stub proxy
+	 * Prefer load() for lazy-loading
 	 */
 	@Transactional(readOnly=true)
 	public User get(Long id) {

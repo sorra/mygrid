@@ -19,7 +19,7 @@ public class SceneTest {
 	BlogService blogService;
 	TagService tagService;
 	StreamService streamService;
-	GridService gridService;
+	PageService gridService;
 	
 	long root = Tag.ROOT_ID;
 	long society;
@@ -45,7 +45,7 @@ public class SceneTest {
 		blogService = ac.getBean(BlogService.class);
 		tagService = ac.getBean(TagService.class);
 		streamService = ac.getBean(StreamService.class);
-		gridService = ac.getBean(GridService.class);
+		gridService = ac.getBean(PageService.class);
 	}
 	
 	@Test
@@ -76,36 +76,36 @@ public class SceneTest {
 	}
 	
 	private void relation() {
-		relationService.follow(1, 2, new long[]{society, culture});
-		relationService.follow(1, 3, new long[]{society, culture});
+		relationService.follow(admin, bethia, new long[]{society, culture});
+		relationService.follow(admin, centos, new long[]{society, culture});
 		
-		relationService.follow(2, 1, new long[]{music, view});
-		relationService.follow(2, 3, new long[]{music});
+		relationService.follow(bethia, admin, new long[]{music, view});
+		relationService.follow(bethia, centos, new long[]{music});
 		
-		relationService.follow(3, 1, new long[]{tech, view});
-		relationService.follow(3, 2, new long[]{art});
+		relationService.follow(centos, admin, new long[]{tech, view});
+		relationService.follow(centos, bethia, new long[]{art});
 	}
 	
 	private void post() {
-		blogService.blog(1, "Alpha",
+		blogService.blog(admin, "Alpha",
 				"Manfspaspdvopdopdsvsa[\nsalspsp\nLaspewogvs",
 				new long[]{1, 2});
-		blogService.blog(2, "Beta",
+		blogService.blog(bethia, "Beta",
 				"Gbdsvkbnklr[\nsalspsp\nLas\n32",
 				new long[]{1, 2});
-		blogService.blog(3, "Gamma",
+		blogService.blog(centos, "Gamma",
 				"GVIWSWOWdv*&[\n(@)\tpsp\nT^HJ",
 				new long[]{1, 2});
-		tweetService.tweet(1, "Post at root.", new long[]{root});
-		tweetService.tweet(1, "HUUSF View age.", new long[]{view});
-		tweetService.tweet(2, "Music better!", new long[]{music});
-		tweetService.tweet(3, "Tech status", new long[]{tech});
+		tweetService.tweet(admin, "Post at root.", new long[]{root});
+		tweetService.tweet(admin, "HUUSF View age.", new long[]{view});
+		tweetService.tweet(bethia, "Music better!", new long[]{music});
+		tweetService.tweet(centos, "Tech status", new long[]{tech});
 	}
 	
 	private void istream() {
-		printStream(streamService.istream(1));
-		printStream(streamService.istream(2));
-		printStream(streamService.istream(3));
+		printStream(streamService.istream(admin));
+		printStream(streamService.istream(bethia));
+		printStream(streamService.istream(centos));
 	}
 	
 	private void printStream(Stream st) {

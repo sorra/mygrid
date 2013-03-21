@@ -5,15 +5,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly=true)
-public class GridService {
+public class PageService {
 
-	public Object privateGrid() {
+	public Object privatePage() {
 		return null;
 	}
-	public Object publicGrid() {
+	public Object publicPage() {
 		return null;
 	}
-	public Object groupGrid() {
+	public Object groupPage() {
 		return null;
 	}
 }

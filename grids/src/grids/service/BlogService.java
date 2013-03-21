@@ -1,11 +1,11 @@
 package grids.service;
 
-import java.util.Collections;
-import java.util.Date;
-
 import grids.entity.Blog;
-import grids.entity.Tag;
-import grids.repos.*;
+import grids.repos.BlogRepos;
+import grids.repos.TagRepos;
+import grids.repos.UserRepos;
+
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,22 +21,33 @@ public class BlogService {
 	@Autowired
 	private TagRepos tagRepos;
 	
-	@Deprecated
 	@Transactional(readOnly=true)
-	public Blog get() {
-		return new Blog("哎呦喂", "我擦嘞闹不住了菇，我擦嘞闹得住了菇。",
-				userRepos.get(0), new Date(), Collections.<Tag>emptySet());
+	public Blog get(long blogId) {
+		return blogRepos.get(blogId);
 	}
 	
-	public void blog(long userId, String title, String content, long[] tagIds) {
+	public long blog(long userId, String title, String content, long[] tagIds) {
 		Blog blog = new Blog(title, content, userRepos.load(userId), new Date(), tagRepos.getTags(tagIds));
 		blogRepos.save(blog);
+		return blog.getId();
 	}
 	
-	public void edit(Blog blog) {
-		
+	public boolean edit(long userId, long blogId, String title, String content, long[] tagIds) {
+		Blog blog = blogRepos.load(blogId);
+		if (blog.getAuthor().getId() == userId) {
+			blog.setTitle(title);
+			blog.setContent(content);
+			blog.setTags(tagRepos.getTags(tagIds));
+			return true;
+		}
+		else return false;
 	}
-	public void delete(Blog blog) {
-		
+	public boolean delete(long userId, long blogId) {
+		Blog blog = blogRepos.load(blogId);
+		if (blog.getAuthor().getId() == userId) {
+			blogRepos.delete(blog);
+			return true;
+		}
+		else return false;
 	}
 }

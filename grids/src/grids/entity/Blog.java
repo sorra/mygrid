@@ -9,7 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 
 @Entity(name="Blog")
 public class Blog {
@@ -42,7 +42,7 @@ public class Blog {
 	public String getContent() {return content;}
 	public void setContent(String content) {this.content = content;}
 
-	@OneToOne
+	@ManyToOne(optional=false)
 	public User getAuthor() {return author;}
 	public void setAuthor(User author) {this.author = author;}
 
