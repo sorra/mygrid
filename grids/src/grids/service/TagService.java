@@ -2,6 +2,7 @@ package grids.service;
 
 import grids.entity.Tag;
 import grids.repos.TagRepos;
+import grids.transfer.TagCard;
 
 import java.util.Collection;
 import java.util.List;
@@ -23,6 +24,11 @@ public class TagService {
 			return tag.getId();
 		}
 		else return -1;
+	}
+	
+	@Transactional(readOnly=true)
+	public TagCard buildTagCard(long tagId) {
+		return new TagCard(tagRepos.get(tagId));
 	}
 	
 	@Transactional(readOnly=true)

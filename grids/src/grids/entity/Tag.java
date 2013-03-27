@@ -20,6 +20,7 @@ public class Tag {
 	private String name;
 	private Set<Tag> children;
 	private Tag parent;
+	
 	private Collection<Tweet> tweets;
 	private Collection<Blog> blogs;
 	private Collection<Follow> follows;
@@ -60,6 +61,9 @@ public class Tag {
 	public Collection<Follow> getFollows() {return follows;}
 	public void setFollows(Collection<Follow> follows) {this.follows = follows;}
 	
+	/**
+	 * @return a chain from itself to ancestors
+	 */
 	public List<Tag> chainUp() {
 		List<Tag> chain = new LinkedList<>();
 		Tag current = this;
