@@ -71,7 +71,7 @@ public class SceneTest {
 	
 	private void user() {
 		admin = userService.register(new User("Admin", "123", "伟大的Admin"));
-		bethia = userService.register(new User("Bethia", "", "Elegant user"));
+		bethia = userService.register(new User("Bethia", "123", "Elegant user"));
 		centos = userService.register(new User("CentOS社区", "123", "CentOS Fans Community"));
 	}
 	
