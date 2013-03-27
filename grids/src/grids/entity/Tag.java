@@ -74,11 +74,14 @@ public class Tag {
 		return chain;
 	}
 	
-	public Set<Tag> descandants() {
+	/**
+	 * @return all of its descendant tags
+	 */
+	public Set<Tag> descendants() {
 		Set<Tag> descanants = new HashSet<>();
 		for (Tag child : getChildren()) {
 			descanants.add(child);
-			descanants.addAll(child.descandants());
+			descanants.addAll(child.descendants());
 		}
 		return descanants;
 	}

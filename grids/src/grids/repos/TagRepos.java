@@ -39,7 +39,7 @@ public class TagRepos extends BaseRepos<Tag> {
 		Set<Tag> queryTags = new HashSet<>();
 		for (Tag node : tags) {
 			queryTags.add(node);
-			queryTags.addAll(node.descandants());
+			queryTags.addAll(node.descendants());
 		}
 		return queryTags;
 	}

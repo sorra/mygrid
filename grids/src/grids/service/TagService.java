@@ -43,7 +43,7 @@ public class TagService {
 	
 	@Transactional(readOnly=true)
 	public Collection<Tag> descendants(long tagId) {
-		return tagRepos.get(tagId).descandants();
+		return tagRepos.get(tagId).descendants();
 	}
 
 	public void init() {

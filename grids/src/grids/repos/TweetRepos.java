@@ -43,7 +43,7 @@ public class TweetRepos extends BaseRepos<Tweet> {
 		Set<Tag> queryTags = new HashSet<>();
 		for (Tag tag : tags) {
 			queryTags.add(tag);
-			queryTags.addAll(tag.descandants());
+			queryTags.addAll(tag.descendants());
 		}
 		return queryTags;
 	}
