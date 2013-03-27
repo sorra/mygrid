@@ -23,7 +23,7 @@ public class UserController {
 	}
 	
 	@RequestMapping("/info/{id}")
-	public ModelAndView userInfo(@PathVariable int id) {
+	public ModelAndView userInfo(@PathVariable long id) {
 		return null;
 	}
 }
