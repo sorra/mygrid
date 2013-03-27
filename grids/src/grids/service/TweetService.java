@@ -56,7 +56,12 @@ public class TweetService {
 		//XXX
 	}
 	
-	public void delete(Tweet t) {
-		//XXX
+	public boolean delete(long userId, long tweetId) {
+		Tweet tweet = tweetRepos.load(tweetId);
+		if (userId == tweet.getAuthor().getId()) {
+			tweetRepos.delete(tweet);
+			return true;
+		}
+		else return false;
 	}
 }
