@@ -23,7 +23,6 @@ public class UserCard {
 		return id;
 	}
 
-
 	public String getName() {
 		return name;
 	}
