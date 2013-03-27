@@ -30,18 +30,16 @@ public class TweetService {
 		return tweetRepos.get(tweetId);
 	}
 	
-	public long tweet(long userId, String content, long[] tagIds) {
-		Tweet t = new Tweet(
-				content, userRepos.get(userId), new Date(), tagRepos.getTags(tagIds));
-		tweetRepos.save(t);
-		return t.getId();
+	public void tweet(long userId, String content, long[] tagIds) {
+		Tweet tweet = new Tweet(content, userRepos.load(userId), new Date(),
+				tagRepos.getTags(tagIds));
+		tweetRepos.save(tweet);
 	}
 	
-	public long comment(long userId, String content, long sourceId) {
-		Comment comment = new Comment(
-				content, userRepos.get(userId), new Date(), tweetRepos.load(sourceId));
+	public void comment(long userId, String content, long sourceId) {
+		Comment comment = new Comment(content, userRepos.load(userId),
+				new Date(), tweetRepos.load(sourceId));
 		commentRepos.save(comment);
-		return comment.getId();
 	}
 	
 	public Collection<Comment> getComments(long sourceId) {
@@ -53,7 +51,9 @@ public class TweetService {
 	}
 	
 	public void reshare(long userId, String content, long originId) {
-		//XXX
+		Tweet tweet = new Tweet(content, userRepos.load(userId), new Date(),
+				tweetRepos.load(originId));
+		tweetRepos.save(tweet);
 	}
 	
 	public boolean delete(long userId, long tweetId) {

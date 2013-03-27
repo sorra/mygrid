@@ -34,6 +34,13 @@ public class Tweet {
 		this.date = date;
 		this.tags = tags;
 	}
+	
+	public Tweet(String content, User author, Date date, Tweet origin) {
+		this.content = content;
+		this.author = author;
+		this.date = date;
+		this.origin = origin;
+	}
 
 	@Id
 	@GeneratedValue
