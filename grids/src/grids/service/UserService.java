@@ -51,7 +51,7 @@ public class UserService {
 	}
 	
 	@Transactional(readOnly=true)
-	public UserCard buildUserCard(long userId) {
+	public UserCard userCard(long userId) {
 		return new UserCard(userRepos.get(userId),
 				followRepos.followings(userId).size(),
 				followRepos.followers(userId).size());

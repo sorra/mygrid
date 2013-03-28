@@ -37,8 +37,8 @@ public class StreamService {
 	
 	private void higherSort(Stream stream) {
 		stream.getTweets();
-		//XXX Combine & Pull-near
 		Collections.sort(stream.getTweets(), new TweetOnIdComparator());
+		//XXX Combine & Pull-near
 	}
 
 }
