@@ -31,8 +31,14 @@ public class StreamService {
 			List<Tweet> tweets = tweetRepos.tweets(follow.getTarget().getId(), follow.getTags());
 			stream.getTweets().addAll(tweets);
 		}
-		Collections.sort(stream.getTweets(), new TweetOnIdComparator());
+		higherSort(stream);
 		return stream;
+	}
+	
+	private void higherSort(Stream stream) {
+		stream.getTweets();
+		//XXX Combine & Pull-near
+		Collections.sort(stream.getTweets(), new TweetOnIdComparator());
 	}
 
 }
