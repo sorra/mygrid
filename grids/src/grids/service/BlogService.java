@@ -1,11 +1,13 @@
 package grids.service;
 
 import grids.entity.Blog;
+import grids.entity.Tweet;
 import grids.repos.BlogRepos;
 import grids.repos.TagRepos;
 import grids.repos.UserRepos;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,15 @@ public class BlogService {
 	@Transactional(readOnly=true)
 	public Blog get(long blogId) {
 		return blogRepos.get(blogId);
+	}
+	
+	/**
+	 * Experimental
+	 * @return a sequential list of connected tweets
+	 */
+	@Transactional(readOnly=true)
+	public List<Tweet> connectTweets(long blogId) {
+		return blogRepos.connectTweets(blogId);
 	}
 	
 	public long blog(long userId, String title, String content, long[] tagIds) {
