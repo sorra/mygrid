@@ -25,11 +25,11 @@ public class StreamService {
 		Stream stream = new Stream(userId);
 		
 		//XXX consider fetch_size limit
-		stream.getTweets().addAll(tweetRepos.tweets(userId));
+		stream.addAll(tweetRepos.tweets(userId));
 		List<Follow> followings = followRepos.followings(userId);
 		for (Follow follow : followings) {
 			List<Tweet> tweets = tweetRepos.tweets(follow.getTarget().getId(), follow.getTags());
-			stream.getTweets().addAll(tweets);
+			stream.addAll(tweets);
 		}
 		higherSort(stream);
 		return stream;

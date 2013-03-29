@@ -3,21 +3,32 @@ package grids.transfer;
 import grids.entity.Tweet;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class Stream {
 	private long uid;
-	private List<Tweet> tweets = new ArrayList<>();
+	private List<TweetCard> tweets = new ArrayList<>();
 
 	public Stream(long uid) {
 		this.uid = uid;
+	}
+	
+	public void add(Tweet tweet) {
+		getTweets().add(new TweetCard(tweet));
+	}
+	
+	public void addAll(Collection<Tweet> tweets) {
+		for (Tweet t : tweets) {
+			getTweets().add(new TweetCard(t));
+		}
 	}
 	
 	public long getUid() {
 		return uid;
 	}
 
-	public List<Tweet> getTweets() {
+	public List<TweetCard> getTweets() {
 		return tweets;
 	}
 
