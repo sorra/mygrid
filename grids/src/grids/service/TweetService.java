@@ -50,7 +50,7 @@ public class TweetService {
 		//XXX
 	}
 	
-	public void reshare(long userId, String content, long originId) {
+	public void forward(long userId, String content, long originId) {
 		Tweet tweet = new Tweet(content, userRepos.load(userId), new Date(),
 				tweetRepos.load(originId));
 		tweetRepos.save(tweet);
