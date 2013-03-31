@@ -23,6 +23,7 @@ public class AuthController {
 	UserService userService;
 	
 	@RequestMapping(value="/login", method=RequestMethod.POST)
+	@ResponseBody
 	public String login(HttpServletRequest request,
 						@RequestParam("username") String username,
 						@RequestParam("password") String password) {
@@ -31,9 +32,9 @@ public class AuthController {
 		if (user != null){
 			HttpSession sesison = request.getSession(true);
 			sesison.setAttribute(SessionKeys.UID, user.getId());
-			return "redirect:/";
+			return "/";
 		} else {
-			return "redirect:/login";
+			return "/login";
 		}
 	}
 	
