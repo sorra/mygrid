@@ -7,6 +7,7 @@ import javax.persistence.Id;
 @Entity(name="User")
 public class User {
 	private long id;
+	private String email;
 	private String name;
 	private String password;
 	private String intro;
@@ -15,9 +16,14 @@ public class User {
 	public User() {
 	}
 	
-	public User(String name, String password, String intro) {
-		this.name = name;
+	public User(String email, String password) {
+		this.email = email;
 		this.password = password;
+	}
+
+	public User(String email, String password, String name, String intro) {
+		this(email, password);
+		this.name = name;
 		this.intro = intro;
 	}
 
@@ -25,6 +31,9 @@ public class User {
 	@GeneratedValue
 	public long getId() {return id;}
 	public void setId(long id) {this.id = id;}
+	
+	public String getEmail() {return email;}
+	public void setEmail(String email) {this.email = email;}
 	
 	public String getName() {return name;}
 	public void setName(String name) {this.name = name;}

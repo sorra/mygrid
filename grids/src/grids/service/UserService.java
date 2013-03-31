@@ -52,7 +52,11 @@ public class UserService {
 	
 	@Transactional(readOnly=true)
 	public UserCard userCard(long userId) {
-		return new UserCard(userRepos.get(userId),
+		User user = userRepos.get(userId);
+		if (user == null) {
+			return null;
+		}
+		return new UserCard(user,
 				followRepos.followings(userId).size(),
 				followRepos.followers(userId).size());
 	}

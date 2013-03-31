@@ -26,4 +26,9 @@ public class TagCard {
 	public List<Tag> getChainUp() {
 		return chainUp;
 	}
+	
+	@Override
+	public String toString() {
+		return name;
+	}
 }

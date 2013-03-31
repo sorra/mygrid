@@ -28,7 +28,11 @@ public class TagService {
 	
 	@Transactional(readOnly=true)
 	public TagCard tagCard(long tagId) {
-		return new TagCard(tagRepos.get(tagId));
+		Tag tag = tagRepos.get(tagId);
+		if (tag == null) {
+			return null;
+		}
+		return new TagCard(tag);
 	}
 	
 	@Transactional(readOnly=true)
