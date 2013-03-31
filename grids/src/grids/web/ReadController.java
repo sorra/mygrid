@@ -21,6 +21,7 @@ public class ReadController {
 	public Stream istream(HttpSession session) {
 		Long uid = (Long) session.getAttribute(SessionKeys.UID);
 		if (uid == null) {
+			System.out.println("uid is null, so return null stream.");
 			return null;
 		}
 		return streamService.istream(uid);

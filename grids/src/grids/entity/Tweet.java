@@ -21,7 +21,7 @@ public class Tweet {
 	private String content;
 	private User author;
 	private Date date;
-	private Tweet origin; 
+	private Tweet origin = null; 
 	private Set<Tag> tags = new HashSet<>();
 	private Collection<Comment> comments = new ArrayList<>();
 

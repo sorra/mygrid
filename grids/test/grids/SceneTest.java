@@ -36,6 +36,9 @@ public class SceneTest {
 	
 	@Test
 	public void procedure() {
+		Stream s1 = streamService.istream(1);
+		Stream s2 = streamService.istream(2);
+		Stream s3 = streamService.istream(3);
 	}
 	
 }

@@ -47,7 +47,7 @@ dojo.addOnLoad(function() {
 	dojo.xhrPost({
 		url : '/grids/auth/login',
 		timeout : 1000,
-		content : {username: 'admin@', password: '123'},
+		content : {email: 'admin@', password: '123'},
 		load : function(resp, io_args) {
 			afterLogin();
 		},

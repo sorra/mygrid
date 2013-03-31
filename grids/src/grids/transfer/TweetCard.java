@@ -14,7 +14,7 @@ public class TweetCard {
 	private String avatar;
 	private String content;
 	private Date date;
-	private TweetCard origin;
+	private TweetCard origin = null;
 	private List<TagCard> tags = new ArrayList<>();
 	
 	public TweetCard(Tweet tweet) {

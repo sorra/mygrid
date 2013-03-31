@@ -8,6 +8,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class UserRepos extends BaseRepos<User> {
 
+	public User findByEmail(String email) {
+		Query query = session().createQuery("from User u where u.email=:email")
+				.setString("email", email);
+		return (User) query.uniqueResult();
+	}
+	
 	public User findByName(String name) {
 		Query query = session().createQuery("from User u where u.name=:name")
 				.setString("name", name);

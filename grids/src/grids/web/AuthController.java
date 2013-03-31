@@ -25,15 +25,17 @@ public class AuthController {
 	@RequestMapping(value="/login", method=RequestMethod.POST)
 	@ResponseBody
 	public String login(HttpServletRequest request,
-						@RequestParam("username") String username,
+						@RequestParam("email") String email,
 						@RequestParam("password") String password) {
-		System.out.println("username: " + username + " password: " + password);
-		User user = userService.login(username, password);
+		System.out.println("email: " + email + " password: " + password);
+		User user = userService.login(email, password);
 		if (user != null){
 			HttpSession sesison = request.getSession(true);
 			sesison.setAttribute(SessionKeys.UID, user.getId());
+			System.out.println("User " +user.getId() + " logged in.");
 			return "/";
 		} else {
+			System.out.println(email + " login failed.");
 			return "/login";
 		}
 	}
@@ -50,6 +52,7 @@ public class AuthController {
 	@RequestMapping(value="/register", method=RequestMethod.POST)
 	@ResponseBody
 	public String register() {
+		System.out.println("register TODO");
 		return userService.register(null)>=0 ? SUCCESS : FAILURE;
 	}
 }

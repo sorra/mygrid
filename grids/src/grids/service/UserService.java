@@ -26,13 +26,8 @@ public class UserService {
 	}
 
 	@Transactional(readOnly=true)
-	public User getByName(String name) {
-		return userRepos.findByName(name);
-	}
-
-	@Transactional(readOnly=true)
-	public User login(String username, String password) {
-		User user = getByName(username);
+	public User login(String email, String password) {
+		User user = userRepos.findByEmail(email);
 		if (user == null) {
 			return null;
 		}		
@@ -42,9 +37,10 @@ public class UserService {
 	}
 	
 	public long register(User user) {
-		if (existsUsername(user)) {
+		if (existsEmail(user)) {
 			return -1;
 		}
+		//XXX existsName?
 		
 		userRepos.save(user);
 		return user.getId();
@@ -61,8 +57,8 @@ public class UserService {
 				followRepos.followers(userId).size());
 	}
 
-	private boolean existsUsername(User user) {
-		return getByName(user.getName()) != null;
+	private boolean existsEmail(User user) {
+		return userRepos.findByEmail(user.getEmail()) != null;
 	}
 	
 	@Deprecated
