@@ -1,12 +1,12 @@
 <div class="navbar navbar-inverse navbar-fixed-top">
 	<div class="navbar-inner">
 		<div class="container">
-			<a class="brand" href="#">Gridin</a>
+			<a class="brand" href="#">Sage</a>
 			<ul class="nav">
 				<li class="active"><a href="#">Home</a></li>
-				<li><a href="#">Public Grid</a></li>
-				<li><a href="#">Group Grid</a></li>
-				<li><a href="#">Private Grid</a></li>
+				<li><a href="#">Public Page</a></li>
+				<li><a href="#">Group Page</a></li>
+				<li><a href="#">Private Page</a></li>
 			</ul>
 		</div>
 	</div>
