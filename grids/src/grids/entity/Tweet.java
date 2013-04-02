@@ -40,6 +40,9 @@ public class Tweet {
 		this.author = author;
 		this.date = date;
 		this.origin = origin;
+		if (origin.getOrigin() != null) {//XXX need better approach
+			throw new IllegalArgumentException("tweet's origin should not be nested!");
+		}
 	}
 
 	@Id

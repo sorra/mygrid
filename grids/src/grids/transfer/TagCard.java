@@ -7,12 +7,14 @@ import java.util.List;
 public class TagCard {
 	private long id;
 	private String name;
-	private List<Tag> chainUp;
+	private List<TagCard> chainUp;
 	
 	public TagCard(Tag tag) {
 		id = tag.getId();
 		name = tag.getName();
-		chainUp = tag.chainUp();
+		for (Tag node : tag.chainUp()) {
+			chainUp.add(new TagCard(node));
+		}
 	}
 
 	public long getId() {
@@ -23,7 +25,7 @@ public class TagCard {
 		return name;
 	}
 
-	public List<Tag> getChainUp() {
+	public List<TagCard> getChainUp() {
 		return chainUp;
 	}
 	

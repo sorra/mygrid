@@ -104,7 +104,7 @@ public class ServiceInitializer {
 	
 	private void printStream(Stream st) {
 		out.println(st.toString());
-		for (TweetCard t: st.getTweets()) {
+		for (TweetCard t: st.getItems()) {
 			out.println(t);
 		}
 		out.println();

@@ -38,15 +38,15 @@ public class StreamService {
 	}
 	
 	private void higherSort(Stream stream) {
-		stream.getTweets();
-		Collections.sort(stream.getTweets(), new TweetOnIdComparator());
+		stream.getItems();
+		Collections.sort(stream.getItems(), new TweetOnIdComparator());
 		//TODO Combine & Pull-near
 		combine(stream);
 	}
 
 	private void combine(Stream stream) {
 		List<CombineGroup> groupSequence = new ArrayList<>();
-		for (TweetCard tc : stream.getTweets()) {
+		for (TweetCard tc : stream.getItems()) {
 			if (tc.getOrigin() != null) {
 				long originId = tc.getOrigin().getId();
 				boolean foundInSeq = false;
@@ -66,10 +66,10 @@ public class StreamService {
 			}
 		}
 		//XXX Flatten
-		stream.getTweets().clear();
+		stream.getItems().clear();
 		for (CombineGroup group : groupSequence) {
-			stream.getTweets().addAll(group.tweets);
-			if (group.origin != null) {stream.getTweets().add(group.origin);}
+			stream.getItems().addAll(group.tweets);
+			if (group.origin != null) {stream.getItems().add(group.origin);}
 		}
 	}
 	

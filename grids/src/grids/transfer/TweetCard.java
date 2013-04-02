@@ -15,7 +15,7 @@ public class TweetCard {
 	private String content;
 	private Date date;
 	private TweetCard origin = null;
-	private List<TagCard> tags = new ArrayList<>();
+	private List<TagLabel> tags = new ArrayList<>();
 	
 	public TweetCard(Tweet tweet) {
 		id = tweet.getId();
@@ -28,7 +28,7 @@ public class TweetCard {
 			origin = new TweetCard(tweet.getOrigin());
 		}
 		for (Tag tag : tweet.getTags()) {
-			tags.add(new TagCard(tag));
+			tags.add(new TagLabel(tag));
 		}
 	}
 
@@ -60,7 +60,7 @@ public class TweetCard {
 		return origin;
 	}
 
-	public List<TagCard> getTags() {
+	public List<TagLabel> getTags() {
 		return tags;
 	}
 	
