@@ -1,4 +1,54 @@
 'use strict';
+window.userCardRemover;
+
+dojo.addOnLoad(function() {
+	dojo.xhrPost({
+		url : '/grids/auth/login',
+		timeout : 1000,
+		content : {email: 'admin@', password: '123'},
+		load : function(resp, io_args) {
+			getIstream();
+		},
+		error : function(resp, io_args) {
+			window.alert("login failed! " + resp);
+		}
+	});
+});
+
+function getIstream() {
+	dojo.xhrGet({
+		url : '/grids/read/istream',
+		timeout : 1000,
+		handleAs :'json',
+		load : function(resp, io_args) {
+			if (resp == null)
+				alert('stream null');
+			else renderIstream(resp);
+		},
+		error : function(resp, io_args) {
+			window.alert("istream Oops! " + resp);
+		}
+	});
+}
+
+function getUserCard(event) {
+	clearUserCardRemover();
+	dojo.destroy(dojo.byId('user-card'));
+	var target = event.currentTarget;
+	dojo.xhrGet({
+		url : '/grids/user/card/' + dojo.attr(target, 'uid'),
+		timeout : 1000,
+		handleAs : 'json',
+		load : function(resp, io_args) {
+			if (resp == null)
+				alert('usercard null');
+			else renderUserCard(target, resp);
+		},
+		error : function(resp, io_args) {
+			window.alert("usercard Oops! " + resp);
+		}
+	});
+}
 
 function renderIstream(stream) {
 	var streamNode = dojo.query('.stream')[0];	
@@ -23,31 +73,18 @@ function renderIstream(stream) {
 		dojo.create('a', {innerHTML: showTags(item.tags)}, row2);		
 	});
 }
+
 function authorLink(authorId, parent) {
 	var node = dojo.create('a', {uid: authorId, href: '#' + authorId}, parent);
-	dojo.connect(node, 'mouseover', getUserCard);
-	dojo.connect(node, 'mouseout', destroyUserCard);
+	dojo.connect(node, 'mouseover', function(event){
+		if (window.userCardRemover && window.userCardRemover.locator == event.currentTarget) {
+			clearUserCardRemover();
+		}
+		else getUserCard(event);
+	});
+	dojo.connect(node, 'mouseout', removeUserCard);
 	return node;
 };
-
-function renderUserCard(target, card) {
-	var locator = dojo.position(target, true);
-	var pLeft = locator.x;
-	var pTop = locator.y + locator.h;
-	var popup = dojo.create('div', {
-			className: 'user-card',
-			style: {
-				position: 'absolute', width: '300px',
-				background: 'pink', borderRadius: '3px'
-			}
-		},
-		dojo.query('body')[0]);
-	dojo.style(popup, {left: pLeft+'px', top: pTop+'px'});
-	dojo.create('p', {innerHTML: card.name}, popup);
-	dojo.create('p', {innerHTML: card.intro}, popup);
-	dojo.create('p', {innerHTML:
-		'followings: '+card.followingCount+' followers: '+card.followerCount}, popup);
-}
 
 function showTags(tags) {
 	var str = '';
@@ -58,55 +95,43 @@ function showTags(tags) {
 	return str;
 }
 
-function getIstream() {
-	dojo.xhrGet({
-		url : '/grids/read/istream',
-		timeout : 1000,
-		handleAs :'json',
-		load : function(resp, io_args) {
-			if (resp == null)
-				alert('stream null');
-			else renderIstream(resp);
+function renderUserCard(target, card) {
+	var popup = dojo.create('div', {
+			id: 'user-card',
+			style: {
+				position: 'absolute', width: '300px',
+				background: 'pink', borderRadius: '3px'
+			}
 		},
-		error : function(resp, io_args) {
-			window.alert("istream Oops! " + resp);
-		}
-	});
+		dojo.query('body')[0]);
+	dojo.create('p', {innerHTML: card.name}, popup);
+	dojo.create('p', {innerHTML: card.intro}, popup);
+	dojo.create('p', {innerHTML:
+		'followings: '+card.followingCount+' followers: '+card.followerCount}, popup);
+
+	var locatorPos = dojo.position(target, true);
+	var pLeft = locatorPos.x;
+	var pTop = locatorPos.y + locatorPos.h;
+	dojo.style(popup, {left: pLeft+'px', top: pTop+'px'});
+	dojo.connect(popup, 'mouseover', clearUserCardRemover);
+	dojo.connect(popup, 'mouseout', removeUserCard);
 }
 
-function getUserCard(event) {
-	var target = event.currentTarget;
-	dojo.xhrGet({
-		url : '/grids/user/card/' + dojo.attr(target, 'uid'),
-		timeout : 1000,
-		handleAs : 'json',
-		load : function(resp, io_args) {
-			if (resp == null)
-				alert('usercard null');
-			else renderUserCard(target, resp);
-		},
-		error : function(resp, io_args) {
-			window.alert("usercard Oops! " + resp);
-		}
-	});
+function removeUserCard(event) {
+	clearUserCardRemover();
+	window.userCardRemover = {
+		timer: window.setTimeout(function() {
+			clearUserCardRemover();
+			dojo.destroy(dojo.byId('user-card'));
+		}, 200),
+		locator: event.currentTarget,
+		uid: dojo.attr(event.currentTarget, 'uid')
+	};
 }
 
-function destroyUserCard(event) {
-	dojo.query('.user-card').forEach(function(each){
-		dojo.destroy(each);
-	});
+function clearUserCardRemover() {
+	if (window.userCardRemover) {
+		window.clearTimeout(window.userCardRemover.timer);
+		window.userCardRemover = null;
+	}
 }
-
-dojo.addOnLoad(function() {
-	dojo.xhrPost({
-		url : '/grids/auth/login',
-		timeout : 1000,
-		content : {email: 'admin@', password: '123'},
-		load : function(resp, io_args) {
-			getIstream();
-		},
-		error : function(resp, io_args) {
-			window.alert("login failed! " + resp);
-		}
-	});
-});
