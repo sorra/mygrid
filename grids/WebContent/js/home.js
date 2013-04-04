@@ -1,32 +1,52 @@
-"use strict";
+'use strict';
 
 function renderIstream(stream) {
-	var streamDiv = dojo.query('.stream')[0];
-	var streamHtml = '';
+	var streamNode = dojo.query('.stream')[0];	
+	
+	var rowUnder = function(parent) {
+		return dojo.create('div', {className: 'row'}, parent);
+	};
 	dojo.forEach(stream.items, function(item){
-		var itemHtml = '<div class="item row">';
+		var itemNode = dojo.create('div', {className: 'item row'}, streamNode);
 		
-		itemHtml += '<div class="avatar span1">';
-		itemHtml += ('<a href="#' + item.authorId + '">');
-		itemHtml += ('<img src="' + '/grids/rs/img/wang.jpg'/*item.avatar*/ + '"/></a></div>');
+		var avatarNode = dojo.create('div', {className: 'avartar span1'}, itemNode);
+		dojo.create('img', {src: '/grids/rs/img/wang.jpg'},
+				authorLink(item.authorId, avatarNode));
 		
-		itemHtml += '<div class="tweet span7">';
-		itemHtml += ('<div class="row"><a class="author" href="#' + item.authorId +
-				'"><b>' + item.authorName + '</b></a>');
-		itemHtml += (wrapInTag(item.content, 'p') + '</div>');
-		itemHtml += ('<div class="row"><a>' + new Date(item.date).toLocaleString()
-				+ ' </a><a>' + showTags(item.tags) + '</a></div>');
-		itemHtml += '</div>';
-		
-		itemHtml += '</div>';
-		streamHtml += itemHtml;
+		var tweetNode = dojo.create('div', {className: 'tweet span7'}, itemNode);
+		var row1 = rowUnder(tweetNode);
+		dojo.create('b', {innerHTML: item.authorName, className: 'author'},
+				authorLink(item.authorId, row1));
+		dojo.create('p', {innerHTML: item.content}, row1);
+		var row2 = rowUnder(tweetNode);
+		dojo.create('a', {innerHTML: new Date(item.date).toLocaleString()}, row2);
+		dojo.create('a', {innerHTML: showTags(item.tags)}, row2);		
 	});
-	streamDiv.innerHTML = streamHtml;
 }
+function authorLink(authorId, parent) {
+	var node = dojo.create('a', {uid: authorId, href: '#' + authorId}, parent);
+	dojo.connect(node, 'mouseover', getUserCard);
+	dojo.connect(node, 'mouseout', destroyUserCard);
+	return node;
+};
 
-function displayUserCard(card) {
-	var section = dojo.query('.l-side')[0];
-	section.innerHTML = wrapInTag(card.name, 'p') + wrapInTag(card.intro, 'p');
+function renderUserCard(target, card) {
+	var locator = dojo.position(target, true);
+	var pLeft = locator.x;
+	var pTop = locator.y + locator.h;
+	var popup = dojo.create('div', {
+			className: 'user-card',
+			style: {
+				position: 'absolute', width: '300px',
+				background: 'pink', borderRadius: '3px'
+			}
+		},
+		dojo.query('body')[0]);
+	dojo.style(popup, {left: pLeft+'px', top: pTop+'px'});
+	dojo.create('p', {innerHTML: card.name}, popup);
+	dojo.create('p', {innerHTML: card.intro}, popup);
+	dojo.create('p', {innerHTML:
+		'followings: '+card.followingCount+' followers: '+card.followerCount}, popup);
 }
 
 function showTags(tags) {
@@ -38,11 +58,7 @@ function showTags(tags) {
 	return str;
 }
 
-function wrapInTag(content, tagName) {
-	return '<'+tagName+'>'+content+'</'+tagName+'>';
-}
-
-function afterLogin() {
+function getIstream() {
 	dojo.xhrGet({
 		url : '/grids/read/istream',
 		timeout : 1000,
@@ -56,18 +72,28 @@ function afterLogin() {
 			window.alert("istream Oops! " + resp);
 		}
 	});
+}
+
+function getUserCard(event) {
+	var target = event.currentTarget;
 	dojo.xhrGet({
-		url : '/grids/user/card/1',
+		url : '/grids/user/card/' + dojo.attr(target, 'uid'),
 		timeout : 1000,
 		handleAs : 'json',
 		load : function(resp, io_args) {
 			if (resp == null)
 				alert('usercard null');
-			else displayUserCard(resp);
+			else renderUserCard(target, resp);
 		},
 		error : function(resp, io_args) {
 			window.alert("usercard Oops! " + resp);
 		}
+	});
+}
+
+function destroyUserCard(event) {
+	dojo.query('.user-card').forEach(function(each){
+		dojo.destroy(each);
 	});
 }
 
@@ -77,7 +103,7 @@ dojo.addOnLoad(function() {
 		timeout : 1000,
 		content : {email: 'admin@', password: '123'},
 		load : function(resp, io_args) {
-			afterLogin();
+			getIstream();
 		},
 		error : function(resp, io_args) {
 			window.alert("login failed! " + resp);

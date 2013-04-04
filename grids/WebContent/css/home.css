@@ -9,7 +9,7 @@
 .l-side, .r-side{
 	background-color: azure;
 }
-a.author{
+.author{
 	color: black;
 }
 body>.container{
