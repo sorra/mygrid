@@ -68,7 +68,12 @@ public class CombineGroup implements Item {
 		for (TweetCard forward : forwards) {
 			sb.append(forward).append('\n');
 		}
-		sb.append("origin: ").append(origin).append("\n}");
+		sb.append("<origin>").append(origin).append("\n");
+		
+		if(containsOrigin) sb.append("\"contains origin\"\n");
+		else sb.append("\"not contains origin\"\n");
+		
+		sb.append('}');
 		return sb.toString();
 	}
 }

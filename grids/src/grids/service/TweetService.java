@@ -30,10 +30,11 @@ public class TweetService {
 		return tweetRepos.get(tweetId);
 	}
 	
-	public void tweet(long userId, String content, long[] tagIds) {
+	public Tweet tweet(long userId, String content, long[] tagIds) {
 		Tweet tweet = new Tweet(content, userRepos.load(userId), new Date(),
 				tagRepos.getTags(tagIds));
 		tweetRepos.save(tweet);
+		return tweet;
 	}
 	
 	public void comment(long userId, String content, long sourceId) {
@@ -50,10 +51,11 @@ public class TweetService {
 		//XXX
 	}
 	
-	public void forward(long userId, String content, long originId) {
+	public Tweet forward(long userId, String content, long originId) {
 		Tweet tweet = new Tweet(content, userRepos.load(userId), new Date(),
 				tweetRepos.load(originId));
 		tweetRepos.save(tweet);
+		return tweet;
 	}
 	
 	public boolean delete(long userId, long tweetId) {
