@@ -39,6 +39,20 @@ public class TweetRepos extends BaseRepos<Tweet> {
 		}
 	}
 	
+	public List<Tweet> findByOrigin(long originId) {
+		Query query = session().createQuery(
+				"from Tweet t where t.origin.id = :originId")
+				.setLong("originId", originId);
+		return query.list();
+	}
+	
+	public long forwardCount(long originId) {
+		Query query = session().createQuery(
+				"select count(*) from Tweet t  where t.origin.id = :originId")
+				.setLong("originId", originId);
+		return (long) query.uniqueResult();
+	}
+	
 	private Set<Tag> getQueryTags(Collection<Tag> tags) {
 		Set<Tag> queryTags = new HashSet<>();
 		for (Tag tag : tags) {

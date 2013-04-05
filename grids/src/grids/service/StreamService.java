@@ -3,6 +3,8 @@ package grids.service;
 import grids.domain.TweetOnIdComparator;
 import grids.entity.Follow;
 import grids.entity.Tweet;
+import grids.transfer.CombineGroup;
+import grids.transfer.Item;
 import grids.transfer.Stream;
 import grids.transfer.TweetCard;
 import grids.repos.*;
@@ -22,69 +24,73 @@ public class StreamService {
 	private FollowRepos followRepos;
 	@Autowired
 	private TweetRepos tweetRepos;
+	@Autowired
+	private CommentRepos commentRepos;
 	
 	public Stream istream(long userId) {
-		Stream stream = new Stream(userId);
 		
 		//XXX consider fetch_size limit
-		stream.addAll(tweetRepos.tweets(userId));
+		List<Tweet> tweets = new ArrayList<>();
+		tweets.addAll(tweetRepos.tweets(userId));
 		List<Follow> followings = followRepos.followings(userId);
 		for (Follow follow : followings) {
-			List<Tweet> tweets = tweetRepos.tweets(follow.getTarget().getId(), follow.getTags());
-			stream.addAll(tweets);
+			tweets.addAll(tweetRepos.tweets(
+					follow.getTarget().getId(), follow.getTags()));
 		}
-		higherSort(stream);
+		
+		List<TweetCard> tcs = new ArrayList<>();
+		for (Tweet tweet : tweets) {
+			tcs.add(new TweetCard(tweet,
+					tweetRepos.forwardCount(tweet.getId()),
+					commentRepos.commentCount(tweet.getId())
+					));
+		}
+		
+		Stream stream = new Stream(userId);
+		stream.addAll(higherSort(tcs));
 		return stream;
 	}
 	
-	private void higherSort(Stream stream) {
-		stream.getItems();
-		Collections.sort(stream.getItems(), new TweetOnIdComparator());
+	private List<Item> higherSort(List<TweetCard> tcs) {
+		Collections.sort(tcs, new TweetOnIdComparator());
 		//TODO Combine & Pull-near
-		combine(stream);
+		return combine(tcs);
 	}
 
-	private void combine(Stream stream) {
+	private List<Item> combine(List<TweetCard> tcs) {
 		List<CombineGroup> groupSequence = new ArrayList<>();
-		for (TweetCard tc : stream.getItems()) {
+		for (TweetCard tc : tcs) {
 			if (tc.getOrigin() != null) {
 				long originId = tc.getOrigin().getId();
-				boolean foundInSeq = false;
-				for (CombineGroup group : groupSequence) {
-					if (group.originId == originId) {
-						group.tweets.add(tc);
-						foundInSeq = true;
-						break;
-					}
+				CombineGroup foundGroup = findInSeq(originId, groupSequence);
+				if (foundGroup != null) {
+					foundGroup.getTweets().add(tc);
 				}
-				if (!foundInSeq) {
+				else {
 					groupSequence.add(new CombineGroup(originId, tc));
 				}
 			}
 			else {
-				groupSequence.add(new CombineGroup(tc));
+				CombineGroup foundGroup = findInSeq(tc.getId(), groupSequence);
+				if (foundGroup != null) {
+					foundGroup.setOrigin(tc);
+				}
+				else {
+					groupSequence.add(new CombineGroup(tc));
+				}
 			}
 		}
-		//XXX Flatten
-		stream.getItems().clear();
-		for (CombineGroup group : groupSequence) {
-			stream.getItems().addAll(group.tweets);
-			if (group.origin != null) {stream.getItems().add(group.origin);}
-		}
+		//XXX generate a sequence
+		return null;
 	}
 	
-	private static class CombineGroup {
-		private long originId;
-		private TweetCard origin;
-		private List<TweetCard> tweets = new ArrayList<>();
-		private CombineGroup(long originId, TweetCard first) {
-			this.originId = originId;
-			tweets.add(first);
+	private CombineGroup findInSeq(long id, List<CombineGroup> groupSequence) {
+		for (CombineGroup group : groupSequence) {
+			if (group.getOriginId() == id) {
+				return group;
+			}
 		}
-		private CombineGroup(TweetCard origin) {
-			this.originId = origin.getId();
-			this.origin = origin;
-		}
+		return null;
 	}
 
 }
