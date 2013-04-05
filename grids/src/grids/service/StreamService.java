@@ -58,35 +58,43 @@ public class StreamService {
 	}
 
 	private List<Item> combine(List<TweetCard> tcs) {
-		List<CombineGroup> groupSequence = new ArrayList<>();
+		List<CombineGroup> groupSeq = new ArrayList<>();
 		for (TweetCard tc : tcs) {
 			if (tc.getOrigin() != null) {
 				long originId = tc.getOrigin().getId();
-				CombineGroup foundGroup = findInSeq(originId, groupSequence);
+				CombineGroup foundGroup = findInSeq(originId, groupSeq);
 				if (foundGroup != null) {
-					foundGroup.getTweets().add(tc);
+					foundGroup.getForwards().add(tc);
 				}
 				else {
-					groupSequence.add(new CombineGroup(originId, tc));
+					groupSeq.add(CombineGroup.newByFirst(tc));
 				}
 			}
 			else {
-				CombineGroup foundGroup = findInSeq(tc.getId(), groupSequence);
+				CombineGroup foundGroup = findInSeq(tc.getId(), groupSeq);
 				if (foundGroup != null) {
-					foundGroup.setOrigin(tc);
+					foundGroup.addOrigin(tc);
 				}
 				else {
-					groupSequence.add(new CombineGroup(tc));
+					groupSeq.add(CombineGroup.newByOrigin(tc));
 				}
 			}
 		}
-		//XXX generate a sequence
-		return null;
+
+		List<Item> sequence = new ArrayList<>(groupSeq.size());
+		for (CombineGroup group : groupSeq) {
+			TweetCard singleMember = group.singleMember();
+			if (singleMember != null) {
+				sequence.add(singleMember);
+			}
+			else sequence.add(group);
+		}
+		return sequence;
 	}
 	
 	private CombineGroup findInSeq(long id, List<CombineGroup> groupSequence) {
 		for (CombineGroup group : groupSequence) {
-			if (group.getOriginId() == id) {
+			if (group.getOrigin().getId() == id) {
 				return group;
 			}
 		}

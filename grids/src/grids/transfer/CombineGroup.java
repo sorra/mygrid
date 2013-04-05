@@ -4,39 +4,71 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CombineGroup implements Item {
-	private long originId;
+	private List<TweetCard> forwards = new ArrayList<>();
 	private TweetCard origin;
-	private List<TweetCard> tweets = new ArrayList<>();
+	private boolean containsOrigin = false;
 	
-	public CombineGroup(long originId, TweetCard first) {
-		this.originId = originId;
-		tweets.add(first);
+	public static CombineGroup newByFirst(TweetCard first) {
+		CombineGroup group = new CombineGroup();
+		group.origin = first.getOrigin();
+		group.containsOrigin = false;
+		
+		group.addForward(first);
+		return group;
 	}
-	public CombineGroup(TweetCard origin) {
-		this.originId = origin.getId();
+	
+	public static CombineGroup newByOrigin(TweetCard origin) {
+		CombineGroup group = new CombineGroup();
+		group.addOrigin(origin);
+		return group;
+	}
+	
+	/**
+	 * clears forward's origin
+	 * @param forward
+	 */
+	public void addForward(TweetCard forward) {
+		forward.clearOrigin();
+		forwards.add(forward);
+	}
+
+	public void addOrigin(TweetCard origin) {
 		this.origin = origin;
+		containsOrigin = true;
 	}
 	
 	public TweetCard singleMember() {
-		if (origin != null && tweets.size() == 0) {
+		if (containsOrigin && forwards.size() == 0) {
 			return origin;
 		}
-		else if (origin == null & tweets.size() == 1) {
-			return tweets.get(0);
+		else if (!containsOrigin & forwards.size() == 1) {
+			return forwards.get(0);
 		}
 		else return null;
 	}
 	
-	public long getOriginId() {
-		return originId;
-	}
+	public List<TweetCard> getForwards() {
+		return forwards;
+	}	
 	public TweetCard getOrigin() {
 		return origin;
 	}
-	public void setOrigin(TweetCard origin) {
-		this.origin = origin;
+	public boolean isContainsOrigin() {
+		return containsOrigin;
 	}
-	public List<TweetCard> getTweets() {
-		return tweets;
+
+	@Override
+	public List<TagLabel> getTags() {
+		return origin.getTags();
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder("CombineGroup {\n");
+		for (TweetCard forward : forwards) {
+			sb.append(forward).append('\n');
+		}
+		sb.append("origin: ").append(origin).append("\n}");
+		return sb.toString();
 	}
 }

@@ -4,9 +4,8 @@ import java.io.PrintStream;
 
 import grids.entity.Tag;
 import grids.entity.User;
+import grids.transfer.Item;
 import grids.transfer.Stream;
-import grids.transfer.TweetCard;
-
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,7 +103,7 @@ public class ServiceInitializer {
 	
 	private void printStream(Stream st) {
 		out.println(st.toString());
-		for (TweetCard t: st.getItems()) {
+		for (Item t: st.getItems()) {
 			out.println(t);
 		}
 		out.println();

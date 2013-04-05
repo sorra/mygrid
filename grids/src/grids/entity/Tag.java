@@ -62,10 +62,12 @@ public class Tag {
 	public void setFollows(Collection<Follow> follows) {this.follows = follows;}
 	
 	/**
-	 * @return a chain from itself to ancestors
+	 * @return a chain from itself to ancestors; is empty for root
 	 */
 	public List<Tag> chainUp() {
 		List<Tag> chain = new LinkedList<>();
+		if (getId() == ROOT_ID) return chain;
+		
 		Tag current = this;
 		while (current.getId() != ROOT_ID) {
 			chain.add(current);

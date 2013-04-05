@@ -1,5 +1,7 @@
 package grids.transfer;
 
-public interface Item {
+import java.util.List;
 
+public interface Item {
+	List<TagLabel> getTags();
 }

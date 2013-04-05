@@ -35,6 +35,13 @@ public class TweetCard implements Item {
 		this.forwardCount = forwardCount;
 		this.commentCount = commentCount;
 	}
+	
+	/**
+	 * used by CombineGroup
+	 */
+	public void clearOrigin() {
+		origin = null;
+	}
 
 	public long getId() {
 		return id;
@@ -57,6 +64,7 @@ public class TweetCard implements Item {
 	public TweetCard getOrigin() {
 		return origin;
 	}
+	@Override
 	public List<TagLabel> getTags() {
 		return tags;
 	}
