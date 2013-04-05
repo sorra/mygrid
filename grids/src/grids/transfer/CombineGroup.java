@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CombineGroup implements Item {
+	private final String type = "CombineGroup";
+	
 	private List<TweetCard> forwards = new ArrayList<>();
 	private TweetCard origin;
 	private boolean containsOrigin = false;
@@ -56,10 +58,14 @@ public class CombineGroup implements Item {
 	public boolean isContainsOrigin() {
 		return containsOrigin;
 	}
-
 	@Override
 	public List<TagLabel> getTags() {
 		return origin.getTags();
+	}
+	
+	@Override
+	public String getType() {
+		return type;
 	}
 	
 	@Override

@@ -39,6 +39,7 @@ $!{include("navbar.httl")}
 	</div>
 </div>
 <script src="$!{rs}/js/dojo.js" type="text/javascript"></script>
+<script src="$!{rs}/js/stream.js" type="text/javascript"></script>
 <script src="$!{rs}/js/home.js" type="text/javascript"></script>
 </body>
 </html>

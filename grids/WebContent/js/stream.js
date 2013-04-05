@@ -19,26 +19,56 @@ function getIstream() {
 function renderIstream(stream) {
 	var streamNode = dojo.query('.stream')[0];	
 	
-	var rowUnder = function(parent) {
-		return dojo.create('div', {className: 'row'}, parent);
-	};
 	dojo.forEach(stream.items, function(item){
-		var itemNode = dojo.create('div', {className: 'item row'}, streamNode);
-		
-		var avatarNode = dojo.create('div', {className: 'avartar span1'}, itemNode);
-		dojo.create('img', {src: '/grids/rs/img/wang.jpg'},
-				authorLink(item.authorId, avatarNode));
-		
-		var tweetNode = dojo.create('div', {className: 'tweet span7'}, itemNode);
-		var row1 = rowUnder(tweetNode);
-		dojo.create('b', {innerHTML: item.authorName, className: 'author'},
-				authorLink(item.authorId, row1));
-		dojo.create('p', {innerHTML: item.content}, row1);
-		var row2 = rowUnder(tweetNode);
-		dojo.create('a', {innerHTML: new Date(item.date).toLocaleString()}, row2);
-		dojo.create('a', {innerHTML: showTags(item.tags)}, row2);		
+		if (item.type == 'TweetCard') {
+			dojo.place(renderTweetCard(item), streamNode);
+		}
+		else if (item.type == 'CombineGroup') {
+			dojo.place(renderCombineGroup(item), streamNode);
+		}
 	});
 }
+
+function renderTweetCard(card) {
+	var cardNode = dojo.create('div', {className: 'item row'});
+	renderTweetDetail(card, cardNode);
+	return cardNode;
+}
+
+function renderCombineGroup(group) {
+	var groupNode = dojo.create('div', {className: 'item row'});	
+	dojo.forEach(group.forwards, function(forward){
+		var row = bsRow(groupNode);
+		dojo.addClass(row, 'span8');
+		renderTweetDetail(forward, row);
+	});	
+	var rowOrigin = bsRow(groupNode);
+	dojo.addClass(rowOrigin, 'origin');
+	dojo.addClass(rowOrigin, 'span8');
+	renderTweetDetail(group.origin, rowOrigin);
+	
+	return groupNode;
+}
+
+function renderTweetDetail(tweet, parent) {
+	var avatarNode = dojo.create('div', {className: 'avartar span1'}, parent);
+	dojo.create('img', {src: '/grids/rs/img/wang.jpg'},
+			authorLink(tweet.authorId, avatarNode));
+	
+	var tweetNode = dojo.create('div', {className: 'tweet span7'}, parent);
+	var row1 = bsRow(tweetNode);
+	dojo.create('b', {innerHTML: tweet.authorName, className: 'author'},
+			authorLink(tweet.authorId, row1));
+	dojo.create('p', {innerHTML: tweet.content}, row1);
+	//TODO render origin
+	var row2 = bsRow(tweetNode);
+	dojo.create('a', {innerHTML: new Date(tweet.date).toLocaleString()}, row2);
+	if (tweet.tags.length > 0) dojo.create('a', {innerHTML: showTags(tweet.tags)}, row2);
+}
+
+function bsRow(parent) {
+	return dojo.create('div', {className: 'row'}, parent);
+};
 
 function authorLink(authorId, parent) {
 	var node = dojo.create('a', {uid: authorId, href: '#' + authorId}, parent);

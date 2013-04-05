@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.List;
 
 public class TweetCard implements Item {
+	private final String type = "TweetCard";
+	
 	private long id;
 	private long authorId;
 	private String authorName;
@@ -73,6 +75,11 @@ public class TweetCard implements Item {
 	}
 	public long getCommentCount() {
 		return commentCount;
+	}
+	
+	@Override
+	public String getType() {
+		return type;
 	}
 
 	@Override

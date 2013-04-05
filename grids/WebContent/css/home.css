@@ -4,10 +4,15 @@
 	height: 50px;
 }
 .stream .item{
-	background-color: lightgreen;
+	background-color: aquamarine;
+	border-bottom: solid 1px grey;
+}
+.stream .origin{
+	background-color: deepskyblue;
+	border-top: solid 1px;
 }
 .l-side, .r-side{
-	background-color: azure;
+	background-color: lightgreen;
 }
 .author{
 	color: black;
