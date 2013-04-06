@@ -53,7 +53,7 @@ public class StreamService {
 	
 	private List<Item> higherSort(List<TweetCard> tcs) {
 		Collections.sort(tcs, new TweetOnIdComparator());
-		//TODO Combine & Pull-near
+		//TODO Pull-near
 		return combine(tcs);
 	}
 
