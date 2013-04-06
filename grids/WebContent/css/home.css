@@ -1,3 +1,6 @@
+.avatar a{
+	display: block;
+}
 .avatar img{
 	padding-top: 5px;
 	width: 50px;
@@ -6,6 +9,13 @@
 .stream .item{
 	background-color: aquamarine;
 	border-bottom: solid 1px grey;
+}
+.stream .combine{
+/* 	border-left: solid 1px grey;
+	border-right: solid 1px grey; */
+}
+.stream .combine>.row{
+	margin: 0;
 }
 .stream .origin{
 	background-color: deepskyblue;

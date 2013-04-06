@@ -36,22 +36,22 @@ function renderTweetCard(card) {
 }
 
 function renderCombineGroup(group) {
-	var groupNode = dojo.create('div', {className: 'item row'});	
+	var groupNode = dojo.create('div', {className: 'item combine row'});	
 	dojo.forEach(group.forwards, function(forward){
 		var row = bsRow(groupNode);
-		dojo.addClass(row, 'span8');
+//		dojo.addClass(row, 'span8');
 		renderTweetDetail(forward, row);
 	});	
 	var rowOrigin = bsRow(groupNode);
 	dojo.addClass(rowOrigin, 'origin');
-	dojo.addClass(rowOrigin, 'span8');
+//	dojo.addClass(rowOrigin, 'span8');
 	renderTweetDetail(group.origin, rowOrigin);
 	
 	return groupNode;
 }
 
 function renderTweetDetail(tweet, parent) {
-	var avatarNode = dojo.create('div', {className: 'avartar span1'}, parent);
+	var avatarNode = dojo.create('div', {className: 'avatar span1'}, parent);
 	dojo.create('img', {src: '/grids/rs/img/wang.jpg'},
 			authorLink(tweet.authorId, avatarNode));
 	
