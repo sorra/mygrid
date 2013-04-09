@@ -10,20 +10,24 @@
 $!{include("navbar.httl")}
 <div class="container">
 	<div class="row">
-		<div class="l-side span2">LEFT</div>
-		<div class="main span8">
-				<form class="top-box row">
-					<textarea class="input span8"></textarea>
-					<button class="btn btn-small">标签</button>
-					<button class="btn btn-primary pull-right" type="submit">发表</button>
+		<div class="side span3">SIDE</div>
+		<div class="main span9">
+				<form class="top-box">
+					<div class="row"><textarea class="input span9"></textarea></div>
+					<div class="row">
+						<button class="btn btn-small">标签1</button>
+						<button class="btn btn-small">标签2</button>
+						<button class="btn btn-small">标签3</button>
+						<button class="btn btn-primary pull-right" type="submit">发表</button>
+					</div>
 				</form>
 			<div class="row">
-				<div class="stream span8">
+				<div class="stream span9">
 					<div class="item row">
-						<div class="avatar span1"><a href="#"><img src="rs/img/dingcl.jpg"/></a></div>
-						<div class="tweet span7">
+						<div class="avatar span1"><a href="#"><img src="dingcl.jpg"/></a></div>
+						<div class="tweet-part span8">
 							<div class="row">
-								<a class="author" href="#"><b>丁辰灵</b></a>
+								<a class="author-name" href="#">丁辰灵</a>
 								<p>【一张决策图来重新思考你的网站】你至少要考虑四个方面：目标&客户；内容&结构；设计；技术。为什么要建立自己的站点？内容和结构如何安排？网站设计能否脱颖而出？你的技术支持是否足够聪明和稳定？是时候重新思考你的网站！@图说PicSays “3W互联网深度精选”（微信studywww），最有价值深度干货。</p>
 							</div>
 							<div class="row">
@@ -35,8 +39,8 @@ $!{include("navbar.httl")}
 				</div>
 			</div>
 		</div>
-		<div class="r-side span2">RIGHT</div>
 	</div>
+	<div class="footer"></div>
 </div>
 <script src="$!{rs}/js/dojo.js" type="text/javascript"></script>
 <script src="$!{rs}/js/stream.js" type="text/javascript"></script>

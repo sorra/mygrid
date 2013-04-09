@@ -21,10 +21,12 @@
 	background-color: deepskyblue;
 	border-top: solid 1px;
 }
-.l-side, .r-side{
+.side{
+	min-height: 500px;
 	background-color: lightgreen;
 }
-.author{
+.author-name{
+	font-weight: bold;
 	color: black;
 }
 body>.container{
