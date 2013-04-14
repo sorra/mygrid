@@ -40,6 +40,7 @@ public class StreamService {
 		
 		List<TweetCard> tcs = new ArrayList<>();
 		for (Tweet tweet : tweets) {
+			// How to optimize the counting, by session cache?
 			tcs.add(new TweetCard(tweet,
 					tweetRepos.forwardCount(tweet.getId()),
 					commentRepos.commentCount(tweet.getId())
