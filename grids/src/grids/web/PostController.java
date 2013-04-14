@@ -1,5 +1,6 @@
 package grids.web;
 
+import grids.entity.Blog;
 import grids.service.BlogService;
 import grids.service.TweetService;
 
@@ -24,7 +25,9 @@ public class PostController {
 	@ResponseBody
 	public boolean tweet(HttpSession session,
 			@RequestParam("content") String content, 
-			@RequestParam("tagIds") long[] tagIds) {
+			@RequestParam(value="tagIds", required=false) long[] tagIds) {
+		System.out.println("post tweet");
+		if (tagIds == null) tagIds = new long[0];
 		long uid = (long) session.getAttribute(SessionKeys.UID);
 		tweetService.tweet(uid, content, tagIds);
 		return true;
@@ -32,12 +35,17 @@ public class PostController {
 	
 	@RequestMapping(value="/blog", method=RequestMethod.POST)
 	@ResponseBody
-	public boolean blog(HttpSession session,
+	public String blog(HttpSession session,
 			@RequestParam("title") String title,
 			@RequestParam("content") String content,
-			@RequestParam("tagIds") long[] tagIds) {
+			@RequestParam(value="tagIds", required=false) long[] tagIds) {
 		long uid = (Long) session.getAttribute(SessionKeys.UID);
-		blogService.blog(uid, title, content, tagIds);
-		return true;
+		Blog blog = blogService.blog(uid, title, content, tagIds);
+		if (blog != null) {
+			// Usually
+			tweetService.share(uid, blog);
+			return "true";
+		}
+		else return "false";
 	}
 }

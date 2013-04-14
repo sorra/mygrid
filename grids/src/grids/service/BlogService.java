@@ -37,21 +37,21 @@ public class BlogService {
 		return blogRepos.connectTweets(blogId);
 	}
 	
-	public long blog(long userId, String title, String content, long[] tagIds) {
+	public Blog blog(long userId, String title, String content, long[] tagIds) {
 		Blog blog = new Blog(title, content, userRepos.load(userId), new Date(), tagRepos.getTags(tagIds));
 		blogRepos.save(blog);
-		return blog.getId();
+		return blog;
 	}
 	
-	public boolean edit(long userId, long blogId, String title, String content, long[] tagIds) {
-		Blog blog = blogRepos.load(blogId);
+	public Blog edit(long userId, long blogId, String title, String content, long[] tagIds) {
+		Blog blog = blogRepos.get(blogId);
 		if (blog.getAuthor().getId() == userId) {
 			blog.setTitle(title);
 			blog.setContent(content);
 			blog.setTags(tagRepos.getTags(tagIds));
-			return true;
+			return blog;
 		}
-		else return false;
+		else return null;
 	}
 	public boolean delete(long userId, long blogId) {
 		Blog blog = blogRepos.load(blogId);

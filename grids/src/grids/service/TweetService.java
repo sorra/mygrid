@@ -1,5 +1,6 @@
 package grids.service;
 
+import grids.entity.Blog;
 import grids.entity.Comment;
 import grids.entity.Tweet;
 import grids.repos.CommentRepos;
@@ -49,6 +50,16 @@ public class TweetService {
 	
 	public void share(long userId, String content, String sourceUrl) {
 		//XXX
+	}
+	
+	public void share(long userId, Blog blog) {
+		Tweet tweet = new Tweet(
+				"发表了博客：["+blog.getTitle()+"] "
+					+blog.getContent().substring(0, 100),
+				userRepos.load(userId),
+				new Date(),
+				blog.getTags());
+		tweetRepos.save(tweet);
 	}
 	
 	public Tweet forward(long userId, String content, long originId) {

@@ -11,7 +11,25 @@ $(document).ready(function() {
 		})
 		.fail(function(resp) {
 			window.alert("login failed! " + resp);
+	});
+	$('form.top-box .btn[type="submit"]').click(function(event){
+		event.preventDefault();
+		var $submit = $(this);
+		$submit.attr('disabled', 'true');
+		$.post('/grids/post/tweet', {
+			content: $('form.top-box .input').val(),
+			tagIds: []
+		})
+		.always(function(resp){
+			$submit.removeAttr('disabled');
+		})
+		.done(function(resp){
+			$('form.top-box .input').val('发表成功！');
+		})
+		.fail(function(resp){
+			window.alert("post failed! " + resp);
 		});
+	});
 });
 
 function launchUcOpener() {
