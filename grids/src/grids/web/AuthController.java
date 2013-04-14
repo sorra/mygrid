@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/auth")
 public class AuthController {
-	private static final String SUCCESS = "成功";
-	private static final String FAILURE = "失败";
+	private static final String SUCCESS = "success";
+	private static final String FAILURE = "failure";
 	
 	@Autowired
 	UserService userService;
