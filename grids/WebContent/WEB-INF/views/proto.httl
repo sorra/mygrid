@@ -1,0 +1,36 @@
+<div class="proto">
+	<div class="tweet item row">
+		<a class="avatar span1" href=""><img src=""/></a>
+		<div class="tweet-part span7">
+			<div class="row">
+				<a class="author-name" href="#"></a>
+				<p class="content"></p>
+				<div class="origin"></div>
+			</div>
+			<div class="row">
+				<a class="time span">time</a>
+				<span class="tags span">tags</span>
+				<span class="span pull-right">
+					<a>转发<span class="forward-count"></span></a>
+					<a>评论<span class="comment-count"></span></a>
+				</span>
+			</div>
+		</div>
+	</div>
+	
+	<div class="combine item row"></div>
+	
+	<div class="user-card">
+		<div class="row">
+			<div class="avatar span1"><a><img /></a></div>
+			<div class="span">
+				<p class="name"></p>
+				<p class="intro"></p>
+				<div class="">
+					关注：<span class="following-count"></span>
+					粉丝：<span class="follower-count"></span>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
