@@ -1,78 +1,107 @@
 'use strict';
-window.userCardRemover;
+window.ucOpener;
+window.ucCloser;
 
-dojo.addOnLoad(function() {
-	dojo.xhrPost({
-		url : '/grids/auth/login',
-		timeout : 1000,
-		content : {email: 'admin@', password: '123'},
-		load : function(resp, io_args) {
+$(document).ready(function() {
+	$.post('/grids/auth/login', {
+		email : 'admin@',
+		password : '123'})
+		.done(function(resp) {
 			getIstream();
-		},
-		error : function(resp, io_args) {
+		})
+		.fail(function(resp) {
 			window.alert("login failed! " + resp);
-		}
-	});
+		});
 });
 
-function getUserCard(event) {
-	doRemoveUserCard();
-	var target = event.currentTarget;
-	dojo.xhrGet({
-		url : '/grids/user/card/' + dojo.attr(target, 'uid'),
-		timeout : 1000,
-		handleAs : 'json',
-		load : function(resp, io_args) {
-			if (resp == null)
-				alert('usercard null');
-			else renderUserCard(target, resp);
-		},
-		error : function(resp, io_args) {
-			window.alert('usercard Oops! ' + resp);
-		}
-	});
-}
+function launchUcOpener() {
+	if (this == undefined) {
+		console.log("launchUcOpener's this is undefined");
+	}
+	if (window.ucCloser && window.ucCloser.locator == this) {
+		cancelUcCloser();
+		return;
+	}
 
-function renderUserCard(target, card) {
-	doRemoveUserCard();
-	var popup = dojo.create('div', {
-			id: 'user-card',
-			style: {
-				position: 'absolute', width: '300px',
-				background: 'pink', borderRadius: '3px'
-			}
-		},
-		dojo.query('body')[0]);
-	dojo.create('p', {innerHTML: card.name}, popup);
-	dojo.create('p', {innerHTML: card.intro}, popup);
-	dojo.create('p', {innerHTML:
-		'followings: '+card.followingCount+' followers: '+card.followerCount}, popup);
-
-	var locatorPos = dojo.position(target, true);
-	var pLeft = locatorPos.x;
-	var pTop = locatorPos.y + locatorPos.h;
-	dojo.style(popup, {left: pLeft+'px', top: pTop+'px'});
-	dojo.connect(popup, 'mouseover', clearUserCardRemover);
-	dojo.connect(popup, 'mouseout', removeUserCard);
-}
-
-function removeUserCard(event) {
-	clearUserCardRemover();
-	window.userCardRemover = {
-		timer: window.setTimeout(doRemoveUserCard, 200),
-		locator: event.currentTarget,
-		uid: dojo.attr(event.currentTarget, 'uid')
+	cancelUcOpener();
+	window.ucOpener = {
+		timer : window.setTimeout($.proxy(openUserCard, this), 200),
+		locator: this,
+		uid: $(this).attr('uid')
 	};
 }
 
-function doRemoveUserCard() {
-	clearUserCardRemover();
-	dojo.destroy(dojo.byId('user-card'));
+function launchUcCloser() {
+	if (this == undefined) {
+		console.log("launchUcCloser's this is undefined");
+	}
+	cancelUcOpener();
+
+	cancelUcCloser();
+	window.ucCloser = {
+		timer: window.setTimeout(closeUserCard, 200),
+		locator: this,
+		uid: $(this).attr('uid')
+	};
 }
 
-function clearUserCardRemover() {
-	if (window.userCardRemover) {
-		window.clearTimeout(window.userCardRemover.timer);
-		window.userCardRemover = null;
+function openUserCard() {
+	var target = this;
+	cancelUcOpener();
+	closeUserCard();
+	console.log("open");
+	$.get('/grids/user/card/' + $(target).attr('uid'), {})
+		.done(function(resp) {
+			if (resp == null)
+				console.log('usercard null');
+			else createUserCard(target, resp).hide()
+					.appendTo($('body')).fadeIn();
+		})
+		.fail(function(resp) {
+			console.log('usercard Oops! ' + resp);
+		});
+}
+
+function closeUserCard() {
+	cancelUcCloser();
+	console.log("close");
+	var $uc = $('.user-card:not(.proto *)');
+	$uc.fadeOut('', function(){$uc.remove();});
+}
+
+function createUserCard(target, card) {
+	console.log("create");
+	var $uc = $('.proto > .user-card').clone();
+	$uc.find('.avatar > a').find('img').attr('src', '/grids/rs/img/panda.jpg');
+	$uc.find('.name').text(card.name);
+	$uc.find('.intro').text(card.intro);
+	$uc.find('.following-count').text(card.followingCount);
+	$uc.find('.follower-count').text(card.followerCount);
+	
+
+	var locatorPos = $(target).offset();
+	var pleft = locatorPos.left;
+	var ptop = locatorPos.top + $(target).height();
+	$uc.css({
+		position: 'absolute', width: '300px',
+		background: 'pink', borderRadius: '3px',
+		left: pleft+'px', top: ptop+'px'
+		});	
+	$uc.mouseenter(cancelUcCloser).mouseleave($.proxy(launchUcCloser, target));
+
+	return $uc;
+}
+
+function cancelUcOpener() {
+	if (window.ucOpener) {
+		window.clearTimeout(window.ucOpener.timer);
+		window.ucOpener = null;
+	}
+}
+
+function cancelUcCloser() {
+	if (window.ucCloser) {
+		window.clearTimeout(window.ucCloser.timer);
+		window.ucCloser = null;
 	}
 }

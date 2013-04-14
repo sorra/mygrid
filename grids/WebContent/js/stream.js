@@ -1,92 +1,82 @@
 'use strict';
 
 function getIstream() {
-	dojo.xhrGet({
-		url : '/grids/read/istream',
-		timeout : 1000,
-		handleAs :'json',
-		load : function(resp, io_args) {
-			if (resp == null)
-				alert('stream null');
-			else renderIstream(resp);
-		},
-		error : function(resp, io_args) {
+	$.get('/grids/read/istream', {})
+		.done(function(resp){
+			if (resp == null) alert('stream is null');
+			else createIstream(resp);
+		})
+		.fail(function(resp){
 			window.alert('istream Oops! ' + resp);
-		}
-	});
+		});
 }
 
-function renderIstream(stream) {
-	var streamNode = dojo.query('.stream')[0];	
-	
-	dojo.forEach(stream.items, function(item){
+function createIstream(stream) {
+	var streamNode = $('.stream');
+	$.each(stream.items, function(idx, item){
 		if (item.type == 'TweetCard') {
-			dojo.place(renderTweetCard(item), streamNode);
+			createTweetCard(item).appendTo(streamNode);
 		}
 		else if (item.type == 'CombineGroup') {
-			dojo.place(renderCombineGroup(item), streamNode);
+			createCombineGroup(item).appendTo(streamNode);
 		}
 	});
+	$('.avatar, .author-name')
+		.mouseenter(launchUcOpener)
+		.mouseleave(launchUcCloser);
 }
 
-function renderTweetCard(card) {
-	var cardNode = dojo.create('div', {className: 'item row'});
-	renderTweetDetail(card, cardNode);
-	return cardNode;
-}
-
-function renderCombineGroup(group) {
-	var groupNode = dojo.create('div', {className: 'item combine row'});	
-	dojo.forEach(group.forwards, function(forward){
-		var row = bsRow(groupNode);
-//		dojo.addClass(row, 'span8');
-		renderTweetDetail(forward, row);
-	});	
-	var rowOrigin = bsRow(groupNode);
-	dojo.addClass(rowOrigin, 'origin');
-//	dojo.addClass(rowOrigin, 'span8');
-	renderTweetDetail(group.origin, rowOrigin);
+function createTweetCard(card) {
+	var $tc = $('.proto > .tweet').clone();
 	
-	return groupNode;
-}
-
-function renderTweetDetail(tweet, parent) {
-	var avatarNode = dojo.create('div', {className: 'avatar span1'}, parent);
-	dojo.create('img', {src: '/grids/rs/img/wang.jpg'},
-			authorLink(tweet.authorId, avatarNode));
+	var authorLinkAttrs = {uid: card.authorId, href: '#user/'+card.authorId};
+	$tc.find('.avatar').attr(authorLinkAttrs)
+		.find('img').attr('src', '/grids/rs/img/panda.jpg');	
+	$tc.find('.author-name').attr(authorLinkAttrs).text(card.authorName);
+	$tc.find('.content').text(card.content);
+	if (card.origin)
+		$tc.find('.origin').replaceWith(createOriginCard(card.origin));
+	else
+		$tc.find('.origin').remove();
 	
-	var tweetNode = dojo.create('div', {className: 'tweet span7'}, parent);
-	var row1 = bsRow(tweetNode);
-	dojo.create('b', {innerHTML: tweet.authorName, className: 'author'},
-			authorLink(tweet.authorId, row1));
-	dojo.create('p', {innerHTML: tweet.content}, row1);
-	//TODO render origin
-	var row2 = bsRow(tweetNode);
-	dojo.create('a', {innerHTML: new Date(tweet.date).toLocaleString()}, row2);
-	if (tweet.tags.length > 0) dojo.create('a', {innerHTML: showTags(tweet.tags)}, row2);
+	$tc.find('.time').text(showTime(card.time)).attr('href', '#tw/'+card.id);
+	var $tags = $tc.find('.tags');
+	var tags = card.origin ? origin.tags : card.tags;
+	if (tags && tags.length > 0) {
+		$tags.html('');
+		$.each(card.tags, function(idx, tag){
+			$('<a></a>').text(tag.name).attr('href', '#tag/'+tag.id).appendTo($tags);
+		});
+	}
+	else {
+		$tags.remove();
+	}
+	
+	if (card.forwardCount > 0) {
+		$tc.find('.forward-count').text('('+card.forwardCount+')');
+	}
+	if (card.commentCount > 0) {
+		$tc.find('.comment-count').text('('+card.commentCount+')');
+	}
+	return $tc;
 }
 
-function bsRow(parent) {
-	return dojo.create('div', {className: 'row'}, parent);
-};
+function createOriginCard(origin) {
+	var $oc = createTweetCard(origin).removeClass('item').addClass('origin');
+	$oc.find('.avatar').remove();
+	$oc.find('.tags').remove();
+	return $oc;
+}
 
-function authorLink(authorId, parent) {
-	var node = dojo.create('a', {uid: authorId, href: '#' + authorId}, parent);
-	dojo.connect(node, 'mouseover', function(event){
-		if (window.userCardRemover && window.userCardRemover.locator == event.currentTarget) {
-			clearUserCardRemover();
-		}
-		else getUserCard(event);
+function createCombineGroup(group) {
+	var $cg = $('.proto > .combine').clone();
+	$.each(group.forwards, function(idx, forward){
+		createTweetCard(forward).removeClass('item').appendTo($cg);
 	});
-	dojo.connect(node, 'mouseout', removeUserCard);
-	return node;
-};
+	createOriginCard(group.origin).removeClass('row').addClass('offset1').appendTo($cg);
+	return $cg;
+}
 
-function showTags(tags) {
-	var str = '';
-	dojo.forEach(tags, function(tag){
-		str += tag.name;
-		str += ' ';
-	});
-	return str;
+function showTime(time) {
+	return new Date(time).toLocaleString();
 }

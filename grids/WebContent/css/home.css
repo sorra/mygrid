@@ -1,36 +1,50 @@
-.avatar a{
+.proto{
+	display: none;
+}
+.avatar{
 	display: block;
+	padding-top: 5px;
 }
 .avatar img{
-	padding-top: 5px;
 	width: 50px;
 	height: 50px;
-}
-.stream .item{
-	background-color: aquamarine;
-	border-bottom: solid 1px grey;
-}
-.stream .combine{
-/* 	border-left: solid 1px grey;
-	border-right: solid 1px grey; */
-}
-.stream .combine>.row{
-	margin: 0;
-}
-.stream .origin{
-	background-color: deepskyblue;
-	border-top: solid 1px;
-}
-.side{
-	min-height: 500px;
-	background-color: lightgreen;
 }
 .author-name{
 	font-weight: bold;
 	color: black;
 }
+.tags a{
+	margin-left: 1em;
+}
+
+.stream .item{
+	background-color: aquamarine;
+	border-bottom: solid 1px #e5e5e5;
+	padding: 5px;
+}
+.stream .tweet{
+}
+.stream .origin{
+	background-color: deepskyblue;
+	border: solid 1px #e5e5e5;
+}
+.stream .combine{
+	border-left: solid 1px #e5e5e5;
+	border-right: solid 1px #e5e5e5;
+}
+.stream .combine>.row{
+	margin: 0;
+}
+.stream .combine .tweet{
+	
+} 
+
 body>.container{
 	margin-top: 50px;
+}
+.side{
+	min-height: 500px;
+	background-color: lightgreen;
 }
 .top-box{
 	padding: 10px;
