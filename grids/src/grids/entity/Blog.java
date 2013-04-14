@@ -17,17 +17,17 @@ public class Blog {
 	private String title;
 	private String content;
 	private User author;
-	private Date date;
+	private Date time;
 	private Set<Tag> tags = new HashSet<>();
 
 	public Blog() {
 	}
 
-	public Blog(String title, String content, User author, Date date, Set<Tag> tags) {
+	public Blog(String title, String content, User author, Date time, Set<Tag> tags) {
 		this.title = title;
 		this.content = content;
 		this.author = author;
-		this.date = date;
+		this.time = time;
 		this.tags = tags;
 	}
 
@@ -46,8 +46,8 @@ public class Blog {
 	public User getAuthor() {return author;}
 	public void setAuthor(User author) {this.author = author;}
 
-	public Date getDate() {return date;}
-	public void setDate(Date date) {this.date = date;}
+	public Date getTime() {return time;}
+	public void setTime(Date time) {this.time = time;}
 
 	@ManyToMany(fetch=FetchType.EAGER)
 	public Set<Tag> getTags() {return tags;}

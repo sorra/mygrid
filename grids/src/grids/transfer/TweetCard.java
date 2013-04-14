@@ -15,7 +15,7 @@ public class TweetCard implements Item {
 	private String authorName;
 	private String avatar;
 	private String content;
-	private Date date;
+	private Date time;
 	private TweetCard origin = null;
 	private List<TagLabel> tags = new ArrayList<>();
 	private long forwardCount;
@@ -27,7 +27,7 @@ public class TweetCard implements Item {
 		authorName = tweet.getAuthor().getName();
 		avatar = tweet.getAuthor().getAvatar();
 		content = tweet.getContent();
-		date = tweet.getDate();
+		time = tweet.getTime();
 		if (tweet.getOrigin() != null) {
 			origin = new TweetCard(tweet.getOrigin() , 0, 0);
 		}
@@ -60,8 +60,8 @@ public class TweetCard implements Item {
 	public String getContent() {
 		return content;
 	}
-	public Date getDate() {
-		return date;
+	public Date getTime() {
+		return time;
 	}
 	public TweetCard getOrigin() {
 		return origin;

@@ -20,7 +20,7 @@ public class Tweet {
 	private long id;
 	private String content;
 	private User author;
-	private Date date;
+	private Date time;
 	private Tweet origin = null; 
 	private Set<Tag> tags = new HashSet<>();
 	private Collection<Comment> comments = new ArrayList<>();
@@ -28,17 +28,17 @@ public class Tweet {
 	public Tweet() {
 	}
 
-	public Tweet(String content, User author, Date date, Set<Tag> tags) {
+	public Tweet(String content, User author, Date time, Set<Tag> tags) {
 		this.content = content;
 		this.author = author;
-		this.date = date;
+		this.time = time;
 		this.tags = tags;
 	}
 	
-	public Tweet(String content, User author, Date date, Tweet origin) {
+	public Tweet(String content, User author, Date time, Tweet origin) {
 		this.content = content;
 		this.author = author;
-		this.date = date;
+		this.time = time;
 		this.origin = origin;
 		if (origin.getOrigin() != null) {//XXX need better approach
 			throw new IllegalArgumentException("tweet's origin should not be nested!");
@@ -57,8 +57,8 @@ public class Tweet {
 	public User getAuthor() {return author;}
 	public void setAuthor(User author) {this.author = author;}
 
-	public Date getDate() {return date;}
-	public void setDate(Date date) {this.date = date;}
+	public Date getTime() {return time;}
+	public void setTime(Date time) {this.time = time;}
 
 	@OneToOne
 	public Tweet getOrigin() {return origin;}
