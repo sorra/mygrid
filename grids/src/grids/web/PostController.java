@@ -35,17 +35,18 @@ public class PostController {
 	
 	@RequestMapping(value="/blog", method=RequestMethod.POST)
 	@ResponseBody
-	public String blog(HttpSession session,
+	public boolean blog(HttpSession session,
 			@RequestParam("title") String title,
 			@RequestParam("content") String content,
 			@RequestParam(value="tagIds", required=false) long[] tagIds) {
+		if (tagIds == null) tagIds = new long[0];
 		long uid = (Long) session.getAttribute(SessionKeys.UID);
 		Blog blog = blogService.blog(uid, title, content, tagIds);
 		if (blog != null) {
 			// Usually
 			tweetService.share(uid, blog);
-			return "true";
+			return true;
 		}
-		else return "false";
+		else return false;
 	}
 }
