@@ -4,6 +4,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>贤者：测试</title>
 	<link href="$!{rs}/css/bootstrap.css" rel="stylesheet" type="text/css" media="screen" />
+	<link href="$!{rs}/css/test.css" rel="stylesheet" type="text/css" media="screen" />
 </head>
 <body>
 $!{include("navbar.httl")}

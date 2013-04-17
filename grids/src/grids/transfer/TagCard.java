@@ -2,18 +2,19 @@ package grids.transfer;
 
 import grids.entity.Tag;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TagCard {
 	private long id;
 	private String name;
-	private List<TagCard> chainUp;
+	private List<TagLabel> chainUp = new ArrayList<>();
 	
 	public TagCard(Tag tag) {
 		id = tag.getId();
 		name = tag.getName();
 		for (Tag node : tag.chainUp()) {
-			chainUp.add(new TagCard(node));
+			chainUp.add(new TagLabel(node));
 		}
 	}
 
@@ -28,7 +29,7 @@ public class TagCard {
 	/**
 	 * @see Tag#chainUp()
 	 */
-	public List<TagCard> getChainUp() {
+	public List<TagLabel> getChainUp() {
 		return chainUp;
 	}
 	

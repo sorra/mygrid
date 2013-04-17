@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	$.get('/grids/tag/card/5', {})
+	$.get('/grids/tag/card/8', {})
 	.done(function(resp){
 		createTagCard(resp).appendTo($('body > .container'));
 	})
@@ -12,6 +12,14 @@ function createTagCard(tagCard) {
 	$tagc = $('.proto > .tag-card').clone();
 	$tagc.text(tagCard.name);
 	$tagc.attr('href', tagCard.id);
-	$tagc.attr('title', tagCard.chainUp);
+
+	var chainTitle ='';
+	for (var i = tagCard.chainUp.length - 1; i > 0; i--) {
+		chainTitle += tagCard.chainUp[i].name;
+		chainTitle += '->';
+	}
+	chainTitle += tagCard.chainUp[0].name;
+
+	$tagc.attr('title', chainTitle);
 	return $tagc;
 }
