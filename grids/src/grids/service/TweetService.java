@@ -53,9 +53,11 @@ public class TweetService {
 	}
 	
 	public void share(long userId, Blog blog) {
+		final int SUM_LEN = 100;
+		String content = blog.getContent();
+		String summary = content.length()>SUM_LEN ? content.substring(0, SUM_LEN) : content;
 		Tweet tweet = new Tweet(
-				"发表了博客：["+blog.getTitle()+"] "
-					+blog.getContent().substring(0, 100),
+				"发表了博客：["+blog.getTitle()+"] "+summary,
 				userRepos.load(userId),
 				new Date(),
 				blog.getTags());

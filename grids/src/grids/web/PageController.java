@@ -28,4 +28,19 @@ public class PageController {
 	public ModelAndView groupPage(@PathVariable int id) {
 		return null;
 	}
+	
+	@RequestMapping("/blogs")
+	public String blogs() {
+		return "blogs.httl";
+	}
+	
+	@RequestMapping("/writeBlog")
+	public String writeBlog() {
+		return "write-blog.httl";
+	}
+	
+	@RequestMapping("/test")
+	public String test() {
+		return "test.httl";
+	}
 }

@@ -15,13 +15,13 @@ $(document).ready(function() {
 	$('form.top-box .btn[type="submit"]').click(function(event){
 		event.preventDefault();
 		var $submit = $(this);
-		$submit.attr('disabled', 'true');
+		$submit.prop('disabled', true);
 		$.post('/grids/post/tweet', {
 			content: $('form.top-box .input').val(),
 			tagIds: []
 		})
 		.always(function(resp){
-			$submit.removeAttr('disabled');
+			$submit.prop('disabled', false);
 		})
 		.done(function(resp){
 			$('form.top-box .input').val('发表成功！');

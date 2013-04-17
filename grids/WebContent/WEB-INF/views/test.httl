@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>贤者：测试</title>
+	<link href="$!{rs}/css/bootstrap.css" rel="stylesheet" type="text/css" media="screen" />
+</head>
+<body>
+$!{include("navbar.httl")}
+<div class="container">
+	<div class="tag-chain">
+
+	</div>
+</div>
+$!{include("proto.httl")}
+<script src="$!{rs}/js/jquery-1.9.1.js" type="text/javascript"></script>
+<script src="$!{rs}/js/tag.js" type="text/javascript"></script>
+</body>
+</html>
