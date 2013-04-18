@@ -1,13 +1,29 @@
 package grids.transfer;
 
+import java.util.List;
+
 import grids.entity.Tag;
 
 public class TagLabel {
 	private long id;
 	private String name;
+	private String chainStr;
 	public TagLabel(Tag tag) {
 		id = tag.getId();
 		name = tag.getName();
+		
+		List<Tag> chainUp = tag.chainUp();
+		if (chainUp.isEmpty()) {
+			chainStr = "";
+		}
+		else {
+			StringBuilder sb = new StringBuilder();
+			for (int i = chainUp.size()-1; i > 0; i--) {
+				sb.append(chainUp.get(i)).append("->");
+			}
+			sb.append(chainUp.get(0));
+			chainStr = sb.toString();
+		}
 	}
 	
 	public long getId() {
@@ -15,6 +31,9 @@ public class TagLabel {
 	}
 	public String getName() {
 		return name;
+	}
+	public String getChainStr() {
+		return chainStr;
 	}
 	
 	@Override

@@ -6,6 +6,8 @@ import grids.service.UserService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/auth")
 public class AuthController {
+	private final static Logger logger = LoggerFactory.getLogger(AuthController.class);
 	private static final String SUCCESS = "success";
 	private static final String FAILURE = "failure";
 	
@@ -27,15 +30,15 @@ public class AuthController {
 	public String login(HttpServletRequest request,
 						@RequestParam("email") String email,
 						@RequestParam("password") String password) {
-		System.out.println("email: " + email + " password: " + password);
+		logger.info("email: {} password: {}", email, password);
 		User user = userService.login(email, password);
 		if (user != null){
 			HttpSession sesison = request.getSession(true);
 			sesison.setAttribute(SessionKeys.UID, user.getId());
-			System.out.println("User " +user.getId() + " logged in.");
+			logger.info("User {} logged in.", user.getId());
 			return "/";
 		} else {
-			System.out.println(email + " login failed.");
+			logger.info("{} login failed.", email);
 			return "/login";
 		}
 	}
@@ -52,7 +55,7 @@ public class AuthController {
 	@RequestMapping(value="/register", method=RequestMethod.POST)
 	@ResponseBody
 	public String register() {
-		System.out.println("register TODO");
+		logger.info("register TODO");
 		return userService.register(null)>=0 ? SUCCESS : FAILURE;
 	}
 }

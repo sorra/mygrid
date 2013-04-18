@@ -3,6 +3,7 @@ package grids.service;
 import grids.entity.Tag;
 import grids.repos.TagRepos;
 import grids.transfer.TagCard;
+import grids.transfer.TagLabel;
 
 import java.util.Collection;
 import java.util.List;
@@ -29,10 +30,13 @@ public class TagService {
 	@Transactional(readOnly=true)
 	public TagCard tagCard(long tagId) {
 		Tag tag = tagRepos.get(tagId);
-		if (tag == null) {
-			return null;
-		}
-		return new TagCard(tag);
+		return tag==null ? null : new TagCard(tag);
+	}
+	
+	@Transactional(readOnly=true)
+	public TagLabel tagLabel(long tagId) {
+		Tag tag = tagRepos.get(tagId);
+		return tag==null ? null : new TagLabel(tag);
 	}
 	
 	@Transactional(readOnly=true)

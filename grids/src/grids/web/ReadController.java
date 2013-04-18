@@ -19,7 +19,7 @@ public class ReadController {
 	@RequestMapping("/istream")
 	@ResponseBody
 	public Stream istream(HttpSession session) {
-		Long uid = (Long) session.getAttribute(SessionKeys.UID);
+		Long uid = AuthUtil.checkLoginUid(session);
 		if (uid == null) {
 			System.out.println("uid is null, so return null stream.");
 			return null;

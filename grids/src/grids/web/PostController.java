@@ -6,6 +6,8 @@ import grids.service.TweetService;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/post")
 public class PostController {
+	private final static Logger logger = LoggerFactory.getLogger(PostController.class);
 	@Autowired
 	private TweetService tweetService;
 	@Autowired
@@ -26,9 +29,11 @@ public class PostController {
 	public boolean tweet(HttpSession session,
 			@RequestParam("content") String content, 
 			@RequestParam(value="tagIds", required=false) long[] tagIds) {
-		System.out.println("post tweet");
+		logger.info("post tweet");
 		if (tagIds == null) tagIds = new long[0];
-		long uid = (long) session.getAttribute(SessionKeys.UID);
+		Long uid = AuthUtil.checkLoginUid(session);
+		if (uid == null) {return false;}
+		
 		tweetService.tweet(uid, content, tagIds);
 		return true;
 	}
@@ -40,13 +45,19 @@ public class PostController {
 			@RequestParam("content") String content,
 			@RequestParam(value="tagIds", required=false) long[] tagIds) {
 		if (tagIds == null) tagIds = new long[0];
-		long uid = (Long) session.getAttribute(SessionKeys.UID);
+		Long uid = AuthUtil.checkLoginUid(session);
+		if (uid == null) {return false;}
+		
 		Blog blog = blogService.blog(uid, title, content, tagIds);
 		if (blog != null) {
 			// Usually
 			tweetService.share(uid, blog);
+			logger.info("post blog {} success", blog.getId());
 			return true;
 		}
-		else return false;
+		else {
+			logger.info("post blog failure");
+			return false;
+		}
 	}
 }

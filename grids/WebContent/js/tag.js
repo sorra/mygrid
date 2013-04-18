@@ -23,3 +23,11 @@ function createTagCard(tagCard) {
 	$tagc.attr('title', chainTitle);
 	return $tagc;
 }
+
+function createTagLabel(tagLabel) {
+	$tl = $('.proto > .tag-label').clone();
+	$tl.text(tagLabel.name);
+	$tl.attr('href', tagLabel.id);
+	$tl.attr('title', tagLabel.chainStr);
+	return $tl;
+}

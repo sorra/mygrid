@@ -34,5 +34,7 @@
 		</div>
 	</div>
 
-	<a class="tag-card" title="">name</a>
+	<a class="tag-label" title="">name</a>
+
+	<div class="tag-card"></div>
 </div>
