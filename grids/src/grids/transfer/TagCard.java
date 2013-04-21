@@ -38,12 +38,13 @@ public class TagCard {
 		if (chainUp.isEmpty()) {
 			return name;
 		}
-		
-		StringBuilder sb= new StringBuilder();
-		for (int i = chainUp.size()-1; i > 0; i--) {
-			sb.append(chainUp.get(i)).append("->");
+		else {
+			StringBuilder sb= new StringBuilder();
+			for (int i = chainUp.size()-1; i >= 0; i--) {
+				sb.append(chainUp.get(i));
+				if(i > 0) sb.append("->");
+			}
+			return sb.toString();
 		}
-		sb.append(chainUp.get(0));
-		return sb.toString();
 	}
 }

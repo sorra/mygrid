@@ -45,7 +45,7 @@ function createTweetCard(card) {
 	if (tags && tags.length > 0) {
 		$tags.html('');
 		$.each(card.tags, function(idx, tag){
-			$('<a></a>').text(tag.name).attr('href', '#tag/'+tag.id).appendTo($tags);
+			createTagLabel(tag).appendTo($tags);
 		});
 	}
 	else {

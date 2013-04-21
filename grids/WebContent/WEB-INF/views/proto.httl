@@ -1,4 +1,4 @@
-<div class="proto">
+<div class="proto" style="display:none;">
 	<div class="tweet item row">
 		<a class="avatar span1" href=""><img src=""/></a>
 		<div class="tweet-part span7">
@@ -37,4 +37,6 @@
 	<a class="tag-label" title="">name</a>
 
 	<div class="tag-card"></div>
+
+	<div class="tag-chain"></div>
 </div>
