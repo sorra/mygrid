@@ -73,7 +73,7 @@ function createCombineGroup(group) {
 	$.each(group.forwards, function(idx, forward){
 		createTweetCard(forward).removeClass('item').appendTo($cg);
 	});
-	createOriginCard(group.origin).removeClass('row').addClass('offset1').appendTo($cg);
+	createOriginCard(group.origin).addClass('offset1').appendTo($cg);
 	return $cg;
 }
 
