@@ -7,6 +7,7 @@
 				<li><a href="#">Public Page</a></li>
 				<li><a href="#">Group Page</a></li>
 				<li><a href="#">Private Page</a></li>
+				<li><a href="$!{base}/writeBlog">Write Blog</a></li>
 			</ul>
 		</div>
 	</div>
