@@ -1,7 +1,7 @@
 <div class="proto" style="display:none;">
 	<div class="tweet item row">
 		<a class="avatar span1" href=""><img src=""/></a>
-		<div class="tweet-part span7">
+		<div class="t-part span7">
 			<div class="row">
 				<a class="author-name" href="#"></a>
 				<p class="content"></p>

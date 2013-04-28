@@ -2,6 +2,7 @@ package grids.repos;
 
 import grids.entity.Tag;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -36,12 +37,26 @@ public class TagRepos extends BaseRepos<Tag> {
 	
 	public Set<Tag> getQueryTags(long[] ids) {
 		Set<Tag> tags = getTags(ids);
+		return getQueryTags(tags);
+	}
+	
+	public Set<Tag> getQueryTags(Collection<Tag> tags) {
 		Set<Tag> queryTags = new HashSet<>();
 		for (Tag node : tags) {
 			queryTags.add(node);
 			queryTags.addAll(node.descendants());
 		}
 		return queryTags;
+	}
+	
+	
+	public boolean noMatch(Collection<Tag> entityTags, Collection<Tag> queryTags) {
+		for (Tag queryTag : queryTags) {
+			if (entityTags.contains(queryTag)) {
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	@Override

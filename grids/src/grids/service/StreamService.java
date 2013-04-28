@@ -1,8 +1,10 @@
 package grids.service;
 
 import grids.domain.TweetOnIdComparator;
+import grids.entity.Blog;
 import grids.entity.Follow;
 import grids.entity.Tweet;
+import grids.transfer.BlogCard;
 import grids.transfer.CombineGroup;
 import grids.transfer.Item;
 import grids.transfer.Stream;
@@ -18,23 +20,30 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional(readOnly=true)
 public class StreamService {
 	@Autowired
 	private FollowRepos followRepos;
 	@Autowired
+	private TagRepos tagRepos;
+	@Autowired
 	private TweetRepos tweetRepos;
 	@Autowired
 	private CommentRepos commentRepos;
+	@Autowired
+	private BlogRepos blogRepos;
 	
+	/*
+	 * TODO Deliminate transaction scope
+	 */
+	@Transactional(readOnly=true)
 	public Stream istream(long userId) {
 		
 		//XXX consider fetch_size limit
 		List<Tweet> tweets = new ArrayList<>();
-		tweets.addAll(tweetRepos.tweets(userId));
+		tweets.addAll(tweetRepos.tweetsByAuthor(userId));
 		List<Follow> followings = followRepos.followings(userId);
 		for (Follow follow : followings) {
-			tweets.addAll(tweetRepos.tweets(
+			tweets.addAll(tweetRepos.tweetsByAuthor(
 					follow.getTarget().getId(), follow.getTags()));
 		}
 		
@@ -102,4 +111,19 @@ public class StreamService {
 		return null;
 	}
 
+	@Transactional(readOnly=true)
+	public Stream tagStream(long tagId) {
+//		List<Tweet> tweets = tweetRepos.tweets(tagRepos.get(tagId).descendants());
+		
+		Stream stream = new Stream(0);
+//		for (Tweet tweet : tweets) {
+//			stream.add(new TweetCard(tweet, 42, 42));
+//		}
+		return stream;
+	}
+
+	@Transactional(readOnly=true)
+	public Stream personalStream(long userId) {
+		return null;
+	}
 }

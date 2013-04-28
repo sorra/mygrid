@@ -1,43 +1,47 @@
 package grids.repos;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
-import org.hibernate.Query;
-import org.springframework.stereotype.Repository;
-
 import grids.entity.Tag;
 import grids.entity.Tweet;
 
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+
+import org.hibernate.Query;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 @Repository
 public class TweetRepos extends BaseRepos<Tweet> {
+	@Autowired
+	private TagRepos tagRepos;
 
-	public List<Tweet> tweets(long authorId) {
+	public List<Tweet> tweetsByAuthor(long authorId) {
 		Query query = session().createQuery("from Tweet t where t.author.id=:authorId")
 				.setLong("authorId", authorId);
 		return query.list();
 	}
 	
-	public List<Tweet> tweets(long authorId, Collection<Tag> tags) {
-		List<Tweet> tweets = tweets(authorId);
+	public List<Tweet> tweetsByAuthor(long authorId, Collection<Tag> tags) {
+		List<Tweet> tweets = tweetsByAuthor(authorId);
 		if (tags.isEmpty()) {
 			return tweets;
 		}
 		else {
-			Collection<Tag> queryTags = getQueryTags(tags);
-			
-			Iterator<Tweet> iter = tweets.iterator();
-			while (iter.hasNext()) {
-				if (noMatch(iter.next(), queryTags)) {
+			Collection<Tag> queryTags = tagRepos.getQueryTags(tags);
+			for (Iterator<Tweet> iter = tweets.iterator();iter.hasNext();) {
+				if (tagRepos.noMatch(iter.next().getTags(), queryTags)) {
 					iter.remove();
 				}
 			}
 			return tweets;
 		}
 	}
+	
+//	public List<Tweet> tweetsByTag(long tagId) {
+//		
+//		return null;
+//	}
 	
 	public List<Tweet> findByOrigin(long originId) {
 		Query query = session().createQuery(
@@ -51,24 +55,6 @@ public class TweetRepos extends BaseRepos<Tweet> {
 				"select count(*) from Tweet t  where t.origin.id = :originId")
 				.setLong("originId", originId);
 		return (long) query.uniqueResult();
-	}
-	
-	private Set<Tag> getQueryTags(Collection<Tag> tags) {
-		Set<Tag> queryTags = new HashSet<>();
-		for (Tag tag : tags) {
-			queryTags.add(tag);
-			queryTags.addAll(tag.descendants());
-		}
-		return queryTags;
-	}
-	
-	private boolean noMatch(Tweet tweet, Collection<Tag> queryTags) {
-		for (Tag queryTag : queryTags) {
-			if (tweet.getTags().contains(queryTag)) {
-				return false;
-			}
-		}
-		return true;
 	}
 
 	@Override
