@@ -13,12 +13,20 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class TweetRepos extends BaseRepos<Tweet> {
+	private static final int MAX_RESULTS = 1000;
 	@Autowired
 	private TagRepos tagRepos;
 
+	public List<Tweet> tweets(Collection<Tag> tags) {
+		Query query = session().createQuery("from Tweet t").setMaxResults(MAX_RESULTS);
+		//XXX filter tags
+		return query.list();
+	}
+	
 	public List<Tweet> tweetsByAuthor(long authorId) {
 		Query query = session().createQuery("from Tweet t where t.author.id=:authorId")
-				.setLong("authorId", authorId);
+				.setLong("authorId", authorId)
+				.setMaxResults(MAX_RESULTS);
 		return query.list();
 	}
 	

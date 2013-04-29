@@ -31,13 +31,22 @@ public class StreamService {
 	private CommentRepos commentRepos;
 	@Autowired
 	private BlogRepos blogRepos;
-	
-	/*
-	 * TODO Deliminate transaction scope
-	 */
+
 	@Transactional(readOnly=true)
-	public Stream istream(long userId) {
+	public Stream istream(long userId) {	
+		List<TweetCard> tcs = getTweetsAsCards(userId);
 		
+		Stream stream = new Stream(userId);
+		Collections.sort(tcs, new TweetOnIdComparator());
+		// Select the top items, then go to higher sort
+		if (FETCH_SIZE < tcs.size()) {tcs = tcs.subList(0, FETCH_SIZE-1);}
+		
+		stream.addAll(higherSort(tcs));
+		
+		return stream;
+	}
+
+	private List<TweetCard> getTweetsAsCards(long userId) {
 		//XXX consider fetch_size limit
 		List<Tweet> tweets = new ArrayList<>();
 		tweets.addAll(tweetRepos.tweetsByAuthor(userId));
@@ -55,19 +64,11 @@ public class StreamService {
 					commentRepos.commentCount(tweet.getId())
 					));
 		}
-		
-		Stream stream = new Stream(userId);
-		Collections.sort(tcs, new TweetOnIdComparator());
-		// Select the top items, then go to higher sort
-		tcs = tcs.subList(0, FETCH_SIZE-1);
-		
-		stream.addAll(higherSort(tcs));
-		
-		return stream;
+		return tcs;
 	}
 	
 	private List<Item> higherSort(List<TweetCard> tcs) {
-		List<Item> cleanList = new ArrayList<>(FETCH_SIZE);
+		List<Item> cleanList = new ArrayList<>();
 		cleanList.addAll(tcs);
 		
 		//TODO Pull-near
@@ -120,12 +121,12 @@ public class StreamService {
 
 	@Transactional(readOnly=true)
 	public Stream tagStream(long tagId) {
-//		List<Tweet> tweets = tweetRepos.tweets(tagRepos.get(tagId).descendants());
+		List<Tweet> tweets = tweetRepos.tweets(tagRepos.get(tagId).descendants());
 		
 		Stream stream = new Stream(0);
-//		for (Tweet tweet : tweets) {
-//			stream.add(new TweetCard(tweet, 42, 42));
-//		}
+		for (Tweet tweet : tweets) {
+			stream.add(new TweetCard(tweet, 42, 42));
+		}
 		return stream;
 	}
 
