@@ -19,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class StreamService {
+	private static final int FETCH_SIZE = 20;
+	
 	@Autowired
 	private FollowRepos followRepos;
 	@Autowired
@@ -56,7 +58,8 @@ public class StreamService {
 		
 		Stream stream = new Stream(userId);
 		Collections.sort(tcs, new TweetOnIdComparator());
-		// Select the top 20 items, then go to higher sort
+		// Select the top items, then go to higher sort
+		tcs = tcs.subList(0, FETCH_SIZE-1);
 		
 		stream.addAll(higherSort(tcs));
 		
@@ -64,6 +67,9 @@ public class StreamService {
 	}
 	
 	private List<Item> higherSort(List<TweetCard> tcs) {
+		List<Item> cleanList = new ArrayList<>(FETCH_SIZE);
+		cleanList.addAll(tcs);
+		
 		//TODO Pull-near
 		return combine(tcs);
 	}
