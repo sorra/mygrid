@@ -1,5 +1,6 @@
 package grids.web;
 
+import grids.service.BlogService;
 import grids.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,20 +14,29 @@ import org.springframework.web.servlet.ModelAndView;
 public class PageController {
 	@Autowired
 	UserService userService;
+	@Autowired
+	BlogService blogService;
 	
 	@RequestMapping("/public/{id}")
-	public ModelAndView publicPage(@PathVariable int id) {
+	public ModelAndView publicPage(@PathVariable long id) {
 		return null;
 	}
 	
 	@RequestMapping("/private/{id}")
-	public ModelAndView privatePage(@PathVariable int id) {
+	public ModelAndView privatePage(@PathVariable long id) {
 		return null;
 	}
 	
 	@RequestMapping("/group/{id}")
-	public ModelAndView groupPage(@PathVariable int id) {
+	public ModelAndView groupPage(@PathVariable long id) {
 		return null;
+	}
+	
+	@RequestMapping("/blog/{id}")
+	public ModelAndView blogPage(@PathVariable long id) {
+		ModelAndView mav = new ModelAndView("blog.httl");
+		mav.getModelMap().addAttribute("blog", blogService.getBlogData(id));
+		return mav;
 	}
 	
 	@RequestMapping("/blogs")

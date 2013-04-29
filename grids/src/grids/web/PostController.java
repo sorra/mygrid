@@ -34,7 +34,7 @@ public class PostController {
 		Long uid = AuthUtil.checkLoginUid(session);
 		if (uid == null) {return false;}
 		
-		tweetService.tweet(uid, content, tagIds);
+		tweetService.newTweet(uid, content, tagIds);
 		return true;
 	}
 	
@@ -48,7 +48,7 @@ public class PostController {
 		Long uid = AuthUtil.checkLoginUid(session);
 		if (uid == null) {return false;}
 		
-		Blog blog = blogService.blog(uid, title, content, tagIds, true);
+		Blog blog = blogService.newBlog(uid, title, content, tagIds, true);
 		if (blog != null) {
 			logger.info("post blog {} success", blog.getId());
 			return true;

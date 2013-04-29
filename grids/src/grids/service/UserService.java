@@ -53,8 +53,8 @@ public class UserService {
 			return null;
 		}
 		return new UserCard(user,
-				followRepos.followings(userId).size(),
-				followRepos.followers(userId).size());
+				followRepos.followingCount(userId),
+				followRepos.followerCount(userId));
 	}
 
 	private boolean existsEmail(User user) {

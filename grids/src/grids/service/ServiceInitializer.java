@@ -80,19 +80,19 @@ public class ServiceInitializer {
 	}
 	
 	private void post() {
-		blogService.blog(admin, "Alpha",
+		blogService.newBlog(admin, "Alpha",
 				"Manfspaspdvopdopdsvsa[\nsalspsp\nLaspewogvs",
 				new long[]{1, 2}, true);
-		blogService.blog(bethia, "Beta",
+		blogService.newBlog(bethia, "Beta",
 				"Gbdsvkbnklr[\nsalspsp\nLas\n32",
 				new long[]{1, 2}, true);
-		blogService.blog(centos, "Gamma",
+		blogService.newBlog(centos, "Gamma",
 				"GVIWSWOWdv*&[\n(@)\tpsp\nT^HJ",
 				new long[]{1, 2}, true);
-		long a1 = tweetService.tweet(admin, "Post at root.", new long[]{root}).getId();
-		long a2 = tweetService.tweet(admin, "HUUSF View age.", new long[]{view}).getId();
-		long b1 = tweetService.tweet(bethia, "Music better!", new long[]{music}).getId();
-		long c1 = tweetService.tweet(centos, "Tech status", new long[]{tech}).getId();
+		long a1 = tweetService.newTweet(admin, "Post at root.", new long[]{root}).getId();
+		long a2 = tweetService.newTweet(admin, "HUUSF View age.", new long[]{view}).getId();
+		long b1 = tweetService.newTweet(bethia, "Music better!", new long[]{music}).getId();
+		long c1 = tweetService.newTweet(centos, "Tech status", new long[]{tech}).getId();
 		
 		tweetService.forward(admin, "forward", a1);
 		tweetService.forward(bethia, "OK, good", a2);

@@ -32,6 +32,14 @@ public class FollowRepos extends BaseRepos<Follow>{
 		return query.list();
 	}
 	
+	public int followingCount(long userId) {
+		return followings(userId).size();
+	}
+	
+	public int followerCount(long userId) {
+		return followers(userId).size();
+	}
+	
 	@Override
 	protected Class<Follow> getEntityClass() {
 		return Follow.class;

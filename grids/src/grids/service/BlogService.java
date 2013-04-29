@@ -3,8 +3,11 @@ package grids.service;
 import grids.entity.Blog;
 import grids.entity.Tweet;
 import grids.repos.BlogRepos;
+import grids.repos.FollowRepos;
 import grids.repos.TagRepos;
 import grids.repos.UserRepos;
+import grids.transfer.BlogData;
+import grids.transfer.UserCard;
 
 import java.util.Date;
 import java.util.List;
@@ -23,11 +26,19 @@ public class BlogService {
 	@Autowired
 	private TagRepos tagRepos;
 	@Autowired
+	private FollowRepos followRepos;
+	@Autowired
 	private TweetService tweetService;
 	
 	@Transactional(readOnly=true)
-	public Blog get(long blogId) {
-		return blogRepos.get(blogId);
+	public BlogData getBlogData(long blogId) {
+		Blog blog = blogRepos.get(blogId);
+		long authorId = blog.getAuthor().getId();
+		return new BlogData(blog,
+				new UserCard(blog.getAuthor(),
+						followRepos.followingCount(authorId),
+						followRepos.followerCount(authorId))
+		);
 	}
 	
 	/**
@@ -39,7 +50,7 @@ public class BlogService {
 		return blogRepos.connectTweets(blogId);
 	}
 	
-	public Blog blog(long userId, String title, String content, long[] tagIds, boolean share) {
+	public Blog newBlog(long userId, String title, String content, long[] tagIds, boolean share) {
 		Blog blog = new Blog(title, content, userRepos.load(userId), new Date(), tagRepos.getTags(tagIds));
 		blogRepos.save(blog);
 		if(share) {tweetService.share(userId, blog);}

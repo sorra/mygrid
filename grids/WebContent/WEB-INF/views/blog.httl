@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>博客文章</title>
+</head>
+<body>
+$!{include("navbar.httl")}
+<div class="container">
+	<div class="author"></div>
+	<div class="blog">
+		<p class="title">${blog.title}</p>
+		<p class="content">${blog.content}</p>
+	</div>
+</div>
+</body>
+</html>

@@ -7,9 +7,11 @@ import grids.repos.CommentRepos;
 import grids.repos.TagRepos;
 import grids.repos.TweetRepos;
 import grids.repos.UserRepos;
+import grids.transfer.TweetCard;
 
 import java.util.Collection;
 import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,11 +29,13 @@ public class TweetService {
 	private CommentRepos commentRepos;
 	
 	@Transactional(readOnly=true)
-	public Tweet get(long tweetId) {
-		return tweetRepos.get(tweetId);
+	public TweetCard getTweetCard(long tweetId) {
+		return new TweetCard(tweetRepos.get(tweetId),
+				getForwardCount(tweetId),
+				getCommentCount(tweetId));
 	}
 	
-	public Tweet tweet(long userId, String content, long[] tagIds) {
+	public Tweet newTweet(long userId, String content, long[] tagIds) {
 		Tweet tweet = new Tweet(content, userRepos.load(userId), new Date(),
 				tagRepos.getTags(tagIds));
 		tweetRepos.save(tweet);
@@ -44,8 +48,20 @@ public class TweetService {
 		commentRepos.save(comment);
 	}
 	
+	public Collection<Tweet> getForwards(long originId) {
+		return tweetRepos.findByOrigin(originId);
+	}
+	
 	public Collection<Comment> getComments(long sourceId) {
 		return tweetRepos.load(sourceId).getComments();
+	}
+	
+	public int getForwardCount(long originId) {
+		return getForwards(originId).size();
+	}
+	
+	public int getCommentCount(long sourceId) {
+		return getComments(sourceId).size();
 	}
 	
 	public void share(long userId, String content, String sourceUrl) {
