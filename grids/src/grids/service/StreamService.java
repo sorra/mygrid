@@ -1,10 +1,8 @@
 package grids.service;
 
 import grids.domain.TweetOnIdComparator;
-import grids.entity.Blog;
 import grids.entity.Follow;
 import grids.entity.Tweet;
-import grids.transfer.BlogCard;
 import grids.transfer.CombineGroup;
 import grids.transfer.Item;
 import grids.transfer.Stream;

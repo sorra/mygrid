@@ -48,7 +48,7 @@ public class PostController {
 		Long uid = AuthUtil.checkLoginUid(session);
 		if (uid == null) {return false;}
 		
-		Blog blog = blogService.blog(uid, title, content, tagIds);
+		Blog blog = blogService.blog(uid, title, content, tagIds, true);
 		if (blog != null) {
 			// Usually
 			tweetService.share(uid, blog);

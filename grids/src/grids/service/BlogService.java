@@ -22,6 +22,8 @@ public class BlogService {
 	private UserRepos userRepos;
 	@Autowired
 	private TagRepos tagRepos;
+	@Autowired
+	private TweetService tweetService;
 	
 	@Transactional(readOnly=true)
 	public Blog get(long blogId) {
@@ -37,9 +39,10 @@ public class BlogService {
 		return blogRepos.connectTweets(blogId);
 	}
 	
-	public Blog blog(long userId, String title, String content, long[] tagIds) {
+	public Blog blog(long userId, String title, String content, long[] tagIds, boolean share) {
 		Blog blog = new Blog(title, content, userRepos.load(userId), new Date(), tagRepos.getTags(tagIds));
 		blogRepos.save(blog);
+		if(share) {tweetService.share(userId, blog);}
 		return blog;
 	}
 	

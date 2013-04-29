@@ -82,13 +82,13 @@ public class ServiceInitializer {
 	private void post() {
 		blogService.blog(admin, "Alpha",
 				"Manfspaspdvopdopdsvsa[\nsalspsp\nLaspewogvs",
-				new long[]{1, 2});
+				new long[]{1, 2}, true);
 		blogService.blog(bethia, "Beta",
 				"Gbdsvkbnklr[\nsalspsp\nLas\n32",
-				new long[]{1, 2});
+				new long[]{1, 2}, true);
 		blogService.blog(centos, "Gamma",
 				"GVIWSWOWdv*&[\n(@)\tpsp\nT^HJ",
-				new long[]{1, 2});
+				new long[]{1, 2}, true);
 		long a1 = tweetService.tweet(admin, "Post at root.", new long[]{root}).getId();
 		long a2 = tweetService.tweet(admin, "HUUSF View age.", new long[]{view}).getId();
 		long b1 = tweetService.tweet(bethia, "Music better!", new long[]{music}).getId();
