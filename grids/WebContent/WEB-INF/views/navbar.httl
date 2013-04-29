@@ -3,7 +3,7 @@
 		<div class="container">
 			<a class="brand" href="#">Sage</a>
 			<ul class="nav">
-				<li class="active"><a href="#">Home</a></li>
+				<li class="active"><a href="$!{base}">Home</a></li>
 				<li><a href="#">Public Page</a></li>
 				<li><a href="#">Group Page</a></li>
 				<li><a href="#">Private Page</a></li>

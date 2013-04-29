@@ -34,12 +34,12 @@
 	border-left: solid 1px #e5e5e5;
 	border-right: solid 1px #e5e5e5;
 }
-.stream .combine>.row{
-	margin: 0;
+.stream .combine > .forward{
+	margin-left: 0;
 }
-.stream .combine .tweet{
-	
-} 
+.stream .combine > .origin{
+	margin-left: 80px;
+}
 
 body>.container{
 	margin-top: 50px;

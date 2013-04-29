@@ -71,7 +71,7 @@ function createOriginCard(origin) {
 function createCombineGroup(group) {
 	var $cg = $('.proto > .combine').clone();
 	$.each(group.forwards, function(idx, forward){
-		createTweetCard(forward).removeClass('item').appendTo($cg);
+		createTweetCard(forward).removeClass('item').addClass('forward').appendTo($cg);
 	});
 	createOriginCard(group.origin).addClass('offset1').appendTo($cg);
 	return $cg;
