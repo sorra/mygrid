@@ -55,12 +55,15 @@ public class StreamService {
 		}
 		
 		Stream stream = new Stream(userId);
+		Collections.sort(tcs, new TweetOnIdComparator());
+		// Select the top 20 items, then go to higher sort
+		
 		stream.addAll(higherSort(tcs));
+		
 		return stream;
 	}
 	
 	private List<Item> higherSort(List<TweetCard> tcs) {
-		Collections.sort(tcs, new TweetOnIdComparator());
 		//TODO Pull-near
 		return combine(tcs);
 	}
