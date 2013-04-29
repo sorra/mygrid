@@ -32,7 +32,7 @@ public class Tweet {
 		this.content = content;
 		this.author = author;
 		this.time = time;
-		this.tags = tags;
+		this.tags.addAll(tags);
 	}
 	
 	public Tweet(String content, User author, Date time, Tweet origin) {
@@ -75,5 +75,27 @@ public class Tweet {
 	@Override
 	public String toString() {
 		return author + ": " + content + tags;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (id ^ (id >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Tweet other = (Tweet) obj;
+		if (id != other.id)
+			return false;
+		return true;
 	}
 }

@@ -28,7 +28,7 @@ public class Blog {
 		this.content = content;
 		this.author = author;
 		this.time = time;
-		this.tags = tags;
+		this.tags.addAll(tags);
 	}
 
 	@Id
@@ -57,5 +57,27 @@ public class Blog {
 	public String toString() {
 		return author + ": " + title + tags
 				+ "\n" + content;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (id ^ (id >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Blog other = (Blog) obj;
+		if (id != other.id)
+			return false;
+		return true;
 	}
 }

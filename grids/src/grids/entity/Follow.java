@@ -22,7 +22,7 @@ public class Follow {
 	public Follow(User source, User target, Set<Tag> tags) {
 		this.source = source;
 		this.target = target;
-		this.tags = tags;
+		this.tags.addAll(tags);
 	}
 
 	@Id
