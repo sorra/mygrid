@@ -16,8 +16,8 @@ public class SceneTest {
 	
 	UserService userService;
 	RelationService relationService;
-	TweetService tweetService;
-	BlogService blogService;
+	TweetPostService tweetService;
+	BlogPostService blogService;
 	TagService tagService;
 	StreamService streamService;
 	PageService pageService;
@@ -27,8 +27,8 @@ public class SceneTest {
 		ApplicationContext ac = new ClassPathXmlApplicationContext("root-context.xml");
 		userService = ac.getBean(UserService.class);
 		relationService = ac.getBean(RelationService.class);
-		tweetService = ac.getBean(TweetService.class);
-		blogService = ac.getBean(BlogService.class);
+		tweetService = ac.getBean(TweetPostService.class);
+		blogService = ac.getBean(BlogPostService.class);
 		tagService = ac.getBean(TagService.class);
 		streamService = ac.getBean(StreamService.class);
 		pageService = ac.getBean(PageService.class);

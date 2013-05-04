@@ -18,6 +18,6 @@ public class TagController {
 	@RequestMapping("/card/{id}")
 	@ResponseBody
 	public TagCard tagCard(@PathVariable long id) {
-		return tagService.tagCard(id);
+		return tagService.getTagCard(id);
 	}
 }

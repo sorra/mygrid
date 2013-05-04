@@ -1,8 +1,8 @@
 package grids.web;
 
 import grids.entity.Blog;
-import grids.service.BlogService;
-import grids.service.TweetService;
+import grids.service.BlogPostService;
+import grids.service.TweetPostService;
 
 import javax.servlet.http.HttpSession;
 
@@ -20,9 +20,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class PostController {
 	private final static Logger logger = LoggerFactory.getLogger(PostController.class);
 	@Autowired
-	private TweetService tweetService;
+	private TweetPostService tweetService;
 	@Autowired
-	private BlogService blogService;
+	private BlogPostService blogService;
 	
 	@RequestMapping(value="/tweet", method=RequestMethod.POST)
 	@ResponseBody

@@ -1,16 +1,11 @@
 package grids.service;
 
 import grids.entity.Blog;
-import grids.entity.Tweet;
 import grids.repos.BlogRepos;
-import grids.repos.FollowRepos;
 import grids.repos.TagRepos;
 import grids.repos.UserRepos;
-import grids.transfer.BlogData;
-import grids.transfer.UserCard;
 
 import java.util.Date;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class BlogService {
+public class BlogPostService {
 	@Autowired
 	private BlogRepos blogRepos;
 	@Autowired
@@ -26,29 +21,7 @@ public class BlogService {
 	@Autowired
 	private TagRepos tagRepos;
 	@Autowired
-	private FollowRepos followRepos;
-	@Autowired
-	private TweetService tweetService;
-	
-	@Transactional(readOnly=true)
-	public BlogData getBlogData(long blogId) {
-		Blog blog = blogRepos.get(blogId);
-		long authorId = blog.getAuthor().getId();
-		return new BlogData(blog,
-				new UserCard(blog.getAuthor(),
-						followRepos.followingCount(authorId),
-						followRepos.followerCount(authorId))
-		);
-	}
-	
-	/**
-	 * Experimental
-	 * @return a sequential list of connected tweets
-	 */
-	@Transactional(readOnly=true)
-	public List<Tweet> connectTweets(long blogId) {
-		return blogRepos.connectTweets(blogId);
-	}
+	private TweetPostService tweetService;
 	
 	public Blog newBlog(long userId, String title, String content, long[] tagIds, boolean share) {
 		Blog blog = new Blog(title, content, userRepos.load(userId), new Date(), tagRepos.getTags(tagIds));

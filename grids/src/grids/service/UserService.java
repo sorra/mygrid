@@ -24,6 +24,17 @@ public class UserService {
 	public User get(Long id) {
 		return userRepos.get(id);
 	}
+	
+	@Transactional(readOnly=true)
+	public UserCard getUserCard(long userId) {
+		User user = userRepos.get(userId);
+		if (user == null) {
+			return null;
+		}
+		return new UserCard(user,
+				followRepos.followingCount(userId),
+				followRepos.followerCount(userId));
+	}
 
 	@Transactional(readOnly=true)
 	public User login(String email, String password) {
@@ -44,17 +55,6 @@ public class UserService {
 		
 		userRepos.save(user);
 		return user.getId();
-	}
-	
-	@Transactional(readOnly=true)
-	public UserCard userCard(long userId) {
-		User user = userRepos.get(userId);
-		if (user == null) {
-			return null;
-		}
-		return new UserCard(user,
-				followRepos.followingCount(userId),
-				followRepos.followerCount(userId));
 	}
 
 	private boolean existsEmail(User user) {

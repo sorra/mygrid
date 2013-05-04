@@ -11,6 +11,7 @@ public class BlogData {
 	
 	private long id;
 	private UserCard author;
+	private String title;
 	private String content;
 	private Date time;
 	private List<TagLabel> tags;
@@ -18,6 +19,7 @@ public class BlogData {
 	public BlogData(Blog blog, UserCard author) {
 		id = blog.getId();
 		this.author = author;
+		title = blog.getTitle();
 		content = blog.getContent();
 		time = blog.getTime();
 		tags = new ArrayList<>();
@@ -32,6 +34,10 @@ public class BlogData {
 	
 	public UserCard getAuthor() {
 		return author;
+	}
+	
+	public String getTitle() {
+		return title;
 	}
 	
 	public String getContent() {

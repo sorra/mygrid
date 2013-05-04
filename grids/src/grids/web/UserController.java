@@ -19,7 +19,7 @@ public class UserController {
 	@RequestMapping("/card/{id}")
 	@ResponseBody
 	public UserCard userCard(@PathVariable long id) {
-		return userService.userCard(id);
+		return userService.getUserCard(id);
 	}
 	
 	@RequestMapping("/info/{id}")

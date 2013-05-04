@@ -1,16 +1,28 @@
 <!DOCTYPE html>
+#set(BlogData blog, List<TweetCard> tweets)
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>博客文章</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>${blog.title}</title>
+	<link href="$!{rs}/css/bootstrap.css" rel="stylesheet" type="text/css" media="screen" />
+	<style type="text/css">
+	#container{
+		margin-top: 50px;
+	}
+	</style>
 </head>
 <body>
 $!{include("navbar.httl")}
-<div class="container">
+<div class="container" id="container">
 	<div class="author"></div>
 	<div class="blog">
 		<p class="title">${blog.title}</p>
 		<p class="content">${blog.content}</p>
+	</div>
+	<div class="tweets">
+		#for(tweet : tweets)
+		<p>${tweet.toString}</p>
+		#end
 	</div>
 </div>
 </body>

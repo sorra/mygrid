@@ -28,13 +28,13 @@ public class TagService {
 	}
 	
 	@Transactional(readOnly=true)
-	public TagCard tagCard(long tagId) {
+	public TagCard getTagCard(long tagId) {
 		Tag tag = tagRepos.get(tagId);
 		return tag==null ? null : new TagCard(tag);
 	}
 	
 	@Transactional(readOnly=true)
-	public TagLabel tagLabel(long tagId) {
+	public TagLabel getTagLabel(long tagId) {
 		Tag tag = tagRepos.get(tagId);
 		return tag==null ? null : new TagLabel(tag);
 	}

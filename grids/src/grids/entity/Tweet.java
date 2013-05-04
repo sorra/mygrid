@@ -21,7 +21,8 @@ public class Tweet {
 	private String content;
 	private User author;
 	private Date time;
-	private Tweet origin = null; 
+	private Tweet origin = null;
+	private String sourceUrl = null;
 	private Set<Tag> tags = new HashSet<>();
 	private Collection<Comment> comments = new ArrayList<>();
 
@@ -44,6 +45,13 @@ public class Tweet {
 			throw new IllegalArgumentException("tweet's origin should not be nested!");
 		}
 	}
+	
+	public Tweet(String content, User author, Date time, Blog sourceBlog) {
+		this.content = content;
+		this.author = author;
+		this.time = time;
+		sourceUrl = EntityConstants.BLOG_PATH + sourceBlog.getId();
+	}
 
 	@Id
 	@GeneratedValue
@@ -64,6 +72,9 @@ public class Tweet {
 	public Tweet getOrigin() {return origin;}
 	public void setOrigin(Tweet origin) {this.origin = origin;}
 
+	public String getSourceUrl() {return sourceUrl;}
+	public void setSourceUrl(String sourceUrl) {this.sourceUrl = sourceUrl;}
+	
 	@ManyToMany(fetch=FetchType.EAGER)
 	public Set<Tag> getTags() {return tags;}
 	public void setTags(Set<Tag> tags) {this.tags = tags;}

@@ -22,6 +22,8 @@ public class StreamService {
 	private static final int FETCH_SIZE = 20;
 	
 	@Autowired
+	private TweetReadService tweetReadService;
+	@Autowired
 	private FollowRepos followRepos;
 	@Autowired
 	private TagRepos tagRepos;
@@ -36,7 +38,7 @@ public class StreamService {
 	public Stream istream(long userId) {	
 		List<TweetCard> tcs = getTweetsAsCards(userId);
 		
-		Stream stream = new Stream(userId);
+		Stream stream = new Stream();
 		Collections.sort(tcs, new TweetOnIdComparator());
 		// Select the top items, then go to higher sort
 		if (FETCH_SIZE < tcs.size()) {tcs = tcs.subList(0, FETCH_SIZE-1);}
@@ -123,9 +125,9 @@ public class StreamService {
 	public Stream tagStream(long tagId) {
 		List<Tweet> tweets = tweetRepos.tweets(tagRepos.get(tagId).descendants());
 		
-		Stream stream = new Stream(0);
+		Stream stream = new Stream();
 		for (Tweet tweet : tweets) {
-			stream.add(new TweetCard(tweet, 42, 42));
+			stream.add(tweetReadService.getTweetCard(tweet));
 		}
 		return stream;
 	}
