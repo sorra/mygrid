@@ -11,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping
@@ -23,17 +22,17 @@ public class PageController {
 	BlogReadService blogReadService;
 	
 	@RequestMapping("/public/{id}")
-	public ModelAndView publicPage(@PathVariable long id) {
+	public String publicPage(@PathVariable long id) {
 		return null;
 	}
 	
 	@RequestMapping("/private/{id}")
-	public ModelAndView privatePage(@PathVariable long id) {
+	public String privatePage(@PathVariable long id) {
 		return null;
 	}
 	
 	@RequestMapping("/group/{id}")
-	public ModelAndView groupPage(@PathVariable long id) {
+	public String groupPage(@PathVariable long id) {
 		return null;
 	}
 	
@@ -41,7 +40,8 @@ public class PageController {
 	public String blogPage(@PathVariable long id, ModelMap model) {
 		BlogData blog = blogReadService.getBlogData(id);
 		if (blog == null) {
-			logger.info("blog {} is null", id);
+			logger.info("blog {} is null!", id);
+			return "redirect:/";
 		}
 		
 		model.addAttribute("blog", blog)

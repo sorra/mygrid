@@ -50,6 +50,7 @@ public class Tweet {
 		this.content = content;
 		this.author = author;
 		this.time = time;
+		tags.addAll(sourceBlog.getTags());
 		sourceUrl = EntityConstants.BLOG_PATH + sourceBlog.getId();
 	}
 

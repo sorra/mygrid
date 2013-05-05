@@ -51,7 +51,7 @@ public class TweetPostService {
 				"发表了博客：["+blog.getTitle()+"] "+summary,
 				userRepos.load(userId),
 				new Date(),
-				blog.getTags());
+				blog);
 		tweetRepos.save(tweet);
 	}
 	
