@@ -24,7 +24,7 @@ public class BlogReadService {
 	private TweetReadService tweetReadService;
 
 	/**
-	 * null if not found
+	 * @return blogData | null
 	 */
 	public BlogData getBlogData(long blogId) {
 		Blog blog = blogRepos.get(blogId);

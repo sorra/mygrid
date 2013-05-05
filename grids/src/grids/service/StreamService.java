@@ -1,7 +1,6 @@
 package grids.service;
 
 import grids.domain.TweetOnIdComparator;
-import grids.entity.Follow;
 import grids.entity.Tweet;
 import grids.transfer.CombineGroup;
 import grids.transfer.Item;
@@ -15,7 +14,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class StreamService {
@@ -34,9 +32,8 @@ public class StreamService {
 	@Autowired
 	private BlogRepos blogRepos;
 
-	@Transactional(readOnly=true)
 	public Stream istream(long userId) {	
-		List<TweetCard> tcs = getTweetsAsCards(userId);
+		List<TweetCard> tcs = tweetReadService.getIstreamTweetCards(userId);
 		
 		Stream stream = new Stream();
 		Collections.sort(tcs, new TweetOnIdComparator());
@@ -48,27 +45,6 @@ public class StreamService {
 		return stream;
 	}
 
-	private List<TweetCard> getTweetsAsCards(long userId) {
-		//XXX consider fetch_size limit
-		List<Tweet> tweets = new ArrayList<>();
-		tweets.addAll(tweetRepos.tweetsByAuthor(userId));
-		List<Follow> followings = followRepos.followings(userId);
-		for (Follow follow : followings) {
-			tweets.addAll(tweetRepos.tweetsByAuthor(
-					follow.getTarget().getId(), follow.getTags()));
-		}
-		
-		List<TweetCard> tcs = new ArrayList<>();
-		for (Tweet tweet : tweets) {
-			// How to optimize the counting, by session cache?
-			tcs.add(new TweetCard(tweet,
-					tweetRepos.forwardCount(tweet.getId()),
-					commentRepos.commentCount(tweet.getId())
-					));
-		}
-		return tcs;
-	}
-	
 	private List<Item> higherSort(List<TweetCard> tcs) {
 		List<Item> cleanList = new ArrayList<>();
 		cleanList.addAll(tcs);
@@ -121,7 +97,6 @@ public class StreamService {
 		return null;
 	}
 
-	@Transactional(readOnly=true)
 	public Stream tagStream(long tagId) {
 		List<Tweet> tweets = tweetRepos.tweets(tagRepos.get(tagId).descendants());
 		
@@ -132,7 +107,6 @@ public class StreamService {
 		return stream;
 	}
 
-	@Transactional(readOnly=true)
 	public Stream personalStream(long userId) {
 		return null;
 	}
