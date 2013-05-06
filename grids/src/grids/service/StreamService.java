@@ -1,6 +1,5 @@
 package grids.service;
 
-import grids.domain.TweetOnIdComparator;
 import grids.entity.Tweet;
 import grids.transfer.CombineGroup;
 import grids.transfer.Item;
@@ -9,7 +8,6 @@ import grids.transfer.TweetCard;
 import grids.repos.*;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,12 +32,10 @@ public class StreamService {
 
 	public Stream istream(long userId) {	
 		List<TweetCard> tcs = tweetReadService.getIstreamTweetCards(userId);
-		
-		Stream stream = new Stream();
-		Collections.sort(tcs, new TweetOnIdComparator());
 		// Select the top items, then go to higher sort
 		if (FETCH_SIZE < tcs.size()) {tcs = tcs.subList(0, FETCH_SIZE-1);}
 		
+		Stream stream = new Stream();	
 		stream.addAll(higherSort(tcs));
 		
 		return stream;

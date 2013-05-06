@@ -1,5 +1,6 @@
 package grids.service;
 
+import grids.domain.TweetOnIdComparator;
 import grids.entity.Comment;
 import grids.entity.Follow;
 import grids.entity.Tweet;
@@ -9,6 +10,7 @@ import grids.transfer.TweetCard;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,7 @@ public class TweetReadService {
 			tweets.addAll(tweetRepos.tweetsByAuthor(
 					follow.getTarget().getId(), follow.getTags()));
 		}
+		Collections.sort(tweets, new TweetOnIdComparator());
 		
 		List<TweetCard> tcs = new ArrayList<>();
 		for (Tweet tweet : tweets) {
