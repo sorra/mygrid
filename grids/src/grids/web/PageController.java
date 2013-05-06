@@ -50,7 +50,8 @@ public class PageController {
 	}
 	
 	@RequestMapping("/blogs")
-	public String blogs() {
+	public String blogs(ModelMap model) {
+		model.addAttribute("blogs", blogReadService.getAllBlogData());
 		return "blogs.httl";
 	}
 	

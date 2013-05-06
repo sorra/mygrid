@@ -28,8 +28,6 @@ public class ServiceInitializer {
 	BlogPostService blogService;
 	@Autowired
 	StreamService streamService;
-	@Autowired
-	PageService pageService;
 	
 	@PostConstruct
 	public void init() {

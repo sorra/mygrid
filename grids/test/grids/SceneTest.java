@@ -6,10 +6,8 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import grids.entity.*;
 import grids.service.*;
 import grids.transfer.Stream;
-import grids.transfer.TweetCard;
 
 public class SceneTest {
 	PrintStream out = System.out;
@@ -20,7 +18,6 @@ public class SceneTest {
 	BlogPostService blogService;
 	TagService tagService;
 	StreamService streamService;
-	PageService pageService;
 	
 	@Before
 	public void setUp() {
@@ -31,7 +28,6 @@ public class SceneTest {
 		blogService = ac.getBean(BlogPostService.class);
 		tagService = ac.getBean(TagService.class);
 		streamService = ac.getBean(StreamService.class);
-		pageService = ac.getBean(PageService.class);
 	}
 	
 	@Test

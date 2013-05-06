@@ -21,6 +21,10 @@ public class BlogRepos extends BaseRepos<Blog> {
 	@Autowired
 	private TagRepos tagRepos;
 	
+	public List<Blog> all() {
+		return session().createQuery("from Blog b").list();
+	}
+	
 	public List<Blog> blogs(Collection<Tag> tags) {
 		List<Blog> blogs = session().createQuery("from Blog b").list();
 		

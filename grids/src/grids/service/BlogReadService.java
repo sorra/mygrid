@@ -28,8 +28,13 @@ public class BlogReadService {
 	 */
 	public BlogData getBlogData(long blogId) {
 		Blog blog = blogRepos.get(blogId);
-		if (blog == null) {return null;}
-		
+		if (blog == null) {
+			return null;
+		}
+		return getBlogData(blog);
+	}
+	
+	public BlogData getBlogData(Blog blog) {
 		long authorId = blog.getAuthor().getId();
 		return new BlogData(blog, userService.getUserCard(authorId));
 	}
@@ -46,4 +51,11 @@ public class BlogReadService {
 		return tcs;
 	}
 
+	public List<BlogData> getAllBlogData() {
+		List<BlogData> allBD = new ArrayList<>();
+		for (Blog blog : blogRepos.all()) {
+			allBD.add(getBlogData(blog));
+		}
+		return allBD;
+	}
 }
