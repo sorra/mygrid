@@ -1,6 +1,9 @@
 package grids.web;
 
+import javax.servlet.http.HttpSession;
+
 import grids.service.UserService;
+import grids.transfer.UserSelf;
 import grids.transfer.UserCard;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,13 @@ public class UserController {
 	@Autowired
 	UserService userService;
 
+	@RequestMapping("/self")
+	@ResponseBody
+	public UserSelf self(HttpSession session) {
+		long uid = AuthUtil.checkLoginUid(session);
+		return userService.getSelfInfo(uid);
+	}
+	
 	@RequestMapping("/card/{id}")
 	@ResponseBody
 	public UserCard userCard(@PathVariable long id) {

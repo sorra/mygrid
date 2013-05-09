@@ -41,7 +41,6 @@ public class TagRepos extends BaseRepos<Tag> {
 		return queryTags;
 	}
 	
-	
 //	public boolean noMatch(Collection<Tag> entityTags, Collection<Tag> queryTags) {
 //		for (Tag queryTag : queryTags) {
 //			if (entityTags.contains(queryTag)) {

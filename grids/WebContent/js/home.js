@@ -4,12 +4,13 @@ $(document).ready(function() {
 	$.post('/grids/auth/login', {
 		email : 'admin@',
 		password : '123'})
-		.done(function(resp) {
-			getIstream();
-		})
-		.fail(function(resp) {
-			window.alert("login failed! " + resp);
+	.done(function(resp) {
+		getIstream();
+	})
+	.fail(function(resp) {
+		window.alert("login failed! " + resp);
 	});
+
 	$('form.top-box .btn[type="submit"]').click(function(event){
 		event.preventDefault();
 		var $submit = $(this);
@@ -27,6 +28,14 @@ $(document).ready(function() {
 		.fail(function(resp){
 			window.alert("post failed! " + resp);
 		});
+	});
+
+	$.get('/grids/user/self')
+	.done(function(resp) {
+		window.userSelf = resp;
+	})
+	.fail(function(resp) {
+		window.alert("getting self info failed! " + resp);
 	});
 });
 

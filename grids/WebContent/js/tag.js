@@ -46,7 +46,6 @@ function createTagChain(tagCard) {
 function createTagLabel(tagLabel) {
 	$tl = $('.proto > .tag-label').clone();
 	$tl.text(tagLabel.name);
-	$tl.attr('href', tagLabel.id);
 	$tl.attr('title', tagLabel.chainStr);
 	return $tl;
 }
