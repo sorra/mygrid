@@ -23,7 +23,7 @@ public class UserController {
 	@ResponseBody
 	public UserSelf self(HttpSession session) {
 		long uid = AuthUtil.checkLoginUid(session);
-		return userService.getSelfInfo(uid);
+		return userService.getSelf(uid);
 	}
 	
 	@RequestMapping("/card/{id}")

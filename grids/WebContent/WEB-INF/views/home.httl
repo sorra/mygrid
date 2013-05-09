@@ -8,9 +8,9 @@
 </head>
 <body>
 $!{include("navbar.httl")}
-<div class="container" id="container">
+<div id="container" class="container">
 	<div class="row">
-		<div class="side span3">SIDE</div>
+		<div class="side span3">${selfJson}</div>
 		<div class="main span9">
 			<form class="top-box">
 				<div class="row"><textarea class="input span9" placeholder="写微博"></textarea></div>

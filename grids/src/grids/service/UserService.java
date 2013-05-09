@@ -25,7 +25,7 @@ public class UserService {
 	@Autowired
 	TagService tagService;
 	
-	public UserSelf getSelfInfo(long userId) {
+	public UserSelf getSelf(long userId) {
 		return new UserSelf(userRepos.get(userId),
 				followRepos.followingCount(userId),
 				followRepos.followerCount(userId),

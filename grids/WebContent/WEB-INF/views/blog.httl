@@ -10,7 +10,7 @@
 		margin-top: 50px;
 	}
 	.title, .content, .tweets{
-		border: 1px;
+		border: 1px solid #eee;
 	}
 	</style>
 </head>

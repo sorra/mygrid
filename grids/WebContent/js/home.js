@@ -30,12 +30,6 @@ $(document).ready(function() {
 		});
 	});
 
-	$.get('/grids/user/self')
-	.done(function(resp) {
-		window.userSelf = resp;
-	})
-	.fail(function(resp) {
-		window.alert("getting self info failed! " + resp);
-	});
+	$.parseJson($('.side').text());
 });
 
