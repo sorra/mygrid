@@ -3,7 +3,6 @@ package grids.repos;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -18,23 +17,23 @@ import grids.entity.Tweet;
 
 @Repository
 public class BlogRepos extends BaseRepos<Blog> {
+	private static final int MAX_RESULTS = 20;
 	@Autowired
 	private TagRepos tagRepos;
 	
 	public List<Blog> all() {
-		return session().createQuery("from Blog b").list();
+		return session().createQuery("from Blog b")
+				.setMaxResults(MAX_RESULTS)
+				.list();
 	}
 	
 	public List<Blog> blogs(Collection<Tag> tags) {
-		List<Blog> blogs = session().createQuery("from Blog b").list();
-		
-		Collection<Tag> queryTags = tagRepos.getQueryTags(tags);
-		for (Iterator<Blog> iter = blogs.iterator(); iter.hasNext();) {
-			if (tagRepos.noMatch(iter.next().getTags(), queryTags)) {
-				iter.remove();
-			}
-		}
-		return blogs;
+		tags = tagRepos.getQueryTags(tags);
+		return session().createQuery(
+				"select b from Blog b join b.tags ta where ta in :tags")
+				.setParameterList("tags", tags)
+				.setMaxResults(MAX_RESULTS)
+				.list();
 	}
 	
 	public List<Tweet> connectTweets(long blogId) {

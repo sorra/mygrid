@@ -4,7 +4,6 @@ import grids.entity.Tag;
 import grids.entity.Tweet;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -13,49 +12,46 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class TweetRepos extends BaseRepos<Tweet> {
-	private static final int MAX_RESULTS = 1000;
+	private static final int MAX_RESULTS = 20;
 	@Autowired
 	private TagRepos tagRepos;
 
-	public List<Tweet> tweets(Collection<Tag> tags) {
-		Query query = session().createQuery("from Tweet t").setMaxResults(MAX_RESULTS);
-		//XXX filter tags
-		return query.list();
+	public List<Tweet> tweetsByTags(Collection<Tag> tags) {
+		tags = tagRepos.getQueryTags(tags);
+		return session().createQuery(
+				"select t from Tweet t join t.tags ta where ta in :tags")
+				.setParameterList("tags", tags)
+				.setMaxResults(MAX_RESULTS)
+				.list();
+	}
+	
+	public List<Tweet> tweetsByTag(long tagId) {
+		Collection<Tag> qtags = tagRepos.getQueryTags(new long[]{tagId});
+		return tweetsByTags(qtags);
 	}
 	
 	public List<Tweet> tweetsByAuthor(long authorId) {
-		Query query = session().createQuery("from Tweet t where t.author.id=:authorId")
+		return session().createQuery("from Tweet t where t.author.id=:authorId")
 				.setLong("authorId", authorId)
-				.setMaxResults(MAX_RESULTS);
-		return query.list();
+				.setMaxResults(MAX_RESULTS)
+				.list();
 	}
 	
-	public List<Tweet> tweetsByAuthor(long authorId, Collection<Tag> tags) {
-		List<Tweet> tweets = tweetsByAuthor(authorId);
-		if (tags.isEmpty()) {
-			return tweets;
-		}
-		else {
-			Collection<Tag> queryTags = tagRepos.getQueryTags(tags);
-			for (Iterator<Tweet> iter = tweets.iterator();iter.hasNext();) {
-				if (tagRepos.noMatch(iter.next().getTags(), queryTags)) {
-					iter.remove();
-				}
-			}
-			return tweets;
-		}
+	public List<Tweet> tweetsByAuthorAndTags(long authorId, Collection<Tag> tags) {
+		tags = tagRepos.getQueryTags(tags);
+		return session().createQuery(
+				"select t from Tweet t join t.tags ta where t.author.id=:authorId and ta in :tags")
+				.setLong("authorId", authorId)
+				.setParameterList("tags", tags)
+				.setMaxResults(MAX_RESULTS)
+				.list();
 	}
-	
-//	public List<Tweet> tweetsByTag(long tagId) {
-//		
-//		return null;
-//	}
 	
 	public List<Tweet> findByOrigin(long originId) {
-		Query query = session().createQuery(
+		return session().createQuery(
 				"from Tweet t where t.origin.id = :originId")
-				.setLong("originId", originId);
-		return query.list();
+				.setLong("originId", originId)
+				.list();
 	}
 	
 	public long forwardCount(long originId) {

@@ -5,7 +5,6 @@ import grids.transfer.CombineGroup;
 import grids.transfer.Item;
 import grids.transfer.Stream;
 import grids.transfer.TweetCard;
-import grids.repos.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,25 +14,14 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class StreamService {
-	private static final int FETCH_SIZE = 20;
 	
 	@Autowired
 	private TweetReadService tweetReadService;
 	@Autowired
-	private FollowRepos followRepos;
-	@Autowired
-	private TagRepos tagRepos;
-	@Autowired
-	private TweetRepos tweetRepos;
-	@Autowired
-	private CommentRepos commentRepos;
-	@Autowired
-	private BlogRepos blogRepos;
+	private TagService tagService;
 
 	public Stream istream(long userId) {	
-		List<TweetCard> tcs = tweetReadService.getIstreamTweetCards(userId);
-		// Select the top items, then go to higher sort
-		if (FETCH_SIZE < tcs.size()) {tcs = tcs.subList(0, FETCH_SIZE-1);}
+		List<TweetCard> tcs = tweetReadService.istream(userId);
 		
 		Stream stream = new Stream();	
 		stream.addAll(higherSort(tcs));
@@ -94,7 +82,7 @@ public class StreamService {
 	}
 
 	public Stream tagStream(long tagId) {
-		List<Tweet> tweets = tweetRepos.tweets(tagRepos.get(tagId).descendants());
+		List<Tweet> tweets = tweetReadService.tweetsByTags(tagService.descendants(tagId));
 		
 		Stream stream = new Stream();
 		for (Tweet tweet : tweets) {

@@ -9,6 +9,9 @@
 	#container{
 		margin-top: 50px;
 	}
+	.title, .content, .tweets{
+		border: 1px;
+	}
 	</style>
 </head>
 <body>

@@ -46,4 +46,23 @@ public class Follow {
 	public String toString() {
 		return source + "->" + target + tags;
 	}
+
+	@Override
+	public int hashCode() {
+		return Long.valueOf(id).hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Follow other = (Follow) obj;
+		if (id != other.id)
+			return false;
+		return true;
+	}
 }

@@ -15,9 +15,8 @@ $!{include("navbar.httl")}
 			<form class="top-box">
 				<div class="row"><textarea class="input span9" placeholder="写微博"></textarea></div>
 				<div class="row">
-					<button class="btn btn-small">标签1</button>
-					<button class="btn btn-small">标签2</button>
-					<button class="btn btn-small">标签3</button>
+					<button class="tag btn btn-small">标签</button>
+					<button class="plus btn btn-info">+</button>
 					<button class="btn btn-primary pull-right" type="submit">发表</button>
 				</div>
 			</form>
@@ -32,6 +31,7 @@ $!{include("proto.httl")}
 <script src="$!{rs}/js/jquery-1.9.1.js" type="text/javascript"></script>
 <script src="$!{rs}/js/stream.js" type="text/javascript"></script>
 <script src="$!{rs}/js/tag.js" type="text/javascript"></script>
+<script src="!{rs}/js/usercard.js" type="text/javascript"></script>
 <script src="$!{rs}/js/home.js" type="text/javascript"></script>
 </body>
 </html>

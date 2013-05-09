@@ -19,14 +19,6 @@ public class TagRepos extends BaseRepos<Tag> {
 		return null;
 	}
 	
-//	public Set<Tag> loadTags(long[] ids) {
-//		Set<Tag> tags = new HashSet<>();
-//		for (long id : ids) {
-//			tags.add(load(id));
-//		}
-//		return tags;
-//	}
-	
 	public Set<Tag> getTags(long[] ids) {
 		Set<Tag> tags = new HashSet<>();
 		for (long id : ids) {
@@ -50,14 +42,14 @@ public class TagRepos extends BaseRepos<Tag> {
 	}
 	
 	
-	public boolean noMatch(Collection<Tag> entityTags, Collection<Tag> queryTags) {
-		for (Tag queryTag : queryTags) {
-			if (entityTags.contains(queryTag)) {
-				return false;
-			}
-		}
-		return true;
-	}
+//	public boolean noMatch(Collection<Tag> entityTags, Collection<Tag> queryTags) {
+//		for (Tag queryTag : queryTags) {
+//			if (entityTags.contains(queryTag)) {
+//				return false;
+//			}
+//		}
+//		return true;
+//	}
 	
 	@Override
 	protected Class<Tag> getEntityClass() {

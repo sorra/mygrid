@@ -48,4 +48,23 @@ public class Comment {
 	public String toString() {
 		return author + ": " + content;
 	}
+	
+	@Override
+	public int hashCode() {
+		return Long.valueOf(id).hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Comment other = (Comment) obj;
+		if (id != other.id)
+			return false;
+		return true;
+	}
 }

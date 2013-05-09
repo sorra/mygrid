@@ -3,7 +3,9 @@ package grids.service;
 import grids.domain.TweetOnIdComparator;
 import grids.entity.Comment;
 import grids.entity.Follow;
+import grids.entity.Tag;
 import grids.entity.Tweet;
+import grids.repos.CommentRepos;
 import grids.repos.FollowRepos;
 import grids.repos.TweetRepos;
 import grids.transfer.TweetCard;
@@ -20,28 +22,39 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(readOnly=true)
 public class TweetReadService {
+	private static final int FETCH_SIZE = 20;
 	@Autowired
 	private TweetRepos tweetRepos;
 	@Autowired
 	private FollowRepos followRepos;
+	@Autowired
+	private CommentRepos commentRepos;
 	
-	public List<TweetCard> getIstreamTweetCards(long userId) {
+	public List<TweetCard> istream(long userId) {
 		//XXX consider fetch_size limit
 		List<Tweet> tweets = new ArrayList<>();
 		tweets.addAll(tweetRepos.tweetsByAuthor(userId));
 		List<Follow> followings = followRepos.followings(userId);
 		for (Follow follow : followings) {
-			tweets.addAll(tweetRepos.tweetsByAuthor(
+			tweets.addAll(tweetRepos.tweetsByAuthorAndTags(
 					follow.getTarget().getId(), follow.getTags()));
 		}
 		Collections.sort(tweets, new TweetOnIdComparator());
 		
 		List<TweetCard> tcs = new ArrayList<>();
-		for (Tweet tweet : tweets) {
+
+		// Select the top items, for later's higher sort
+		List<Tweet> tops = (FETCH_SIZE < tweets.size())
+				? tweets.subList(0, FETCH_SIZE-1) : tweets;
+		for (Tweet tweet : tops) {
 			// How to optimize the counting, by session cache?
 			tcs.add(getTweetCard(tweet));
 		}
 		return tcs;
+	}
+	
+	public List<Tweet> tweetsByTags(Collection<Tag> tags) {
+		return tweetRepos.tweetsByTags(tags);
 	}
 
 	public TweetCard getTweetCard(long tweetId) {
@@ -50,8 +63,8 @@ public class TweetReadService {
 
 	public TweetCard getTweetCard(Tweet tweet) {
 		return new TweetCard(tweet,
-				getForwardCount(tweet.getId()),
-				getCommentCount(tweet.getId()));
+				forwardCount(tweet.getId()),
+				commentCount(tweet.getId()));
 	}
 
 	public Collection<Tweet> getForwards(long originId) {
@@ -62,12 +75,12 @@ public class TweetReadService {
 		return tweetRepos.load(sourceId).getComments();
 	}
 
-	public int getForwardCount(long originId) {
-		return getForwards(originId).size();
+	public long forwardCount(long originId) {
+		return tweetRepos.forwardCount(originId);
 	}
 
-	public int getCommentCount(long sourceId) {
-		return getComments(sourceId).size();
+	public long commentCount(long sourceId) {
+		return commentRepos.commentCount(sourceId);
 	}
 
 }
