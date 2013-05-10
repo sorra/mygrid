@@ -5,6 +5,7 @@ import grids.repos.BlogRepos;
 import grids.repos.TagRepos;
 import grids.repos.UserRepos;
 
+import java.util.Collection;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +24,14 @@ public class BlogPostService {
 	@Autowired
 	private TweetPostService tweetService;
 	
-	public Blog newBlog(long userId, String title, String content, long[] tagIds, boolean share) {
+	public Blog newBlog(long userId, String title, String content, Collection<Long> tagIds, boolean share) {
 		Blog blog = new Blog(title, content, userRepos.load(userId), new Date(), tagRepos.getTags(tagIds));
 		blogRepos.save(blog);
 		if(share) {tweetService.share(userId, blog);}
 		return blog;
 	}
 	
-	public Blog edit(long userId, long blogId, String title, String content, long[] tagIds) {
+	public Blog edit(long userId, long blogId, String title, String content, Collection<Long> tagIds) {
 		Blog blog = blogRepos.get(blogId);
 		if (blog.getAuthor().getId() == userId) {
 			blog.setTitle(title);

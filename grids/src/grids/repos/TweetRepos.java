@@ -26,7 +26,7 @@ public class TweetRepos extends BaseRepos<Tweet> {
 	}
 	
 	public List<Tweet> tweetsByTag(long tagId) {
-		Collection<Tag> qtags = tagRepos.getQueryTags(new long[]{tagId});
+		Collection<Tag> qtags = tagRepos.getQueryTags(tagRepos.get(tagId));
 		return tweetsByTags(qtags);
 	}
 	

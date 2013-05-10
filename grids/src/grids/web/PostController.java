@@ -1,6 +1,10 @@
 package grids.web;
 
+import java.io.IOException;
+import java.util.Collection;
+
 import grids.entity.Blog;
+import grids.entity.Tweet;
 import grids.service.BlogPostService;
 import grids.service.TweetPostService;
 
@@ -18,7 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/post")
 public class PostController {
-	private final static Logger logger = LoggerFactory.getLogger(PostController.class);
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired
 	private TweetPostService tweetService;
 	@Autowired
@@ -28,13 +32,12 @@ public class PostController {
 	@ResponseBody
 	public boolean tweet(HttpSession session,
 			@RequestParam("content") String content, 
-			@RequestParam(value="tagIds", required=false) long[] tagIds) {
-		logger.info("post tweet");
-		if (tagIds == null) tagIds = new long[0];
+			@RequestParam("tagIds[]") Collection<Long> tagIds) throws IOException {
 		Long uid = AuthUtil.checkLoginUid(session);
 		if (uid == null) {return false;}
 		
-		tweetService.newTweet(uid, content, tagIds);
+		Tweet tweet = tweetService.newTweet(uid, content, tagIds);
+		logger.info("post tweet {} success", tweet.getId());
 		return true;
 	}
 	
@@ -43,8 +46,7 @@ public class PostController {
 	public boolean blog(HttpSession session,
 			@RequestParam("title") String title,
 			@RequestParam("content") String content,
-			@RequestParam(value="tagIds", required=false) long[] tagIds) {
-		if (tagIds == null) tagIds = new long[0];
+			@RequestParam("tagIds[]") Collection<Long> tagIds) throws IOException {
 		Long uid = AuthUtil.checkLoginUid(session);
 		if (uid == null) {return false;}
 		

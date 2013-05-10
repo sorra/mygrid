@@ -2,6 +2,7 @@ package grids.repos;
 
 import grids.entity.Tag;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -19,7 +20,16 @@ public class TagRepos extends BaseRepos<Tag> {
 		return null;
 	}
 	
+	@Deprecated
 	public Set<Tag> getTags(long[] ids) {
+		Collection<Long> tai = new ArrayList<>();
+		for (long id : ids) {
+			tai.add(id);
+		}
+		return getTags(tai);
+	}
+	
+	public Set<Tag> getTags(Collection<Long> ids) {
 		Set<Tag> tags = new HashSet<>();
 		for (long id : ids) {
 			tags.add(get(id));
@@ -27,9 +37,8 @@ public class TagRepos extends BaseRepos<Tag> {
 		return tags;
 	}
 	
-	public Set<Tag> getQueryTags(long[] ids) {
-		Set<Tag> tags = getTags(ids);
-		return getQueryTags(tags);
+	public Set<Tag> getQueryTags(Tag tag) {
+		return tag.descendants();
 	}
 	
 	public Set<Tag> getQueryTags(Collection<Tag> tags) {

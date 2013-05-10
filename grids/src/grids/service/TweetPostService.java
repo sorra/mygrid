@@ -8,6 +8,7 @@ import grids.repos.TagRepos;
 import grids.repos.TweetRepos;
 import grids.repos.UserRepos;
 
+import java.util.Collection;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class TweetPostService {
 	@Autowired
 	private CommentRepos commentRepos;
 	
-	public Tweet newTweet(long userId, String content, long[] tagIds) {
+	public Tweet newTweet(long userId, String content, Collection<Long> tagIds) {
 		Tweet tweet = new Tweet(content, userRepos.load(userId), new Date(),
 				tagRepos.getTags(tagIds));
 		tweetRepos.save(tweet);
