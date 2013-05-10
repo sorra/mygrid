@@ -10,7 +10,9 @@
 $!{include("navbar.httl")}
 <div id="container" class="container">
 	<div class="row">
-		<div class="side span3">${selfJson}</div>
+		<div class="side span3">
+			<span id="self-json">${selfJson}</span>
+		</div>
 		<div class="main span9">
 			<form class="top-box">
 				<div class="row"><textarea class="input span9" placeholder="写微博"></textarea></div>

@@ -1,18 +1,8 @@
 'use strict';
 
-$(document).ready(function() {
-	$.post('/grids/auth/login', {
-		email : 'admin@',
-		password : '123'})
-	.done(function(resp) {
-		getIstream();
-	})
-	.fail(function(resp) {
-		window.alert("login failed! " + resp);
-	});
-
+$(document).ready(function(){
 	buildTagSels();
-	$('form.top-box .btn[type="submit"]').click(function(event){
+	$('.blog button[type=submit]').click(function(event){
 		event.preventDefault();
 		var $submit = $(this);
 		$submit.prop('disabled', true);
@@ -24,15 +14,16 @@ $(document).ready(function() {
 			$(this).removeClass('.btn-success');
 		});
 
-		$.post('/grids/post/tweet', {
-			content: $('form.top-box .input').val(),
+		$.post('/grids/post/blog', {
+			title: $('.blog .title').val(),
+			content: $('.blog .content').val(),
 			tagIds: selectedTagIds
 		})
 		.always(function(resp){
 			$submit.prop('disabled', false);
 		})
 		.done(function(resp){
-			$('form.top-box .input').val('发表成功！');
+			$('.blog .content').val('发表成功！');
 		})
 		.fail(function(resp){
 			window.alert("post failed! " + resp);

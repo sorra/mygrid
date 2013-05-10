@@ -1,5 +1,7 @@
 package grids.web;
 
+import javax.servlet.http.HttpSession;
+
 import grids.service.BlogReadService;
 import grids.service.UserService;
 import grids.transfer.BlogData;
@@ -12,6 +14,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 @Controller
 @RequestMapping
 public class PageController {
@@ -20,6 +25,8 @@ public class PageController {
 	UserService userService;
 	@Autowired
 	BlogReadService blogReadService;
+	
+	ObjectMapper objectMapper = new ObjectMapper();
 	
 	@RequestMapping("/public/{id}")
 	public String publicPage(@PathVariable long id) {
@@ -56,7 +63,12 @@ public class PageController {
 	}
 	
 	@RequestMapping("/writeBlog")
-	public String writeBlog() {
+	public String writeBlog(HttpSession session, ModelMap model) throws JsonProcessingException {
+		Long uid = AuthUtil.checkLoginUid(session);
+		if (uid == null) {return "";}
+		
+		String selfJson = objectMapper.writeValueAsString(userService.getSelf(uid));
+		model.addAttribute("selfJson", selfJson);
 		return "write-blog.httl";
 	}
 	

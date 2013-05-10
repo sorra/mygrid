@@ -20,6 +20,7 @@ $!{include("navbar.httl")}
 	<div class="author"></div>
 	<div class="blog">
 		<p class="title">${blog.title}</p>
+		<p class="tags">${blog.tags}</p>
 		<p class="content">${blog.content}</p>
 	</div>
 	<div class="tweets">
