@@ -11,15 +11,17 @@ $(document).ready(function() {
 		window.alert("login failed! " + resp);
 	});
 
+	topBoxTags();
 	$('form.top-box .btn[type="submit"]').click(function(event){
 		event.preventDefault();
 		var $submit = $(this);
 		$submit.prop('disabled', true);
 
 		var selectedTagIds = [];
-		$('.top-box .tag.btn-success .tag-label').each(function(idx){
+		$('.tag-sel.btn-success .tag-label').each(function(idx){
 			var tagId = parseInt($(this).attr('tag-id'));
 			selectedTagIds.push(tagId);
+			$(this).removeClass('.btn-success');
 		});
 
 		console.log("array: " + selectedTagIds);
@@ -38,13 +40,11 @@ $(document).ready(function() {
 			window.alert("post failed! " + resp);
 		});
 	});
-
-	topBoxTags();
 });
 
 function topBoxTags() {
 	var userSelf = $.parseJSON($('.side').text());
-	var $protoTag = $('.top-box .tag');
+	var $protoTag = $('.tag-sel');
 	$.each(userSelf.topTags, function(idx, item){
 		var $tag = $protoTag.clone().html('').click(function(event){
 			event.preventDefault();

@@ -27,9 +27,8 @@ $!{include("navbar.httl")}
 			<div class="row"><textarea class="title span9"></textarea></div>
 			<div class="row"><textarea class="content span9"></textarea></div>
 			<div class="row">
-					<button class="btn btn-small">标签1</button>
-					<button class="btn btn-small">标签2</button>
-					<button class="btn btn-small">标签3</button>
+					<a class="tag-sel btn btn-small">标签</a>
+					<a class="tag-plus btn btn-info">+</a>
 					<button class="btn btn-primary pull-right" type="submit">发表</button>
 			</div>
 		</form>

@@ -15,8 +15,8 @@ $!{include("navbar.httl")}
 			<form class="top-box">
 				<div class="row"><textarea class="input span9" placeholder="写微博"></textarea></div>
 				<div class="row">
-					<a class="tag btn btn-small">标签</a>
-					<a class="plus btn btn-info">+</a>
+					<a class="tag-sel btn btn-small">标签</a>
+					<a class="tag-plus btn btn-info">+</a>
 					<button class="btn btn-primary pull-right" type="submit">发表</button>
 				</div>
 			</form>
