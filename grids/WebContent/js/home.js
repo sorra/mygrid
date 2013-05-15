@@ -12,6 +12,10 @@ $(document).ready(function() {
 	});
 
 	buildTagSels();
+	$('.tag-plus').click(function(event){
+		event.preventDefault();
+		$(this).popover('toggle');
+	});
 	$('form.top-box .btn[type="submit"]').click(function(event){
 		event.preventDefault();
 		var $submit = $(this);

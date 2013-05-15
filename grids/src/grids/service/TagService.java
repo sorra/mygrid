@@ -4,6 +4,7 @@ import grids.entity.Tag;
 import grids.repos.TagRepos;
 import grids.transfer.TagCard;
 import grids.transfer.TagLabel;
+import grids.transfer.TagNode;
 
 import java.util.Collection;
 import java.util.List;
@@ -37,6 +38,11 @@ public class TagService {
 	public TagLabel getTagLabel(long tagId) {
 		Tag tag = tagRepos.get(tagId);
 		return tag==null ? null : new TagLabel(tag);
+	}
+
+	@Transactional(readOnly=true)
+	public TagNode getTagTree() {
+		return new TagNode(tagRepos.get(Tag.ROOT_ID));
 	}
 	
 	@Transactional(readOnly=true)
