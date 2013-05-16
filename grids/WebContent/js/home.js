@@ -69,17 +69,19 @@ function buildTagPlus() {
 	
 	function buildTagTree(node, depth, isLastOne) {
 		var indentValue = 20 * depth;
+		var hasChildren = node.children && node.children.length > 0;
 		if (depth >= 0) {
 			var $tagSel = createTagSel(node);
 			$tagSel.css('margin-left', indentValue+'px')
 				.appendTo($tagTree).after($('<br/>'));
-			if (depth==0 || isLastOne) {$tagSel.css('margin-bottom', '10px');}
+			if ((depth==0 || isLastOne) && !hasChildren) {
+				$tagSel.css('margin-bottom', '10px');
+			}
 		}
-		if (node.children && node.children.length > 0) {
+		if (hasChildren) {
 			for (var i = 0; i < node.children.length; i++) {
 				var cur = node.children[i];
-				buildTagTree(cur, depth+1,
-					i==node.children.length-1 && (!cur.children || cur.children.length==0));
+				buildTagTree(cur, depth+1, i==node.children.length-1);
 			}
 		}
 	}
