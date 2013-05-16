@@ -2,6 +2,7 @@ package grids.web;
 
 import javax.servlet.http.HttpSession;
 
+import grids.service.TagService;
 import grids.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class HomeController {
 	@Autowired
 	UserService userService;
+	@Autowired
+	TagService tagService;
 	
 	ObjectMapper objectMapper = new ObjectMapper();
 	
@@ -26,8 +29,10 @@ public class HomeController {
 		// Temporal
 		if (uid == null) {uid = 1L;}
 		//
-		String selfJson = objectMapper.writeValueAsString(userService.getSelf(uid));
-		model.addAttribute("selfJson", selfJson);
+		String userSelfJson = objectMapper.writeValueAsString(userService.getSelf(uid));
+		model.addAttribute("userSelfJson", userSelfJson);
+		String tagTreeJson = objectMapper.writeValueAsString(tagService.getTagTree());
+		model.addAttribute("tagTreeJson", tagTreeJson);
 		return "home.httl";
 	}
 	@RequestMapping("/login")

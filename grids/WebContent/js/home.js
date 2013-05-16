@@ -12,10 +12,7 @@ $(document).ready(function() {
 	});
 
 	buildTagSels();
-	$('.tag-plus').click(function(event){
-		event.preventDefault();
-		$(this).popover('toggle');
-	});
+	buildTagPlus();
 	$('form.top-box .btn[type="submit"]').click(function(event){
 		event.preventDefault();
 		var $submit = $(this);
@@ -44,16 +41,49 @@ $(document).ready(function() {
 	});
 });
 
+function createTagSel(tagLabel) {
+	return createTagLabel(tagLabel).addClass('tag-sel').addClass('btn btn-small')
+			.click(function(){$(this).toggleClass('btn-success');});
+}
+
 function buildTagSels() {
-	var userSelf = $.parseJSON($('#self-json').text());
-	var $protoTag = $('.tag-sel');
+	var userSelf = $.parseJSON($('#user-self-json').text());
 	$.each(userSelf.topTags, function(idx, item){
-		var $tag = $protoTag.clone().html('').click(function(event){
-			event.preventDefault();
-			$(this).toggleClass('btn-success');
-		});
-		createTagLabel(item).appendTo($tag);
-		$tag.insertBefore($protoTag);
+		createTagSel(item).insertBefore($('.tag-plus'));
 	});
-	$protoTag.remove();
+}
+
+function buildTagPlus() {
+	var tagTree = $.parseJSON($('#tag-tree-json').text());
+	var $tagTree = $('<div></div>');
+	
+	function buildTagTree(node, depth) {
+		var indentValue = 20 * depth;
+		if (depth >= 0) {
+			createTagSel(node).css('display', 'block')
+				.css('margin-left', indentValue+'px').appendTo($tagTree);
+		}
+		if (node.children && node.children.length > 0) {
+			for (var i = 0; i < node.children.length; i++) {
+				buildTagTree(node.children[i], depth+1);
+			};
+		}
+	}
+	buildTagTree(tagTree, -1);
+
+	$('.tag-plus').popover({
+			html: true,
+			placement: 'bottom',
+			trigger: 'manual',
+			content: $tagTree
+	}).click(function(){
+		if ($(this).data('show-popover')) {
+			$(this).data('show-popover', false)
+				   .popover('hide');
+		}
+		else {
+			$(this).data('show-popover', true)
+				   .popover('show');
+		}
+	});
 }
