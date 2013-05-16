@@ -23,12 +23,12 @@
 $!{include("navbar.httl")}
 <div class="container" id="container">
 	<div class="row">
-		<span id="self-json" style="display:none;">${selfJson}</span>
+		<span id="user-self-json" style="display:none;">${selfJson}</span>
+		<span id="tag-tree-json" style="display:none;">${tagTreeJson}</span>
 		<form class="blog span9">
 			<div class="row"><textarea class="title span9"></textarea></div>
 			<div class="row"><textarea class="content span9"></textarea></div>
 			<div class="row">
-					<a class="tag-sel btn btn-small">标签</a>
 					<a class="tag-plus btn btn-info">+</a>
 					<button class="btn btn-primary pull-right" type="submit">发表</button>
 			</div>
@@ -39,7 +39,9 @@ $!{include("navbar.httl")}
 
 $!{include("proto.httl")}
 <script src="$!{rs}/js/jquery-1.9.1.js" type="text/javascript"></script>
+<script src="$!{rs}/js/bootstrap.js" type="text/javascript"></script>
 <script src="$!{rs}/js/tag.js" type="text/javascript"></script>
+<script src="$!{rs}/js/post-box.js" type="text/javascript"></script>
 <script src="$!{rs}/js/write-blog.js" type="text/javascript"></script>
 </body>
 </html>

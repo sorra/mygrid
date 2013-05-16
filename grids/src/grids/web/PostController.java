@@ -35,7 +35,7 @@ public class PostController {
 			@RequestParam(value="tagIds[]", required=false) Collection<Long> tagIds) {
 		Long uid = AuthUtil.checkLoginUid(session);
 		if (uid == null) {return false;}
-		
+		if (content.isEmpty()) {return false;}
 		if (tagIds == null) {tagIds = new ArrayList<>(0);}
 		
 		Tweet tweet = tweetService.newTweet(uid, content, tagIds);
@@ -51,7 +51,7 @@ public class PostController {
 			@RequestParam(value="tagIds[]", required=false) Collection<Long> tagIds) {
 		Long uid = AuthUtil.checkLoginUid(session);
 		if (uid == null) {return false;}
-		
+		if (title.isEmpty() || content.isEmpty()) {return false;}
 		if (tagIds == null) {tagIds = new ArrayList<>(0);}
 		
 		Blog blog = blogService.newBlog(uid, title, content, tagIds, true);

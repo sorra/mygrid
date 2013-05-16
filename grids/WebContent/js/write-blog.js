@@ -2,7 +2,14 @@
 
 $(document).ready(function(){
 	buildTagSels();
-	$('.blog button[type=submit]').click(function(event){
+	buildTagPlus();
+
+	$('form.blog .btn[type=submit]')
+	.tooltip({
+		placement: 'top',
+		trigger: 'manual'
+	})
+	.click(function(event){
 		event.preventDefault();
 		var $submit = $(this);
 		$submit.prop('disabled', true);
@@ -23,24 +30,25 @@ $(document).ready(function(){
 			$submit.prop('disabled', false);
 		})
 		.done(function(resp){
-			$('.blog .content').val('发表成功！');
+			if (resp == true) postBlogDone();
+			else postBlogFail();
 		})
 		.fail(function(resp){
-			window.alert("post failed! " + resp);
+			postBlogFail();
 		});
 	});
 });
 
-function buildTagSels() {
-	var userSelf = $.parseJSON($('#self-json').text());
-	var $protoTag = $('.tag-sel');
-	$.each(userSelf.topTags, function(idx, item){
-		var $tag = $protoTag.clone().html('').click(function(event){
-			event.preventDefault();
-			$(this).toggleClass('btn-success');
-		});
-		createTagLabel(item).appendTo($tag);
-		$tag.insertBefore($protoTag);
-	});
-	$protoTag.remove();
+function postBlogDone() {
+	var $submit = $('form.blog .btn[type=submit]');
+	$submit.data('tooltip').options.title = '发表成功';
+	$submit.tooltip('show');
+	window.setTimeout(function(){$submit.tooltip('hide');}, 1000);
+}
+
+function postBlogFail() {
+	var $submit = $('form.blog .btn[type=submit]');
+	$submit.data('tooltip').options.title = '发表失败';
+	$submit.tooltip('show');
+	window.setTimeout(function(){$submit.tooltip('hide');}, 1000);
 }

@@ -3,6 +3,7 @@ package grids.web;
 import javax.servlet.http.HttpSession;
 
 import grids.service.BlogReadService;
+import grids.service.TagService;
 import grids.service.UserService;
 import grids.transfer.BlogData;
 
@@ -23,6 +24,8 @@ public class PageController {
 	private final static Logger logger = LoggerFactory.getLogger(PageController.class);
 	@Autowired
 	UserService userService;
+	@Autowired
+	TagService tagService;
 	@Autowired
 	BlogReadService blogReadService;
 	
@@ -69,6 +72,8 @@ public class PageController {
 		
 		String selfJson = objectMapper.writeValueAsString(userService.getSelf(uid));
 		model.addAttribute("selfJson", selfJson);
+		String tagTreeJson = objectMapper.writeValueAsString(tagService.getTagTree());
+		model.addAttribute("tagTreeJson", tagTreeJson);
 		return "write-blog.httl";
 	}
 	
