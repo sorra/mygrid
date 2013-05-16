@@ -13,13 +13,19 @@ $(document).ready(function() {
 
 	buildTagSels();
 	buildTagPlus();
-	$('form.top-box .btn[type="submit"]').click(function(event){
+
+	$('form.top-box .btn[type="submit"]')
+	.tooltip({
+		placement: 'top',
+		trigger: 'manual'
+	})
+	.click(function(event){
 		event.preventDefault();
 		var $submit = $(this);
 		$submit.prop('disabled', true);
 
 		var selectedTagIds = [];
-		$('.tag-sel.btn-success .tag-label').each(function(idx){
+		$('.tag-sel.btn-success').each(function(idx){
 			var tagId = parseInt($(this).attr('tag-id'));
 			selectedTagIds.push(tagId);
 			$(this).removeClass('.btn-success');
@@ -33,10 +39,14 @@ $(document).ready(function() {
 			$submit.prop('disabled', false);
 		})
 		.done(function(resp){
-			$('form.top-box .input').val('发表成功！');
+			$submit.data('tooltip').options.title = '发表成功';
+			$submit.tooltip('show');
+			window.setTimeout(function(){$submit.tooltip('hide');}, 1000);
 		})
 		.fail(function(resp){
-			window.alert("post failed! " + resp);
+			$submit.data('tooltip').options.title = '发表失败';
+			$submit.tooltip('show');
+			window.setTimeout(function(){$submit.tooltip('hide');}, 1000);
 		});
 	});
 });
@@ -57,16 +67,20 @@ function buildTagPlus() {
 	var tagTree = $.parseJSON($('#tag-tree-json').text());
 	var $tagTree = $('<div></div>');
 	
-	function buildTagTree(node, depth) {
+	function buildTagTree(node, depth, isLastOne) {
 		var indentValue = 20 * depth;
 		if (depth >= 0) {
-			createTagSel(node).css('display', 'block')
-				.css('margin-left', indentValue+'px').appendTo($tagTree);
+			var $tagSel = createTagSel(node);
+			$tagSel.css('margin-left', indentValue+'px')
+				.appendTo($tagTree).after($('<br/>'));
+			if (depth==0 || isLastOne) {$tagSel.css('margin-bottom', '10px');}
 		}
 		if (node.children && node.children.length > 0) {
 			for (var i = 0; i < node.children.length; i++) {
-				buildTagTree(node.children[i], depth+1);
-			};
+				var cur = node.children[i];
+				buildTagTree(cur, depth+1,
+					i==node.children.length-1 && (!cur.children || cur.children.length==0));
+			}
 		}
 	}
 	buildTagTree(tagTree, -1);
@@ -75,15 +89,19 @@ function buildTagPlus() {
 			html: true,
 			placement: 'bottom',
 			trigger: 'manual',
+			selector: '#tag-tree-popover',
 			content: $tagTree
-	}).click(function(){
+	}).popover('show');
+	$('.tag-plus').data('popover').tip().hide();
+
+	$('.tag-plus').click(function(){
 		if ($(this).data('show-popover')) {
 			$(this).data('show-popover', false)
-				   .popover('hide');
+				   .data('popover').tip().hide();
 		}
 		else {
 			$(this).data('show-popover', true)
-				   .popover('show');
+				   .data('popover').tip().show();
 		}
 	});
 }

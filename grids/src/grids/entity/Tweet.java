@@ -17,12 +17,12 @@ import javax.persistence.OneToOne;
 
 @Entity(name="Tweet")
 public class Tweet {
-	private long id;
+	private Long id;
 	private String content;
 	private User author;
 	private Date time;
 	private Tweet origin = null;
-	private String sourceUrl = null;
+	private Long blogId = null;
 	private Set<Tag> tags = new HashSet<>();
 	private Collection<Comment> comments = new ArrayList<>();
 
@@ -51,13 +51,13 @@ public class Tweet {
 		this.author = author;
 		this.time = time;
 		tags.addAll(sourceBlog.getTags());
-		sourceUrl = EntityConstants.BLOG_PATH + sourceBlog.getId();
+		blogId =  sourceBlog.getId();
 	}
 
 	@Id
 	@GeneratedValue
-	public long getId() {return id;}
-	public void setId(long id) {this.id = id;}
+	public Long getId() {return id;}
+	public void setId(Long id) {this.id = id;}
 
 	public String getContent() {return content;}
 	public void setContent(String content) {this.content = content;}
@@ -73,8 +73,8 @@ public class Tweet {
 	public Tweet getOrigin() {return origin;}
 	public void setOrigin(Tweet origin) {this.origin = origin;}
 
-	public String getSourceUrl() {return sourceUrl;}
-	public void setSourceUrl(String sourceUrl) {this.sourceUrl = sourceUrl;}
+	public Long getBlogId() {return blogId;}
+	public void setBlogId(Long blogId) {this.blogId = blogId;}
 	
 	@ManyToMany(fetch=FetchType.EAGER)
 	public Set<Tag> getTags() {return tags;}

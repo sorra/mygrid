@@ -10,7 +10,7 @@ public class ControllerExceptionReporter {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	@ExceptionHandler
 	public void logAny(Throwable e) throws Throwable {
-		logger.error("", e);
+		logger.error("controller error encountered");
 		throw e;
 	}
 }

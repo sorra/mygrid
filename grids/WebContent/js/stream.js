@@ -33,7 +33,7 @@ function createTweetCard(card) {
 	$tc.find('.avatar').attr(authorLinkAttrs)
 		.find('img').attr('src', '/grids/rs/img/panda.jpg');	
 	$tc.find('.author-name').attr(authorLinkAttrs).text(card.authorName);
-	$tc.find('.content').text(card.content);
+	$tc.find('.content').html(card.content);
 	if (card.origin)
 		$tc.find('.origin').replaceWith(createOriginCard(card.origin));
 	else

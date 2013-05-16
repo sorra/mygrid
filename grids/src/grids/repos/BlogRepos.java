@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import grids.entity.Blog;
-import grids.entity.EntityConstants;
 import grids.entity.Tag;
 import grids.entity.Tweet;
 
@@ -37,10 +36,9 @@ public class BlogRepos extends BaseRepos<Blog> {
 	}
 	
 	public List<Tweet> connectTweets(long blogId) {
-		String sourceUrl = EntityConstants.BLOG_PATH + blogId;
 		Query queryShares = session().createQuery(
-				"from Tweet t where t.sourceUrl = :url")
-				.setString("url", sourceUrl);
+				"from Tweet t where t.blogId = :bid")
+				.setLong("bid", blogId);
 		List<Tweet> shares = queryShares.list();
 		
 		List<Tweet> connected = new ArrayList<>(shares);

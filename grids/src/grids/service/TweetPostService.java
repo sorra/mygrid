@@ -49,11 +49,16 @@ public class TweetPostService {
 		String content = blog.getContent();
 		String summary = content.length()>SUM_LEN ? content.substring(0, SUM_LEN) : content;
 		Tweet tweet = new Tweet(
-				"发表了博客：["+blog.getTitle()+"] "+summary,
+				"发表了博客：["+blogRef(blog)+"] "+summary,
 				userRepos.load(userId),
 				new Date(),
 				blog);
 		tweetRepos.save(tweet);
+	}
+	
+	private String blogRef(Blog blog) {
+		return String.format("<a href=\"%s\">%s</a>",
+				"/grids/blog/" + blog.getId(), blog.getTitle());
 	}
 	
 	public Tweet forward(long userId, String content, long originId) {

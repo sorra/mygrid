@@ -1,6 +1,6 @@
 package grids.web;
 
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import grids.entity.Blog;
@@ -32,9 +32,11 @@ public class PostController {
 	@ResponseBody
 	public boolean tweet(HttpSession session,
 			@RequestParam("content") String content, 
-			@RequestParam("tagIds[]") Collection<Long> tagIds) throws IOException {
+			@RequestParam(value="tagIds[]", required=false) Collection<Long> tagIds) {
 		Long uid = AuthUtil.checkLoginUid(session);
 		if (uid == null) {return false;}
+		
+		if (tagIds == null) {tagIds = new ArrayList<>(0);}
 		
 		Tweet tweet = tweetService.newTweet(uid, content, tagIds);
 		logger.info("post tweet {} success", tweet.getId());
@@ -46,9 +48,11 @@ public class PostController {
 	public boolean blog(HttpSession session,
 			@RequestParam("title") String title,
 			@RequestParam("content") String content,
-			@RequestParam("tagIds[]") Collection<Long> tagIds) throws IOException {
+			@RequestParam(value="tagIds[]", required=false) Collection<Long> tagIds) {
 		Long uid = AuthUtil.checkLoginUid(session);
 		if (uid == null) {return false;}
+		
+		if (tagIds == null) {tagIds = new ArrayList<>(0);}
 		
 		Blog blog = blogService.newBlog(uid, title, content, tagIds, true);
 		if (blog != null) {
