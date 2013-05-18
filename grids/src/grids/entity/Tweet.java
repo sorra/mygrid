@@ -17,7 +17,7 @@ import javax.persistence.OneToOne;
 
 @Entity(name="Tweet")
 public class Tweet {
-	private Long id;
+	private long id;
 	private String content;
 	private User author;
 	private Date time;
@@ -73,8 +73,8 @@ public class Tweet {
 	public Tweet getOrigin() {return origin;}
 	public void setOrigin(Tweet origin) {this.origin = origin;}
 
-	public Long getBlogId() {return blogId;}
-	public void setBlogId(Long blogId) {this.blogId = blogId;}
+	public long getBlogId() {return blogId;}
+	public void setBlogId(long blogId) {this.blogId = blogId;}
 	
 	@ManyToMany(fetch=FetchType.EAGER)
 	public Set<Tag> getTags() {return tags;}

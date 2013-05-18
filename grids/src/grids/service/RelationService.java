@@ -20,7 +20,7 @@ public class RelationService {
 	@Autowired
 	TagRepository tagRepos;
 
-	public void follow(long userId, long targetId, long[] tagIds) {
+	public void follow(long userId, long targetId, Collection<Long> tagIds) {
 		User user = userRepos.load(userId);
 		Follow follow = new Follow(user, userRepos.load(targetId), tagRepos.getTags(tagIds));
 		followRepos.save(follow);
@@ -29,7 +29,7 @@ public class RelationService {
 	/*
 	 * May optimize it by findByFollowId (surrogate key)
 	 */
-	public void editFollow(long userId, long targetId, long[] tagIds) {
+	public void editFollow(long userId, long targetId, Collection<Long> tagIds) {
 		Follow follow = followRepos.find(userId, targetId);
 		follow.setTags(tagRepos.getTags(tagIds));
 	}

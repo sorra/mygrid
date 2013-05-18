@@ -69,14 +69,14 @@ public class ServiceInitializer {
 	}
 	
 	private void relation() {
-		relationService.follow(admin, bethia, new long[]{society, culture});
-		relationService.follow(admin, centos, new long[]{society, culture});
+		relationService.follow(admin, bethia, Arrays.asList(society, culture));
+		relationService.follow(admin, centos, Arrays.asList(society, culture));
 		
-		relationService.follow(bethia, admin, new long[]{music, view});
-		relationService.follow(bethia, centos, new long[]{music});
+		relationService.follow(bethia, admin, Arrays.asList(music, view));
+		relationService.follow(bethia, centos, Arrays.asList(music));
 		
-		relationService.follow(centos, admin, new long[]{tech, view});
-		relationService.follow(centos, bethia, new long[]{art});
+		relationService.follow(centos, admin, Arrays.asList(tech, view));
+		relationService.follow(centos, bethia, Arrays.asList(art));
 	}
 	
 	private void post() {

@@ -2,7 +2,6 @@ package grids.repository;
 
 import grids.entity.Tag;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -18,15 +17,6 @@ public class TagRepository extends BaseRepository<Tag> {
 			}
 		}
 		return null;
-	}
-	
-	@Deprecated
-	public Set<Tag> getTags(long[] ids) {
-		Collection<Long> tai = new ArrayList<>();
-		for (long id : ids) {
-			tai.add(id);
-		}
-		return getTags(tai);
 	}
 	
 	public Set<Tag> getTags(Collection<Long> ids) {
