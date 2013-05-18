@@ -1,4 +1,4 @@
-package grids.repos;
+package grids.repository;
 
 import grids.entity.Tag;
 
@@ -10,7 +10,7 @@ import java.util.Set;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class TagRepos extends BaseRepos<Tag> {
+public class TagRepository extends BaseRepository<Tag> {
 	public Tag findByNameAndParent(String name, long parentId) {
 		for (Tag child : get(parentId).getChildren()) {
 			if (child.getName().equals(name)) {
@@ -37,11 +37,11 @@ public class TagRepos extends BaseRepos<Tag> {
 		return tags;
 	}
 	
-	public Set<Tag> getQueryTags(Tag tag) {
+	public static Set<Tag> getQueryTags(Tag tag) {
 		return tag.descendants();
 	}
 	
-	public Set<Tag> getQueryTags(Collection<Tag> tags) {
+	public static Set<Tag> getQueryTags(Collection<Tag> tags) {
 		Set<Tag> queryTags = new HashSet<>();
 		for (Tag node : tags) {
 			queryTags.add(node);

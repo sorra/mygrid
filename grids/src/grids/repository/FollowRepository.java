@@ -1,4 +1,4 @@
-package grids.repos;
+package grids.repository;
 
 
 import java.util.List;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import grids.entity.Follow;
 
 @Repository
-public class FollowRepos extends BaseRepos<Follow>{
+public class FollowRepository extends BaseRepository<Follow>{
 
 	public Follow find(long sourceId, long targetId) {
 		Query query = session().createQuery(

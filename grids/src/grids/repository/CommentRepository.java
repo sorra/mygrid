@@ -1,4 +1,4 @@
-package grids.repos;
+package grids.repository;
 
 import java.util.List;
 
@@ -8,9 +8,9 @@ import org.springframework.stereotype.Repository;
 import grids.entity.Comment;
 
 @Repository
-public class CommentRepos extends BaseRepos<Comment> {
+public class CommentRepository extends BaseRepository<Comment> {
 
-	public List<Comment> findBySource(long sourceId) {
+	public List<Comment> bySource(long sourceId) {
 		Query query = session().createQuery(
 				"from Comment c where c.source.id = :sourceId")
 				.setLong("sourceId", sourceId);

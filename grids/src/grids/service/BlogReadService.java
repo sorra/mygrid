@@ -2,7 +2,8 @@ package grids.service;
 
 import grids.entity.Blog;
 import grids.entity.Tweet;
-import grids.repos.BlogRepos;
+import grids.repository.BlogRepository;
+import grids.repository.TweetRepository;
 import grids.transfer.BlogData;
 import grids.transfer.TweetCard;
 
@@ -17,7 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly=true)
 public class BlogReadService {
 	@Autowired
-	private BlogRepos blogRepos;
+	private BlogRepository blogRepos;
+	@Autowired
+	private TweetRepository tweetRepos;
 	@Autowired
 	private UserService userService;
 	@Autowired
@@ -45,7 +48,7 @@ public class BlogReadService {
 	 */
 	public List<TweetCard> connectTweets(long blogId) {
 		List<TweetCard> tcs = new ArrayList<>();
-		for (Tweet tweet : blogRepos.connectTweets(blogId)) {
+		for (Tweet tweet : tweetRepos.connectTweets(blogId)) {
 			tcs.add(tweetReadService.getTweetCard(tweet));
 		}
 		return tcs;

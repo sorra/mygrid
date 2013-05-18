@@ -1,9 +1,9 @@
 package grids.service;
 
 import grids.entity.Blog;
-import grids.repos.BlogRepos;
-import grids.repos.TagRepos;
-import grids.repos.UserRepos;
+import grids.repository.BlogRepository;
+import grids.repository.TagRepository;
+import grids.repository.UserRepository;
 
 import java.util.Collection;
 import java.util.Date;
@@ -16,11 +16,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class BlogPostService {
 	@Autowired
-	private BlogRepos blogRepos;
+	private BlogRepository blogRepos;
 	@Autowired
-	private UserRepos userRepos;
+	private UserRepository userRepos;
 	@Autowired
-	private TagRepos tagRepos;
+	private TagRepository tagRepos;
 	@Autowired
 	private TweetPostService tweetService;
 	

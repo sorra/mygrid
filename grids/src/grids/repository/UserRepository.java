@@ -1,4 +1,4 @@
-package grids.repos;
+package grids.repository;
 
 import grids.entity.User;
 
@@ -6,7 +6,7 @@ import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class UserRepos extends BaseRepos<User> {
+public class UserRepository extends BaseRepository<User> {
 
 	public User findByEmail(String email) {
 		Query query = session().createQuery("from User u where u.email=:email")

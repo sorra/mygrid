@@ -2,7 +2,7 @@ package grids.service;
 
 import grids.entity.Follow;
 import grids.entity.User;
-import grids.repos.*;
+import grids.repository.*;
 
 import java.util.Collection;
 
@@ -14,11 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class RelationService {
 	@Autowired
-	UserRepos userRepos;
+	UserRepository userRepos;
 	@Autowired
-	FollowRepos followRepos;
+	FollowRepository followRepos;
 	@Autowired
-	TagRepos tagRepos;
+	TagRepository tagRepos;
 
 	public void follow(long userId, long targetId, long[] tagIds) {
 		User user = userRepos.load(userId);

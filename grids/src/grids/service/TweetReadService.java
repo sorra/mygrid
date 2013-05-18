@@ -5,9 +5,9 @@ import grids.entity.Comment;
 import grids.entity.Follow;
 import grids.entity.Tag;
 import grids.entity.Tweet;
-import grids.repos.CommentRepos;
-import grids.repos.FollowRepos;
-import grids.repos.TweetRepos;
+import grids.repository.CommentRepository;
+import grids.repository.FollowRepository;
+import grids.repository.TweetRepository;
 import grids.transfer.TweetCard;
 
 import java.util.ArrayList;
@@ -24,19 +24,19 @@ import org.springframework.transaction.annotation.Transactional;
 public class TweetReadService {
 	private static final int FETCH_SIZE = 20;
 	@Autowired
-	private TweetRepos tweetRepos;
+	private TweetRepository tweetRepos;
 	@Autowired
-	private FollowRepos followRepos;
+	private FollowRepository followRepos;
 	@Autowired
-	private CommentRepos commentRepos;
+	private CommentRepository commentRepos;
 	
 	public List<TweetCard> istream(long userId) {
 		//XXX consider fetch_size limit
 		List<Tweet> tweets = new ArrayList<>();
-		tweets.addAll(tweetRepos.tweetsByAuthor(userId));
+		tweets.addAll(tweetRepos.byAuthor(userId));
 		List<Follow> followings = followRepos.followings(userId);
 		for (Follow follow : followings) {
-			tweets.addAll(tweetRepos.tweetsByAuthorAndTags(
+			tweets.addAll(tweetRepos.byAuthorAndTags(
 					follow.getTarget().getId(), follow.getTags()));
 		}
 		Collections.sort(tweets, new TweetOnIdComparator());
@@ -54,7 +54,7 @@ public class TweetReadService {
 	}
 	
 	public List<Tweet> tweetsByTags(Collection<Tag> tags) {
-		return tweetRepos.tweetsByTags(tags);
+		return tweetRepos.byTags(tags);
 	}
 
 	public TweetCard getTweetCard(long tweetId) {

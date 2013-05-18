@@ -1,7 +1,7 @@
 package grids.service;
 
 import grids.entity.Tag;
-import grids.repos.TagRepos;
+import grids.repository.TagRepository;
 import grids.transfer.TagCard;
 import grids.transfer.TagLabel;
 import grids.transfer.TagNode;
@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class TagService {
 	@Autowired
-	TagRepos tagRepos;
+	TagRepository tagRepos;
 	
 	public long newTag(String name, long parentId) {
 		Tag tag = new Tag(name, tagRepos.load(parentId));

@@ -1,10 +1,10 @@
-package grids.repos;
+package grids.repository;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public abstract class BaseRepos<T> {
+public abstract class BaseRepository<T> {
 	@Autowired
 	private SessionFactory sessionFactory;
 	

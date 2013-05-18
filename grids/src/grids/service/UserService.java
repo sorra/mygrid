@@ -9,8 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import grids.entity.Tag;
 import grids.entity.User;
-import grids.repos.FollowRepos;
-import grids.repos.UserRepos;
+import grids.repository.FollowRepository;
+import grids.repository.UserRepository;
 import grids.transfer.UserSelf;
 import grids.transfer.TagLabel;
 import grids.transfer.UserCard;
@@ -19,9 +19,9 @@ import grids.transfer.UserCard;
 @Transactional(readOnly=true)
 public class UserService {
 	@Autowired
-	UserRepos userRepos;
+	UserRepository userRepos;
 	@Autowired
-	FollowRepos followRepos;
+	FollowRepository followRepos;
 	@Autowired
 	TagService tagService;
 	

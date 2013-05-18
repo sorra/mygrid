@@ -3,10 +3,10 @@ package grids.service;
 import grids.entity.Blog;
 import grids.entity.Comment;
 import grids.entity.Tweet;
-import grids.repos.CommentRepos;
-import grids.repos.TagRepos;
-import grids.repos.TweetRepos;
-import grids.repos.UserRepos;
+import grids.repository.CommentRepository;
+import grids.repository.TagRepository;
+import grids.repository.TweetRepository;
+import grids.repository.UserRepository;
 
 import java.util.Collection;
 import java.util.Date;
@@ -19,13 +19,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class TweetPostService {
 	@Autowired
-	private UserRepos userRepos;
+	private UserRepository userRepos;
 	@Autowired
-	private TweetRepos tweetRepos;
+	private TweetRepository tweetRepos;
 	@Autowired
-	private TagRepos tagRepos;
+	private TagRepository tagRepos;
 	@Autowired
-	private CommentRepos commentRepos;
+	private CommentRepository commentRepos;
 	
 	public Tweet newTweet(long userId, String content, Collection<Long> tagIds) {
 		Tweet tweet = new Tweet(content, userRepos.load(userId), new Date(),
