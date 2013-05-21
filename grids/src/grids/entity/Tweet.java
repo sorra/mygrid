@@ -56,8 +56,8 @@ public class Tweet {
 
 	@Id
 	@GeneratedValue
-	public Long getId() {return id;}
-	public void setId(Long id) {this.id = id;}
+	public long getId() {return id;}
+	public void setId(long id) {this.id = id;}
 
 	public String getContent() {return content;}
 	public void setContent(String content) {this.content = content;}
@@ -73,8 +73,8 @@ public class Tweet {
 	public Tweet getOrigin() {return origin;}
 	public void setOrigin(Tweet origin) {this.origin = origin;}
 
-	public long getBlogId() {return blogId;}
-	public void setBlogId(long blogId) {this.blogId = blogId;}
+	public Long getBlogId() {return blogId;}
+	public void setBlogId(Long blogId) {this.blogId = blogId;}
 	
 	@ManyToMany(fetch=FetchType.EAGER)
 	public Set<Tag> getTags() {return tags;}

@@ -21,13 +21,10 @@ public class BlogPostService {
 	private UserRepository userRepos;
 	@Autowired
 	private TagRepository tagRepos;
-	@Autowired
-	private TweetPostService tweetService;
 	
-	public Blog newBlog(long userId, String title, String content, Collection<Long> tagIds, boolean share) {
-		Blog blog = new Blog(title, content, userRepos.load(userId), new Date(), tagRepos.getTags(tagIds));
+	public Blog newBlog(long userId, String title, String content, Collection<Long> tagIds) {
+		Blog blog = new Blog(title, content, userRepos.load(userId), new Date(), tagRepos.byIds(tagIds));
 		blogRepos.save(blog);
-		if(share) {tweetService.share(userId, blog);}
 		return blog;
 	}
 	
@@ -36,7 +33,7 @@ public class BlogPostService {
 		if (blog.getAuthor().getId() == userId) {
 			blog.setTitle(title);
 			blog.setContent(content);
-			blog.setTags(tagRepos.getTags(tagIds));
+			blog.setTags(tagRepos.byIds(tagIds));
 			return blog;
 		}
 		else return null;

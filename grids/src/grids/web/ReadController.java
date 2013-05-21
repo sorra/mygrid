@@ -4,6 +4,7 @@ import java.util.List;
 
 import grids.service.BlogReadService;
 import grids.service.StreamService;
+import grids.service.TweetReadService;
 import grids.transfer.Stream;
 import grids.transfer.TweetCard;
 
@@ -25,6 +26,8 @@ public class ReadController {
 	private StreamService streamService;
 	@Autowired
 	private BlogReadService blogReadService;
+	@Autowired
+	private TweetReadService tweetReadService;
 	
 	@RequestMapping("/istream")
 	@ResponseBody
@@ -40,6 +43,6 @@ public class ReadController {
 	@RequestMapping("/connect/{blogId}")
 	@ResponseBody
 	public List<TweetCard> connect(@PathVariable long blogId) {
-		return blogReadService.connectTweets(blogId);
+		return tweetReadService.connectTweets(blogId);
 	}
 }

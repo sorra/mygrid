@@ -68,7 +68,7 @@ public class TweetReadService {
 	}
 
 	public Collection<Tweet> getForwards(long originId) {
-		return tweetRepos.findByOrigin(originId);
+		return tweetRepos.byOrigin(originId);
 	}
 
 	public Collection<Comment> getComments(long sourceId) {
@@ -82,5 +82,16 @@ public class TweetReadService {
 	public long commentCount(long sourceId) {
 		return commentRepos.commentCount(sourceId);
 	}
-
+	
+	/**
+	 * Experimental
+	 * @return a sequential list of connected tweets
+	 */
+	public List<TweetCard> connectTweets(long blogId) {
+		List<TweetCard> tcs = new ArrayList<>();
+		for (Tweet tweet : tweetRepos.connectTweets(blogId)) {
+			tcs.add(getTweetCard(tweet));
+		}
+		return tcs;
+	}
 }

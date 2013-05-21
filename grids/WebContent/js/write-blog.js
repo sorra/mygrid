@@ -15,10 +15,11 @@ $(document).ready(function(){
 		$submit.prop('disabled', true);
 
 		var selectedTagIds = [];
-		$('.tag-sel.btn-success .tag-label').each(function(idx){
+		$('.tag-sel.btn-success').each(function(idx){
 			var tagId = parseInt($(this).attr('tag-id'));
 			selectedTagIds.push(tagId);
 			$(this).removeClass('.btn-success');
+			console.log('fff');
 		});
 
 		$.post('/grids/post/blog', {

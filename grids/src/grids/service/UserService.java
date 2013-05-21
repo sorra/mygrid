@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import grids.entity.Tag;
 import grids.entity.User;
 import grids.repository.FollowRepository;
+import grids.repository.TagRepository;
 import grids.repository.UserRepository;
 import grids.transfer.UserSelf;
 import grids.transfer.TagLabel;
@@ -23,13 +24,13 @@ public class UserService {
 	@Autowired
 	FollowRepository followRepos;
 	@Autowired
-	TagService tagService;
+	TagRepository tagRepos;
 	
 	public UserSelf getSelf(long userId) {
 		return new UserSelf(userRepos.get(userId),
 				followRepos.followingCount(userId),
 				followRepos.followerCount(userId),
-				userTopTags(userId));
+				topTags(userId));
 	}
 	
 	public UserCard getUserCard(long userId) {
@@ -63,10 +64,10 @@ public class UserService {
 		return user.getId();
 	}
 	
-	private Collection<TagLabel> userTopTags(long userId) {
+	private Collection<TagLabel> topTags(long userId) {
 		Collection<TagLabel> topTags = new ArrayList<>();
 		//TODO true top tags
-		for (Tag tag : tagService.children(1)) {
+		for (Tag tag : tagRepos.get(1).getChildren()) {
 			topTags.add(new TagLabel(tag));
 		}
 		return topTags;

@@ -29,7 +29,7 @@ public class TweetPostService {
 	
 	public Tweet newTweet(long userId, String content, Collection<Long> tagIds) {
 		Tweet tweet = new Tweet(content, userRepos.load(userId), new Date(),
-				tagRepos.getTags(tagIds));
+				tagRepos.byIds(tagIds));
 		tweetRepos.save(tweet);
 		return tweet;
 	}

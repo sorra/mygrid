@@ -22,7 +22,7 @@ public class RelationService {
 
 	public void follow(long userId, long targetId, Collection<Long> tagIds) {
 		User user = userRepos.load(userId);
-		Follow follow = new Follow(user, userRepos.load(targetId), tagRepos.getTags(tagIds));
+		Follow follow = new Follow(user, userRepos.load(targetId), tagRepos.byIds(tagIds));
 		followRepos.save(follow);
 	}
 	
@@ -31,7 +31,7 @@ public class RelationService {
 	 */
 	public void editFollow(long userId, long targetId, Collection<Long> tagIds) {
 		Follow follow = followRepos.find(userId, targetId);
-		follow.setTags(tagRepos.getTags(tagIds));
+		follow.setTags(tagRepos.byIds(tagIds));
 	}
 	
 	public void unfollow(long userId, long targetId) {

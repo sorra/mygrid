@@ -1,11 +1,9 @@
 package grids.service;
 
 import grids.entity.Blog;
-import grids.entity.Tweet;
 import grids.repository.BlogRepository;
 import grids.repository.TweetRepository;
 import grids.transfer.BlogData;
-import grids.transfer.TweetCard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +21,6 @@ public class BlogReadService {
 	private TweetRepository tweetRepos;
 	@Autowired
 	private UserService userService;
-	@Autowired
-	private TweetReadService tweetReadService;
 
 	/**
 	 * @return blogData | null
@@ -40,18 +36,6 @@ public class BlogReadService {
 	public BlogData getBlogData(Blog blog) {
 		long authorId = blog.getAuthor().getId();
 		return new BlogData(blog, userService.getUserCard(authorId));
-	}
-
-	/**
-	 * Experimental
-	 * @return a sequential list of connected tweets
-	 */
-	public List<TweetCard> connectTweets(long blogId) {
-		List<TweetCard> tcs = new ArrayList<>();
-		for (Tweet tweet : tweetRepos.connectTweets(blogId)) {
-			tcs.add(tweetReadService.getTweetCard(tweet));
-		}
-		return tcs;
 	}
 
 	public List<BlogData> getAllBlogData() {

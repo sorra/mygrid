@@ -4,6 +4,7 @@ import javax.servlet.http.HttpSession;
 
 import grids.service.BlogReadService;
 import grids.service.TagService;
+import grids.service.TweetReadService;
 import grids.service.UserService;
 import grids.transfer.BlogData;
 
@@ -23,11 +24,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class PageController {
 	private final static Logger logger = LoggerFactory.getLogger(PageController.class);
 	@Autowired
-	UserService userService;
+	private UserService userService;
 	@Autowired
-	TagService tagService;
+	private TagService tagService;
 	@Autowired
-	BlogReadService blogReadService;
+	private BlogReadService blogReadService;
+	@Autowired
+	private TweetReadService tweetReadService;
 	
 	ObjectMapper objectMapper = new ObjectMapper();
 	
@@ -55,7 +58,7 @@ public class PageController {
 		}
 		
 		model.addAttribute("blog", blog)
-			.addAttribute("tweets", blogReadService.connectTweets(id));
+			.addAttribute("tweets", tweetReadService.connectTweets(id));
 		return "blog.httl";
 	}
 	

@@ -19,7 +19,7 @@ public class TagRepository extends BaseRepository<Tag> {
 		return null;
 	}
 	
-	public Set<Tag> getTags(Collection<Long> ids) {
+	public Set<Tag> byIds(Collection<Long> ids) {
 		Set<Tag> tags = new HashSet<>();
 		for (long id : ids) {
 			tags.add(get(id));

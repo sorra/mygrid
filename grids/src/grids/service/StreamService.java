@@ -82,7 +82,7 @@ public class StreamService {
 	}
 
 	public Stream tagStream(long tagId) {
-		List<Tweet> tweets = tweetReadService.tweetsByTags(tagService.descendants(tagId));
+		List<Tweet> tweets = tweetReadService.tweetsByTags(tagService.getQueryTags(tagId));
 		
 		Stream stream = new Stream();
 		for (Tweet tweet : tweets) {

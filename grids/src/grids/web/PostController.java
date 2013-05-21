@@ -1,4 +1,4 @@
-package grids.web;
+ package grids.web;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class PostController {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired
-	private TweetPostService tweetService;
+	private TweetPostService tweetPostService;
 	@Autowired
 	private BlogPostService blogService;
 	
@@ -38,7 +38,7 @@ public class PostController {
 		if (content.isEmpty()) {return false;}
 		if (tagIds == null) {tagIds = new ArrayList<>(0);}
 		
-		Tweet tweet = tweetService.newTweet(uid, content, tagIds);
+		Tweet tweet = tweetPostService.newTweet(uid, content, tagIds);
 		logger.info("post tweet {} success", tweet.getId());
 		return true;
 	}
@@ -54,7 +54,8 @@ public class PostController {
 		if (title.isEmpty() || content.isEmpty()) {return false;}
 		if (tagIds == null) {tagIds = new ArrayList<>(0);}
 		
-		Blog blog = blogService.newBlog(uid, title, content, tagIds, true);
+		Blog blog = blogService.newBlog(uid, title, content, tagIds);
+		tweetPostService.share(uid, blog);
 		if (blog != null) {
 			logger.info("post blog {} success", blog.getId());
 			return true;

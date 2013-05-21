@@ -72,7 +72,7 @@ public class TweetRepository extends BaseRepository<Tweet> {
 		return connected;
 	}
 	
-	public List<Tweet> findByOrigin(long originId) {
+	public List<Tweet> byOrigin(long originId) {
 		return session().createQuery(
 				"from Tweet t where t.origin.id = :originId")
 				.setLong("originId", originId)

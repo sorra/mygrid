@@ -7,7 +7,6 @@ import grids.transfer.TagLabel;
 import grids.transfer.TagNode;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,18 +45,8 @@ public class TagService {
 	}
 	
 	@Transactional(readOnly=true)
-	public List<Tag> chainUp(long tagId) {
-		return tagRepos.get(tagId).chainUp();
-	}
-	
-	@Transactional(readOnly=true)
-	public Collection<Tag> children(long tagId) {
-		return tagRepos.get(tagId).getChildren();
-	}
-	
-	@Transactional(readOnly=true)
-	public Collection<Tag> descendants(long tagId) {
-		return tagRepos.get(tagId).descendants();
+	public Collection<Tag> getQueryTags(long tagId) {
+		return TagRepository.getQueryTags(tagRepos.get(tagId));
 	}
 
 	public void init() {
