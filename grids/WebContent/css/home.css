@@ -1,3 +1,6 @@
+body{
+	background: #e5e5e5;
+}
 .avatar{
 	display: block;
 	padding-top: 5px;
@@ -15,9 +18,10 @@
 }
 
 .stream .item{
-	background-color: aquamarine;
-	border-bottom: solid 1px #e5e5e5;
+	background: #f0f0f0;
+	border-radius: 5px;
 	padding: 5px;
+	margin-bottom: 5px;
 }
 .stream .t-part{
 	width: 540px;
@@ -26,9 +30,9 @@
 	width: 538px;
 }
 .stream .origin{
-	background-color: deepskyblue;
+	background: #e0e0e0;
 	border: solid 1px #e5e5e5;
-	border-radius: 5px;
+	border-radius: 10px;
 }
 .stream .combine{
 	border-left: solid 1px #e5e5e5;
@@ -46,7 +50,7 @@ body>.container{
 }
 .side{
 	min-height: 600px;
-	background-color: lightgreen;
+	background: lightgreen;
 }
 .top-box{
 	padding: 10px;
