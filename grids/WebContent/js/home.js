@@ -30,8 +30,14 @@ $(document).ready(function() {
 			$(this).removeClass('.btn-success');
 		});
 
+		var input = $('form.top-box .input').val();
+		if (input.trim().length == 0) {
+			postTweetFail();
+			return;
+		} 
+
 		$.post('/grids/post/tweet', {
-			content: $('form.top-box .input').val(),
+			content: input,
 			tagIds: selectedTagIds
 		})
 		.always(function(resp){
