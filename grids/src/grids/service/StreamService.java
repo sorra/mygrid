@@ -19,6 +19,8 @@ public class StreamService {
 	private TweetReadService tweetReadService;
 	@Autowired
 	private TagService tagService;
+	@Autowired
+	private TransferService transferService;
 
 	public Stream istream(long userId) {	
 		List<TweetCard> tcs = tweetReadService.istream(userId);
@@ -86,7 +88,7 @@ public class StreamService {
 		
 		Stream stream = new Stream();
 		for (Tweet tweet : tweets) {
-			stream.add(tweetReadService.getTweetCard(tweet));
+			stream.add(transferService.getTweetCard(tweet));
 		}
 		return stream;
 	}

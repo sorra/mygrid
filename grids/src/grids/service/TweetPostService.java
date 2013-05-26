@@ -7,6 +7,8 @@ import grids.repository.CommentRepository;
 import grids.repository.TagRepository;
 import grids.repository.TweetRepository;
 import grids.repository.UserRepository;
+import grids.search.SearchBase;
+import grids.transfer.TweetCard;
 
 import java.util.Collection;
 import java.util.Date;
@@ -18,6 +20,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class TweetPostService {
+	@Autowired
+	private SearchBase searchBase;
+	@Autowired
+	private TransferService transferService;
 	@Autowired
 	private UserRepository userRepos;
 	@Autowired
@@ -31,6 +37,7 @@ public class TweetPostService {
 		Tweet tweet = new Tweet(content, userRepos.load(userId), new Date(),
 				tagRepos.byIds(tagIds));
 		tweetRepos.save(tweet);
+		searchBase.index(tweet.getId(), transferService.getTweetCard(tweet));
 		return tweet;
 	}
 	
@@ -54,17 +61,14 @@ public class TweetPostService {
 				new Date(),
 				blog);
 		tweetRepos.save(tweet);
-	}
-	
-	private String blogRef(Blog blog) {
-		return String.format("<a href=\"%s\">%s</a>",
-				"/grids/blog/" + blog.getId(), blog.getTitle());
+		searchBase.index(tweet.getId(), transferService.getTweetCard(tweet));
 	}
 	
 	public Tweet forward(long userId, String content, long originId) {
 		Tweet tweet = new Tweet(content, userRepos.load(userId), new Date(),
 				tweetRepos.load(originId));
 		tweetRepos.save(tweet);
+		searchBase.index(tweet.getId(), transferService.getTweetCard(tweet));
 		return tweet;
 	}
 	
@@ -72,8 +76,14 @@ public class TweetPostService {
 		Tweet tweet = tweetRepos.load(tweetId);
 		if (userId == tweet.getAuthor().getId()) {
 			tweetRepos.delete(tweet);
+			searchBase.delete(TweetCard.class, tweetId);
 			return true;
 		}
 		else return false;
+	}
+	
+	private String blogRef(Blog blog) {
+		return String.format("<a href=\"%s\">%s</a>",
+				"/grids/blog/" + blog.getId(), blog.getTitle());
 	}
 }

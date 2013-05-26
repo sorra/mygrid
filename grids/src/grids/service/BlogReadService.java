@@ -20,7 +20,7 @@ public class BlogReadService {
 	@Autowired
 	private TweetRepository tweetRepos;
 	@Autowired
-	private UserService userService;
+	private TransferService transferService;
 
 	/**
 	 * @return blogData | null
@@ -30,18 +30,14 @@ public class BlogReadService {
 		if (blog == null) {
 			return null;
 		}
-		return getBlogData(blog);
+		return transferService.getBlogData(blog);
 	}
-	
-	public BlogData getBlogData(Blog blog) {
-		long authorId = blog.getAuthor().getId();
-		return new BlogData(blog, userService.getUserCard(authorId));
-	}
+
 
 	public List<BlogData> getAllBlogData() {
 		List<BlogData> allBD = new ArrayList<>();
 		for (Blog blog : blogRepos.all()) {
-			allBD.add(getBlogData(blog));
+			allBD.add(transferService.getBlogData(blog));
 		}
 		return allBD;
 	}

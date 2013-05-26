@@ -12,7 +12,7 @@
 		p:username="${jdbc.username}" p:password="$jdbc.password}"></bean> <bean 
 		id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean" 
 		p:configLocation="classpath:hibernate.cfg.xml" p:dataSource-ref="dataSource"></bean> -->
-	<context:component-scan base-package="grids.repository, grids.service"></context:component-scan>
+	<context:component-scan base-package="grids.*"></context:component-scan>
 
 	<bean id="myDataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">

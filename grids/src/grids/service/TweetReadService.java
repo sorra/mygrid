@@ -24,6 +24,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class TweetReadService {
 	private static final int FETCH_SIZE = 20;
 	@Autowired
+	private TransferService transferService;
+	@Autowired
 	private TweetRepository tweetRepos;
 	@Autowired
 	private FollowRepository followRepos;
@@ -48,7 +50,7 @@ public class TweetReadService {
 				? tweets.subList(0, FETCH_SIZE-1) : tweets;
 		for (Tweet tweet : tops) {
 			// How to optimize the counting, by session cache?
-			tcs.add(getTweetCard(tweet));
+			tcs.add(transferService.getTweetCard(tweet));
 		}
 		return tcs;
 	}
@@ -58,13 +60,7 @@ public class TweetReadService {
 	}
 
 	public TweetCard getTweetCard(long tweetId) {
-		return getTweetCard(tweetRepos.get(tweetId));
-	}
-
-	public TweetCard getTweetCard(Tweet tweet) {
-		return new TweetCard(tweet,
-				forwardCount(tweet.getId()),
-				commentCount(tweet.getId()));
+		return transferService.getTweetCard(tweetRepos.get(tweetId));
 	}
 
 	public Collection<Tweet> getForwards(long originId) {
@@ -74,14 +70,6 @@ public class TweetReadService {
 	public Collection<Comment> getComments(long sourceId) {
 		return tweetRepos.load(sourceId).getComments();
 	}
-
-	public long forwardCount(long originId) {
-		return tweetRepos.forwardCount(originId);
-	}
-
-	public long commentCount(long sourceId) {
-		return commentRepos.commentCount(sourceId);
-	}
 	
 	/**
 	 * Experimental
@@ -90,7 +78,7 @@ public class TweetReadService {
 	public List<TweetCard> connectTweets(long blogId) {
 		List<TweetCard> tcs = new ArrayList<>();
 		for (Tweet tweet : tweetRepos.connectTweets(blogId)) {
-			tcs.add(getTweetCard(tweet));
+			tcs.add(transferService.getTweetCard(tweet));
 		}
 		return tcs;
 	}
