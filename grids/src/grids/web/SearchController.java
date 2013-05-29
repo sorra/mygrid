@@ -31,6 +31,7 @@ public class SearchController {
 		for (SearchHit hit : hits) {
 			logger.info("~hit~ id:{} type:{}", hit.id(), hit.type());
 			jsons.add(hit.sourceAsString());
+			logger.info(hit.sourceAsString());
 		}
 		model.addAttribute("hits", jsons);
 		return "search-result.httl";

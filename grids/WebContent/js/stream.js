@@ -41,7 +41,7 @@ function createTweetCard(card) {
 	
 	$tc.find('.time').text(showTime(card.time)).attr('href', '#tw/'+card.id);
 	var $tags = $tc.find('.tags');
-	var tags = card.origin ? origin.tags : card.tags;
+	var tags = card.origin ? card.origin.tags : card.tags;
 	if (tags && tags.length > 0) {
 		$tags.html('');
 		$.each(card.tags, function(idx, tag){
