@@ -19,6 +19,15 @@
 	</div>
 	
 	<div class="combine item row"></div>
+
+	<div class="blog">
+		<a class="avatar span1" href=""><img src=""/></a>
+		<a class="author-name" href="#"></a>
+		<a class="title"></a>
+		<p class="content"></p>
+		<a class="time"></a>
+		<span class="tags">tags</span>
+	</div>
 	
 	<div class="user-card">
 		<div class="row">

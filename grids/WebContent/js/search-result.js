@@ -9,7 +9,7 @@ $(document).ready(function(){
 			createTweetCard(result).appendTo($('#result-list'));
 		}
 		else {
-			$(this).css('display', 'block').appendTo($('#result-list'));
+			createBlogData(result).appendTo($('#result-list'));
 		}
 	});
 });

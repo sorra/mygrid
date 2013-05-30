@@ -31,7 +31,7 @@ function createTweetCard(card) {
 	
 	var authorLinkAttrs = {uid: card.authorId, href: '#user/'+card.authorId};
 	$tc.find('.avatar').attr(authorLinkAttrs)
-		.find('img').attr('src', '/grids/rs/img/panda.jpg');	
+		.find('img').attr('src', card.avatar ? card.avatar : '/grids/rs/img/panda.jpg');	
 	$tc.find('.author-name').attr(authorLinkAttrs).text(card.authorName);
 	$tc.find('.content').html(card.content);
 	if (card.origin)
@@ -75,6 +75,32 @@ function createCombineGroup(group) {
 	});
 	createOriginCard(group.origin).addClass('offset1').appendTo($cg);
 	return $cg;
+}
+
+function createBlogData(data) {
+	var $bd = $('.proto > .blog').clone();
+
+	var authorLinkAttrs = {uid: data.authorId, href: '#user/'+data.authorId};
+	$bd.find('.avatar').attr(authorLinkAttrs)
+		.find('img').attr('src', data.author.avatar ? data.author.avatar : '/grids/rs/img/panda.jpg');	
+	$bd.find('.author-name').attr(authorLinkAttrs).text(data.author.name);
+	$bd.find('.title').text(data.title);
+	$bd.find('.content').html(data.content);
+	$bd.find('.time').text(showTime(data.time)).attr('href', '#bd/'+data.id);
+
+	var $tags = $bd.find('.tags');
+	var tags = data.tags;
+	if (tags && tags.length > 0) {
+		$tags.html('');
+		$.each(data.tags, function(idx, tag){
+			createTagLabel(tag).appendTo($tags);
+		});
+	}
+	else {
+		$tags.remove();
+	}
+
+	return $bd;
 }
 
 function showTime(time) {

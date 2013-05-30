@@ -11,7 +11,7 @@
 $!{include("navbar.httl")}
 <div id="json-holder" style="display:none;">
 	#for(hit : hits)
-	<span class="hit-json">${hit}</span>
+	<span class="hit-json">$!{hit}</span>
 	#end
 </div>
 <div id="container" class="container">

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import grids.search.SearchBase;
+import httl.internal.util.StringUtils;
 
 import org.elasticsearch.search.SearchHit;
 import org.slf4j.Logger;
@@ -30,8 +31,7 @@ public class SearchController {
 		List<String> jsons = new ArrayList<>();
 		for (SearchHit hit : hits) {
 			logger.info("~hit~ id:{} type:{}", hit.id(), hit.type());
-			jsons.add(hit.sourceAsString());
-			logger.info(hit.sourceAsString());
+			jsons.add(StringUtils.escapeXml(hit.sourceAsString()));
 		}
 		model.addAttribute("hits", jsons);
 		return "search-result.httl";

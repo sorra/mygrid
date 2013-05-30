@@ -8,6 +8,11 @@
 				<li><a href="#">Group Page</a></li>
 				<li><a href="#">Private Page</a></li>
 				<li><a href="$!{base}/writeBlog">Write Blog</a></li>
+				<li>
+					<form action="/grids/search" method="get" accept-charset="UTF-8">
+						<input type="text" name="q" placeholder="搜索" style="width:120px"/>
+					</form>
+				</li>
 			</ul>
 		</div>
 	</div>
