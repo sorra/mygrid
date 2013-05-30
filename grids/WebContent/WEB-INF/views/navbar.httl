@@ -1,3 +1,5 @@
+<script src="$!{rs}/js/jquery-1.9.1.js" type="text/javascript"></script>
+
 <div class="navbar navbar-inverse navbar-fixed-top">
 	<div class="navbar-inner">
 		<div class="container">
@@ -9,11 +11,20 @@
 				<li><a href="#">Private Page</a></li>
 				<li><a href="$!{base}/writeBlog">Write Blog</a></li>
 				<li>
-					<form action="/grids/search" method="get" accept-charset="UTF-8">
-						<input type="text" name="q" placeholder="搜索" style="width:120px"/>
+					<form class="search" action="/grids/search" method="get" accept-charset="UTF-8" style="margin:0">
+						<input type="text" name="q" placeholder="搜索"/>
 					</form>
 				</li>
 			</ul>
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+// $(document).ready(function(){
+// 	$('form.search').submit(function(event){
+// 		event.preventDefault();
+// 		console.log($(this).serialize());
+// 		window.open('/grids/search?'+$(this).serialize());
+// 	});
+// });
+</script>

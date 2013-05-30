@@ -1,5 +1,6 @@
 package grids.web;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +25,8 @@ public class SearchController {
 	@RequestMapping("/search")
 	public String search(
 			@RequestParam("q") String q,
-			ModelMap model) {
+			ModelMap model) throws UnsupportedEncodingException {
+		q = new String(q.getBytes("ISO-8859-1"), "UTF-8");
 		logger.info("query: " + q);
 		SearchHit[] hits = searchBase.search(q).getHits().getHits();
 		
