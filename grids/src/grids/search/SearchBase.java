@@ -1,5 +1,7 @@
 package grids.search;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,6 +39,34 @@ public class SearchBase {
 	SearchBase() {
 		client = new TransportClient()
 		  .addTransportAddresses(new InetSocketTransportAddress("localhost", 9300));
+		putMapping(getMappingSource("bd-mapping.json"), BD);
+		putMapping(getMappingSource("tc-mapping.json"), TC);
+	}
+	
+	private String getMappingSource(String filename) {
+		InputStream in = getClass().getClassLoader()
+				.getResourceAsStream(filename);
+		byte[] buf = new byte[100];
+		StringBuilder sb = new StringBuilder();
+		try {
+			while (in.available() > 0) {
+				sb.append(in.read(buf));
+			}
+			return sb.toString();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		} finally {
+			try {
+				in.close();
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		}
+	}
+	
+	private void putMapping(String mappingSource, String type) {
+		client.admin().indices().preparePutMapping(INDEX)
+			.setType(type).setSource(mappingSource).execute();
 	}
 	
 	@PreDestroy

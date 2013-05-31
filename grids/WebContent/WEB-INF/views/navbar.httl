@@ -10,7 +10,7 @@
 				<li><a href="#">Group Page</a></li>
 				<li><a href="#">Private Page</a></li>
 				<li><a href="$!{base}/writeBlog">Write Blog</a></li>
-				<li>
+				<li style="float:right">
 					<form class="search" action="/grids/search" method="get" accept-charset="UTF-8" style="margin:0">
 						<input type="text" name="q" placeholder="搜索"/>
 					</form>
