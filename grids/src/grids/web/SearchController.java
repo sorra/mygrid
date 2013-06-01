@@ -33,7 +33,10 @@ public class SearchController {
 		List<String> jsons = new ArrayList<>();
 		for (SearchHit hit : hits) {
 			logger.info("~hit~ id:{} type:{}", hit.id(), hit.type());
-			jsons.add(StringUtils.escapeXml(hit.sourceAsString()));
+			String sourceJson = hit.sourceAsString();
+			if (sourceJson.contains(q)) {
+				jsons.add(StringUtils.escapeXml(sourceJson));
+			}
 		}
 		model.addAttribute("hits", jsons);
 		return "search-result.httl";

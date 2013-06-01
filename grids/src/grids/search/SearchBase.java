@@ -100,7 +100,7 @@ public class SearchBase {
 			.execute();
 	}
 	
-	public SearchResponse search(String q ) {
+	public SearchResponse search(String q) {
 		return client.prepareSearch(INDEX)
 				.setTypes("bd", "tc")
 				.setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
