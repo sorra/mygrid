@@ -6,6 +6,8 @@ import grids.repository.*;
 
 import java.util.Collection;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class RelationService {
+	private Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired
 	UserRepository userRepos;
 	@Autowired
@@ -21,6 +24,10 @@ public class RelationService {
 	TagRepository tagRepos;
 
 	public void follow(long userId, long targetId, Collection<Long> tagIds) {
+		if (userId == targetId) {
+			logger.warn("user {} should not follow himself!", userId);
+			return;
+		}
 		User user = userRepos.load(userId);
 		Follow follow = new Follow(user, userRepos.load(targetId), tagRepos.byIds(tagIds));
 		followRepos.save(follow);

@@ -1,12 +1,19 @@
 package grids.web;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
+import grids.entity.Follow;
 import grids.service.BlogReadService;
+import grids.service.RelationService;
 import grids.service.TagService;
+import grids.service.TransferService;
 import grids.service.TweetReadService;
 import grids.service.UserService;
 import grids.transfer.BlogData;
+import grids.transfer.UserCard;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,13 +33,17 @@ public class PageController {
 	@Autowired
 	private UserService userService;
 	@Autowired
+	private RelationService relationService;
+	@Autowired
 	private TagService tagService;
 	@Autowired
 	private BlogReadService blogReadService;
 	@Autowired
 	private TweetReadService tweetReadService;
+	@Autowired
+	private TransferService transferService;
 	
-	ObjectMapper objectMapper = new ObjectMapper();
+	ObjectMapper om = new ObjectMapper();
 	
 	@RequestMapping("/public/{id}")
 	public String publicPage(@PathVariable long id) {
@@ -69,15 +80,47 @@ public class PageController {
 	}
 	
 	@RequestMapping("/writeBlog")
-	public String writeBlog(HttpSession session, ModelMap model) throws JsonProcessingException {
+	public String writeBlog(
+			HttpSession session, ModelMap model) throws JsonProcessingException {
 		Long uid = AuthUtil.checkLoginUid(session);
 		if (uid == null) {return "";}
 		
-		String selfJson = objectMapper.writeValueAsString(userService.getSelf(uid));
+		String selfJson = om.writeValueAsString(userService.getSelf(uid));
 		model.addAttribute("selfJson", selfJson);
-		String tagTreeJson = objectMapper.writeValueAsString(tagService.getTagTree());
+		String tagTreeJson = om.writeValueAsString(tagService.getTagTree());
 		model.addAttribute("tagTreeJson", tagTreeJson);
 		return "write-blog.httl";
+	}
+	
+	@RequestMapping("/followings")
+	public String followings(
+			HttpSession session, ModelMap model) throws JsonProcessingException {
+		Long uid = AuthUtil.checkLoginUid(session);
+		if (uid == null) {return "";}
+		
+		List<String> followingsInJson = new ArrayList<>();
+		for (Follow follow: relationService.followings(uid)) {
+			UserCard followingUc = userService.getUserCard(
+					follow.getTarget().getId());
+			followingsInJson.add(om.writeValueAsString(followingUc));
+		}
+		model.addAttribute("followings", followingsInJson);
+		return "followings.httl";
+	}
+	
+	@RequestMapping("/followers")
+	public String followers(HttpSession session, ModelMap model) throws JsonProcessingException {
+		Long uid = AuthUtil.checkLoginUid(session);
+		if (uid == null) {return "";}
+		
+		List<String> followersInJson = new ArrayList<>();
+		for (Follow follow: relationService.followers(uid)) {
+			UserCard followerUc = userService.getUserCard(
+					follow.getSource().getId());
+			followersInJson.add(om.writeValueAsString(followerUc));
+		}
+		model.addAttribute("followers", followersInJson);
+		return "followers.httl";
 	}
 	
 	@RequestMapping("/test")

@@ -42,7 +42,7 @@ function openUserCard() {
 		.done(function(resp) {
 			if (resp == null)
 				console.log('usercard null');
-			else createUserCard(target, resp).hide()
+			else enhancedUserCard(target, resp).hide()
 					.appendTo($('body')).fadeIn();
 		})
 		.fail(function(resp) {
@@ -57,26 +57,30 @@ function closeUserCard() {
 	$uc.fadeOut('', function(){$uc.remove();});
 }
 
-function createUserCard(target, card) {
-	console.log("create");
+function enhancedUserCard(target, card) {
+	console.log("create");	
+	$uc = createUserCard(card);
+	var locatorPos = $(target).offset();
+	var pleft = locatorPos.left;
+	var ptop = locatorPos.top + $(target).height();
+	$uc.css({
+		position: 'absolute',
+		left: pleft+'px', top: ptop+'px'
+		});	
+	$uc.mouseenter(cancelUcCloser).mouseleave($.proxy(launchUcCloser, target));
+
+	return $uc;
+}
+
+function createUserCard(card) {
 	var $uc = $('.proto > .user-card').clone();
 	$uc.find('.avatar > a').find('img').attr('src', '/grids/rs/img/panda.jpg');
 	$uc.find('.name').text(card.name);
 	$uc.find('.intro').text(card.intro);
 	$uc.find('.following-count').text(card.followingCount);
 	$uc.find('.follower-count').text(card.followerCount);
+	$uc.css({width: '300px', background: '#f0f0f0', borderRadius: '3px'});
 	
-
-	var locatorPos = $(target).offset();
-	var pleft = locatorPos.left;
-	var ptop = locatorPos.top + $(target).height();
-	$uc.css({
-		position: 'absolute', width: '300px',
-		background: 'pink', borderRadius: '3px',
-		left: pleft+'px', top: ptop+'px'
-		});	
-	$uc.mouseenter(cancelUcCloser).mouseleave($.proxy(launchUcCloser, target));
-
 	return $uc;
 }
 

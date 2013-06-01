@@ -20,6 +20,9 @@ public class Follow {
 	}
 	
 	public Follow(User source, User target, Set<Tag> tags) {
+		if (source.getId() == target.getId()) {
+			throw new IllegalArgumentException("source should not equal to target!");
+		}
 		this.source = source;
 		this.target = target;
 		this.tags.addAll(tags);
