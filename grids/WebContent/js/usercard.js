@@ -193,6 +193,6 @@ function createTagDialog(uc) {
 }
 
 function destroyTagDialog($dialog) {
-	$dialog.detach();
-	$('.modal-backdrop').detach();
+	$dialog.remove();
+	$('.modal-backdrop').remove();
 }

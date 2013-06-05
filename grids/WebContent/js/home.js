@@ -7,7 +7,7 @@ $(document).ready(function() {
 	.done(function(resp) {
 		window.userSelf = $.parseJSON($('#user-self-json').text());
 		var $selfCard = createUserCard(userSelf).css('border', '').css('border-radius', '');
-		$selfCard.find('.follow').detach();
+		$selfCard.find('.follow').remove();
 		$selfCard.appendTo($('.side'));
 	})
 	.fail(function(resp) {

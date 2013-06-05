@@ -53,11 +53,26 @@ function createTweetCard(card) {
 	}
 	
 	if (card.forwardCount > 0) {
-		$tc.find('.forward-count').text('('+card.forwardCount+')');
+		$tc.find('.forward .count').text('('+card.forwardCount+')');
 	}
 	if (card.commentCount > 0) {
-		$tc.find('.comment-count').text('('+card.commentCount+')');
+		$tc.find('.comment .count').text('('+card.commentCount+')');
 	}
+	$tc.find('.forward').click(function(){});
+	$tc.find('.comment').click(function(){
+		event.preventDefault();
+		var clKey = 'comment-list';
+		var $cl = $(this).data(clKey);
+		console.log($cl);
+		if ($cl) {
+			$cl.remove();
+			$(this).removeData(clKey);
+		}
+		else {
+			$cl = createCommentList(card.id).appendTo($tc);
+			$(this).data(clKey, $cl);
+		}
+	});
 	return $tc;
 }
 
@@ -111,7 +126,7 @@ function addForwardAction($forward) {
 
 function createCommentList(tweetId) {
 	var $cl = $('<div>');
-	$loading = $('<div>').text('评论加载中').appendTo($cl);
+	var $loading = $('<div>').text('评论加载中').appendTo($cl);
 
 	var $list = $('<ul>').appendTo($cl);
 	$.get('/t/'+tweetId+'/comments')
