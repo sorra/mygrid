@@ -1,10 +1,13 @@
 package grids.web;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import grids.entity.Comment;
 import grids.service.BlogReadService;
 import grids.service.StreamService;
 import grids.service.TweetReadService;
+import grids.transfer.CommentCard;
 import grids.transfer.Stream;
 import grids.transfer.TweetCard;
 
@@ -42,7 +45,17 @@ public class ReadController {
 	
 	@RequestMapping("/connect/{blogId}")
 	@ResponseBody
-	public List<TweetCard> connect(@PathVariable long blogId) {
+	public List<TweetCard> connect(@PathVariable("blogId") long blogId) {
 		return tweetReadService.connectTweets(blogId);
+	}
+	
+	@RequestMapping("/t/{id}/comments")
+	@ResponseBody
+	public List<CommentCard> comments(@PathVariable("id") long tweetId) {
+		List<CommentCard> list = new ArrayList<>();
+		for (Comment comment : tweetReadService.getComments(tweetId)) {
+			list.add(new CommentCard(comment));
+		}
+		return list;
 	}
 }

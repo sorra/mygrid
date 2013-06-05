@@ -41,6 +41,9 @@ public class TweetRepository extends BaseRepository<Tweet> {
 	}
 	
 	public List<Tweet> byAuthorAndTags(long authorId, Collection<Tag> tags) {
+		if (tags.isEmpty()) {
+			return byAuthor(authorId);
+		}
 		tags = TagRepository.getQueryTags(tags);
 		return session().createQuery(
 				"select t from Tweet t join t.tags ta where t.author.id=:authorId and ta in :tags")

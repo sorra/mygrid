@@ -34,7 +34,7 @@ public class SearchController {
 		for (SearchHit hit : hits) {
 			logger.info("~hit~ id:{} type:{}", hit.id(), hit.type());
 			String sourceJson = hit.sourceAsString();
-			if (sourceJson.contains(q)) {
+			if (sourceJson.toLowerCase().contains(q.toLowerCase())) {
 				jsons.add(StringUtils.escapeXml(sourceJson));
 			}
 		}

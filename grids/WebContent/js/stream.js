@@ -103,6 +103,35 @@ function createBlogData(data) {
 	return $bd;
 }
 
+function addForwardAction($forward) {
+	$forward.click(function(){
+
+	});
+}
+
+function createCommentList(tweetId) {
+	var $cl = $('<div>');
+	$loading = $('<div>').text('评论加载中').appendTo($cl);
+
+	var $list = $('<ul>').appendTo($cl);
+	$.get('/t/'+tweetId+'/comments')
+	.done(function(resp){
+		$.each(function(idx, item){
+			var $li = $('<li>').appendTo($list);
+			$('<a>').append($('<img>').attr('src', '')).appendTo($li);
+			$('<a>').text(item.authorName).appendTo($li);
+			$('<p>').text(item.content).appendTo($li);
+			$('<a>').text(showTime(item.time));
+		});
+		$('<div>').text('评论').replaceAll($loading);
+	})
+	.fail(function(){
+		$('<div>').text('评论加载失败').replaceAll($loading)
+	});
+
+	return $cl;
+}
+
 function showTime(time) {
 	return new Date(time).toLocaleString();
 }

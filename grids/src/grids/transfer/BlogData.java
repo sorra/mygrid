@@ -2,6 +2,7 @@ package grids.transfer;
 
 import grids.entity.Blog;
 import grids.entity.Tag;
+import grids.entity.User;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,15 +11,20 @@ import java.util.List;
 public class BlogData {
 	
 	private long id;
-	private UserCard author;
+	private long authorId;
+	private String authorName;
+	private String avatar;
+	private UserCard authorCard = null;
 	private String title;
 	private String content;
 	private Date time;
 	private List<TagLabel> tags;
 	
-	public BlogData(Blog blog, UserCard author) {
+	public BlogData(Blog blog, User author) {
 		id = blog.getId();
-		this.author = author;
+		authorId = author.getId();
+		authorName = author.getName();
+		avatar = author.getAvatar();
 		title = blog.getTitle();
 		content = blog.getContent();
 		time = blog.getTime();
@@ -32,8 +38,20 @@ public class BlogData {
 		return id;
 	}
 	
-	public UserCard getAuthor() {
-		return author;
+	public long getAuthorId() {
+		return authorId;
+	}
+	
+	public String getAuthorName() {
+		return authorName;
+	}
+	
+	public String getAvatar() {
+		return avatar;
+	}
+	
+	public UserCard getAuthorCard() {
+		return authorCard;
 	}
 	
 	public String getTitle() {

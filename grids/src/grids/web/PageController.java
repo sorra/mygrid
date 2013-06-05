@@ -101,7 +101,7 @@ public class PageController {
 		List<String> followingsInJson = new ArrayList<>();
 		for (Follow follow: relationService.followings(uid)) {
 			UserCard followingUc = userService.getUserCard(
-					follow.getTarget().getId());
+					uid, follow.getTarget().getId());
 			followingsInJson.add(om.writeValueAsString(followingUc));
 		}
 		model.addAttribute("followings", followingsInJson);
@@ -116,7 +116,7 @@ public class PageController {
 		List<String> followersInJson = new ArrayList<>();
 		for (Follow follow: relationService.followers(uid)) {
 			UserCard followerUc = userService.getUserCard(
-					follow.getSource().getId());
+					uid, follow.getSource().getId());
 			followersInJson.add(om.writeValueAsString(followerUc));
 		}
 		model.addAttribute("followers", followersInJson);

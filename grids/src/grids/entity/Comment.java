@@ -1,4 +1,4 @@
-package grids.entity;
+ package grids.entity;
 
 import java.util.Date;
 
@@ -12,16 +12,16 @@ public class Comment {
 	private long id;
 	private String content;
 	private User author;
-	private Date date;
+	private Date time;
 	private Tweet source;
 	
 	public Comment() {
 	}
 	
-	public Comment(String content, User author, Date date, Tweet source) {
+	public Comment(String content, User author, Date time, Tweet source) {
 		this.content = content;
 		this.author = author;
-		this.date = date;
+		this.time = time;
 		this.source = source;
 	}
 
@@ -37,8 +37,8 @@ public class Comment {
 	public User getAuthor() {return author;}
 	public void setAuthor(User author) {this.author = author;}
 	
-	public Date getDate() {return date;}
-	public void setDate(Date date) {this.date = date;}
+	public Date getTime() {return time;}
+	public void setTime(Date time) {this.time = time;}
 	
 	@ManyToOne
 	public Tweet getSource() {return source;}

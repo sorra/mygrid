@@ -1,5 +1,8 @@
 package grids.transfer;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import grids.entity.User;
 
 public class UserCard {
@@ -9,14 +12,23 @@ public class UserCard {
 	private String intro;
 	private int followingCount;
 	private int followerCount;
+	private boolean isFollowing;
+	private boolean isFollower;
+	private List<TagLabel> tags = new ArrayList<>();
 	
-	public UserCard(User user, int followingCount, int followerCount) {
+	public UserCard(User user, int followingCount, int followerCount,
+			boolean isFollowing, boolean isFollower, List<TagLabel> tags) {
 		id = user.getId();
 		name = user.getName();
 		avatar = user.getAvatar();
 		intro = user.getIntro();
 		this.followingCount = followingCount;
 		this.followerCount = followerCount;
+		this.isFollowing = isFollowing;
+		this.isFollower = isFollower;
+		for (TagLabel tag : tags) {
+			this.tags.add(tag);
+		}
 	}
 
 	public long getId() {
@@ -43,4 +55,15 @@ public class UserCard {
 		return followerCount;
 	}
 	
+	public boolean getIsFollowing() {
+		return isFollowing;
+	}
+	
+	public boolean getIsFollower() {
+		return isFollower;
+	}
+	
+	public List<TagLabel> getTags() {
+		return tags;
+	}
 }

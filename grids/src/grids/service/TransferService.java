@@ -4,6 +4,7 @@ import grids.entity.Blog;
 import grids.entity.Tweet;
 import grids.repository.CommentRepository;
 import grids.repository.TweetRepository;
+import grids.repository.UserRepository;
 import grids.transfer.BlogData;
 import grids.transfer.TweetCard;
 
@@ -15,13 +16,15 @@ public class TransferService {
 	@Autowired
 	private UserService userService;
 	@Autowired
+	private UserRepository userRepos;
+	@Autowired
 	private TweetRepository tweetRepos;
 	@Autowired
 	private CommentRepository commentRepos;
 	
 	public BlogData getBlogData(Blog blog) {
 		long authorId = blog.getAuthor().getId();
-		return new BlogData(blog, userService.getUserCard(authorId));
+		return new BlogData(blog, userRepos.get(authorId));
 	}
 
 	public TweetCard getTweetCard(Tweet tweet) {

@@ -42,7 +42,7 @@ function openUserCard() {
 		.done(function(resp) {
 			if (resp == null)
 				console.log('usercard null');
-			else enhancedUserCard(target, resp).hide()
+			else createPopupUserCard(target, resp).hide()
 					.appendTo($('body')).fadeIn();
 		})
 		.fail(function(resp) {
@@ -53,13 +53,17 @@ function openUserCard() {
 function closeUserCard() {
 	cancelUcCloser();
 	console.log("close");
-	var $uc = $('.user-card:not(.proto *)');
+	var $uc = $('.user-card.popup:not(.proto *)');
 	$uc.fadeOut('', function(){$uc.remove();});
 }
 
-function enhancedUserCard(target, card) {
+function createPopupUserCard(target, card) {
 	console.log("create");	
-	$uc = createUserCard(card);
+	var $uc = createUserCard(card).addClass('popup');
+	if (window.userSelf && window.userSelf.id == card.id) {
+		$('<button>').addClass('btn span').text('自己')
+			.replaceAll($uc.find('.follow'));
+	}
 	var locatorPos = $(target).offset();
 	var pleft = locatorPos.left;
 	var ptop = locatorPos.top + $(target).height();
@@ -79,8 +83,18 @@ function createUserCard(card) {
 	$uc.find('.intro').text(card.intro);
 	$uc.find('.following-count').text(card.followingCount);
 	$uc.find('.follower-count').text(card.followerCount);
-	$uc.css({width: '300px', background: '#f0f0f0', borderRadius: '3px'});
-	
+	$uc.css({
+		minWidth: '200px', background: '#f0f0f0', padding: '2px',
+		border: 'orange solid 2px', borderRadius: '8px'
+	});
+
+	var $follow = $uc.find('.follow');
+	if (card.isFollowing) {
+		setAsFollowed($follow, card);
+	}
+	else {
+		setAsNotFollowed($follow, card);
+	}
 	return $uc;
 }
 
@@ -96,4 +110,89 @@ function cancelUcCloser() {
 		window.clearTimeout(window.ucCloser.timer);
 		window.ucCloser = null;
 	}
+}
+
+function setAsFollowed($follow, uc) {
+	$follow.text('已关注').addClass('btn btn-success span pull-right').click(function(){
+		var $dialog = createTagDialog(uc);
+		var $body = $dialog.find('.modal-body');
+
+		$('<button>').text('编辑关注').addClass('btn btn-primary')
+		.appendTo($dialog.find('.modal-footer'))
+		.click(function(){
+			var selectedTagIds = [];
+			$dialog.find('.modal-body')
+			.find('.btn-success').each(function(){
+				var tagId = parseInt($(this).attr('tag-id'));
+				selectedTagIds.push(tagId);
+			});
+			$.post('/grids/editfollow/'+uc.id, {tagIds: selectedTagIds})
+			.fail(function(){
+				alert('操作失败');
+			});
+			destroyTagDialog($dialog);
+		});
+
+		$('<button>').text('取消关注').addClass('btn btn-inverse')
+		.appendTo($dialog.find('.modal-footer'))
+		.click(function(){
+			$.post('/grids/unfollow/'+uc.id)
+			.fail(function(){
+				alert('操作失败');
+			});
+			destroyTagDialog($dialog);
+		});
+
+		$dialog.appendTo($('#container')).modal();
+	});
+}
+
+function setAsNotFollowed($follow, uc) {
+	$follow.text('关注').addClass('btn btn-success span pull-right').click(function(){
+		// follow();
+		var $dialog = createTagDialog(uc);
+
+		$('<button>').text('关注').addClass('btn btn-primary')
+		.appendTo($dialog.find('.modal-footer'))
+		.click(function(){
+			var selectedTagIds = [];
+			$dialog.find('.modal-body')
+			.find('.btn-success').each(function(){
+				var tagId = parseInt($(this).attr('tag-id'));
+				selectedTagIds.push(tagId);
+			});
+			$.post('/grids/follow/'+uc.id, {tagIds: selectedTagIds})
+			.fail(function(){
+				alert('操作失败');
+			});
+			destroyTagDialog($dialog);
+		});
+
+		$dialog.appendTo($('#container')).modal();
+	});
+}
+
+function createTagDialog(uc) {
+	var $dialog = $('<div>').addClass('tag-dialog modal fade')
+	.css({
+		width: '300px',
+		minHeight: '100px',
+		borderRadius: '10px'
+	});
+	$('<div>').addClass('modal-header').text('请选择0~n个标签').appendTo($dialog);
+	var $body = $('<div>').addClass('modal-body').appendTo($dialog);
+	$.each(uc.tags, function(idx, item){
+		$('<button>').text(item.name).attr('tag-id', item.id).addClass('btn').appendTo($body)
+		.click(function(){
+			$(this).toggleClass('btn-success');
+		});
+	});
+	$('<div>').addClass('modal-footer').appendTo($dialog);
+
+	return $dialog;
+}
+
+function destroyTagDialog($dialog) {
+	$dialog.detach();
+	$('.modal-backdrop').detach();
 }

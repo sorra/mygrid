@@ -1,7 +1,7 @@
 package grids.service;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,14 +33,18 @@ public class UserService {
 				topTags(userId));
 	}
 	
-	public UserCard getUserCard(long userId) {
+	public UserCard getUserCard(long selfId, long userId) {
 		User user = userRepos.get(userId);
 		if (user == null) {
 			return null;
 		}
 		return new UserCard(user,
 				followRepos.followingCount(userId),
-				followRepos.followerCount(userId));
+				followRepos.followerCount(userId),
+				followRepos.find(selfId, userId)!=null,
+				followRepos.find(userId, selfId)!=null,
+				//TBD
+				topTags(userId));
 	}
 
 	public User login(String email, String password) {
@@ -64,8 +68,8 @@ public class UserService {
 		return user.getId();
 	}
 	
-	private Collection<TagLabel> topTags(long userId) {
-		Collection<TagLabel> topTags = new ArrayList<>();
+	private List<TagLabel> topTags(long userId) {
+		List<TagLabel> topTags = new ArrayList<>();
 		//TODO true top tags
 		for (Tag tag : tagRepos.get(1).getChildren()) {
 			topTags.add(new TagLabel(tag));

@@ -22,18 +22,19 @@ public class UserController {
 	@RequestMapping("/self")
 	@ResponseBody
 	public UserSelf self(HttpSession session) {
-		long uid = AuthUtil.checkLoginUid(session);
+		Long uid = AuthUtil.checkLoginUid(session);
 		return userService.getSelf(uid);
 	}
 	
 	@RequestMapping("/card/{id}")
 	@ResponseBody
-	public UserCard userCard(@PathVariable long id) {
-		return userService.getUserCard(id);
+	public UserCard userCard(HttpSession session, @PathVariable("id") long id) {
+		Long uid = AuthUtil.checkLoginUid(session);
+		return userService.getUserCard(uid, id);
 	}
 	
 	@RequestMapping("/info/{id}")
-	public ModelAndView userInfo(@PathVariable long id) {
+	public ModelAndView userInfo(@PathVariable("id") long id) {
 		return null;
 	}
 }

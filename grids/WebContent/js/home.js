@@ -5,7 +5,10 @@ $(document).ready(function() {
 		email : 'admin@',
 		password : '123'})
 	.done(function(resp) {
-		getIstream();
+		window.userSelf = $.parseJSON($('#user-self-json').text());
+		var $selfCard = createUserCard(userSelf).css('border', '').css('border-radius', '');
+		$selfCard.find('.follow').detach();
+		$selfCard.appendTo($('.side'));
 	})
 	.fail(function(resp) {
 		window.alert("login failed! " + resp);
@@ -33,6 +36,7 @@ $(document).ready(function() {
 		var input = $('form.top-box .input').val();
 		if (input.trim().length == 0) {
 			postTweetFail();
+			$submit.prop('disabled', false);
 			return;
 		} 
 
@@ -52,6 +56,8 @@ $(document).ready(function() {
 			postTweetFail();
 		});
 	});
+
+	getIstream();
 });
 
 function postTweetDone() {

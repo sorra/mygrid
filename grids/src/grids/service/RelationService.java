@@ -1,7 +1,6 @@
 package grids.service;
 
 import grids.entity.Follow;
-import grids.entity.User;
 import grids.repository.*;
 
 import java.util.Collection;
@@ -11,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 @Service
 @Transactional
@@ -28,8 +28,10 @@ public class RelationService {
 			logger.warn("user {} should not follow himself!", userId);
 			return;
 		}
-		User user = userRepos.load(userId);
-		Follow follow = new Follow(user, userRepos.load(targetId), tagRepos.byIds(tagIds));
+		Assert.isNull(followRepos.find(userId, targetId));
+		Follow follow = new Follow(
+				userRepos.load(userId), userRepos.load(targetId),
+				tagRepos.byIds(tagIds));
 		followRepos.save(follow);
 	}
 	
@@ -38,7 +40,9 @@ public class RelationService {
 	 */
 	public void editFollow(long userId, long targetId, Collection<Long> tagIds) {
 		Follow follow = followRepos.find(userId, targetId);
+		Assert.notNull(follow);
 		follow.setTags(tagRepos.byIds(tagIds));
+		followRepos.merge(follow);
 	}
 	
 	public void unfollow(long userId, long targetId) {

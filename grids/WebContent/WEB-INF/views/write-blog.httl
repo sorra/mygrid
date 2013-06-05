@@ -26,8 +26,8 @@ $!{include("navbar.httl")}
 		<span id="user-self-json" style="display:none;">${selfJson}</span>
 		<span id="tag-tree-json" style="display:none;">${tagTreeJson}</span>
 		<form class="blog span9">
-			<div class="row"><textarea class="title span9"></textarea></div>
-			<div class="row"><textarea class="content span9"></textarea></div>
+			<div class="row"><textarea class="title span9" placeholder="这里是标题"></textarea></div>
+			<div class="row"><textarea class="content span9" placeholder="这里是内容"></textarea></div>
 			<div class="row">
 					<a class="tag-plus btn btn-info">+</a>
 					<button class="btn btn-primary pull-right" type="submit">发表</button>
