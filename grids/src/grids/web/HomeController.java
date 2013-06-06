@@ -27,7 +27,9 @@ public class HomeController {
 	public String home(HttpSession session, ModelMap model) throws JsonProcessingException {
 		Long uid = AuthUtil.checkLoginUid(session);
 		// Temporal
-		if (uid == null) {uid = 1L;}
+		if (uid == null) {
+			return "redirect:/login";
+		}
 		//
 		String userSelfJson = objectMapper.writeValueAsString(userService.getSelf(uid));
 		model.addAttribute("userSelfJson", userSelfJson);

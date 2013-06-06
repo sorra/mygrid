@@ -47,7 +47,7 @@ public class TweetReadService {
 
 		// Select the top items, for later's higher sort
 		List<Tweet> tops = (FETCH_SIZE < tweets.size())
-				? tweets.subList(0, FETCH_SIZE-1) : tweets;
+				? tweets.subList(0, FETCH_SIZE) : tweets;
 		for (Tweet tweet : tops) {
 			// How to optimize the counting, by session cache?
 			tcs.add(transferService.getTweetCard(tweet));

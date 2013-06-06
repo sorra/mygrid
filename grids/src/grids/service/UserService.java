@@ -87,7 +87,7 @@ public class UserService {
 			countTags(blog.getTags(), topping);
 		}
 		Collections.sort(topping);
-		topping = topping.size() > 5 ? topping.subList(0, 4) : topping;
+		topping = topping.size() > 5 ? topping.subList(0, 5) : topping;
 		
 		List<TagLabel> topTags = new ArrayList<>();
 		for (TagCounter topOne : topping) {

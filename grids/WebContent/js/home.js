@@ -1,18 +1,18 @@
 'use strict';
 
 $(document).ready(function() {
-	$.post('/grids/auth/login', {
-		email : 'admin@',
-		password : '123'})
-	.done(function(resp) {
+	// $.post('/grids/auth/login', {
+	// 	email : 'admin@',
+	// 	password : '123'})
+	// .done(function() {
 		window.userSelf = $.parseJSON($('#user-self-json').text());
 		var $selfCard = createUserCard(userSelf).css('border', '').css('border-radius', '');
 		$selfCard.find('.follow').remove();
 		$selfCard.appendTo($('.side'));
-	})
-	.fail(function(resp) {
-		window.alert("login failed! " + resp);
-	});
+	// })
+	// .fail(function(resp) {
+	// 	window.alert("login failed! " + resp);
+	// });
 	buildTagSels();
 	buildTagPlus();
 
