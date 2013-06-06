@@ -129,7 +129,7 @@ function createCommentList(tweetId) {
 	var $loading = $('<div>').text('评论加载中').appendTo($cl);
 
 	var $list = $('<ul>').appendTo($cl);
-	$.get('/t/'+tweetId+'/comments')
+	$.get('/grids/read/'+tweetId+'/comments')
 	.done(function(resp){
 		$.each(function(idx, item){
 			var $li = $('<li>').appendTo($list);

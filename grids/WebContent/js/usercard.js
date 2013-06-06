@@ -126,6 +126,8 @@ function setAsFollowed($follow, uc) {
 				var tagId = parseInt($(this).attr('tag-id'));
 				selectedTagIds.push(tagId);
 			});
+
+			console.log("tagIds: " + selectedTagIds);
 			$.post('/grids/editfollow/'+uc.id, {tagIds: selectedTagIds})
 			.fail(function(){
 				alert('操作失败');
@@ -161,6 +163,8 @@ function setAsNotFollowed($follow, uc) {
 				var tagId = parseInt($(this).attr('tag-id'));
 				selectedTagIds.push(tagId);
 			});
+
+			console.log("tagIds: " + selectedTagIds);
 			$.post('/grids/follow/'+uc.id, {tagIds: selectedTagIds})
 			.fail(function(){
 				alert('操作失败');

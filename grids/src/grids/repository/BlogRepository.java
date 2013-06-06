@@ -18,12 +18,19 @@ public class BlogRepository extends BaseRepository<Blog> {
 				.list();
 	}
 	
-	public List<Blog> blogs(Collection<Tag> tags) {
+	public List<Blog> byTags(Collection<Tag> tags) {
 		tags = TagRepository.getQueryTags(tags);
 		return session().createQuery(
 				"select b from Blog b join b.tags ta where ta in :tags")
 				.setParameterList("tags", tags)
 				.setMaxResults(MAX_RESULTS)
+				.list();
+	}
+	
+	public List<Blog> byAuthor(long authorId) {
+		return session().createQuery(
+				"from Blog b where b.author.id = :authorId")
+				.setLong("authorId", authorId)
 				.list();
 	}
 

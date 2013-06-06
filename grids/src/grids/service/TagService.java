@@ -6,6 +6,7 @@ import grids.transfer.TagCard;
 import grids.transfer.TagLabel;
 import grids.transfer.TagNode;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class TagService {
 	
 	public long newTag(String name, long parentId) {
 		Tag tag = new Tag(name, tagRepos.load(parentId));
-		if (tagRepos.findByNameAndParent(name, parentId) == null) {
+		if (tagRepos.byNameAndParent(name, parentId) == null) {
 			tagRepos.save(tag);
 			return tag.getId();
 		}
@@ -47,6 +48,11 @@ public class TagService {
 	@Transactional(readOnly=true)
 	public Collection<Tag> getQueryTags(long tagId) {
 		return TagRepository.getQueryTags(tagRepos.get(tagId));
+	}
+
+	@Transactional(readOnly=true)
+	public Collection<Tag> getTagsByName(String name) {
+		return new ArrayList<>(tagRepos.byName(name));
 	}
 
 	public void init() {

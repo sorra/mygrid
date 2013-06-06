@@ -9,12 +9,14 @@ import grids.transfer.TweetCard;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class StreamService {
-	
+	private Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired
 	private TweetReadService tweetReadService;
 	@Autowired
@@ -24,8 +26,8 @@ public class StreamService {
 
 	public Stream istream(long userId) {	
 		List<TweetCard> tcs = tweetReadService.istream(userId);
-		
-		Stream stream = new Stream();	
+		logger.info("tcs size: " + tcs.size());
+		Stream stream = new Stream();
 		stream.addAll(higherSort(tcs));
 		
 		return stream;

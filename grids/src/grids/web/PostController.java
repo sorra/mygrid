@@ -38,6 +38,14 @@ public class PostController {
 		if (content.isEmpty()) {return false;}
 		if (tagIds == null) {tagIds = new ArrayList<>(0);}
 		
+		if (content.length() > 200) {
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			return false;
+		}
 		Tweet tweet = tweetPostService.newTweet(uid, content, tagIds);
 		logger.info("post tweet {} success", tweet.getId());
 		return true;

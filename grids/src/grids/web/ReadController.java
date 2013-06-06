@@ -49,7 +49,7 @@ public class ReadController {
 		return tweetReadService.connectTweets(blogId);
 	}
 	
-	@RequestMapping("/t/{id}/comments")
+	@RequestMapping("/{id}/comments")
 	@ResponseBody
 	public List<CommentCard> comments(@PathVariable("id") long tweetId) {
 		List<CommentCard> list = new ArrayList<>();

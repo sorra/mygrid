@@ -26,7 +26,6 @@ public class AuthController {
 	UserService userService;
 	
 	@RequestMapping(value="/login", method=RequestMethod.POST)
-	@ResponseBody
 	public String login(HttpServletRequest request,
 						@RequestParam("email") String email,
 						@RequestParam("password") String password) {
@@ -36,10 +35,10 @@ public class AuthController {
 			HttpSession sesison = request.getSession(true);
 			sesison.setAttribute(SessionKeys.UID, user.getId());
 			logger.info("User {} logged in.", user.getId());
-			return "/";
+			return "redirect:/";
 		} else {
 			logger.info("{} login failed.", email);
-			return "/login";
+			return "redirect:/login";
 		}
 	}
 	

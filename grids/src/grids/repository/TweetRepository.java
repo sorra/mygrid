@@ -42,7 +42,12 @@ public class TweetRepository extends BaseRepository<Tweet> {
 	
 	public List<Tweet> byAuthorAndTags(long authorId, Collection<Tag> tags) {
 		if (tags.isEmpty()) {
-			return byAuthor(authorId);
+			return new ArrayList<>();
+		}
+		for (Tag tag : tags) {
+			if (tag.getId() == Tag.ROOT_ID) {
+				return byAuthor(authorId);
+			}
 		}
 		tags = TagRepository.getQueryTags(tags);
 		return session().createQuery(

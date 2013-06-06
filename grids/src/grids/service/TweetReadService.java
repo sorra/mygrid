@@ -56,7 +56,7 @@ public class TweetReadService {
 	}
 	
 	public List<Tweet> tweetsByTags(Collection<Tag> tags) {
-		return tweetRepos.byTags(tags);
+		return new ArrayList<>(tweetRepos.byTags(tags));
 	}
 
 	public TweetCard getTweetCard(long tweetId) {
@@ -64,11 +64,11 @@ public class TweetReadService {
 	}
 
 	public Collection<Tweet> getForwards(long originId) {
-		return tweetRepos.byOrigin(originId);
+		return new ArrayList<>(tweetRepos.byOrigin(originId));
 	}
 
 	public Collection<Comment> getComments(long sourceId) {
-		return tweetRepos.load(sourceId).getComments();
+		return new ArrayList<>(tweetRepos.load(sourceId).getComments());
 	}
 	
 	/**

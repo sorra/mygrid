@@ -10,13 +10,19 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class TagRepository extends BaseRepository<Tag> {
-	public Tag findByNameAndParent(String name, long parentId) {
+	public Tag byNameAndParent(String name, long parentId) {
 		for (Tag child : get(parentId).getChildren()) {
 			if (child.getName().equals(name)) {
 				return child;
 			}
 		}
 		return null;
+	}
+	
+	public Collection<Tag> byName(String name) {
+		return session().createQuery("from Tag t where t.name = :name")
+				.setString("name", name)
+				.list();
 	}
 	
 	public Set<Tag> byIds(Collection<Long> ids) {

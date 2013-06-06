@@ -19,8 +19,8 @@ $!{include("navbar.httl")}
 <div class="container" id="container">
 	<div class="author"></div>
 	<div class="blog">
-		<p class="title">${blog.title}</p>
-		<p class="tags">${blog.tags}</p>
+		<h3 class="title">${blog.title}</h3>
+		<div class="tags">${blog.tags}</div>
 		<p class="content">${blog.content}</p>
 	</div>
 	<div class="tweets">
