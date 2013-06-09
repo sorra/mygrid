@@ -78,7 +78,7 @@ function createPopupUserCard(target, card) {
 
 function createUserCard(card) {
 	var $uc = $('.proto > .user-card').clone();
-	$uc.find('.avatar > a').find('img').attr('src', '/grids/rs/img/panda.jpg');
+	$uc.find('.avatar > a').find('img').attr('src', card.avatar ? card.avatar : '/grids/rs/img/1.jpg');
 	$uc.find('.name').text(card.name);
 	$uc.find('.intro').text(card.intro);
 	$uc.find('.following-count').text(card.followingCount);

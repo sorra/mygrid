@@ -21,7 +21,7 @@ function createIstream(stream) {
 			createCombineGroup(item).appendTo(streamNode);
 		}
 	});
-	$('.avatar, .author-name')
+	$('.stream .avatar, .stream .author-name')
 		.mouseenter(launchUcOpener)
 		.mouseleave(launchUcCloser);
 }
@@ -31,7 +31,7 @@ function createTweetCard(card) {
 	
 	var authorLinkAttrs = {uid: card.authorId, href: '#user/'+card.authorId};
 	$tc.find('.avatar').attr(authorLinkAttrs)
-		.find('img').attr('src', card.avatar ? card.avatar : '/grids/rs/img/panda.jpg');	
+		.find('img').attr('src', card.avatar ? card.avatar : '/grids/rs/img/1.jpg');	
 	$tc.find('.author-name').attr(authorLinkAttrs).text(card.authorName);
 	$tc.find('.content').html(card.content);
 	if (card.origin)
@@ -97,7 +97,7 @@ function createBlogData(data) {
 
 	var authorLinkAttrs = {uid: data.authorId, href: '#user/'+data.authorId};
 	$bd.find('.avatar').attr(authorLinkAttrs)
-		.find('img').attr('src', data.author.avatar ? data.author.avatar : '/grids/rs/img/panda.jpg');	
+		.find('img').attr('src', data.author.avatar ? data.author.avatar : '/grids/rs/img/1.jpg');	
 	$bd.find('.author-name').attr(authorLinkAttrs).text(data.author.name);
 	$bd.find('.title').text(data.title);
 	$bd.find('.content').html(data.content);
