@@ -10,9 +10,9 @@
             http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 	<mvc:annotation-driven />
 	<mvc:resources mapping="/rs/**" location="/" />
-	<context:component-scan base-package="grids.web" />
+	<context:component-scan base-package="sage.web" />
 	
-	<bean class="grids.web.context.StaticPathExposer" init-method="init">
+	<bean class="sage.web.context.StaticPathExposer" init-method="init">
 	</bean>
 	<bean id="viewResolver" class="httl.web.springmvc.HttlViewResolver">
 		<property name="contentType" value="text/html; charset=UTF-8" />

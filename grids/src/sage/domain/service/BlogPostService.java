@@ -10,8 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import sage.domain.repository.BlogRepository;
 import sage.domain.repository.TagRepository;
 import sage.domain.repository.UserRepository;
+import sage.domain.search.SearchBase;
 import sage.entity.Blog;
-import sage.search.SearchBase;
 import sage.transfer.BlogData;
 
 @Service

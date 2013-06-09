@@ -12,13 +12,17 @@ function getIstream() {
 }
 
 function createIstream(stream) {
-	var streamNode = $('.stream');
+	var $stream = $('.stream').empty();
+	$('<a>').addClass('newfeed btn').text('刷新').css('margin-left', '320px').appendTo($stream).click(function(){
+		getIstream();
+	});
+
 	$.each(stream.items, function(idx, item){
 		if (item.type == 'TweetCard') {
-			createTweetCard(item).appendTo(streamNode);
+			createTweetCard(item).appendTo($stream);
 		}
 		else if (item.type == 'CombineGroup') {
-			createCombineGroup(item).appendTo(streamNode);
+			createCombineGroup(item).appendTo($stream);
 		}
 	});
 	$('.stream .avatar, .stream .author-name')
