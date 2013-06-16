@@ -8,7 +8,7 @@ function launchUcOpener() {
 	}
 	if (window.ucCloser && window.ucCloser.locator == this) {
 		cancelUcCloser();
-		return;
+//		return;
 	}
 
 	cancelUcOpener();
