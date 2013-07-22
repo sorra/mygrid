@@ -58,6 +58,10 @@ public class TweetReadService {
 	public List<Tweet> tweetsByTags(Collection<Tag> tags) {
 		return new ArrayList<>(tweetRepos.byTags(tags));
 	}
+	
+	public List<Tweet> tweetsByAuthor(long authorId) {
+		return new ArrayList<>(tweetRepos.byAuthor(authorId));
+	}
 
 	public TweetCard getTweetCard(long tweetId) {
 		return transferService.getTweetCard(tweetRepos.get(tweetId));

@@ -2,6 +2,7 @@ package sage.domain.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import sage.domain.repository.CommentRepository;
 import sage.domain.repository.TweetRepository;
@@ -12,6 +13,7 @@ import sage.transfer.BlogData;
 import sage.transfer.TweetCard;
 
 @Service
+@Transactional(readOnly=true)
 public class TransferService {
 	@Autowired
 	private UserService userService;

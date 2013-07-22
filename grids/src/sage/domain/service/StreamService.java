@@ -86,7 +86,6 @@ public class StreamService {
 
 	public Stream tagStream(long tagId) {
 		List<Tweet> tweets = tweetReadService.tweetsByTags(tagService.getQueryTags(tagId));
-		
 		Stream stream = new Stream();
 		for (Tweet tweet : tweets) {
 			stream.add(transferService.getTweetCard(tweet));
@@ -95,6 +94,11 @@ public class StreamService {
 	}
 
 	public Stream personalStream(long userId) {
-		return null;
+		List<Tweet> tweets = tweetReadService.tweetsByAuthor(userId);
+		Stream stream = new Stream();
+		for (Tweet tweet : tweets) {
+			stream.add(transferService.getTweetCard(tweet));
+		}
+		return stream;
 	}
 }

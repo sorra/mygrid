@@ -58,4 +58,18 @@ public class ReadController {
 		}
 		return list;
 	}
+	
+	@RequestMapping("/tag/{id}")
+	@ResponseBody
+	public Stream tagStream(HttpSession session,
+			@PathVariable("id") long tagId) {
+		return streamService.tagStream(tagId);
+	}
+	
+	@RequestMapping("/u/{id}")
+	@ResponseBody
+	public Stream personalStream(HttpSession session,
+			@PathVariable("id") long userId) {
+		return streamService.personalStream(userId);
+	}
 }
