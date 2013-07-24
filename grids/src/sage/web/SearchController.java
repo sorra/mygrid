@@ -4,8 +4,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-import httl.internal.util.StringUtils;
-
 import org.elasticsearch.search.SearchHit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,10 +34,10 @@ public class SearchController {
 			logger.info("~hit~ id:{} type:{}", hit.id(), hit.type());
 			String sourceJson = hit.sourceAsString();
 			if (sourceJson.toLowerCase().contains(q.toLowerCase())) {
-				jsons.add(StringUtils.escapeXml(sourceJson));
+				jsons.add(sourceJson);
 			}
 		}
 		model.addAttribute("hits", jsons);
-		return "search-result.httl";
+		return "search-result";
 	}
 }

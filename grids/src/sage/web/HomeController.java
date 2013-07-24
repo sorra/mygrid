@@ -35,10 +35,10 @@ public class HomeController {
 		model.addAttribute("userSelfJson", userSelfJson);
 		String tagTreeJson = objectMapper.writeValueAsString(tagService.getTagTree());
 		model.addAttribute("tagTreeJson", tagTreeJson);
-		return "home.httl";
+		return "home";
 	}
 	@RequestMapping("/login")
 	public String login() {
-		return "login.httl";
+		return "login";
 	}
 }

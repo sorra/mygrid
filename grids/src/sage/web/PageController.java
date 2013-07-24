@@ -46,13 +46,13 @@ public class PageController {
 	ObjectMapper om = new ObjectMapper();
 	
 	@RequestMapping("/public/{id}")
-	public String publicPage(@PathVariable long id) {
-		return null;
+	public String publicPage(@PathVariable long id, ModelMap model) {
+		return "public-page";
 	}
 	
 	@RequestMapping("/private/{id}")
-	public String privatePage(@PathVariable long id) {
-		return null;
+	public String privatePage(@PathVariable long id, ModelMap model) {
+		return "private-page";
 	}
 	
 	@RequestMapping("/group/{id}")
@@ -70,13 +70,13 @@ public class PageController {
 		
 		model.addAttribute("blog", blog)
 			.addAttribute("tweets", tweetReadService.connectTweets(id));
-		return "blog.httl";
+		return "blog";
 	}
 	
 	@RequestMapping("/blogs")
 	public String blogs(ModelMap model) {
 		model.addAttribute("blogs", blogReadService.getAllBlogData());
-		return "blogs.httl";
+		return "blogs";
 	}
 	
 	@RequestMapping("/writeBlog")
@@ -89,7 +89,7 @@ public class PageController {
 		model.addAttribute("selfJson", selfJson);
 		String tagTreeJson = om.writeValueAsString(tagService.getTagTree());
 		model.addAttribute("tagTreeJson", tagTreeJson);
-		return "write-blog.httl";
+		return "write-blog";
 	}
 	
 	@RequestMapping("/followings")
@@ -105,7 +105,7 @@ public class PageController {
 			followingsInJson.add(om.writeValueAsString(followingUc));
 		}
 		model.addAttribute("followings", followingsInJson);
-		return "followings.httl";
+		return "followings";
 	}
 	
 	@RequestMapping("/followers")
@@ -120,11 +120,11 @@ public class PageController {
 			followersInJson.add(om.writeValueAsString(followerUc));
 		}
 		model.addAttribute("followers", followersInJson);
-		return "followers.httl";
+		return "followers";
 	}
 	
 	@RequestMapping("/test")
 	public String test() {
-		return "test.httl";
+		return "test";
 	}
 }

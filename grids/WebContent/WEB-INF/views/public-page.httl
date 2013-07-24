@@ -12,15 +12,7 @@ $!{include("navbar.httl")}
 	<div class="row">
 		<div class="side span3">SIDE</div>
 		<div class="main span9">
-			<form class="top-box">
-				<div class="row"><textarea class="input span9"></textarea></div>
-				<div class="row">
-					<button class="btn btn-small">标签1</button>
-					<button class="btn btn-small">标签2</button>
-					<button class="btn btn-small">标签3</button>
-					<button class="btn btn-primary pull-right" type="submit">发表</button>
-				</div>
-			</form>
+			$!{include("top-box.httl")}
 			<div class="row">
 				<div class="stream span9"></div>
 			</div>
