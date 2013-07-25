@@ -34,7 +34,9 @@ public class TagRepository extends BaseRepository<Tag> {
 	}
 	
 	public static Set<Tag> getQueryTags(Tag tag) {
-		return tag.descendants();
+		Set<Tag> queryTags = new HashSet<>(tag.descendants());
+		queryTags.add(tag); 
+		return queryTags;
 	}
 	
 	public static Set<Tag> getQueryTags(Collection<Tag> tags) {
