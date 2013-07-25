@@ -43,7 +43,7 @@ public class PageController {
 	@Autowired
 	private TransferService transferService;
 	
-	ObjectMapper om = new ObjectMapper();
+	private ObjectMapper om = new ObjectMapper();
 	
 	@RequestMapping("/public/{id}")
 	public String publicPage(@PathVariable long id, ModelMap model) {
@@ -57,7 +57,7 @@ public class PageController {
 	
 	@RequestMapping("/group/{id}")
 	public String groupPage(@PathVariable long id) {
-		return null;
+		return "group-page";
 	}
 	
 	@RequestMapping("/blog/{id}")
