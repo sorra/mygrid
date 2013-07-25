@@ -5,6 +5,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>搜索结果</title>
 	<link href="$!{rs}/css/bootstrap.css" rel="stylesheet" type="text/css" media="screen" />
+	<link href="$!{rs}/css/stream.css" rel="stylesheet" type="text/css" media="screen" />
 	<link href="$!{rs}/css/home.css" rel="stylesheet" type="text/css" media="screen" />
 </head>
 <body>

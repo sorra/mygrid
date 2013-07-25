@@ -47,11 +47,13 @@ public class PageController {
 	
 	@RequestMapping("/public/{id}")
 	public String publicPage(@PathVariable long id, ModelMap model) {
+		model.addAttribute("id", id);
 		return "public-page";
 	}
 	
 	@RequestMapping("/private/{id}")
 	public String privatePage(@PathVariable long id, ModelMap model) {
+		model.addAttribute("id", id);
 		return "private-page";
 	}
 	

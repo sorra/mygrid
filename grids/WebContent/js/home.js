@@ -1,6 +1,6 @@
 'use strict';
 
-$(document).ready(function() {
+$(document).ready(function(){
 	// $.post('/grids/auth/login', {
 	// 	email : 'admin@',
 	// 	password : '123'})
@@ -57,7 +57,7 @@ $(document).ready(function() {
 		});
 	});
 
-	getIstream();
+	getStream('/grids/read/istream');
 });
 
 function postTweetDone() {

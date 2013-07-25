@@ -1,20 +1,20 @@
 'use strict';
 
-function getIstream() {
-	$.get('/grids/read/istream', {})
+function getStream(url) {
+	$.get(url, {})
 		.done(function(resp){
 			if (resp == null) alert('stream is null');
-			else createIstream(resp);
+			else createStream(resp);
 		})
 		.fail(function(resp){
 			window.alert('istream Oops! ' + resp);
 		});
 }
 
-function createIstream(stream) {
+function createStream(stream) {
 	var $stream = $('.stream').empty();
 	$('<a>').addClass('newfeed btn').text('刷新').css('margin-left', '320px').appendTo($stream).click(function(){
-		getIstream();
+		getStream();
 	});
 
 	$.each(stream.items, function(idx, item){

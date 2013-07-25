@@ -5,6 +5,7 @@
 	<title>贤者：首页</title>
 	<link href="$!{rs}/css/bootstrap.css" rel="stylesheet" type="text/css" media="screen" />
 	<link href="$!{rs}/css/home.css" rel="stylesheet" type="text/css" media="screen" />
+	<link href="$!{rs}/css/stream.css" rel="stylesheet" type="text/css" media="screen" />
 </head>
 <body>
 $!{include("navbar.httl")}
