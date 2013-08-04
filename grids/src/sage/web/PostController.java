@@ -36,19 +36,25 @@ public class PostController {
 		Long uid = AuthUtil.checkLoginUid(session);
 		if (uid == null) {return false;}
 		if (content.isEmpty()) {return false;}
+		if (content.length() > 200) {return false;}
 		if (tagIds == null) {tagIds = new ArrayList<>(0);}
 		
-		if (content.length() > 200) {
-			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			return false;
-		}
 		Tweet tweet = tweetPostService.newTweet(uid, content, tagIds);
 		logger.info("post tweet {} success", tweet.getId());
 		return true;
+	}
+	
+	@RequestMapping(value="/forward", method=RequestMethod.POST)
+	@ResponseBody
+	public boolean forward(HttpSession session,
+	        @RequestParam("content") String content,
+	        @RequestParam("originId") long originId) {
+	    Long uid = AuthUtil.checkLoginUid(session);
+	    if (uid == null) {return false;}
+	    
+	    Tweet tweet = tweetPostService.forward(uid, content, originId);
+        logger.info("forward tweet {} success", tweet.getId());
+	    return true;
 	}
 	
 	@RequestMapping(value="/blog", method=RequestMethod.POST)

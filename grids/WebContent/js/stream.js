@@ -13,9 +13,10 @@ function getStream(url) {
 
 function createStream(stream) {
 	var $stream = $('.stream').empty();
-	$('<a>').addClass('newfeed btn').text('刷新').css('margin-left', '320px').appendTo($stream).click(function(){
-		getStream();
-	});
+	$('<a>').addClass('newfeed btn').text('刷新').css('margin-left', '320px').appendTo($stream)
+		.click(function() {
+			getStream('/grids/read/istream');
+		});
 
 	$.each(stream.items, function(idx, item){
 		if (item.type == 'TweetCard') {
@@ -62,8 +63,29 @@ function createTweetCard(card) {
 	if (card.commentCount > 0) {
 		$tc.find('.comment .count').text('('+card.commentCount+')');
 	}
-	$tc.find('.forward').click(function(){});
-	$tc.find('.comment').click(function(){
+	$tc.find('.forward').attr('href', 'javascript:void(0);').click(function(){
+		event.preventDefault();
+		var $dialog = $('<div>').addClass('forward-dialog modal')
+			.css({
+				width: '300px',
+				minHeight: '100px',
+				borderRadius: '10px'
+			});
+		$('<div>').addClass('modal-header').text('转发微博').appendTo($dialog);
+		$('<input>').addClass('modal-body').appendTo($dialog);
+		var $footer = $('<div>').addClass('modal-footer').appendTo($dialog);
+		$('<button>').text('转发').css({float: 'right'}).appendTo($footer)
+			.click(function() {
+				$.post('/grids/post/forward', {
+					content: $dialog.find('input').val(),
+					originId: card.id
+				});
+			});
+		
+		$dialog.appendTo('#container').modal();
+		console.log('forward dialog');
+	});
+	$tc.find('.comment').attr('href', 'javascript:void(0);').click(function(){
 		event.preventDefault();
 		var clKey = 'comment-list';
 		var $cl = $(this).data(clKey);
@@ -120,12 +142,6 @@ function createBlogData(data) {
 	}
 
 	return $bd;
-}
-
-function addForwardAction($forward) {
-	$forward.click(function(){
-
-	});
 }
 
 function createCommentList(tweetId) {
