@@ -8,12 +8,11 @@
 </head>
 <body>
 $!{include("navbar.httl")}
-<div class="container" id="container">
+<div class="container" id="container" style="margin-top: 50px">
 	<div id="id-holder" style="display:none">${id}</div>
 	<div class="row">
 		<div class="side span3">SIDE</div>
 		<div class="main span9">
-			$!{include("top-box.httl")}
 			<div class="row">
 				<div class="stream span9"></div>
 			</div>
