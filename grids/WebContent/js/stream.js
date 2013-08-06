@@ -67,17 +67,17 @@ function createTweetCard(card) {
 		event.preventDefault();
 		var $dialog = $('<div>').addClass('forward-dialog modal')
 			.css({
-				width: '300px',
+				width: '435px',
 				minHeight: '100px',
 				borderRadius: '10px'
 			});
 		$('<div>').addClass('modal-header').text('转发微博').appendTo($dialog);
-		$('<input>').addClass('modal-body').appendTo($dialog);
+		$('<textarea>').addClass('input modal-body').css({width: '400px', height: '100px'}).appendTo($dialog);
 		var $footer = $('<div>').addClass('modal-footer').appendTo($dialog);
 		$('<button>').text('转发').css({float: 'right'}).appendTo($footer)
 			.click(function() {
 				$.post('/grids/post/forward', {
-					content: $dialog.find('input').val(),
+					content: $dialog.find('.input').val(),
 					originId: card.id
 				});
 			});
