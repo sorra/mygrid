@@ -47,7 +47,7 @@ public class StreamService {
 				long originId = tc.getOrigin().getId();
 				CombineGroup foundGroup = findInSeq(originId, groupSeq);
 				if (foundGroup != null) {
-					foundGroup.getForwards().add(tc);
+					foundGroup.addForward(tc);
 				}
 				else {
 					groupSeq.add(CombineGroup.newByFirst(tc));

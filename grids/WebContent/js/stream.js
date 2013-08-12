@@ -74,7 +74,7 @@ function createTweetCard(card) {
 		$('<div>').addClass('modal-header').text('转发微博').appendTo($dialog);
 		$('<textarea>').addClass('input modal-body').css({width: '400px', height: '100px'}).appendTo($dialog);
 		var $footer = $('<div>').addClass('modal-footer').appendTo($dialog);
-		$('<button>').text('转发').css({float: 'right'}).appendTo($footer)
+		$('<button>').addClass('primary').text('转发').css({float: 'right'}).appendTo($footer)
 			.click(function() {
 				$.post('/grids/post/forward', {
 					content: $dialog.find('.input').val(),
@@ -82,7 +82,7 @@ function createTweetCard(card) {
 				});
 			});
 		
-		$dialog.appendTo('#container').modal();
+		$dialog.appendTo('#container').modal({backdrop: false}).modal();
 		console.log('forward dialog');
 	});
 	$tc.find('.comment').attr('href', 'javascript:void(0);').click(function(){
@@ -161,7 +161,7 @@ function createCommentList(tweetId) {
 		$('<div>').text('评论').replaceAll($loading);
 	})
 	.fail(function(){
-		$('<div>').text('评论加载失败').replaceAll($loading)
+		$('<div>').text('评论加载失败').replaceAll($loading);
 	});
 
 	return $cl;

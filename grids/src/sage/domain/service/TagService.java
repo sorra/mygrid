@@ -54,6 +54,10 @@ public class TagService {
 	public Collection<Tag> getTagsByName(String name) {
 		return new ArrayList<>(tagRepos.byName(name));
 	}
+	
+	public void changeParent(long id, long parentId) {
+	    tagRepos.get(id).setParent(tagRepos.load(parentId));
+	}
 
 	public void init() {
 		if (needInitialize) {

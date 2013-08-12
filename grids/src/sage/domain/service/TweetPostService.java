@@ -65,8 +65,9 @@ public class TweetPostService {
 	}
 	
 	public Tweet forward(long userId, String content, long originId) {
-		Tweet tweet = new Tweet(content, userRepos.load(userId), new Date(),
-				tweetRepos.load(originId));
+	    Tweet origin = tweetRepos.load(originId);
+		Tweet tweet = new Tweet(content,
+		        userRepos.load(userId), new Date(), pureOrigin(origin));
 		tweetRepos.save(tweet);
 		searchBase.index(tweet.getId(), transferService.getTweetCard(tweet));
 		return tweet;
@@ -85,5 +86,14 @@ public class TweetPostService {
 	private String blogRef(Blog blog) {
 		return String.format("<a href=\"%s\">%s</a>",
 				"/grids/blog/" + blog.getId(), blog.getTitle());
+	}
+	
+	private Tweet pureOrigin(Tweet tweet) {
+	    if (tweet.getOrigin() == null) {
+	        return tweet;
+	    }
+	    else {
+	        return pureOrigin(tweet.getOrigin());
+        }
 	}
 }

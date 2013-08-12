@@ -81,7 +81,7 @@ public class PageController {
 		return "blogs";
 	}
 	
-	@RequestMapping("/writeBlog")
+	@RequestMapping("/write-blog")
 	public String writeBlog(
 			HttpSession session, ModelMap model) throws JsonProcessingException {
 		Long uid = AuthUtil.checkLoginUid(session);
