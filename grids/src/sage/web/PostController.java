@@ -51,7 +51,7 @@ public class PostController {
 	        @RequestParam("originId") long originId) {
 	    Long uid = AuthUtil.checkLoginUid(session);
 	    if (uid == null) {return false;}
-	    
+
 	    Tweet tweet = tweetPostService.forward(uid, content, originId);
         logger.info("forward tweet {} success", tweet.getId());
 	    return true;
@@ -67,7 +67,7 @@ public class PostController {
 		if (uid == null) {return false;}
 		if (title.isEmpty() || content.isEmpty()) {return false;}
 		if (tagIds == null) {tagIds = new ArrayList<>(0);}
-		
+
 		Blog blog = blogService.newBlog(uid, title, content, tagIds);
 		tweetPostService.share(uid, blog);
 		if (blog != null) {

@@ -1,5 +1,7 @@
 package sage.domain.service;
 
+import httl.util.StringUtils;
+
 import java.util.Collection;
 import java.util.Date;
 
@@ -29,6 +31,9 @@ public class BlogPostService {
 	private TagRepository tagRepos;
 	
 	public Blog newBlog(long userId, String title, String content, Collection<Long> tagIds) {
+        title = StringUtils.escapeXml(title);
+	    content = StringUtils.escapeXml(content);
+        content = content.replace("\n", "<br/>");
 		Blog blog = new Blog(title, content, userRepos.load(userId), new Date(), tagRepos.byIds(tagIds));
 		blogRepos.save(blog);
 		searchBase.index(blog.getId(), transferService.getBlogData(blog));
@@ -36,7 +41,10 @@ public class BlogPostService {
 	}
 	
 	public Blog edit(long userId, long blogId, String title, String content, Collection<Long> tagIds) {
-		Blog blog = blogRepos.get(blogId);
+        title = StringUtils.escapeXml(title);
+	    content = StringUtils.escapeXml(content);
+        content = content.replace("\n", "<br/>");
+	    Blog blog = blogRepos.get(blogId);
 		if (blog.getAuthor().getId() == userId) {
 			blog.setTitle(title);
 			blog.setContent(content);

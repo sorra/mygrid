@@ -125,6 +125,11 @@ public class PageController {
 		return "followers";
 	}
 	
+	@RequestMapping("/manipTag")
+	public void manipulalteTag() {
+	    
+	}
+	
 	@RequestMapping("/test")
 	public String test() {
 		return "test";

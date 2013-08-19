@@ -6,7 +6,7 @@ body>.container{
 }
 .side{
 	min-height: 600px;
-	background: lightgreen;
+    background-color: #DDDDDD;
 }
 .top-box{
 	padding: 10px;

@@ -45,8 +45,9 @@ public class ReadController {
 	
 	@RequestMapping("/connect/{blogId}")
 	@ResponseBody
-	public List<TweetCard> connect(@PathVariable("blogId") long blogId) {
-		return tweetReadService.connectTweets(blogId);
+	public Stream connect(@PathVariable("blogId") long blogId) {
+		List<TweetCard> tcs = tweetReadService.connectTweets(blogId);
+		return new Stream(tcs);
 	}
 	
 	@RequestMapping("/{id}/comments")

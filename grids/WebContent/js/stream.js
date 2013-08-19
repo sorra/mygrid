@@ -4,18 +4,19 @@ function getStream(url) {
 	$.get(url, {})
 		.done(function(resp){
 			if (resp == null) alert('stream is null');
-			else createStream(resp);
+			else createStream(resp, url);
 		})
 		.fail(function(resp){
-			window.alert('istream Oops! ' + resp);
+			window.alert('stream Oops! ' + resp);
 		});
 }
 
-function createStream(stream) {
+function createStream(stream, url) {
+	console.log(stream.items.length);
 	var $stream = $('.stream').empty();
 	$('<a>').addClass('newfeed btn').text('刷新').css('margin-left', '320px').appendTo($stream)
 		.click(function() {
-			getStream('/grids/read/istream');
+			getStream(url);
 		});
 
 	$.each(stream.items, function(idx, item){
@@ -80,9 +81,10 @@ function createTweetCard(card) {
 					content: $dialog.find('.input').val(),
 					originId: card.id
 				});
+				$dialog.modal('hide');
 			});
 		
-		$dialog.appendTo('#container').modal({backdrop: false}).modal();
+		$dialog.appendTo('#container').modal();
 		console.log('forward dialog');
 	});
 	$tc.find('.comment').attr('href', 'javascript:void(0);').click(function(){

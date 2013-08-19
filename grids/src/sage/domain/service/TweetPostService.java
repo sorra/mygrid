@@ -1,5 +1,7 @@
 package sage.domain.service;
 
+import httl.util.StringUtils;
+
 import java.util.Collection;
 import java.util.Date;
 
@@ -34,6 +36,7 @@ public class TweetPostService {
 	private CommentRepository commentRepos;
 	
 	public Tweet newTweet(long userId, String content, Collection<Long> tagIds) {
+        content = StringUtils.escapeXml(content);
 		Tweet tweet = new Tweet(content, userRepos.load(userId), new Date(),
 				tagRepos.byIds(tagIds));
 		tweetRepos.save(tweet);
@@ -42,6 +45,7 @@ public class TweetPostService {
 	}
 	
 	public void comment(long userId, String content, long sourceId) {
+        content = StringUtils.escapeXml(content);
 		Comment comment = new Comment(content, userRepos.load(userId),
 				new Date(), tweetRepos.load(sourceId));
 		commentRepos.save(comment);
@@ -65,6 +69,7 @@ public class TweetPostService {
 	}
 	
 	public Tweet forward(long userId, String content, long originId) {
+        content = StringUtils.escapeXml(content);
 	    Tweet origin = tweetRepos.load(originId);
 		Tweet tweet = new Tweet(content,
 		        userRepos.load(userId), new Date(), pureOrigin(origin));
