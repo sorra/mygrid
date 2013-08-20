@@ -33,7 +33,6 @@ public class BlogPostService {
 	public Blog newBlog(long userId, String title, String content, Collection<Long> tagIds) {
         title = StringUtils.escapeXml(title);
 	    content = StringUtils.escapeXml(content);
-        content = content.replace("\n", "<br/>");
 		Blog blog = new Blog(title, content, userRepos.load(userId), new Date(), tagRepos.byIds(tagIds));
 		blogRepos.save(blog);
 		searchBase.index(blog.getId(), transferService.getBlogData(blog));

@@ -26,7 +26,7 @@ public class BlogData {
 		authorName = author.getName();
 		avatar = author.getAvatar();
 		title = blog.getTitle();
-		content = blog.getContent();
+		content = blog.getContent().replace("\n", "<br/>");
 		time = blog.getTime();
 		tags = new ArrayList<>();
 		for (Tag tag : blog.getTags()) {
