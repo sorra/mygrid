@@ -18,6 +18,7 @@ import sage.domain.service.BlogPostService;
 import sage.domain.service.TweetPostService;
 import sage.entity.Blog;
 import sage.entity.Tweet;
+import sage.web.auth.AuthUtil;
 
 @Controller
 @RequestMapping("/post")

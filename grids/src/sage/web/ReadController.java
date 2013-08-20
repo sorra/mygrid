@@ -20,6 +20,7 @@ import sage.entity.Comment;
 import sage.transfer.CommentCard;
 import sage.transfer.Stream;
 import sage.transfer.TweetCard;
+import sage.web.auth.AuthUtil;
 
 @Controller
 @RequestMapping("/read")

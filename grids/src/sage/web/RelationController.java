@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import sage.domain.service.RelationService;
+import sage.web.auth.AuthUtil;
 
 @Controller
 @RequestMapping

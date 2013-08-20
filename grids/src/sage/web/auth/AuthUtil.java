@@ -1,4 +1,4 @@
-package sage.web;
+package sage.web.auth;
 
 import javax.servlet.http.HttpSession;
 

@@ -22,6 +22,7 @@ import sage.domain.service.UserService;
 import sage.entity.Follow;
 import sage.transfer.BlogData;
 import sage.transfer.UserCard;
+import sage.web.auth.AuthUtil;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

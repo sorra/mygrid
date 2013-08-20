@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import sage.domain.service.UserService;
 import sage.transfer.UserCard;
 import sage.transfer.UserSelf;
+import sage.web.auth.AuthUtil;
 
 @Controller
 @RequestMapping("/user")
