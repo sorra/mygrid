@@ -1,22 +1,22 @@
 <script src="$!{rs}/js/jquery-1.9.1.js" type="text/javascript"></script>
-
 <div class="navbar navbar-inverse navbar-fixed-top">
 	<div class="navbar-inner">
 		<div class="container">
-			<a class="brand" href="#">Sage</a>
+			<a class="brand mybrand" href="#">贤者系统</a>
 			<ul class="nav">
-				<li class="active"><a href="$!{base}">Home</a></li>
-                <li><a href="#">Tags</a></li>
-				<li><a href="#">Public Page</a></li>
-				<li><a href="#">Group Page</a></li>
-				<li><a href="#">Private Page</a></li>
-				<li><a href="$!{base}/write-blog">Write Blog</a></li>
-				<li style="float:right">
-					<form class="search" action="/grids/search" method="get" accept-charset="UTF-8" style="margin:0">
+				<li class="active"><a href="$!{base}">首页</a></li>
+                <li><a href="#">标签</a></li>
+				<li><a href="#">群组</a></li>
+				<li><a href="#">私人</a></li>
+				<li><a href="$!{base}/write-blog">写博客</a></li>
+            </ul>
+            <ul class="nav pull-right">
+				<li>
+					<form class="search" action="/grids/search" method="get" accept-charset="UTF-8">
 						<input type="text" name="q" placeholder="搜索"/>
 					</form>
 				</li>
-			</ul>
+            </ul>
 		</div>
 	</div>
 </div>
