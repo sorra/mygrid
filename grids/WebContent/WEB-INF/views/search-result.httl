@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-#set(components = [bootstrap, stream, tag, usercard, search-result])
+#set(components = ["bootstrap", "stream", "tag", "usercard", "search-result"])
 #set(List<String> hits)
 <html>
 <head>
