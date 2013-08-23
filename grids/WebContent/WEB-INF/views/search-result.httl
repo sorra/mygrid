@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-#set(components = ["bootstrap", "stream", "tag", "usercard", "search-result"])
+#set(components = ["bootstrap", "layout", "stream", "tag", "usercard", "search-result"])
 #set(List<String> hits)
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>搜索结果</title>
     $!{includeCSS(components)}
-	<link href="$!{rs}/css/home.css" rel="stylesheet" type="text/css" media="screen" />
 </head>
 <body>
 $!{include("navbar.httl")}

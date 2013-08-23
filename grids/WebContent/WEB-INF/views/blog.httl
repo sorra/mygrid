@@ -1,11 +1,11 @@
 <!DOCTYPE html>
+#set(components = ["bootstrap", "stream", "tag", "usercard"])
 #set(BlogData blog, List<TweetCard> tweets)
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>${blog.title}</title>
-	<link href="$!{rs}/css/bootstrap.css" rel="stylesheet" type="text/css" media="screen" />
-	<link href="$!{rs}/css/stream.css" rel="stylesheet" type="text/css" media="screen" />
+    $!{includeCSS(components)}
 	<style type="text/css">
 	#container{
 		margin-top: 50px;
@@ -30,9 +30,7 @@ $!{include("navbar.httl")}
 	<div class="stream"></div>
 </div>
 $!{include("proto.httl")}
-<script src="$!{rs}/js/stream.js" type="text/javascript"></script>
-<script src="$!{rs}/js/tag.js" type="text/javascript"></script>
-<script src="$!{rs}/js/usercard.js" type="text/javascript"></script>
+$!{includeJS(components)}
 <script type="text/javascript">
 console.log($('#id').text());
 getStream('/grids/read/connect/'+$('#id').text());

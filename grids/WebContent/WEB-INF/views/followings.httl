@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-#set(components = [bootstrap, tag, usercard, followings])
+#set(components = ["bootstrap", "layout", "tag", "usercard", "followings"])
 #set(List<String> followings)
 <html>
 <head>
