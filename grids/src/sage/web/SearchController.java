@@ -25,6 +25,9 @@ public class SearchController {
 	public String search(
 			@RequestParam("q") String q,
 			ModelMap model) throws UnsupportedEncodingException {
+	    if (q.isEmpty()) {
+	        return "forward:";
+	    }
 		q = new String(q.getBytes("ISO-8859-1"), "UTF-8");
 		logger.info("query: " + q);
 		SearchHit[] hits = searchBase.search(q).getHits().getHits();
