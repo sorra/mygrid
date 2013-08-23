@@ -1,10 +1,10 @@
 <!DOCTYPE html>
+#set(components = ["bootstrap", "stream", "tag", "usercard"])
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>贤者：公共页</title>
-	<link href="$!{rs}/css/bootstrap.css" rel="stylesheet" type="text/css" media="screen" />
-	<link href="$!{rs}/css/stream.css" rel="stylesheet" type="text/css" media="screen" />
+    $!{includeCSS(components)}
 </head>
 <body>
 $!{include("navbar.httl")}
@@ -21,10 +21,7 @@ $!{include("navbar.httl")}
 	<div class="footer"></div>
 </div>
 $!{include("proto.httl")}
-<script src="$!{rs}/js/bootstrap.js" type="text/javascript"></script>
-<script src="$!{rs}/js/stream.js" type="text/javascript"></script>
-<script src="$!{rs}/js/tag.js" type="text/javascript"></script>
-<script src="$!{rs}/js/usercard.js" type="text/javascript"></script>
+$!{includeJS(components)}
 <script type="text/javascript">
 $(document).ready(function(){
 	getStream('/grids/read/tag/' + $('#id-holder').text());

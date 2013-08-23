@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+#set(components = [bootstrap, tag, usercard, followers])
 #set(List<String> followers)
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>粉丝列表</title>
-	<link href="$!{rs}/css/bootstrap.css" rel="stylesheet" type="text/css" media="screen" />
+    $!{includeCSS(components)}
 	<link href="$!{rs}/css/home.css" rel="stylesheet" type="text/css" media="screen" />
 </head>
 <body>
@@ -16,9 +17,6 @@ $!{include("navbar.httl")}
 	<div id="list"></div>
 </div>
 $!{include("proto.httl")}
-<script src="$!{rs}/js/bootstrap.js" type="text/javascript"></script>
-<script src="$!{rs}/js/tag.js" type="text/javascript"></script>
-<script src="$!{rs}/js/usercard.js" type="text/javascript"></script>
-<script src="$!{rs}/js/followers.js" type="text/javascript"></script>
+$!{includeJS(components)}
 </body>
 </html>
