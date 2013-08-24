@@ -79,12 +79,12 @@ public class ComponentResourceManager {
         return sb.toString();
     }
     
-    String includeOneCSS(String componentName) {
+    private String includeOneCSS(String componentName) {
         return String.format("<link href=\"%s/css/%s.css\" rel=\"stylesheet\" "
                 + "type=\"text/css\" media=\"screen\" />\n", StaticPathExposer.RS, componentName);
     }
     
-    String includeOneJS(String componentName) {
+    private String includeOneJS(String componentName) {
         return String.format("<script src=\"%s/js/%s.js\" "
                 + "type=\"text/javascript\"></script>\n", StaticPathExposer.RS, componentName);
     }    
