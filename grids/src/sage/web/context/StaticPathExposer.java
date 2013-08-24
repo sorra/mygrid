@@ -1,23 +1,24 @@
 package sage.web.context;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.context.ServletContextAware;
 
-public class StaticPathExposer implements ServletContextAware {
+@Component
+public class StaticPathExposer {
     public static final String BASE = "/grids";
     public static final String RS = "/grids/rs";
     
+    @Autowired
 	private ServletContext servletContext;
 	
+	@PostConstruct
 	public void init() {
 		servletContext.setAttribute("base", BASE);
 		servletContext.setAttribute("rs", RS);
 	}
 	
-	@Override
-	public void setServletContext(ServletContext servletContext) {
-		this.servletContext = servletContext;
-	}
-
 }
