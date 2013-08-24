@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-#set(components = ["bootstrap", "stream", "tag", "usercard"])
+#set(components = ["bootstrap", "layout", "stream", "tag", "usercard"])
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />

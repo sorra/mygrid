@@ -17,29 +17,30 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Controller
 @RequestMapping
 public class HomeController {
-	@Autowired
-	UserService userService;
-	@Autowired
-	TagService tagService;
-	
-	ObjectMapper objectMapper = new ObjectMapper();
-	
-	@RequestMapping({"/", "/home"})
-	public String home(HttpSession session, ModelMap model) throws JsonProcessingException {
-		Long uid = AuthUtil.checkLoginUid(session);
-		// Temporal
-		if (uid == null) {
-			return "redirect:/login";
-		}
-		//
-		String userSelfJson = objectMapper.writeValueAsString(userService.getSelf(uid));
-		model.addAttribute("userSelfJson", userSelfJson);
-		String tagTreeJson = objectMapper.writeValueAsString(tagService.getTagTree());
-		model.addAttribute("tagTreeJson", tagTreeJson);
-		return "home";
-	}
-	@RequestMapping("/login")
-	public String login() {
-		return "login";
-	}
+    @Autowired
+    UserService userService;
+    @Autowired
+    TagService tagService;
+
+    ObjectMapper objectMapper = new ObjectMapper();
+
+    @RequestMapping({ "/", "/home" })
+    public String home(HttpSession session, ModelMap model) throws JsonProcessingException {
+        Long uid = AuthUtil.checkLoginUid(session);
+        // Temporal
+        if (uid == null) {
+            return "redirect:/login";
+        }
+        //
+        String userSelfJson = objectMapper.writeValueAsString(userService.getSelf(uid));
+        model.addAttribute("userSelfJson", userSelfJson);
+        String tagTreeJson = objectMapper.writeValueAsString(tagService.getTagTree());
+        model.addAttribute("tagTreeJson", tagTreeJson);
+        return "home";
+    }
+
+    @RequestMapping("/login")
+    public String login() {
+        return "login";
+    }
 }

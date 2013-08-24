@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
+#set(components = ["bootstrap", "tag", "post-box", "write-blog"])
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>写博客</title>
-	<link href="$!{rs}/css/bootstrap.css" rel="stylesheet" type="text/css" media="screen" />
+    $!{includeCSS(components)}
 	<style type="text/css">
 	body>.container{
 		margin-top: 40px;
@@ -38,10 +39,6 @@ $!{include("navbar.httl")}
 <div class="footer"></div>
 
 $!{include("proto.httl")}
-<script src="$!{rs}/js/jquery-1.9.1.js" type="text/javascript"></script>
-<script src="$!{rs}/js/bootstrap.js" type="text/javascript"></script>
-<script src="$!{rs}/js/tag.js" type="text/javascript"></script>
-<script src="$!{rs}/js/post-box.js" type="text/javascript"></script>
-<script src="$!{rs}/js/write-blog.js" type="text/javascript"></script>
+$!{includeJS(components)}
 </body>
 </html>
