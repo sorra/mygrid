@@ -5,7 +5,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>粉丝列表</title>
-    $!{includeCSS(components)}
+    $!{includeCSS()}
 </head>
 <body>
 $!{include("navbar.httl")}
@@ -16,6 +16,6 @@ $!{include("navbar.httl")}
 	<div id="list"></div>
 </div>
 $!{include("proto.httl")}
-$!{includeJS(components)}
+$!{includeJS()}
 </body>
 </html>

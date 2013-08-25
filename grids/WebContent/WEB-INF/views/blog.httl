@@ -5,7 +5,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>${blog.title}</title>
-    $!{includeCSS(components)}
+    $!{includeCSS()}
 	<style type="text/css">
 	#container{
 		margin-top: 50px;
@@ -30,7 +30,7 @@ $!{include("navbar.httl")}
 	<div class="stream"></div>
 </div>
 $!{include("proto.httl")}
-$!{includeJS(components)}
+$!{includeJS()}
 <script type="text/javascript">
 console.log($('#id').text());
 getStream('/grids/read/connect/'+$('#id').text());

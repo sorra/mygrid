@@ -4,7 +4,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>写博客</title>
-    $!{includeCSS(components)}
+    $!{includeCSS()}
 	<style type="text/css">
 	body>.container{
 		margin-top: 40px;
@@ -39,6 +39,6 @@ $!{include("navbar.httl")}
 <div class="footer"></div>
 
 $!{include("proto.httl")}
-$!{includeJS(components)}
+$!{includeJS()}
 </body>
 </html>

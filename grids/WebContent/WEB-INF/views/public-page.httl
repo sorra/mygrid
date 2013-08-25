@@ -4,7 +4,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>贤者：公共页</title>
-    $!{includeCSS(components)}
+    $!{includeCSS()}
 </head>
 <body>
 $!{include("navbar.httl")}
@@ -21,7 +21,7 @@ $!{include("navbar.httl")}
 	<div class="footer"></div>
 </div>
 $!{include("proto.httl")}
-$!{includeJS(components)}
+$!{includeJS()}
 <script type="text/javascript">
 $(document).ready(function(){
 	getStream('/grids/read/tag/' + $('#id-holder').text());
