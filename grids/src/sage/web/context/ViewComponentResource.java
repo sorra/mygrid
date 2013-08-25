@@ -1,13 +1,15 @@
 package sage.web.context;
 
-public class ComponentResource {
+import httl.Context;
+
+public class ViewComponentResource {
     public static String includeCSS() {
-        String[] components = (String[]) WebContexts.getRequestBean("components");
+        String[] components = (String[]) Context.getContext().get("components");
         return ComponentResourceManager.instance().includeCSS(components);
     }
     
     public static String includeJS() {
-        String[] components = (String[]) WebContexts.getRequestBean("components");
+        String[] components = (String[]) Context.getContext().get("components");
         return ComponentResourceManager.instance().includeJS(components);
     }
 }
