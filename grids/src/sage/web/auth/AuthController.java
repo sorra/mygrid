@@ -33,7 +33,8 @@ public class AuthController {
 		
 		String referer = request.getHeader("referer");
 		//TODO Remove hard-code
-		String dest = referer.substring(referer.lastIndexOf("?goto=/grids")+12, referer.length());
+		int idx = referer.lastIndexOf("?goto=/grids");
+		String dest = idx < 0 ? null : referer.substring(idx+12, referer.length());
 		
 		User user = userService.login(email, password);
 		if (user != null){
