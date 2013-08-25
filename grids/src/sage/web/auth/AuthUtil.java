@@ -1,23 +1,43 @@
 package sage.web.auth;
 
+import java.io.UnsupportedEncodingException;
+
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.util.UriUtils;
+
+import sage.web.context.WebContexts;
 
 public class AuthUtil {
 	private final static Logger logger = LoggerFactory.getLogger(AuthUtil.class);
 	
-	/**
-	 * 
-	 * @param session HttpSession
-	 * @return uid when logged in, null when not logged in
-	 */
-	public static Long checkLoginUid(HttpSession session) {
-		Long uid = (Long) session.getAttribute(SessionKeys.UID);
-		if (uid == null) {
-			logger.info("Not logged in!");
-		}
-		return uid;
+	public static Long checkLogin() {
+	    if (WebContexts.getSessionBean(SessionKeys.UID) == null) {
+	        logger.debug("require login");
+	        throw new RequireLoginException();
+	    }
+	    else return currentUid();
+	}
+	
+	public static Long currentUid() {
+	    return (Long) WebContexts.getSessionBean(SessionKeys.UID);
+	}
+	
+	static String getRedirectGoto(String requestLink) {
+	    try {
+            return "goto=" + UriUtils.encodeQueryParam(requestLink, "ISO-8859-1");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+	}
+	
+	static String decodeLink (String link) {
+	    try {
+            return UriUtils.decode(link, "ISO-8859-1");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
 	}
 }

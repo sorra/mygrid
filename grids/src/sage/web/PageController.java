@@ -83,10 +83,7 @@ public class PageController {
 
     @RequestMapping("/write-blog")
     public String writeBlog(HttpSession session, ModelMap model) throws JsonProcessingException {
-        Long uid = AuthUtil.checkLoginUid(session);
-        if (uid == null) {
-            return "";
-        }
+        Long uid = AuthUtil.checkLogin();
 
         String selfJson = om.writeValueAsString(userService.getSelf(uid));
         model.addAttribute("selfJson", selfJson);
@@ -96,11 +93,8 @@ public class PageController {
     }
 
     @RequestMapping("/followings")
-    public String followings(HttpSession session, ModelMap model) throws JsonProcessingException {
-        Long uid = AuthUtil.checkLoginUid(session);
-        if (uid == null) {
-            return "";
-        }
+    public String followings(ModelMap model) throws JsonProcessingException {
+        Long uid = AuthUtil.checkLogin();
 
         List<String> followingsInJson = new ArrayList<>();
         for (Follow follow : relationService.followings(uid)) {
@@ -112,11 +106,8 @@ public class PageController {
     }
 
     @RequestMapping("/followers")
-    public String followers(HttpSession session, ModelMap model) throws JsonProcessingException {
-        Long uid = AuthUtil.checkLoginUid(session);
-        if (uid == null) {
-            return "";
-        }
+    public String followers(ModelMap model) throws JsonProcessingException {
+        Long uid = AuthUtil.checkLogin();
 
         List<String> followersInJson = new ArrayList<>();
         for (Follow follow : relationService.followers(uid)) {

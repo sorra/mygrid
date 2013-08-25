@@ -30,15 +30,31 @@ public class AuthController {
 						@RequestParam("email") String email,
 						@RequestParam("password") String password) {
 		logger.info("email: {} password: {}", email, password);
+		
+		String referer = request.getHeader("referer");
+		//TODO Remove hard-code
+		String dest = referer.substring(referer.lastIndexOf("?goto=/grids")+12, referer.length());
+		
 		User user = userService.login(email, password);
 		if (user != null){
 			HttpSession sesison = request.getSession(true);
 			sesison.setAttribute(SessionKeys.UID, user.getId());
 			logger.info("User {} logged in.", user.getId());
-			return "redirect:/";
-		} else {
+			if (dest == null) {
+			    return "redirect:/";
+			}
+			else {
+			    return "redirect:" + AuthUtil.decodeLink(dest);
+			}
+		}
+		else {
 			logger.info("{} login failed.", email);
-			return "redirect:/login";
+			if (dest == null) {
+			    return "redirect:/login";
+			}
+			else {
+			    return "redirect:/login?" + AuthUtil.getRedirectGoto(dest);
+			}
 		}
 	}
 	
@@ -48,7 +64,7 @@ public class AuthController {
 		if (session != null) {
 			session.invalidate();
 		}
-		return "redirect:/";
+		return "redirect:/login";
 	}
 	
 	@RequestMapping(value="/register", method=RequestMethod.POST)

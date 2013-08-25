@@ -1,7 +1,5 @@
 package sage.web;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,15 +20,15 @@ public class UserController {
 
 	@RequestMapping("/self")
 	@ResponseBody
-	public UserSelf self(HttpSession session) {
-		Long uid = AuthUtil.checkLoginUid(session);
+	public UserSelf self() {
+		Long uid = AuthUtil.checkLogin();
 		return userService.getSelf(uid);
 	}
 	
 	@RequestMapping("/card/{id}")
 	@ResponseBody
-	public UserCard userCard(HttpSession session, @PathVariable("id") long id) {
-		Long uid = AuthUtil.checkLoginUid(session);
+	public UserCard userCard(@PathVariable("id") long id) {
+		Long uid = AuthUtil.checkLogin();
 		return userService.getUserCard(uid, id);
 	}
 	

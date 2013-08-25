@@ -3,8 +3,6 @@ package sage.web;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,10 +21,9 @@ public class RelationController {
 	
 	@RequestMapping("/follow/{id}")
 	@ResponseBody
-	public void follow(HttpSession session,
-			@PathVariable("id") long targetId,
+	public void follow(@PathVariable("id") long targetId,
 			@RequestParam(value="tagIds[]", required=false) Collection<Long> tagIds) {
-		Long uid = AuthUtil.checkLoginUid(session);
+		Long uid = AuthUtil.checkLogin();
 		if (uid == null){return;}
 		
 		if (tagIds == null) {
@@ -37,10 +34,9 @@ public class RelationController {
 	
 	@RequestMapping("/editfollow/{id}")
 	@ResponseBody
-	public void editFollow(HttpSession session,
-			@PathVariable("id") long targetId,
+	public void editFollow(@PathVariable("id") long targetId,
 			@RequestParam(value="tagIds[]", required=false) Collection<Long> tagIds) {
-		Long uid = AuthUtil.checkLoginUid(session);
+		Long uid = AuthUtil.checkLogin();
 		if (uid == null){return;}
 		
 		if (tagIds == null) {
@@ -51,8 +47,8 @@ public class RelationController {
 	
 	@RequestMapping("/unfollow/{id}")
 	@ResponseBody
-	private void unfollow(HttpSession session, @PathVariable("id") long targetId) {
-		Long uid = AuthUtil.checkLoginUid(session);
+	private void unfollow(@PathVariable("id") long targetId) {
+		Long uid = AuthUtil.checkLogin();
 		if (uid == null){return;}
 		relationService.unfollow(uid, targetId);
 	}

@@ -35,8 +35,8 @@ public class ReadController {
 	
 	@RequestMapping("/istream")
 	@ResponseBody
-	public Stream istream(HttpSession session) {
-		Long uid = AuthUtil.checkLoginUid(session);
+	public Stream istream() {
+		Long uid = AuthUtil.checkLogin();
 		if (uid == null) {
 			logger.info("not logged in");
 			return null;

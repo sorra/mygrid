@@ -3,8 +3,6 @@
 import java.util.ArrayList;
 import java.util.Collection;
 
-import javax.servlet.http.HttpSession;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,10 +29,10 @@ public class PostController {
 	
 	@RequestMapping(value="/tweet", method=RequestMethod.POST)
 	@ResponseBody
-	public boolean tweet(HttpSession session,
+	public boolean tweet(
 			@RequestParam("content") String content, 
 			@RequestParam(value="tagIds[]", required=false) Collection<Long> tagIds) {
-		Long uid = AuthUtil.checkLoginUid(session);
+		Long uid = AuthUtil.checkLogin();
 		if (uid == null) {return false;}
 		if (content.isEmpty()) {return false;}
 		if (content.length() > 200) {return false;}
@@ -47,10 +45,10 @@ public class PostController {
 	
 	@RequestMapping(value="/forward", method=RequestMethod.POST)
 	@ResponseBody
-	public boolean forward(HttpSession session,
+	public boolean forward(
 	        @RequestParam("content") String content,
 	        @RequestParam("originId") long originId) {
-	    Long uid = AuthUtil.checkLoginUid(session);
+	    Long uid = AuthUtil.checkLogin();
 	    if (uid == null) {return false;}
 
 	    Tweet tweet = tweetPostService.forward(uid, content, originId);
@@ -60,11 +58,11 @@ public class PostController {
 	
 	@RequestMapping(value="/blog", method=RequestMethod.POST)
 	@ResponseBody
-	public boolean blog(HttpSession session,
+	public boolean blog(
 			@RequestParam("title") String title,
 			@RequestParam("content") String content,
 			@RequestParam(value="tagIds[]", required=false) Collection<Long> tagIds) {
-		Long uid = AuthUtil.checkLoginUid(session);
+		Long uid = AuthUtil.checkLogin();
 		if (uid == null) {return false;}
 		if (title.isEmpty() || content.isEmpty()) {return false;}
 		if (tagIds == null) {tagIds = new ArrayList<>(0);}

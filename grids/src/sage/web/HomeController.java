@@ -1,7 +1,5 @@
 package sage.web;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -25,8 +23,8 @@ public class HomeController {
     ObjectMapper objectMapper = new ObjectMapper();
 
     @RequestMapping({ "/", "/home" })
-    public String home(HttpSession session, ModelMap model) throws JsonProcessingException {
-        Long uid = AuthUtil.checkLoginUid(session);
+    public String home(ModelMap model) throws JsonProcessingException {
+        Long uid = AuthUtil.checkLogin();
         // Temporal
         if (uid == null) {
             return "redirect:/login";
