@@ -119,7 +119,7 @@ public class PageController {
     }
 
     @RequestMapping("/manipTag")
-    public void manipulalteTag() {
+    public void manipulateTag() {
 
     }
 
