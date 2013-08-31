@@ -1,4 +1,4 @@
-package sage.web;
+package sage.web.page;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

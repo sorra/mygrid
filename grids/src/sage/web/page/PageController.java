@@ -1,4 +1,4 @@
-package sage.web;
+package sage.web.page;
 
 import java.util.ArrayList;
 import java.util.List;
