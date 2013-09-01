@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+#set(components = ["bootstrap","layout", "tag", "stream"])
+<head>
+<meta charset="UTF-8">
+<title>贤者：微博</title>
+$!{includeCSS()}
+</head>
+<body>
+$!{include("navbar.httl")}
+<div id="json-holder">
+    <span id="tc-json">${tcJson}</span>
+</div>
+<div class="container"></div>
+$!{include("proto.httl")}
+$!{includeJS()}
+<script>
+var tc = $.parseJSON($('#tc-json').text());
+createTweetCard(tc).appendTo($('body > .container'));
+</script>
+</body>
+</html>

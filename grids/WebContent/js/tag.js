@@ -48,10 +48,34 @@ function createTagLabel(tagLabel) {
 	$tl.text(tagLabel.name);
 	$tl.attr('tag-id', tagLabel.id);
 	$tl.attr('href', "/grids/public/"+tagLabel.id);
+	$tl.click('gotoTag('+tagLabel.id+');');
 	if (tagLabel.chainStr) {
 		$tl.attr('title', tagLabel.chainStr);
 	}
 	return $tl;
+}
+
+function buildTagTree(funcCreatTag, $tagTree, tag, depth, isLastOne) {
+	if (depth == undefined) {
+		depth = -1;
+	}
+	var indentValue = 20 * depth;
+	var hasChildren = tag.children && tag.children.length > 0;
+
+	if (depth >= 0) {
+		var $tag = funcCreatTag(tag);
+		$tag.css('margin-left', indentValue+'px')
+			.appendTo($tagTree).after($('<br/>'));
+		if ((depth==0 || isLastOne) && !hasChildren) {
+			$tag.css('margin-bottom', '10px');
+		}
+	}
+	if (hasChildren) {
+		for (var i = 0; i < tag.children.length; i++) {
+			var cur = tag.children[i];
+			buildTagTree(cur, depth+1, i==tag.children.length-1);
+		}
+	}
 }
 
 function gotoTag (id) {

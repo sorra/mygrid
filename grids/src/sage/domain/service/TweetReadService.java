@@ -64,7 +64,11 @@ public class TweetReadService {
 	}
 
 	public TweetCard getTweetCard(long tweetId) {
-		return transferService.getTweetCard(tweetRepos.get(tweetId));
+	    Tweet tweet = tweetRepos.get(tweetId);
+	    if (tweet == null) {
+	        return null;
+	    }
+		return transferService.getTweetCard(tweet);
 	}
 
 	public Collection<Tweet> getForwards(long originId) {

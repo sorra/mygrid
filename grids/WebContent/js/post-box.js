@@ -17,27 +17,9 @@ function buildTagSels() {
 
 function buildTagPlus() {
 	var tagTree = $.parseJSON($('#tag-tree-json').text());
-	var $tagTree = $('<div></div>');
+	var $tagTree = $('<div>');
 	
-	function buildTagTree(node, depth, isLastOne) {
-		var indentValue = 20 * depth;
-		var hasChildren = node.children && node.children.length > 0;
-		if (depth >= 0) {
-			var $tagSel = createTagSel(node);
-			$tagSel.css('margin-left', indentValue+'px')
-				.appendTo($tagTree).after($('<br/>'));
-			if ((depth==0 || isLastOne) && !hasChildren) {
-				$tagSel.css('margin-bottom', '10px');
-			}
-		}
-		if (hasChildren) {
-			for (var i = 0; i < node.children.length; i++) {
-				var cur = node.children[i];
-				buildTagTree(cur, depth+1, i==node.children.length-1);
-			}
-		}
-	}
-	buildTagTree(tagTree, -1);
+	buildTagTree(createTagSel, $tagTree, tagTree);
 
 	$('.tag-plus').popover({
 			html: true,

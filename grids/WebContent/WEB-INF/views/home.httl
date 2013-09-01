@@ -8,11 +8,11 @@
 </head>
 <body>
 $!{include("navbar.httl")}
+<div id="json-holder">
+    <span id="user-self-json">${userSelfJson}</span>
+    <span id="tag-tree-json">${tagTreeJson}</span>
+</div>
 <div id="container" class="container">
-	<div id="json-holder" style="display:none">
-		<span id="user-self-json">${userSelfJson}</span>
-		<span id="tag-tree-json">${tagTreeJson}</span>
-	</div>
 	<div class="row">
 		<div class="side span3"></div>
 		<div class="main span9">

@@ -3,8 +3,6 @@ package sage.web.page;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +19,10 @@ import sage.domain.service.TweetReadService;
 import sage.domain.service.UserService;
 import sage.entity.Follow;
 import sage.transfer.BlogData;
+import sage.transfer.TweetCard;
 import sage.transfer.UserCard;
 import sage.web.auth.AuthUtil;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import sage.web.context.JsonUtil;
 
 @Controller
 @RequestMapping
@@ -44,27 +41,33 @@ public class PageController {
     @Autowired
     private TransferService transferService;
 
-    private ObjectMapper om = new ObjectMapper();
-
     @RequestMapping("/public/{id}")
-    public String publicPage(@PathVariable long id, ModelMap model) {
+    public String publicPage(@PathVariable("id") long id, ModelMap model) {
         model.addAttribute("id", id);
         return "public-page";
     }
 
     @RequestMapping("/private/{id}")
-    public String privatePage(@PathVariable long id, ModelMap model) {
+    public String privatePage(@PathVariable("id") long id, ModelMap model) {
         model.addAttribute("id", id);
         return "private-page";
     }
 
     @RequestMapping("/group/{id}")
-    public String groupPage(@PathVariable long id) {
+    public String groupPage(@PathVariable("id") long id) {
         return "group-page";
+    }
+    
+    @RequestMapping("/tweet/{id}")
+    public String tweetPage(@PathVariable("id") long id, ModelMap model) {
+        TweetCard tc = tweetReadService.getTweetCard(id);
+        String tcJson = JsonUtil.json(tc);
+        model.addAttribute("tcJson", tcJson);
+        return "tweet";
     }
 
     @RequestMapping("/blog/{id}")
-    public String blogPage(@PathVariable long id, ModelMap model) {
+    public String blogPage(@PathVariable("id") long id, ModelMap model) {
         BlogData blog = blogReadService.getBlogData(id);
         if (blog == null) {
             logger.info("blog {} is null!", id);
@@ -82,37 +85,37 @@ public class PageController {
     }
 
     @RequestMapping("/write-blog")
-    public String writeBlog(HttpSession session, ModelMap model) throws JsonProcessingException {
+    public String writeBlog(ModelMap model) {
         Long uid = AuthUtil.checkLogin();
 
-        String selfJson = om.writeValueAsString(userService.getSelf(uid));
+        String selfJson = JsonUtil.json(userService.getSelf(uid));
         model.addAttribute("selfJson", selfJson);
-        String tagTreeJson = om.writeValueAsString(tagService.getTagTree());
+        String tagTreeJson = JsonUtil.json(tagService.getTagTree());
         model.addAttribute("tagTreeJson", tagTreeJson);
         return "write-blog";
     }
 
     @RequestMapping("/followings")
-    public String followings(ModelMap model) throws JsonProcessingException {
+    public String followings(ModelMap model) {
         Long uid = AuthUtil.checkLogin();
 
         List<String> followingsInJson = new ArrayList<>();
         for (Follow follow : relationService.followings(uid)) {
             UserCard followingUc = userService.getUserCard(uid, follow.getTarget().getId());
-            followingsInJson.add(om.writeValueAsString(followingUc));
+            followingsInJson.add(JsonUtil.json(followingUc));
         }
         model.addAttribute("followings", followingsInJson);
         return "followings";
     }
 
     @RequestMapping("/followers")
-    public String followers(ModelMap model) throws JsonProcessingException {
+    public String followers(ModelMap model) {
         Long uid = AuthUtil.checkLogin();
 
         List<String> followersInJson = new ArrayList<>();
         for (Follow follow : relationService.followers(uid)) {
             UserCard followerUc = userService.getUserCard(uid, follow.getSource().getId());
-            followersInJson.add(om.writeValueAsString(followerUc));
+            followersInJson.add(JsonUtil.json(followerUc));
         }
         model.addAttribute("followers", followersInJson);
         return "followers";
