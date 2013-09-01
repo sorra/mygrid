@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-#set(components = ["bootstrap", "layout", "stream", "tag", "usercard"])
 <html>
+#set(components = ["bootstrap", "layout", "stream", "tag", "usercard"])
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>贤者：用户页</title>
