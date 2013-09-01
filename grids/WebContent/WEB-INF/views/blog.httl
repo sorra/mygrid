@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-#set(components = ["bootstrap", "stream", "tag", "usercard"])
+#set(components = ["bootstrap", "layout", "stream", "tag", "usercard"])
 #set(BlogData blog, List<TweetCard> tweets)
 <html>
 <head>

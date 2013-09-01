@@ -10,6 +10,7 @@
 $!{include("navbar.httl")}
 <div class="container" id="container" style="margin-top: 50px">
 	<div id="id-holder" style="display:none">${id}</div>
+	<div id="chain"></div>
 	<div class="row">
 		<div class="side span3">SIDE</div>
 		<div class="main span9">
@@ -24,7 +25,9 @@ $!{include("proto.httl")}
 $!{includeJS()}
 <script type="text/javascript">
 $(document).ready(function(){
-	getStream('/grids/read/tag/' + $('#id-holder').text());
+	var tagId = $('#id-holder').text();
+	getStream('/grids/read/tag/' + tagId);
+	getTagChain(tagId, $('#chain'));
 });
 </script>
 </body>

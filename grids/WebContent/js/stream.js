@@ -75,7 +75,7 @@ function createTweetCard(card) {
 		$('<div>').addClass('modal-header').text('转发微博').appendTo($dialog);
 		$('<textarea>').addClass('input modal-body').css({width: '400px', height: '100px'}).appendTo($dialog);
 		var $footer = $('<div>').addClass('modal-footer').appendTo($dialog);
-		$('<button>').addClass('primary').text('转发').css({float: 'right'}).appendTo($footer)
+		$('<button>').addClass('btn btn-primary').text('转发').css({float: 'right'}).appendTo($footer)
 			.click(function() {
 				$.post('/grids/post/forward', {
 					content: $dialog.find('.input').val(),

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
+#set(components = ["bootstrap", "layout", "tag", "test"])
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>贤者：测试</title>
-	<link href="$!{rs}/css/bootstrap.css" rel="stylesheet" type="text/css" media="screen" />
-	<link href="$!{rs}/css/test.css" rel="stylesheet" type="text/css" media="screen" />
+    $!{includeCSS()}
 </head>
 <body>
 $!{include("navbar.httl")}
@@ -14,7 +14,7 @@ $!{include("navbar.httl")}
 	</div>
 </div>
 $!{include("proto.httl")}
-<script src="$!{rs}/js/tag.js" type="text/javascript"></script>
+$!{includeJS()}
 <script type="text/javascript">
 $(document).ready(function(){
 	getTagChain(8, $('body > .container'));

@@ -2,7 +2,10 @@
 
 function createTagSel(tagLabel) {
 	return createTagLabel(tagLabel).addClass('tag-sel').addClass('btn btn-small')
-			.click(function(){$(this).toggleClass('btn-success');});
+			.click(function(event){
+			    event.preventDefault();
+			    $(this).toggleClass('btn-success');
+			  });
 }
 
 function buildTagSels() {

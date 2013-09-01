@@ -14,7 +14,7 @@ function createTagChain(tagCard) {
 		var item = tagCard.chainUp[i];
 
 		$tag = $('<a></a>').addClass('tag btn').addClass('btn-info').appendTo($tch);
-		$tag.text(item.name).attr('href', '#tag/'+item.id);
+		$tag.text(item.name).attr('href', '/grids/public/'+item.id);
 		$tag.css({display:	'block',
 				  width:	'58px',
 				  height:	'23px',
@@ -33,7 +33,7 @@ function createTagChain(tagCard) {
 			$line = $('<div></div>').addClass('line').appendTo($tch);
 			$line.css({width:	'50px',
 					   height:	'5px',
-					   background:	'#DDDDDD'});
+					   background:	'#CCCCCC'});
 			var pleft = inc*(60+50) + 60;
 			$line.css({position: 'absolute',
 					   left: pleft+'px', 
@@ -47,6 +47,7 @@ function createTagLabel(tagLabel) {
 	$tl = $('.proto > .tag-label').clone();
 	$tl.text(tagLabel.name);
 	$tl.attr('tag-id', tagLabel.id);
+	$tl.attr('href', "/grids/public/"+tagLabel.id);
 	if (tagLabel.chainStr) {
 		$tl.attr('title', tagLabel.chainStr);
 	}
