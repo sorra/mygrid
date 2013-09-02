@@ -1,7 +1,9 @@
+'use strict';
+
 function buildNavTagTree($lnk, tagTree) {
     var $navTagTree = $('<div>');
     buildTagTree(function(tag){
-        return createTagLabel(tag);
+        return createTagLabel(tag).addClass('btn');
     }, $navTagTree, tagTree);
     $lnk.popover({
             html: true,
@@ -9,16 +11,18 @@ function buildNavTagTree($lnk, tagTree) {
             trigger: 'manual',
             selector: '#tag-tree-popover',
             content: $navTagTree
-    }).popover('show');
+    });
 }
 
 $(document).ready(function(){
     $.get('/grids/tag/tree', {})
     .done(function(resp){
-        $('#nav-tags').click(function(event){
+        var $navTags = $('#nav-tags')
+          .click(function(event){
             event.preventDefault();
-            buildNavTagTree($(this), resp);
+            $(this).popover('toggle');
           });
+        buildNavTagTree($navTags, resp);
     })
     .fail(function(resp){
         console.log(resp);

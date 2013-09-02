@@ -1,3 +1,5 @@
+'use strict';
+
 function getTagChain(id, $parent) {
 	$.get('/grids/tag/card/'+id, {})
 	.done(function(resp){
@@ -44,7 +46,7 @@ function createTagChain(tagCard) {
 }
 
 function createTagLabel(tagLabel) {
-	$tl = $('.proto > .tag-label').clone();
+	var $tl = $('.proto > .tag-label').clone();
 	$tl.text(tagLabel.name);
 	$tl.attr('tag-id', tagLabel.id);
 	$tl.attr('href', "/grids/public/"+tagLabel.id);
@@ -56,7 +58,10 @@ function createTagLabel(tagLabel) {
 }
 
 function buildTagTree(funcCreatTag, $tagTree, tag, depth, isLastOne) {
-	if (depth == undefined) {
+    if (arguments.length < 3 || !(funcCreatTag instanceof Function)) {
+        throw new Error("illegal argument");
+    }
+	if (!(depth>=0)) {
 		depth = -1;
 	}
 	var indentValue = 20 * depth;
@@ -73,7 +78,7 @@ function buildTagTree(funcCreatTag, $tagTree, tag, depth, isLastOne) {
 	if (hasChildren) {
 		for (var i = 0; i < tag.children.length; i++) {
 			var cur = tag.children[i];
-			buildTagTree(cur, depth+1, i==tag.children.length-1);
+			buildTagTree(funcCreatTag, $tagTree, cur, depth+1, i==tag.children.length-1);
 		}
 	}
 }
