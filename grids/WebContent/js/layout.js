@@ -3,7 +3,10 @@
 function buildNavTagTree($lnk, tagTree) {
     var $navTagTree = $('<div>');
     buildTagTree(function(tag){
-        return createTagLabel(tag).addClass('btn');
+        return createTagLabel(tag).addClass('btn')
+            .click(function(){
+                $lnk.popover('hide');
+            });
     }, $navTagTree, tagTree);
     $lnk.popover({
             html: true,
@@ -17,12 +20,12 @@ function buildNavTagTree($lnk, tagTree) {
 $(document).ready(function(){
     $.get('/grids/tag/tree', {})
     .done(function(resp){
-        var $navTags = $('#nav-tags')
+        var $lnk = $('#nav-tags')
           .click(function(event){
             event.preventDefault();
             $(this).popover('toggle');
           });
-        buildNavTagTree($navTags, resp);
+        buildNavTagTree($lnk, resp);
     })
     .fail(function(resp){
         console.log(resp);

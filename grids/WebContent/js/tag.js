@@ -11,11 +11,12 @@ function getTagChain(id, $parent) {
 }
 
 function createTagChain(tagCard) {
-	$tch = $('.proto > .tag-chain').clone().css({position: 'relative'});
+	var $tch = $('.proto > .tag-chain').clone().css({position: 'relative'});
 	for (var i = tagCard.chainUp.length-1, inc = 0; i >= 0; i--, inc++) {
 		var item = tagCard.chainUp[i];
 
-		$tag = $('<a></a>').addClass('tag btn').addClass('btn-info').appendTo($tch);
+		var $tag = $('<a></a>').addClass('tag btn').addClass('btn-info').appendTo($tch);
+		$tag.data('tagId', item.id);
 		$tag.text(item.name).attr('href', '/grids/public/'+item.id);
 		$tag.css({display:	'block',
 				  width:	'58px',
@@ -31,13 +32,16 @@ function createTagChain(tagCard) {
 		}
 		
 		if (i > 0) {
-			$tag.click('gotoTag('+item.id+');');
-			$line = $('<div></div>').addClass('line').appendTo($tch);
+			$tag.click(function(event) {
+			    event.preventDefault();
+			    gotoTag($(this).data('tagId'));
+			});
+            var pleft = inc*(60+50) + 60;
+			var $line = $('<div></div>').addClass('line').appendTo($tch);
 			$line.css({width:	'50px',
 					   height:	'5px',
-					   background:	'#CCCCCC'});
-			var pleft = inc*(60+50) + 60;
-			$line.css({position: 'absolute',
+					   background:	'#CCCCCC'})
+			     .css({position: 'absolute',
 					   left: pleft+'px', 
 					   top: '10px'});
 		}
@@ -47,10 +51,14 @@ function createTagChain(tagCard) {
 
 function createTagLabel(tagLabel) {
 	var $tl = $('.proto > .tag-label').clone();
-	$tl.text(tagLabel.name);
-	$tl.attr('tag-id', tagLabel.id);
-	$tl.attr('href', "/grids/public/"+tagLabel.id);
-	$tl.click('gotoTag('+tagLabel.id+');');
+	$tl.data('tagId', tagLabel.id);
+	$tl.text(tagLabel.name)
+	   .attr('tag-id', tagLabel.id)
+	   .attr('href', "/grids/public/"+tagLabel.id)
+	   .click(function(event) {
+	     event.preventDefault();
+	     gotoTag($(this).data('tagId'));
+	   });
 	if (tagLabel.chainStr) {
 		$tl.attr('title', tagLabel.chainStr);
 	}
@@ -84,5 +92,5 @@ function buildTagTree(funcCreatTag, $tagTree, tag, depth, isLastOne) {
 }
 
 function gotoTag (id) {
-	window.open('#tag/'+id);
+	window.open('/grids/public/'+id);
 }
