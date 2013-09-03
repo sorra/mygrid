@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-#set(components = ["bootstrap", "layout", "tag", "post-box", "write-blog"])
+#set(components = ["bootstrap", "markdown", "layout", "tag", "post-box", "write-blog"])
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>写博客</title>
@@ -35,10 +35,24 @@ $!{include("navbar.httl")}
 			</div>
 		</form>
 	</div>
+	<div class="row">
+	   <button id="refresh" class="btn">预览</button>
+	   <div id="preview"></div>
+	</div>
 </div>
 <div class="footer"></div>
 
 $!{include("proto.httl")}
 $!{includeJS()}
+<script type="text/javascript">
+function refresh() {
+    console.log('refresh');
+    var input = $('.blog .content').val();
+    $('#preview').html(markdown.toHTML(input));
+}
+$(document).ready(function(){
+   $('#refresh').click(refresh); 
+});
+</script>
 </body>
 </html>
