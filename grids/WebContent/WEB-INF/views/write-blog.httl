@@ -6,17 +6,14 @@
 	<title>写博客</title>
     $!{includeCSS()}
 	<style type="text/css">
-	body>.container{
-		margin-top: 40px;
-	}
 	.blog {
-		margin: 20px;
+	   margin: 20px;
 	}
-	.blog .title{
-		height: 1em;
+	.blog .title {
+	   height: 1em;
 	}
-	.blog .content{
-		min-height: 30em;
+	.blog .content {
+	   min-height: 30em;
 	}
 	</style>
 </head>
