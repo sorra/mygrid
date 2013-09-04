@@ -36,7 +36,6 @@ $!{include("navbar.httl")}
 		</form>
 	</div>
 	<div class="row">
-	   <button id="refresh" class="btn">预览</button>
 	   <div id="preview"></div>
 	</div>
 </div>
@@ -45,13 +44,16 @@ $!{include("navbar.httl")}
 $!{include("proto.httl")}
 $!{includeJS()}
 <script type="text/javascript">
+'use strict';
 function refresh() {
     console.log('refresh');
     var input = $('.blog .content').val();
     $('#preview').html(markdown.toHTML(input));
 }
 $(document).ready(function(){
-   $('#refresh').click(refresh); 
+   $('.blog .content').keyup(function(){
+       window.refresh();
+   });
 });
 </script>
 </body>
