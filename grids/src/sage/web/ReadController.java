@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import sage.domain.service.BlogReadService;
@@ -35,13 +36,24 @@ public class ReadController {
 	
 	@RequestMapping("/istream")
 	@ResponseBody
-	public Stream istream() {
+	public Stream istream(
+	        @RequestParam(value="before", required=false) Long beforeId,
+	        @RequestParam(value="after", required=false) Long afterId) {
 		Long uid = AuthUtil.checkLogin();
-		if (uid == null) {
-			logger.info("not logged in");
-			return null;
+		logger.info("before {}, after {}", beforeId, afterId);
+		if (beforeId == null && afterId == null) {
+		    return streamService.istream(uid);		    
 		}
-		return streamService.istream(uid);
+		else if (beforeId != null && afterId != null) {
+		    throw new UnsupportedOperationException();
+		}
+		else if (beforeId != null) {
+		    return streamService.istreamBefore(uid, beforeId);
+		}
+		else if (afterId != null) {
+		    return streamService.istreamAfter(uid, afterId);
+		}
+        throw new UnsupportedOperationException();
 	}
 	
 	@RequestMapping("/connect/{blogId}")

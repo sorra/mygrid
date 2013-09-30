@@ -36,11 +36,14 @@ public class TweetReadService {
 	public List<TweetCard> istream(long userId, Edge edge, long edgeId) {
 		//XXX consider fetch_size limit
 		List<Tweet> tweets = new ArrayList<>();
-		tweets.addAll(tweetRepos.byAuthor(userId));
+		
+		tweets.addAll(tweetRepos.byAuthor(userId, edge, edgeId));
+		
 		List<Follow> followings = followRepos.followings(userId);
 		for (Follow follow : followings) {
-			tweets.addAll(tweetRepos.byAuthorAndTags(
-				follow.getTarget().getId(), follow.getTags(), edge, edgeId));
+	        List<Tweet> result = tweetRepos.byAuthorAndTags(
+	                follow.getTarget().getId(), follow.getTags(), edge, edgeId);
+			tweets.addAll(result);
 		}
 		Collections.sort(tweets, new TweetOnIdComparator());
 		
