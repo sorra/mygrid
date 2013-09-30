@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import sage.domain.TweetOnIdComparator;
 import sage.domain.repository.CommentRepository;
+import sage.domain.repository.Edge;
 import sage.domain.repository.FollowRepository;
 import sage.domain.repository.TweetRepository;
 import sage.entity.Comment;
@@ -32,14 +33,14 @@ public class TweetReadService {
 	@Autowired
 	private CommentRepository commentRepos;
 	
-	public List<TweetCard> istream(long userId) {
+	public List<TweetCard> istream(long userId, Edge edge, long edgeId) {
 		//XXX consider fetch_size limit
 		List<Tweet> tweets = new ArrayList<>();
 		tweets.addAll(tweetRepos.byAuthor(userId));
 		List<Follow> followings = followRepos.followings(userId);
 		for (Follow follow : followings) {
 			tweets.addAll(tweetRepos.byAuthorAndTags(
-				follow.getTarget().getId(), follow.getTags()));
+				follow.getTarget().getId(), follow.getTags(), edge, edgeId));
 		}
 		Collections.sort(tweets, new TweetOnIdComparator());
 		

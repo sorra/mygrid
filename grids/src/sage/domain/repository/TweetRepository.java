@@ -3,6 +3,7 @@ package sage.domain.repository;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -18,14 +19,21 @@ public class TweetRepository extends BaseRepository<Tweet> {
 	private static final int MAX_RESULTS = 20;
 	@Autowired
 	private TagRepository tagRepos;
-
+	
 	public List<Tweet> byTags(Collection<Tag> tags) {
-		tags = TagRepository.getQueryTags(tags);
-		return session().createQuery(
-				"select t from Tweet t join t.tags ta where ta in :tags")
-				.setParameterList("tags", tags)
-				.setMaxResults(MAX_RESULTS)
-				.list();
+		return byTags(tags, Edge.NONE, 0);
+	}
+	
+	public List<Tweet> byTags(Collection<Tag> tags, Edge edge, long edgeId) {
+        if (tags.isEmpty()) {
+            return new LinkedList<>();
+        }
+        tags = TagRepository.getQueryTags(tags);
+        String q= "select t from Tweet t join t.tags ta where ta in :tags";
+	    return buildQuery(q, edge, edgeId)
+                .setParameterList("tags", tags)
+                .setMaxResults(MAX_RESULTS)
+                .list();
 	}
 	
 	public List<Tweet> byTag(Tag tag) {
@@ -34,27 +42,32 @@ public class TweetRepository extends BaseRepository<Tweet> {
 	}
 	
 	public List<Tweet> byAuthor(long authorId) {
-		return session().createQuery("from Tweet t where t.author.id=:authorId")
-				.setLong("authorId", authorId)
-				.setMaxResults(MAX_RESULTS)
-				.list();
+	    return byAuthor(authorId, Edge.NONE, 0);
 	}
 	
-	public List<Tweet> byAuthorAndTags(long authorId, Collection<Tag> tags) {
+	public List<Tweet> byAuthor(long authorId, Edge edge, long edgeId) {
+	    String q = "from Tweet t where t.author.id=:authorId";
+		return buildQuery(q, edge, edgeId)
+				.setLong("authorId", authorId)
+				.list();
+	}
+
+    public List<Tweet> byAuthorAndTags(long authorId, Collection<Tag> tags) {
+        return byAuthorAndTags(authorId, tags, Edge.NONE, 0);
+    }
+	
+	public List<Tweet> byAuthorAndTags(long authorId, Collection<Tag> tags, Edge edge, long edgeId) {
 		if (tags.isEmpty()) {
-			return new ArrayList<>();
+			return new LinkedList<>();
 		}
-		for (Tag tag : tags) {
-			if (tag.getId() == Tag.ROOT_ID) {
-				return byAuthor(authorId);
-			}
+		if (hasRoot(tags)) {
+			return byAuthor(authorId);
 		}
 		tags = TagRepository.getQueryTags(tags);
-		return session().createQuery(
-				"select t from Tweet t join t.tags ta where t.author.id=:authorId and ta in :tags")
+		String q = "select t from Tweet t join t.tags ta where t.author.id=:authorId and ta in :tags";
+		return buildQuery(q, edge, edgeId)
 				.setLong("authorId", authorId)
 				.setParameterList("tags", tags)
-				.setMaxResults(MAX_RESULTS)
 				.list();
 	}
 	
@@ -92,6 +105,33 @@ public class TweetRepository extends BaseRepository<Tweet> {
 				"select count(*) from Tweet t  where t.origin.id = :originId")
 				.setLong("originId", originId);
 		return (long) query.uniqueResult();
+	}
+	
+	private Query buildQuery(String q, Edge edge, long edgeId) {
+	    switch (edge) {
+        case NONE:
+            return session().createQuery(q).setMaxResults(MAX_RESULTS);
+
+        case BEFORE:
+            q += " and t.id < :beforeId";
+            return session().createQuery(q).setLong("beforeId", edgeId).setMaxResults(MAX_RESULTS);
+            
+        case AFTER:
+            q += " and t.id > :afterId";
+            return session().createQuery(q).setLong("afterId", edgeId).setMaxResults(MAX_RESULTS);
+            
+        default:
+            throw new UnsupportedOperationException();
+        }
+	}
+	
+	private boolean hasRoot(Collection<Tag> tags) {
+        for (Tag tag : tags) {
+            if (tag.getId() == Tag.ROOT_ID) {
+                return true;
+            }
+        }
+        return false;
 	}
 
 	@Override

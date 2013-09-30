@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import sage.domain.repository.Edge;
 import sage.entity.Tweet;
 import sage.transfer.CombineGroup;
 import sage.transfer.Item;
@@ -25,11 +26,27 @@ public class StreamService {
 	private TransferService transferService;
 
 	public Stream istream(long userId) {	
-		List<TweetCard> tcs = tweetReadService.istream(userId);
+		List<TweetCard> tcs = tweetReadService.istream(userId, Edge.NONE, 0);
 		Stream stream = new Stream();
 		stream.addAll(higherSort(tcs));
 		
 		return stream;
+	}
+	
+	public Stream istreamAfter(long userId, long edgeId) {  
+        List<TweetCard> tcs = tweetReadService.istream(userId, Edge.AFTER, edgeId);
+        Stream stream = new Stream();
+        stream.addAll(higherSort(tcs));
+        
+        return stream;
+	}
+	
+	public Stream istreamBefore(long userId, long edgeId) { 
+        List<TweetCard> tcs = tweetReadService.istream(userId, Edge.BEFORE, edgeId);
+        Stream stream = new Stream();
+        stream.addAll(higherSort(tcs));
+        
+        return stream;
 	}
 
 	private List<Item> higherSort(List<TweetCard> tcs) {
