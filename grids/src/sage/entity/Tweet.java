@@ -40,7 +40,7 @@ public class Tweet {
 		this.content = content;
 		this.author = author;
 		this.time = time;
-		tags.addAll(origin.tags);
+		tags.addAll(origin.getTags());
 		this.origin = origin;
 		if (origin.getOrigin() != null) {//XXX need better approach
 			throw new IllegalArgumentException("tweet's origin should not be nested!");
