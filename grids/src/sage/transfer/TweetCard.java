@@ -63,6 +63,7 @@ public class TweetCard implements Item {
 	public Date getTime() {
 		return time;
 	}
+	@Override
 	public TweetCard getOrigin() {
 		return origin;
 	}

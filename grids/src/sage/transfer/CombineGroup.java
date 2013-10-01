@@ -51,7 +51,8 @@ public class CombineGroup implements Item {
 	
 	public List<TweetCard> getForwards() {
 		return forwards;
-	}	
+	}
+	@Override
 	public TweetCard getOrigin() {
 		return origin;
 	}
