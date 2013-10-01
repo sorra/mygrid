@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import sage.domain.repository.Edge;
 import sage.entity.Tweet;
@@ -83,9 +84,9 @@ public class StreamService {
 
 		List<Item> sequence = new ArrayList<>(groupSeq.size());
 		for (CombineGroup group : groupSeq) {
-			TweetCard singleMember = group.singleMember();
-			if (singleMember != null) {
-				sequence.add(singleMember);
+			if (group.getForwards().isEmpty()) {
+			    Assert.notNull(group.getOrigin());
+				sequence.add(group.getOrigin());
 			}
 			else sequence.add(group);
 		}
