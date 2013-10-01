@@ -34,6 +34,10 @@ public class TransferService {
 				forwardCount(tweet.getId()),
 				commentCount(tweet.getId()));
 	}
+	
+	public TweetCard getTweetCardNoCount(Tweet tweet) {
+        return new TweetCard(tweet, 0, 0);
+	}
 
 	public long forwardCount(long originId) {
 		return tweetRepos.forwardCount(originId);

@@ -40,7 +40,7 @@ public class TweetPostService {
 		Tweet tweet = new Tweet(content, userRepos.load(userId), new Date(),
 				tagRepos.byIds(tagIds));
 		tweetRepos.save(tweet);
-		searchBase.index(tweet.getId(), transferService.getTweetCard(tweet));
+		searchBase.index(tweet.getId(), transferService.getTweetCardNoCount(tweet));
 		return tweet;
 	}
 	
@@ -65,7 +65,7 @@ public class TweetPostService {
 				new Date(),
 				blog);
 		tweetRepos.save(tweet);
-		searchBase.index(tweet.getId(), transferService.getTweetCard(tweet));
+		searchBase.index(tweet.getId(), transferService.getTweetCardNoCount(tweet));
 	}
 	
 	public Tweet forward(long userId, String content, long originId) {
@@ -74,7 +74,7 @@ public class TweetPostService {
 		Tweet tweet = new Tweet(content,
 		        userRepos.load(userId), new Date(), pureOrigin(origin));
 		tweetRepos.save(tweet);
-		searchBase.index(tweet.getId(), transferService.getTweetCard(tweet));
+		searchBase.index(tweet.getId(), transferService.getTweetCardNoCount(tweet));
 		return tweet;
 	}
 	
