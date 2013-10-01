@@ -42,7 +42,7 @@ function createStream(stream, url) {
     $('<a>').addClass('newfeed btn').text('看看新的').css('margin-left', '320px').prependTo($stream)
         .click(function() {
             var largest = null;
-            $('.slist .item').each(function(){
+            $('.slist .tweet').each(function(){
                 var id = $(this).data('id');
                 if (id != undefined && id != null && (id > largest || largest == null)) {
                     largest = id;
@@ -64,7 +64,7 @@ function createStream(stream, url) {
     $('<a>').addClass('morefeed btn').text('看看更早的').css('margin-left', '320px').appendTo($stream)
         .click(function() {
             var smallest = null;
-            $('.slist .item').each(function(){
+            $('.slist .tweet').each(function(){
                 var id = $(this).data('id');
                 if (id != undefined && id != null && (id < smallest || smallest == null)) {
                     smallest = id;
@@ -77,6 +77,7 @@ function createStream(stream, url) {
 
 function createStreamAfter(stream) {
     console.log(stream.items.length);
+    console.log(stream);
     var $slist = $('.slist');
     $.each(stream.items, function(idx, item){
         if (item.type == 'TweetCard') {
@@ -90,6 +91,7 @@ function createStreamAfter(stream) {
 
 function createStreamBefore(stream) {
     console.log(stream.items.length);
+    console.log(stream);
     var $slist = $('.slist');
     $.each(stream.items, function(idx, item){
         if (item.type == 'TweetCard') {
