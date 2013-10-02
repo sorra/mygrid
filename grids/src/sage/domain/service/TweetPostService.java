@@ -17,6 +17,7 @@ import sage.domain.search.SearchBase;
 import sage.entity.Blog;
 import sage.entity.Comment;
 import sage.entity.Tweet;
+import sage.entity.User;
 import sage.transfer.TweetCard;
 
 @Service
@@ -36,7 +37,7 @@ public class TweetPostService {
 	private CommentRepository commentRepos;
 	
 	public Tweet newTweet(long userId, String content, Collection<Long> tagIds) {
-        content = StringUtils.escapeXml(content);
+        content = processContent(content);
 		Tweet tweet = new Tweet(content, userRepos.load(userId), new Date(),
 				tagRepos.byIds(tagIds));
 		tweetRepos.save(tweet);
@@ -44,8 +45,18 @@ public class TweetPostService {
 		return tweet;
 	}
 	
-	public void comment(long userId, String content, long sourceId) {
-        content = StringUtils.escapeXml(content);
+	public Tweet forward(long userId, String content, long originId) {
+        content = processContent(content);
+        Tweet origin = tweetRepos.load(originId);
+    	Tweet tweet = new Tweet(content,
+    	        userRepos.load(userId), new Date(), pureOrigin(origin));
+    	tweetRepos.save(tweet);
+    	searchBase.index(tweet.getId(), transferService.getTweetCardNoCount(tweet));
+    	return tweet;
+    }
+
+    public void comment(long userId, String content, long sourceId) {
+        content = processContent(content);
 		Comment comment = new Comment(content, userRepos.load(userId),
 				new Date(), tweetRepos.load(sourceId));
 		commentRepos.save(comment);
@@ -66,16 +77,6 @@ public class TweetPostService {
 				blog);
 		tweetRepos.save(tweet);
 		searchBase.index(tweet.getId(), transferService.getTweetCardNoCount(tweet));
-	}
-	
-	public Tweet forward(long userId, String content, long originId) {
-        content = StringUtils.escapeXml(content);
-	    Tweet origin = tweetRepos.load(originId);
-		Tweet tweet = new Tweet(content,
-		        userRepos.load(userId), new Date(), pureOrigin(origin));
-		tweetRepos.save(tweet);
-		searchBase.index(tweet.getId(), transferService.getTweetCardNoCount(tweet));
-		return tweet;
 	}
 	
 	public boolean delete(long userId, long tweetId) {
@@ -100,5 +101,42 @@ public class TweetPostService {
 	    else {
 	        return pureOrigin(tweet.getOrigin());
         }
+	}
+	
+	private String processContent(String content) {
+	    content = StringUtils.escapeXml(content);
+	    return replaceMention(content, 0, new StringBuilder(), userRepos);
+	}
+
+	public static String replaceMention(String content, int startIndex, StringBuilder sb, UserRepository ur) {
+	    int indexOfAt = content.indexOf('@', startIndex);
+	    int indexOfSpace = content.indexOf(' ', indexOfAt);
+	    int indexOfInnerAt = content.lastIndexOf('@', indexOfSpace-1);
+	    System.out.println(indexOfAt+" "+indexOfSpace+" "+indexOfInnerAt);
+	    
+        if (indexOfAt >= 0 && indexOfSpace >= 0) {
+            if (indexOfInnerAt > indexOfAt && indexOfInnerAt < indexOfSpace) {
+                indexOfAt = indexOfInnerAt;
+            }
+            User user = ur.findByName(content.substring(indexOfAt+1, indexOfSpace));
+            System.out.println(user);
+            if (user != null) {
+                sb.append(content.substring(startIndex, indexOfAt)).append('@')
+                        .append(user.getId());
+                return replaceMention(content, indexOfSpace, sb, ur);
+            } else {
+                if (startIndex == 0) {
+                    return content;
+                }
+                sb.append(content.substring(indexOfAt, indexOfSpace));
+                return replaceMention(content, indexOfSpace, sb, ur);
+            }
+        }
+	    
+	    // Exit
+	    if (startIndex == 0) {
+	        return content;
+	    }
+	    return sb.append(content.substring(startIndex)).toString();
 	}
 }
