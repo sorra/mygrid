@@ -13,8 +13,8 @@ $!{include("navbar.httl")}
 	<div class="row">
 		<div class="side span3">SIDE</div>
 		<div class="main span9">
-			<div class="row">
-				<div class="stream span9"></div>
+			<div class="stream row">
+				<div class="slist span9"></div>
 			</div>
 		</div>
 	</div>
