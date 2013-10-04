@@ -113,10 +113,9 @@ function createTweetCard(card) {
     var $tc = $('.proto > .tweet').clone();
     $tc.data('id', card.id);
     
-    var authorLinkAttrs = {uid: card.authorId, href: '#user/'+card.authorId};
-    $tc.find('.avatar').attr(authorLinkAttrs)
+    $tc.find('.avatar').attr(userLinkAttrs(card.authorId))
         .find('img').attr('src', card.avatar ? card.avatar : '/grids/rs/img/1.jpg');    
-    $tc.find('.author-name').attr(authorLinkAttrs).text(card.authorName)
+    $tc.find('.author-name').attr(userLinkAttrs(card.authorId)).text(card.authorName)
         .mouseenter(launchUcOpener)
         .mouseleave(launchUcCloser);
     
@@ -208,10 +207,9 @@ function createCombineGroup(group) {
 function createBlogData(data) {
     var $bd = $('.proto > .blog').clone();
 
-    var authorLinkAttrs = {uid: data.authorId, href: '#user/'+data.authorId};
-    $bd.find('.avatar').attr(authorLinkAttrs)
+    $bd.find('.avatar').attr(userLinkAttrs(data.authorId))
         .find('img').attr('src', data.author.avatar ? data.author.avatar : '/grids/rs/img/1.jpg');  
-    $bd.find('.author-name').attr(authorLinkAttrs).text(data.author.name);
+    $bd.find('.author-name').attr(userLinkAttrs(data.authorId)).text(data.author.name);
     $bd.find('.title').text(data.title);
     $bd.find('.content').html(data.content);
     $bd.find('.time').text(showTime(data.time)).attr('href', '#bd/'+data.id);
@@ -254,6 +252,10 @@ function createCommentList(tweetId) {
     return $cl;
 }
 
+function userLinkAttrs(id) {
+    return {uid: id, href: '/grids/private/'+id};
+}
+
 function showTime(time) {
     return new Date(time).toLocaleString();
 }
@@ -264,7 +266,7 @@ function replaceMention(content) {
     var indexOfInnerAt = content.lastIndexOf('@', indexOfSpace-1);
     
     if (indexOfAt >= 0 && indexOfSpace >=0) {
-        if (indexOfInnerAt > indexOfAt && indexOfSpace < indexOfSpace) {
+        if (indexOfInnerAt > indexOfAt && indexOfInnerAt < indexOfSpace) {
             indexOfAt = indexOfInnerAt;
         }
         var mention = content.slice(indexOfAt+1, indexOfSpace);
@@ -273,7 +275,7 @@ function replaceMention(content) {
             var name = mention.slice(0, indexOfSharp);
             var id = mention.slice(indexOfSharp+1, mention.length);
             return content.slice(0, indexOfAt)
-                + $('<a>').text('@'+name).attr('uid', id).outerHTML()
+                + $('<a>').text('@'+name).attr(userLinkAttrs(id)).outerHTML()
                 + replaceMention(content.slice(indexOfSpace, content.length));
         }
         else {
