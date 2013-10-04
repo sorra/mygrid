@@ -1,5 +1,6 @@
 package grids;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import sage.domain.repository.UserRepository;
@@ -21,6 +22,7 @@ public class ReplaceMentionTest {
             }
         };
         String output = TweetPostService.replaceMention(content, 0, new StringBuilder(), ur);
-        System.out.println(output);
+        Assert.assertEquals(output,
+                "@Admin#1000 @Admin@Admin@Admin@Admin@Admin#1000 @Admin@Admin#1000 @Admin@Admin@Admin#1000 @Admi");
     }
 }
