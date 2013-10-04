@@ -1,4 +1,9 @@
 'use strict';
+jQuery.fn.outerHTML = function(s) {
+    return s
+        ? this.before(s).remove()
+        : jQuery("<p>").append(this.eq(0).clone()).html();
+};
 
 function getStream(url) {
     $.get(url, {})
@@ -113,7 +118,12 @@ function createTweetCard(card) {
     $tc.find('.author-name').attr(authorLinkAttrs).text(card.authorName)
         .mouseenter(launchUcOpener)
         .mouseleave(launchUcCloser);
-    $tc.find('.content').html(card.content);
+    
+    $tc.find('.content').html(replaceMention(card.content))
+        .find('a[uid]')
+        .mouseenter(launchUcOpener)
+        .mouseleave(launchUcCloser);
+    
     if (card.origin)
         $tc.find('.origin').replaceWith(createOriginCard(card.origin));
     else
@@ -245,4 +255,30 @@ function createCommentList(tweetId) {
 
 function showTime(time) {
     return new Date(time).toLocaleString();
+}
+
+function replaceMention(content) {
+    var indexOfAt = content.indexOf('@');
+    var indexOfSpace = content.indexOf(' ', indexOfAt);
+    var indexOfInnerAt = content.lastIndexOf('@', indexOfSpace-1);
+    
+    if (indexOfAt >= 0 && indexOfSpace >=0) {
+        if (indexOfInnerAt > indexOfAt && indexOfSpace < indexOfSpace) {
+            indexOfAt = indexOfInnerAt;
+        }
+        var mention = content.slice(indexOfAt+1, indexOfSpace);
+        var indexOfSharp = mention.indexOf('#');
+        if (indexOfSharp > 0) {
+            var name = mention.slice(0, indexOfSharp);
+            var id = mention.slice(indexOfSharp+1, mention.length);
+            return content.slice(0, indexOfAt)
+                + $('<a>').text('@'+name).attr('uid', id).outerHTML()
+                + replaceMention(content.slice(indexOfSpace, content.length));
+        }
+        else {
+            return content.slice(0, indexOfSpace)
+                + replaceMention(content.slice(indexOfSpace, content.length));
+        }
+    }
+    return content;
 }

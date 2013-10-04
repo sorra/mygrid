@@ -118,13 +118,15 @@ public class TweetPostService {
             if (indexOfInnerAt > indexOfAt && indexOfInnerAt < indexOfSpace) {
                 indexOfAt = indexOfInnerAt;
             }
-            User user = ur.findByName(content.substring(indexOfAt+1, indexOfSpace));
+            String name = content.substring(indexOfAt+1, indexOfSpace);
+            User user = ur.findByName(name);
             System.out.println(user);
             if (user != null) {
-                sb.append(content.substring(startIndex, indexOfAt)).append('@')
-                        .append(user.getId());
+                sb.append(content.substring(startIndex, indexOfAt)).append('@').append(name)
+                        .append('#').append(user.getId());
                 return replaceMention(content, indexOfSpace, sb, ur);
-            } else {
+            }
+            else {
                 if (startIndex == 0) {
                     return content;
                 }
