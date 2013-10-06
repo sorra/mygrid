@@ -1,6 +1,7 @@
 package sage.domain.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import sage.domain.TweetOnIdComparator;
 import sage.domain.repository.Edge;
 import sage.entity.Tweet;
 import sage.transfer.CombineGroup;
@@ -104,6 +106,7 @@ public class StreamService {
 
 	public Stream tagStream(long tagId) {
 		List<Tweet> tweets = tweetReadService.tweetsByTags(tagService.getQueryTags(tagId));
+		Collections.sort(tweets, new TweetOnIdComparator());
 		Stream stream = new Stream();
 		for (Tweet tweet : tweets) {
 			stream.add(transferService.getTweetCard(tweet));
@@ -113,6 +116,7 @@ public class StreamService {
 
 	public Stream personalStream(long userId) {
 		List<Tweet> tweets = tweetReadService.tweetsByAuthor(userId);
+        Collections.sort(tweets, new TweetOnIdComparator());
 		Stream stream = new Stream();
 		for (Tweet tweet : tweets) {
 			stream.add(transferService.getTweetCard(tweet));
