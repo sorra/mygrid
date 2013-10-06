@@ -81,6 +81,8 @@ function createUserCard(card) {
 	$uc.find('.avatar > a').find('img').attr('src', card.avatar ? card.avatar : '/grids/rs/img/1.jpg');
 	$uc.find('.name').text(card.name);
 	$uc.find('.intro').text(card.intro);
+	$uc.find('.followings').attr('href', '/grids/followings/'+card.id);
+	$uc.find('.followers').attr('href', '/grids/followers/'+card.id);
 	$uc.find('.following-count').text(card.followingCount);
 	$uc.find('.follower-count').text(card.followerCount);
 	$uc.css({

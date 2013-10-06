@@ -94,11 +94,15 @@ public class PageController {
         model.addAttribute("tagTreeJson", tagTreeJson);
         return "write-blog";
     }
-
+    
     @RequestMapping("/followings")
     public String followings(ModelMap model) {
         Long uid = AuthUtil.checkLogin();
+        return followings(uid, model);
+    }
 
+    @RequestMapping("/followings/{uid}")
+    public String followings(@PathVariable("uid") long uid, ModelMap model) {
         List<String> followingsInJson = new ArrayList<>();
         for (Follow follow : relationService.followings(uid)) {
             UserCard followingUc = userService.getUserCard(uid, follow.getTarget().getId());
@@ -111,7 +115,11 @@ public class PageController {
     @RequestMapping("/followers")
     public String followers(ModelMap model) {
         Long uid = AuthUtil.checkLogin();
-
+        return followers(uid, model);
+    }
+    
+    @RequestMapping("/followers/{uid}")
+    public String followers(@PathVariable("uid") long uid, ModelMap model) {
         List<String> followersInJson = new ArrayList<>();
         for (Follow follow : relationService.followers(uid)) {
             UserCard followerUc = userService.getUserCard(uid, follow.getSource().getId());

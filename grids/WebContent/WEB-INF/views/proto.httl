@@ -35,9 +35,9 @@
 			<div class="span">
 				<p class="name"></p>
 				<p class="intro"></p>
-				<div class="">
-					关注：<span class="following-count"></span>
-					粉丝：<span class="follower-count"></span>
+				<div>
+					<a class="followings">关注</a>：<span class="following-count"></span>
+					<a class="followers">粉丝</a>：<span class="follower-count"></span>
 				</div>
 			</div>
 			<button class="follow"></button>

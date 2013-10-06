@@ -114,15 +114,12 @@ function createTweetCard(card) {
     $tc.data('id', card.id);
     
     $tc.find('.avatar').attr(userLinkAttrs(card.authorId))
-        .find('img').attr('src', card.avatar ? card.avatar : '/grids/rs/img/1.jpg');    
-    $tc.find('.author-name').attr(userLinkAttrs(card.authorId)).text(card.authorName)
-        .mouseenter(launchUcOpener)
-        .mouseleave(launchUcCloser);
+        .find('img').attr('src', card.avatar ? card.avatar : '/grids/rs/img/1.jpg');
+    $tc.find('.author-name').attr(userLinkAttrs(card.authorId)).text(card.authorName);
     
-    $tc.find('.content').html(replaceMention(card.content))
-        .find('a[uid]')
-        .mouseenter(launchUcOpener)
-        .mouseleave(launchUcCloser);
+    $tc.find('.content').html(replaceMention(card.content));
+    
+    $tc.find('a[uid]').mouseenter(launchUcOpener).mouseleave(launchUcCloser);
     
     if (card.origin)
         $tc.find('.origin').replaceWith(createOriginCard(card.origin));
