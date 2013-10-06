@@ -16,3 +16,7 @@ body>.container{
 .search {
     margin: 5px 0 -5px 0;
 }
+
+.followings, .followers {
+	color: green;
+}
