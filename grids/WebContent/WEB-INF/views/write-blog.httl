@@ -1,57 +1,65 @@
 <!DOCTYPE html>
 <html>
-#set(components = ["bootstrap", "markdown", "layout", "tag", "post-box", "write-blog"])
+#set(components = ["bootstrap", "markdown", "layout", "tag", "post-box",
+"write-blog"])
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>写博客</title>
-    $!{includeCSS()}
-	<style type="text/css">
-	.blog {
-	   margin: 20px;
-	}
-	.blog .title {
-	   height: 1em;
-	}
-	.blog .content {
-	   min-height: 30em;
-	}
-	</style>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>写博客</title> $!{includeCSS()}
+<style type="text/css">
+.blog {
+	margin: 20px;
+}
+
+.blog .title {
+	height: 1em;
+}
+
+.blog .content, #preview {
+	min-height: 30em;
+}
+</style>
 </head>
 <body>
-$!{include("navbar.httl")}
-<div class="container" id="container">
-	<div class="row">
-		<span id="user-self-json" style="display:none;">${selfJson}</span>
-		<span id="tag-tree-json" style="display:none;">${tagTreeJson}</span>
-		<form class="blog span9">
-			<div class="row"><textarea class="title span9" placeholder="这里是标题"></textarea></div>
-			<div class="row"><textarea class="content span9" placeholder="这里是内容"></textarea></div>
-			<div class="row">
+	$!{include("navbar.httl")}
+	<div class="container" id="container">
+		<div class="row">
+			<span id="user-self-json" style="display: none;">${selfJson}</span> <span
+				id="tag-tree-json" style="display: none;">${tagTreeJson}</span>
+			<form class="blog span9">
+				<div class="row">
+					<textarea class="title span9" placeholder="这里是标题"></textarea>
+				</div>
+				<ul id="tabs" class="nav nav-tabs">
+				    <li><a href="#content" data-toggle="tab">写作</a></li>
+				    <li><a href="#preview" data-toggle="tab">预览</a></li>
+				</ul>
+				<div class="row tab-content">
+				   <textarea id="content" class="content span9 tab-pane" placeholder="这里是内容"></textarea>
+                   <div id="preview" class="span9 tab-pane"></div>
+				</div>
+				<div class="row">
 					<a class="tag-plus btn btn-info">+</a>
 					<button class="btn btn-primary pull-right" type="submit">发表</button>
-			</div>
-		</form>
+				</div>
+			</form>
+		</div>
 	</div>
-	<div class="row">
-	   <div id="preview"></div>
-	</div>
-</div>
-<div class="footer"></div>
+	<div class="footer"></div>
 
-$!{include("proto.httl")}
-$!{includeJS()}
-<script type="text/javascript">
-'use strict';
-function refresh() {
-    console.log('refresh');
-    var input = $('.blog .content').val();
-    $('#preview').html(markdown.toHTML(input));
-}
-$(document).ready(function(){
-   $('.blog .content').keyup(function(){
-       window.refresh();
-   });
-});
-</script>
+	$!{include("proto.httl")} $!{includeJS()}
+	<script type="text/javascript">
+        'use strict';
+        function refresh() {
+            console.log('refresh');
+            var input = $('#content').val();
+            $('#preview').html(markdown.toHTML(input));
+        }
+        $(document).ready(function() {
+            $('#content').keyup(function() {
+                window.refresh();
+            });
+            $('#tabs a[href="#content"]').warnEmpty().tab('show');
+        });
+    </script>
 </body>
 </html>
