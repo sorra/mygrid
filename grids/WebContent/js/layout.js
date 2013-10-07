@@ -1,4 +1,14 @@
 'use strict';
+$.fn.outerHTML = function(s) {
+    return s
+        ? this.before(s).remove()
+        : jQuery("<p>").append(this.eq(0).clone()).html();
+};
+
+$.fn.warnEmpty = function() {
+    if (this.length == 0) {console.warn('Empty NodeList for '+this.selector+'!');}
+    return this;
+};
 
 function buildNavTagTree($lnk, tagTree) {
     var $navTagTree = $('<div>');
