@@ -110,14 +110,17 @@ public class TweetRepository extends BaseRepository<Tweet> {
 	private Query buildQuery(String q, Edge edge, long edgeId) {
 	    switch (edge) {
         case NONE:
+            q += " order by t.id desc";
             return session().createQuery(q).setMaxResults(MAX_RESULTS);
 
         case BEFORE:
             q += " and t.id < :beforeId";
+            q += " order by t.id desc";
             return session().createQuery(q).setLong("beforeId", edgeId).setMaxResults(MAX_RESULTS);
             
         case AFTER:
             q += " and t.id > :afterId";
+            q += " order by t.id desc";
             return session().createQuery(q).setLong("afterId", edgeId).setMaxResults(MAX_RESULTS);
             
         default:
