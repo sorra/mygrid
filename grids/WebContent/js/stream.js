@@ -38,8 +38,7 @@ function getStreamBefore(url, beforeId) {
 function createStream(stream, url) {
     console.log(stream.items.length);
     var $stream = $('.stream');
-    var $slist = $('.slist').empty();
-    if ($slist[0] == undefined) throw new Error;
+    var $slist = $('.slist').empty().warnEmpty();
     $('<a>').addClass('newfeed btn').text('看看新的').css('margin-left', '320px').prependTo($stream)
         .click(function() {
             var largest = null;

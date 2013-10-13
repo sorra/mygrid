@@ -28,7 +28,9 @@ $!{include("navbar.httl")}
 		<div class="content">$!{blog.content}</div>
 	</div>
 	<h5>连接到的微博：</h5>
-	<div class="stream"></div>
+	<div class="stream">
+	   <div class="slist"></div>
+	</div>
 </div>
 $!{include("proto.httl")}
 $!{includeJS()}
