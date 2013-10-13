@@ -45,7 +45,7 @@ public class ServiceInitializer {
 	
 	long root = Tag.ROOT_ID;
 	long society, culture, economy, tech;
-	long view, art, painting, music;	
+	long view, art, painting, music, prog, digital;	
 	long admin, bethia, centos;
 
 	private void tag() {
@@ -58,6 +58,8 @@ public class ServiceInitializer {
 		art = tagService.newTag("艺术", culture);
 		painting = tagService.newTag("绘画", art);
 		music = tagService.newTag("音乐", art);
+		prog = tagService.newTag("编程", tech);
+		digital = tagService.newTag("数码", tech);
 	}
 	
 	private void user() {
