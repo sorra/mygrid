@@ -23,6 +23,7 @@ $!{include("navbar.httl")}
 	<div class="blog">
 		<span id="id" style="display:none">${blog.id}</span>
 		<h3 class="title">${blog.title}</h3>
+		<span>${blog.time}</span>
 		<div class="tags">${blog.tags}</div>
 		<div class="content">$!{blog.content}</div>
 	</div>
