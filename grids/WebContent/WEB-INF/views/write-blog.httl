@@ -55,7 +55,18 @@
             $('#preview').html(markdown.toHTML(input));
         }
         $(document).ready(function() {
-            $('#content').keyup(function() {
+            $('#content')
+            .keydown(function(event){
+                if (event.keyCode == 9) {
+                    event.preventDefault();
+                    var content = $(this).val();
+                    var pos = $(this).getCursorPosition();
+                    content = content.slice(0, pos) + '\t' + content.slice(pos, content.length);
+                    $(this).val(content);
+                    $(this).setCursorPosition(pos+1);
+                }
+            })
+            .keyup(function() {
                 window.refresh();
             });
             $('#tabs a[href="#content"]').warnEmpty().tab('show');
