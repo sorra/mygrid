@@ -46,6 +46,12 @@ public class PageController {
         model.addAttribute("id", id);
         return "public-page";
     }
+    
+    @RequestMapping("/private")
+    public String privatePage(ModelMap model) {
+        Long id = AuthUtil.checkLogin();
+        return privatePage(id, model);
+    }
 
     @RequestMapping("/private/{id}")
     public String privatePage(@PathVariable("id") long id, ModelMap model) {

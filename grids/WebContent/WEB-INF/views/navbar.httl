@@ -4,9 +4,9 @@
 			<a class="brand mybrand" href="$!{base}">贤者系统</a>
 			<ul class="nav">
 				<li class="active"><a href="$!{base}">首页</a></li>
-                <li><a id="nav-tags" href="#">标签</a></li>
+                <li><a id="nav-tags">标签</a></li>
 				<li><a id="nav-groups" href="#">群组</a></li>
-				<li><a id="nav-private" href="#">私人</a></li>
+				<li><a id="nav-private" href="$!{base}/private">私人</a></li>
 				<li><a href="$!{base}/write-blog">写博客</a></li>
             </ul>
             <ul class="nav pull-right">
