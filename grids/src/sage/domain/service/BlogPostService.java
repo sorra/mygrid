@@ -31,29 +31,30 @@ public class BlogPostService {
 	private TagRepository tagRepos;
 	
 	public Blog newBlog(long userId, String title, String content, Collection<Long> tagIds) {
-        title = StringUtils.escapeXml(title);
-	    content = StringUtils.escapeXml(content);
 		Blog blog = new Blog(title, content, userRepos.load(userId), new Date(), tagRepos.byIds(tagIds));
+		escapeAndSet(blog);
+		
 		blogRepos.save(blog);
 		searchBase.index(blog.getId(), transferService.getBlogData(blog));
 		return blog;
 	}
 	
 	public Blog edit(long userId, long blogId, String title, String content, Collection<Long> tagIds) {
-        title = StringUtils.escapeXml(title);
-	    content = StringUtils.escapeXml(content);
-        content = content.replace("\n", "<br/>");
 	    Blog blog = blogRepos.get(blogId);
 		if (blog.getAuthor().getId() == userId) {
 		    blog.setTime(new Date());
 			blog.setTitle(title);
 			blog.setContent(content);
+			escapeAndSet(blog);
 			blog.setTags(tagRepos.byIds(tagIds));
+			
+			blogRepos.update(blog);
 			searchBase.index(blog.getId(), transferService.getBlogData(blog));
 			return blog;
 		}
 		else return null;
 	}
+	
 	public boolean delete(long userId, long blogId) {
 		Blog blog = blogRepos.load(blogId);
 		if (blog.getAuthor().getId() == userId) {
@@ -62,5 +63,12 @@ public class BlogPostService {
 			return true;
 		}
 		else return false;
+	}
+	
+	private void escapeAndSet(Blog blog) {
+        String title = StringUtils.escapeXml(blog.getTitle());
+        String content = StringUtils.escapeXml(blog.getContent()).replace("\n", "  \n");
+        blog.setTitle(title);
+        blog.setContent(content);
 	}
 }

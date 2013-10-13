@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-#set(components = ["bootstrap", "layout", "stream", "tag", "usercard"])
+#set(components = ["bootstrap", "layout", "stream", "tag", "usercard", "markdown"])
 #set(BlogData blog, List<TweetCard> tweets)
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -21,10 +21,10 @@ $!{include("navbar.httl")}
 <div class="container" id="container">
 	<div class="author"></div>
 	<div class="blog">
-		<span id="id" style="display:none">${blog.id}</span>
-		<h3 class="title">${blog.title}</h3>
-		<span>${blog.time}</span>
-		<div class="tags">${blog.tags}</div>
+		<span id="id" style="display:none">$!{blog.id}</span>
+		<h3 class="title">$!{blog.title}</h3>
+		<span>$!{blog.time}</span>
+		<div class="tags">$!{blog.tags}</div>
 		<div class="content">$!{blog.content}</div>
 	</div>
 	<h5>连接到的微博：</h5>
@@ -35,8 +35,13 @@ $!{include("navbar.httl")}
 $!{include("proto.httl")}
 $!{includeJS()}
 <script type="text/javascript">
-console.log($('#id').text());
+console.log('blog-id: ' + $('#id').text());
 getStream('/grids/read/connect/'+$('#id').text());
+function unescape(str) {
+    return String(str).replace(/&gt;/g, '>');
+}
+var $content = $('.content').warnEmpty();
+$content.html(markdown.toHTML(unescape($content.html())));
 </script>
 </body>
 </html>
