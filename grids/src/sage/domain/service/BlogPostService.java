@@ -45,6 +45,7 @@ public class BlogPostService {
         content = content.replace("\n", "<br/>");
 	    Blog blog = blogRepos.get(blogId);
 		if (blog.getAuthor().getId() == userId) {
+		    blog.setTime(new Date());
 			blog.setTitle(title);
 			blog.setContent(content);
 			blog.setTags(tagRepos.byIds(tagIds));
