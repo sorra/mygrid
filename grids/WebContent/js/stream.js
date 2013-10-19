@@ -108,7 +108,7 @@ function createTweetCard(card) {
     $tc.data('id', card.id);
     
     $tc.find('.avatar').attr(userLinkAttrs(card.authorId))
-        .find('img').attr('src', card.avatar ? card.avatar : '/grids/rs/img/1.jpg');
+        .find('img').attr('src', card.avatar ? card.avatar : '/sage/rs/img/1.jpg');
     $tc.find('.author-name').attr(userLinkAttrs(card.authorId)).text(card.authorName);
     
     $tc.find('.content').html(replaceMention(card.content));
@@ -152,7 +152,7 @@ function createTweetCard(card) {
         var $footer = $('<div>').addClass('modal-footer').appendTo($dialog);
         $('<button>').addClass('btn btn-primary').text('转发').css({float: 'right'}).appendTo($footer)
             .click(function() {
-                $.post('/grids/post/forward', {
+                $.post('/sage/post/forward', {
                     content: $dialog.find('.input').val(),
                     originId: card.id
                 });
@@ -199,7 +199,7 @@ function createBlogData(data) {
     var $bd = $('.proto > .blog').clone();
 
     $bd.find('.avatar').attr(userLinkAttrs(data.authorId))
-        .find('img').attr('src', data.author.avatar ? data.author.avatar : '/grids/rs/img/1.jpg');  
+        .find('img').attr('src', data.author.avatar ? data.author.avatar : '/sage/rs/img/1.jpg');  
     $bd.find('.author-name').attr(userLinkAttrs(data.authorId)).text(data.author.name);
     $bd.find('.title').text(data.title);
     $bd.find('.content').html(data.content);
@@ -225,7 +225,7 @@ function createCommentList(tweetId) {
     var $loading = $('<div>').text('评论加载中').appendTo($cl);
 
     var $list = $('<ul>').appendTo($cl);
-    $.get('/grids/read/'+tweetId+'/comments')
+    $.get('/sage/read/'+tweetId+'/comments')
     .done(function(resp){
         $.each(function(idx, item){
             var $li = $('<li>').appendTo($list);
@@ -244,7 +244,7 @@ function createCommentList(tweetId) {
 }
 
 function userLinkAttrs(id) {
-    return {uid: id, href: '/grids/private/'+id};
+    return {uid: id, href: '/sage/private/'+id};
 }
 
 function showTime(time) {

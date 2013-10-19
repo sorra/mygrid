@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import sage.domain.Constants;
 import sage.domain.repository.CommentRepository;
 import sage.domain.repository.TagRepository;
 import sage.domain.repository.TweetRepository;
@@ -91,7 +92,7 @@ public class TweetPostService {
 	
 	private String blogRef(Blog blog) {
 		return String.format("<a href=\"%s\">%s</a>",
-				"/grids/blog/" + blog.getId(), blog.getTitle());
+				Constants.WEB_CONTEXT_ROOT + "/blog/" + blog.getId(), blog.getTitle());
 	}
 	
 	private Tweet pureOrigin(Tweet tweet) {

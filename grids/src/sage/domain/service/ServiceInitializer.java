@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import sage.domain.Constants;
 import sage.entity.Blog;
 import sage.entity.Tag;
 import sage.entity.User;
@@ -65,13 +66,13 @@ public class ServiceInitializer {
 	private void user() {
 		admin = userService.register(
 				new User("admin@", "123", "Admin", "伟大的Admin",
-						"/grids/rs/img/1.jpg"));
+						Constants.WEB_CONTEXT_ROOT+"/rs/img/1.jpg"));
 		bethia = userService.register(
 				new User("bethia@", "123", "Bethia", "Elegant user",
-						"/grids/rs/img/2.jpg"));
+				        Constants.WEB_CONTEXT_ROOT+"/rs/img/2.jpg"));
 		centos = userService.register(
-				new User("centos@", "123", "CentOS社区", "CentOS Fans Community",
-						"/grids/rs/img/3.jpg"));
+				new User("centkuma@", "123", "CentKuma", "CentOS Fans Kuma",
+				        Constants.WEB_CONTEXT_ROOT+"/rs/img/3.jpg"));
 	}
 	
 	private void relation() {

@@ -4,14 +4,14 @@
 			<a class="brand mybrand" href="$!{base}">贤者系统</a>
 			<ul class="nav">
 				<li class="active"><a href="$!{base}">首页</a></li>
-                <li><a id="nav-tags">标签</a></li>
+                <li><a id="nav-tags" href="javascript:void(0)">标签</a></li>
 				<li><a id="nav-groups" href="#">群组</a></li>
 				<li><a id="nav-private" href="$!{base}/private">私人</a></li>
 				<li><a href="$!{base}/write-blog">写博客</a></li>
             </ul>
             <ul class="nav pull-right">
 				<li>
-					<form class="search" action="/grids/search" method="get" accept-charset="UTF-8">
+					<form class="search" action="/sage/search" method="get" accept-charset="UTF-8">
 						<input type="text" name="q" placeholder="搜索"/>
 					</form>
 				</li>
@@ -24,7 +24,7 @@
 // 	$('form.search').submit(function(event){
 // 		event.preventDefault();
 // 		console.log($(this).serialize());
-// 		window.open('/grids/search?'+$(this).serialize());
+// 		window.open('/sage/search?'+$(this).serialize());
 // 	});
 // });
 </script>

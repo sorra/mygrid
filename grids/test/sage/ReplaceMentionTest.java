@@ -1,4 +1,4 @@
-package grids;
+package sage;
 
 import org.junit.Assert;
 import org.junit.Test;

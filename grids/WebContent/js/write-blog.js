@@ -22,7 +22,7 @@ $(document).ready(function(){
 			console.log('fff');
 		});
 
-		$.post('/grids/post/blog', {
+		$.post('/sage/post/blog', {
 			title: $('.blog .title').val(),
 			content: $('.blog .content').val(),
 			tagIds: selectedTagIds

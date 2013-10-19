@@ -36,7 +36,7 @@ $!{include("proto.httl")}
 $!{includeJS()}
 <script type="text/javascript">
 console.log('blog-id: ' + $('#id').text());
-getStream('/grids/read/connect/'+$('#id').text());
+getStream('/sage/read/connect/'+$('#id').text());
 function unescape(str) {
     return String(str).replace(/&gt;/g, '>');
 }

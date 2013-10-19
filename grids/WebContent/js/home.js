@@ -1,7 +1,7 @@
 'use strict';
 
 $(document).ready(function(){
-	// $.post('/grids/auth/login', {
+	// $.post('/sage/auth/login', {
 	// 	email : 'admin@',
 	// 	password : '123'})
 	// .done(function() {
@@ -40,7 +40,7 @@ $(document).ready(function(){
 			return;
 		} 
 
-		$.post('/grids/post/tweet', {
+		$.post('/sage/post/tweet', {
 			content: input,
 			tagIds: selectedTagIds
 		})
@@ -57,7 +57,7 @@ $(document).ready(function(){
 		});
 	});
 
-	getStream('/grids/read/istream');
+	getStream('/sage/read/istream');
 });
 
 function postTweetDone() {

@@ -1,7 +1,7 @@
 'use strict';
 
 function getTagChain(id, $parent) {
-	$.get('/grids/tag/card/'+id, {})
+	$.get('/sage/tag/card/'+id, {})
 	.done(function(resp){
 		createTagChain(resp).appendTo($parent);
 	})
@@ -17,7 +17,7 @@ function createTagChain(tagCard) {
 
 		var $tag = $('<a></a>').addClass('tag btn').addClass('btn-info').appendTo($tch);
 		$tag.data('tagId', item.id);
-		$tag.text(item.name).attr('href', '/grids/public/'+item.id);
+		$tag.text(item.name).attr('href', '/sage/public/'+item.id);
 		$tag.css({display:	'block',
 				  width:	'58px',
 				  height:	'23px',
@@ -54,7 +54,7 @@ function createTagLabel(tagLabel) {
 	$tl.data('tagId', tagLabel.id);
 	$tl.text(tagLabel.name)
 	   .attr('tag-id', tagLabel.id)
-	   .attr('href', "/grids/public/"+tagLabel.id)
+	   .attr('href', "/sage/public/"+tagLabel.id)
 	   .click(function(event) {
 	     event.preventDefault();
 	     gotoTag($(this).data('tagId'));
@@ -92,5 +92,5 @@ function buildTagTree(funcCreatTag, $tagTree, tag, depth, isLastOne) {
 }
 
 function gotoTag (id) {
-	window.open('/grids/public/'+id);
+	window.open('/sage/public/'+id);
 }

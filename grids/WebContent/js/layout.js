@@ -39,6 +39,11 @@ $.fn.warnEmpty = function() {
 
 function buildNavTagTree($lnk, tagTree) {
     var $navTagTree = $('<div>');
+    var $createTag = $('<btn>').text('新建').addClass('btn').addClass('btn-warning').appendTo($navTagTree)
+    .click(function(){
+    });
+    $('<div>');
+    
     buildTagTree(function(tag){
         return createTagLabel(tag).addClass('btn')
             .click(function(){
@@ -55,7 +60,7 @@ function buildNavTagTree($lnk, tagTree) {
 }
 
 $(document).ready(function(){
-    $.get('/grids/tag/tree', {})
+    $.get('/sage/tag/tree', {})
     .done(function(resp){
         var $lnk = $('#nav-tags')
           .click(function(event){

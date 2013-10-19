@@ -24,7 +24,7 @@ $!{include("proto.httl")}
 $!{includeJS()}
 <script type="text/javascript">
 $(document).ready(function(){
-	getStream('/grids/read/u/' + $('#id-holder').text());
+	getStream('/sage/read/u/' + $('#id-holder').text());
 });
 </script>
 </body>

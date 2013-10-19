@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import sage.domain.Constants;
 import sage.domain.service.UserService;
 import sage.entity.User;
 
@@ -33,8 +34,11 @@ public class AuthController {
 		
 		String referer = request.getHeader("referer");
 		//TODO Remove hard-code
-		int idx = referer.lastIndexOf("?goto=/grids");
-		String dest = idx < 0 ? null : referer.substring(idx+12, referer.length());
+		logger.debug("Referer: {}", referer);
+		final String destContext = "?goto="+Constants.WEB_CONTEXT_ROOT;
+		int idx = referer.lastIndexOf(destContext);
+		String dest = idx < 0 ? null : referer.substring(
+		        idx+destContext.length(), referer.length());
 		
 		User user = userService.login(email, password);
 		if (user != null){

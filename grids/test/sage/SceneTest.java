@@ -1,4 +1,4 @@
-package grids;
+package sage;
 
 import java.io.PrintStream;
 
