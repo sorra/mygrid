@@ -39,6 +39,7 @@ public class AuthController {
 		int idx = referer.lastIndexOf(destContext);
 		String dest = idx < 0 ? null : referer.substring(
 		        idx+destContext.length(), referer.length());
+		if (dest.contains(":")) dest = null; // Escape cross-site url
 		
 		User user = userService.login(email, password);
 		if (user != null){
