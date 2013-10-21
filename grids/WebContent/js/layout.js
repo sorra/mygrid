@@ -39,10 +39,32 @@ $.fn.warnEmpty = function() {
 
 function buildNavTagTree($lnk, tagTree) {
     var $navTagTree = $('<div>');
-    var $createTag = $('<btn>').text('新建').addClass('btn').addClass('btn-warning').appendTo($navTagTree)
-    .click(function(){
+    var $createTag = $('<btn>').text('新建').addClass('btn btn-warning').css('display', 'block').appendTo($navTagTree);
+    
+    var $dialog = $('<div>').addClass('new-tag-dialog modal')
+        .css({
+            width : '300px',
+            minHeight : '100px',
+            borderRadius : '10px'
+        });
+    $('<div>').addClass('modal-header').text('新的标签').appendTo($dialog);
+    var $body = $('<div>').addClass('modal-body').appendTo($dialog);
+    $('<input>').attr('id', 'name').appendTo($body);
+    $('<input>').attr('id', 'parent-id').appendTo($body);
+    var $footer = $('<div>').addClass('modal-footer').appendTo($dialog);
+    $('<button>').addClass('btn btn-primary').text('确定').css({float: 'right'}).appendTo($footer)
+        .click(function() {
+            $.post('/sage/tag/new', {
+                name: $dialog.find('#name').val(),
+                parentId: $dialog.find('#parent-id').val()
+            });
+            $dialog.find('#name').val('');
+            $dialog.find('#parent-id').val('');
+            $dialog.modal('hide');
+        });
+    $createTag.click(function(){
+        $dialog.modal('show');
     });
-    $('<div>');
     
     buildTagTree(function(tag){
         return createTagLabel(tag).addClass('btn')
