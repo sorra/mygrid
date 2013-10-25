@@ -39,7 +39,7 @@ function createStream(stream, url) {
     console.log(stream.items.length);
     var $stream = $('.stream');
     var $slist = $('.slist').empty().warnEmpty();
-    $('<a>').addClass('newfeed btn').text('看看新的').css('margin-left', '320px').prependTo($stream)
+    $('<a class="newfeed btn">').text('看看新的').css('margin-left', '320px').prependTo($stream)
         .click(function() {
             var largest = null;
             $('.slist .tweet').each(function(){
@@ -61,7 +61,7 @@ function createStream(stream, url) {
         }
     });
 
-    $('<a>').addClass('morefeed btn').text('看看更早的').css('margin-left', '320px').appendTo($stream)
+    $('<a class="morefeed btn">').text('看看更早的').css('margin-left', '320px').appendTo($stream)
         .click(function() {
             var smallest = null;
             $('.slist .tweet').each(function(){
@@ -105,12 +105,10 @@ function createStreamBefore(stream) {
 
 function createTweetCard(card) {
     var $tc = $('.proto > .tweet').clone();
-    $tc.data('id', card.id);
-    
+    $tc.data('id', card.id);    
     $tc.find('.avatar').attr(userLinkAttrs(card.authorId))
-        .find('img').attr('src', card.avatar ? card.avatar : '/sage/rs/img/1.jpg');
-    $tc.find('.author-name').attr(userLinkAttrs(card.authorId)).text(card.authorName);
-    
+        .find('img').attr('src', card.avatar);
+    $tc.find('.author-name').attr(userLinkAttrs(card.authorId)).text(card.authorName);    
     $tc.find('.content').html(replaceMention(card.content));
     
     $tc.find('a[uid]').mouseenter(launchUcOpener).mouseleave(launchUcCloser);
@@ -120,7 +118,7 @@ function createTweetCard(card) {
     else
         $tc.find('.origin').remove();
     
-    $tc.find('.time').text(showTime(card.time)).attr('href', '#tw/'+card.id);
+    $tc.find('.time').text(showTime(card.time)).attr('href', '/sage/twt/'+card.id);
     var $tags = $tc.find('.tags');
     var tags = card.origin ? card.origin.tags : card.tags;
     if (tags && tags.length > 0) {
@@ -141,16 +139,16 @@ function createTweetCard(card) {
     }
     $tc.find('.forward').attr('href', 'javascript:void(0);').click(function(){
         event.preventDefault();
-        var $dialog = $('<div>').addClass('forward-dialog modal')
+        var $dialog = $('<div class="forward-dialog modal">')
             .css({
                 width: '435px',
                 minHeight: '100px',
                 borderRadius: '10px'
             });
-        $('<div>').addClass('modal-header').text('转发微博').appendTo($dialog);
-        $('<textarea>').addClass('input modal-body').css({width: '400px', height: '100px'}).appendTo($dialog);
-        var $footer = $('<div>').addClass('modal-footer').appendTo($dialog);
-        $('<button>').addClass('btn btn-primary').text('转发').css({float: 'right'}).appendTo($footer)
+        $('<div class="modal-header">').text('转发微博').appendTo($dialog);
+        $('<textarea class="input modal-body">').css({width: '400px', height: '100px'}).appendTo($dialog);
+        var $footer = $('<div class="modal-footer">').appendTo($dialog);
+        $('<button class="btn btn-primary">').text('转发').css({float: 'right'}).appendTo($footer)
             .click(function() {
                 $.post('/sage/post/forward', {
                     content: $dialog.find('.input').val(),
@@ -177,6 +175,10 @@ function createTweetCard(card) {
         }
     });
     return $tc;
+}
+
+function userLinkAttrs(id) {
+    return {uid: id, href: '/sage/private/'+id};
 }
 
 function createOriginCard(origin) {
@@ -241,10 +243,6 @@ function createCommentList(tweetId) {
     });
 
     return $cl;
-}
-
-function userLinkAttrs(id) {
-    return {uid: id, href: '/sage/private/'+id};
 }
 
 function showTime(time) {
