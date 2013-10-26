@@ -10,17 +10,15 @@ function createTagSel(tagLabel) {
 }
 
 function buildTagSels() {
-	var userSelf = $.parseJSON($('#user-self-json').text());
-	$.each(userSelf.topTags, function(idx, item){
+	$.each(window.userSelf.topTags, function(idx, item){
 		createTagSel(item).insertBefore($('.tag-plus'));
 	});
 }
 
 function buildTagPlus() {
-	var tagTree = $.parseJSON($('#tag-tree-json').text());
 	var $tagTree = $('<div>');
 	
-	buildTagTree(createTagSel, $tagTree, tagTree);
+	buildTagTree(createTagSel, $tagTree, window.tagTree);
 
 	$('.tag-plus').popover({
 			html: true,
