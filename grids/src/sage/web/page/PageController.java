@@ -56,6 +56,8 @@ public class PageController {
     @RequestMapping("/private/{id}")
     public String privatePage(@PathVariable("id") long id, ModelMap model) {
         model.addAttribute("id", id);
+        model.addAttribute("selfJson", JsonUtil.json(userService.getSelf(id)));
+        model.addAttribute("tagTreeJson", JsonUtil.json(tagService.getTagTree()));
         return "private-page";
     }
 
@@ -92,12 +94,9 @@ public class PageController {
 
     @RequestMapping("/write-blog")
     public String writeBlog(ModelMap model) {
-        Long uid = AuthUtil.checkLogin();
-
-        String selfJson = JsonUtil.json(userService.getSelf(uid));
-        model.addAttribute("selfJson", selfJson);
-        String tagTreeJson = JsonUtil.json(tagService.getTagTree());
-        model.addAttribute("tagTreeJson", tagTreeJson);
+        Long id = AuthUtil.checkLogin();
+        model.addAttribute("selfJson", JsonUtil.json(userService.getSelf(id)));
+        model.addAttribute("tagTreeJson", JsonUtil.json(tagService.getTagTree()));
         return "write-blog";
     }
     
