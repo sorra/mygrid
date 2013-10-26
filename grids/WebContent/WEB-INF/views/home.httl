@@ -8,7 +8,7 @@
 </head>
 <body>
 $!{include("navbar.httl")}
-<div id="json-holder">
+<div id="data-holder">
     <span id="user-self-json">${userSelfJson}</span>
     <span id="tag-tree-json">${tagTreeJson}</span>
 </div>
