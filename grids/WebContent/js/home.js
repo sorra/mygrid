@@ -1,18 +1,10 @@
 'use strict';
 
 $(document).ready(function(){
-	// $.post('/sage/auth/login', {
-	// 	email : 'admin@',
-	// 	password : '123'})
-	// .done(function() {
-		window.userSelf = $.parseJSON($('#user-self-json').text());
-		var $selfCard = createUserCard(userSelf).css('border', '').css('border-radius', '');
-		$selfCard.find('.follow').remove();
-		$selfCard.appendTo($('.side'));
-	// })
-	// .fail(function(resp) {
-	// 	window.alert("login failed! " + resp);
-	// });
+	window.userSelf = $.parseJSON($('#user-self-json').text());
+	var $selfCard = createUserCard(userSelf).css('border', '').css('border-radius', '');
+	$selfCard.find('.follow').remove();
+	$selfCard.appendTo($('.side'));
 	buildTagSels();
 	buildTagPlus();
 
