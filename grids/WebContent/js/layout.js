@@ -82,16 +82,20 @@ function buildNavTagTree($lnk, tagTree) {
 }
 
 $(document).ready(function(){
-    $.get('/sage/tag/tree', {})
-    .done(function(resp){
+    if ($('#user-self-json').length > 0) {
+        window.userSelf = $.parseJSON($('#user-self-json').text());
+        var $selfCard = createUserCard(userSelf).css('border', '').css('border-radius', '');
+        $selfCard.find('.follow').remove();
+        $selfCard.appendTo($('.side'));
+    }
+    
+    if ($('#tag-tree-json').length > 0) {
+        window.tagTree = $.parseJSON($('#tag-tree-json').text());
         var $lnk = $('#nav-tags')
           .click(function(event){
             event.preventDefault();
             $(this).popover('toggle');
           });
-        buildNavTagTree($lnk, resp);
-    })
-    .fail(function(resp){
-        console.log(resp);
-    });
+        buildNavTagTree($lnk, window.tagTree);
+    }
 });
