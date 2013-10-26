@@ -1,6 +1,10 @@
 'use strict';
 
 $(document).ready(function(){
+    var $selfCard = createUserCard(userSelf).css('border', '').css('border-radius', '');
+    $selfCard.find('.follow').remove();
+    $selfCard.appendTo($('.side'));
+    
 	buildTagSels();
 	buildTagPlus();
 

@@ -84,9 +84,6 @@ function buildNavTagTree($lnk, tagTree) {
 $(document).ready(function(){
     if ($('#user-self-json').length > 0) {
         window.userSelf = $.parseJSON($('#user-self-json').text());
-        var $selfCard = createUserCard(userSelf).css('border', '').css('border-radius', '');
-        $selfCard.find('.follow').remove();
-        $selfCard.appendTo($('.side'));
     }
     
     if ($('#tag-tree-json').length > 0) {
