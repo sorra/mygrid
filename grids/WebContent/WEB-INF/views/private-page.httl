@@ -11,8 +11,8 @@ $!{include("navbar.httl")}
 <div id="data-holder">
     <span id="user-self-json">${userSelfJson}</span>
     <span id="tag-tree-json">${tagTreeJson}</span>
+    <span id="id-holder">${id}</span>
 </div>
-<div id="id-holder" style="display:none">${id}</div>
 
 <div class="container" id="container" style="margin-top: 50px">
 	<div class="row">
