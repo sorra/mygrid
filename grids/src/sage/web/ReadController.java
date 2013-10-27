@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import sage.domain.Edge;
 import sage.domain.service.BlogReadService;
 import sage.domain.service.StreamService;
 import sage.domain.service.TweetReadService;
@@ -41,31 +42,19 @@ public class ReadController {
 	        @RequestParam(value="after", required=false) Long afterId) {
 		Long uid = AuthUtil.checkLogin();
 		logger.info("before {}, after {}", beforeId, afterId);
-		if (beforeId == null && afterId == null) {
-		    return streamService.istream(uid);		    
-		}
-		else if (beforeId != null && afterId != null) {
-		    throw new UnsupportedOperationException();
-		}
-		else if (beforeId != null) {
-		    return streamService.istreamBefore(uid, beforeId);
-		}
-		else if (afterId != null) {
-		    return streamService.istreamAfter(uid, afterId);
-		}
-        throw new UnsupportedOperationException();
+		return streamService.istream(uid, getEdge(beforeId, afterId));
 	}
 	
 	@RequestMapping("/connect/{blogId}")
 	@ResponseBody
-	public Stream connect(@PathVariable("blogId") long blogId) {
+	public Stream connect(@PathVariable("blogId") Long blogId) {
 		List<TweetCard> tcs = tweetReadService.connectTweets(blogId);
 		return new Stream(tcs);
 	}
 	
 	@RequestMapping("/{id}/comments")
 	@ResponseBody
-	public List<CommentCard> comments(@PathVariable("id") long tweetId) {
+	public List<CommentCard> comments(@PathVariable("id") Long tweetId) {
 		List<CommentCard> list = new ArrayList<>();
 		for (Comment comment : tweetReadService.getComments(tweetId)) {
 			list.add(new CommentCard(comment));
@@ -76,14 +65,34 @@ public class ReadController {
 	@RequestMapping("/tag/{id}")
 	@ResponseBody
 	public Stream tagStream(HttpSession session,
-			@PathVariable("id") long tagId) {
-		return streamService.tagStream(tagId);
+			@PathVariable("id") Long tagId,
+			@RequestParam(value="before", required=false) Long beforeId,
+            @RequestParam(value="after", required=false) Long afterId) {
+		return streamService.tagStream(tagId, getEdge(beforeId, afterId));
 	}
 	
 	@RequestMapping("/u/{id}")
 	@ResponseBody
 	public Stream personalStream(HttpSession session,
-			@PathVariable("id") long userId) {
-		return streamService.personalStream(userId);
+			@PathVariable("id") Long userId,
+            @RequestParam(value="before", required=false) Long beforeId,
+            @RequestParam(value="after", required=false) Long afterId) {
+		return streamService.personalStream(userId, getEdge(beforeId, afterId));
 	}
+	
+    private Edge getEdge(Long beforeId, Long afterId) {
+        if (beforeId == null && afterId == null) {
+            return Edge.none();
+        }
+        else if (beforeId != null && afterId != null) {
+            throw new UnsupportedOperationException();
+        }
+        else if (beforeId != null) {
+            return Edge.before(beforeId);
+        }
+        else if (afterId != null) {
+            return Edge.after(afterId);
+        }
+        throw new UnsupportedOperationException();
+    }
 }

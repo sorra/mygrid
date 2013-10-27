@@ -11,6 +11,7 @@ import org.hibernate.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import sage.domain.Edge;
 import sage.entity.Tag;
 import sage.entity.Tweet;
 
@@ -21,16 +22,16 @@ public class TweetRepository extends BaseRepository<Tweet> {
 	private TagRepository tagRepos;
 	
 	public List<Tweet> byTags(Collection<Tag> tags) {
-		return byTags(tags, Edge.NONE, 0);
+		return byTags(tags, Edge.none());
 	}
 	
-	public List<Tweet> byTags(Collection<Tag> tags, Edge edge, long edgeId) {
+	public List<Tweet> byTags(Collection<Tag> tags, Edge edge) {
         if (tags.isEmpty()) {
             return new LinkedList<>();
         }
         tags = TagRepository.getQueryTags(tags);
         String q= "select t from Tweet t join t.tags ta where ta in :tags";
-	    return buildQuery(q, edge, edgeId)
+	    return buildQuery(q, edge)
                 .setParameterList("tags", tags)
                 .setMaxResults(MAX_RESULTS)
                 .list();
@@ -42,21 +43,21 @@ public class TweetRepository extends BaseRepository<Tweet> {
 	}
 	
 	public List<Tweet> byAuthor(long authorId) {
-	    return byAuthor(authorId, Edge.NONE, 0);
+	    return byAuthor(authorId, Edge.none());
 	}
 	
-	public List<Tweet> byAuthor(long authorId, Edge edge, long edgeId) {
+	public List<Tweet> byAuthor(long authorId, Edge edge) {
 	    String q = "from Tweet t where t.author.id=:authorId";
-		return buildQuery(q, edge, edgeId)
+		return buildQuery(q, edge)
 				.setLong("authorId", authorId)
 				.list();
 	}
 
     public List<Tweet> byAuthorAndTags(long authorId, Collection<Tag> tags) {
-        return byAuthorAndTags(authorId, tags, Edge.NONE, 0);
+        return byAuthorAndTags(authorId, tags, Edge.none());
     }
 	
-	public List<Tweet> byAuthorAndTags(long authorId, Collection<Tag> tags, Edge edge, long edgeId) {
+	public List<Tweet> byAuthorAndTags(long authorId, Collection<Tag> tags, Edge edge) {
 		if (tags.isEmpty()) {
 			return new LinkedList<>();
 		}
@@ -65,7 +66,7 @@ public class TweetRepository extends BaseRepository<Tweet> {
 		}
 		tags = TagRepository.getQueryTags(tags);
 		String q = "select t from Tweet t join t.tags ta where t.author.id=:authorId and ta in :tags";
-		return buildQuery(q, edge, edgeId)
+		return buildQuery(q, edge)
 				.setLong("authorId", authorId)
 				.setParameterList("tags", tags)
 				.list();
@@ -107,8 +108,8 @@ public class TweetRepository extends BaseRepository<Tweet> {
 		return (long) query.uniqueResult();
 	}
 	
-	private Query buildQuery(String q, Edge edge, long edgeId) {
-	    switch (edge) {
+	private Query buildQuery(String q, Edge edge) {
+	    switch (edge.type) {
         case NONE:
             q += " order by t.id desc";
             return session().createQuery(q).setMaxResults(MAX_RESULTS);
@@ -116,12 +117,12 @@ public class TweetRepository extends BaseRepository<Tweet> {
         case BEFORE:
             q += " and t.id < :beforeId";
             q += " order by t.id desc";
-            return session().createQuery(q).setLong("beforeId", edgeId).setMaxResults(MAX_RESULTS);
+            return session().createQuery(q).setLong("beforeId", edge.edgeId).setMaxResults(MAX_RESULTS);
             
         case AFTER:
             q += " and t.id > :afterId";
             q += " order by t.id desc";
-            return session().createQuery(q).setLong("afterId", edgeId).setMaxResults(MAX_RESULTS);
+            return session().createQuery(q).setLong("afterId", edge.edgeId).setMaxResults(MAX_RESULTS);
             
         default:
             throw new UnsupportedOperationException();

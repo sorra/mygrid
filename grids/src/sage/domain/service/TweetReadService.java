@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import sage.domain.Edge;
 import sage.domain.TweetOnIdComparator;
 import sage.domain.repository.CommentRepository;
-import sage.domain.repository.Edge;
 import sage.domain.repository.FollowRepository;
 import sage.domain.repository.TweetRepository;
 import sage.entity.Comment;
@@ -33,16 +33,16 @@ public class TweetReadService {
 	@Autowired
 	private CommentRepository commentRepos;
 	
-	public List<TweetCard> istream(long userId, Edge edge, long edgeId) {
+	public List<TweetCard> istream(long userId, Edge edge) {
 		//XXX consider fetch_size limit
 		List<Tweet> tweets = new ArrayList<>();
 		
-		tweets.addAll(tweetRepos.byAuthor(userId, edge, edgeId));
+		tweets.addAll(tweetRepos.byAuthor(userId, edge));
 		
 		List<Follow> followings = followRepos.followings(userId);
 		for (Follow follow : followings) {
 	        List<Tweet> result = tweetRepos.byAuthorAndTags(
-	                follow.getTarget().getId(), follow.getTags(), edge, edgeId);
+	                follow.getTarget().getId(), follow.getTags(), edge);
 			tweets.addAll(result);
 		}
 		Collections.sort(tweets, new TweetOnIdComparator());
@@ -59,12 +59,12 @@ public class TweetReadService {
 		return tcs;
 	}
 	
-	public List<Tweet> tweetsByTags(Collection<Tag> tags) {
-		return new ArrayList<>(tweetRepos.byTags(tags));
+	public List<Tweet> tweetsByTags(Collection<Tag> tags, Edge edge) {
+		return new ArrayList<>(tweetRepos.byTags(tags, edge));
 	}
 	
-	public List<Tweet> tweetsByAuthor(long authorId) {
-		return new ArrayList<>(tweetRepos.byAuthor(authorId));
+	public List<Tweet> tweetsByAuthor(long authorId, Edge edge) {
+		return new ArrayList<>(tweetRepos.byAuthor(authorId, edge));
 	}
 
 	public TweetCard getTweetCard(long tweetId) {
