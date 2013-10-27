@@ -92,6 +92,10 @@ function tipover($node, text, duration) {
     window.setTimeout(function(){$node.tooltip('hide');}, duration);   
 }
 
+function userLinkAttrs(id) {
+    return {uid: id, href: '/sage/private/'+id};
+}
+
 $(document).ready(function(){
     if ($('#user-self-json').length > 0) {
         window.userSelf = $.parseJSON($('#user-self-json').text());

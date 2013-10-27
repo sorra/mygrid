@@ -112,7 +112,7 @@ function createStreamBefore(stream) {
 function createTweetCard(card) {
     var $tc = $('.proto > .tweet').clone();
     $tc.data('id', card.id);    
-    $tc.find('.avatar').attr(userLinkAttrs(card.authorId))
+    $tc.find('a.avatar').attr(userLinkAttrs(card.authorId))
         .find('img').attr('src', card.avatar);
     $tc.find('.author-name').attr(userLinkAttrs(card.authorId)).text(card.authorName);    
     $tc.find('.content').html(replaceMention(card.content));
@@ -181,10 +181,6 @@ function createTweetCard(card) {
         }
     });
     return $tc;
-}
-
-function userLinkAttrs(id) {
-    return {uid: id, href: '/sage/private/'+id};
 }
 
 function createOriginCard(origin) {

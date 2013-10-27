@@ -78,7 +78,7 @@ function createPopupUserCard(target, card) {
 
 function createUserCard(card) {
 	var $uc = $('.proto > .user-card').clone();
-	$uc.find('.avatar > a').find('img').attr('src', card.avatar ? card.avatar : '/sage/rs/img/1.jpg');
+	$uc.find('.avatar > a').attr(userLinkAttrs(card.id)).find('img').attr('src', card.avatar);
 	$uc.find('.name').text(card.name);
 	$uc.find('.intro').text(card.intro);
 	$uc.find('.followings').attr('href', '/sage/followings/'+card.id);
