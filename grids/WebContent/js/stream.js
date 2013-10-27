@@ -61,7 +61,7 @@ function createStream(stream, url) {
         }
     });
 
-    $('<a class="morefeed btn">').text('看看更早的').css('margin-left', '320px').appendTo($stream)
+    $('<a class="oldfeed btn">').text('看看更早的').css('margin-left', '320px').appendTo($stream)
         .click(function() {
             var smallest = null;
             $('.slist .tweet').each(function(){
@@ -76,6 +76,9 @@ function createStream(stream, url) {
 }
 
 function createStreamAfter(stream) {
+    if (stream.items.length == 0) {
+        tipover($('.stream .newfeed').warnEmpty(), '还没有新的');
+    }
     console.log(stream.items.length);
     console.log(stream);
     var $slist = $('.slist');
@@ -90,6 +93,9 @@ function createStreamAfter(stream) {
 }
 
 function createStreamBefore(stream) {
+    if (stream.items.length ==0) {
+        tipover($('.stream .oldfeed').warnEmpty(), '没有更早的了');
+    }
     console.log(stream.items.length);
     console.log(stream);
     var $slist = $('.slist');

@@ -55,14 +55,10 @@ $(document).ready(function(){
 function postTweetDone() {
 	var $submit = $('form.top-box .btn[type="submit"]');
 	$('form.top-box .input').val('');
-	$submit.data('tooltip').options.title = '发表成功';
-	$submit.tooltip('show');
-	window.setTimeout(function(){$submit.tooltip('hide');}, 1000);
+	tipover($submit, '发表成功', 1000);
 }
 
 function postTweetFail() {
 	var $submit = $('form.top-box .btn[type="submit"]');
-	$submit.data('tooltip').options.title = '发表失败';
-	$submit.tooltip('show');
-	window.setTimeout(function(){$submit.tooltip('hide');}, 1000);
+	tipover($submit, '发表失败', 1000);
 }

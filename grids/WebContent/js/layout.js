@@ -81,6 +81,17 @@ function buildNavTagTree($lnk, tagTree) {
     });
 }
 
+function tipover($node, text, duration) {
+    if (!duration) duration = 1000;
+    
+    if (!$node.data('tooltip')) {
+        $node.tooltip({placement: 'top', trigger: 'manual'});
+    }
+    $node.data('tooltip').options.title = text;
+    $node.tooltip('show');
+    window.setTimeout(function(){$node.tooltip('hide');}, duration);   
+}
+
 $(document).ready(function(){
     if ($('#user-self-json').length > 0) {
         window.userSelf = $.parseJSON($('#user-self-json').text());
