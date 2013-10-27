@@ -33,13 +33,16 @@ public class AuthController {
 		logger.info("email: {} password: {}", email, password);
 		
 		String referer = request.getHeader("referer");
-		//TODO Remove hard-code
+
 		logger.debug("Referer: {}", referer);
 		final String destContext = "?goto="+Constants.WEB_CONTEXT_ROOT;
 		int idx = referer.lastIndexOf(destContext);
 		String dest = idx < 0 ? null : referer.substring(
 		        idx+destContext.length(), referer.length());
-		if (dest.contains(":")) dest = null; // Escape cross-site url
+		if (dest != null && dest.contains(":")) {
+		    logger.info("XSS URL = "+dest);
+		    dest = null; // Escape cross-site url
+		}
 		
 		User user = userService.login(email, password);
 		if (user != null){
