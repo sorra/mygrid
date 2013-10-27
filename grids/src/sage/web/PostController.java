@@ -35,7 +35,7 @@ public class PostController {
 		Long uid = AuthUtil.checkLogin();
 		if (uid == null) {return false;}
 		if (content.isEmpty()) {return false;}
-		if (content.length() > 200) {return false;}
+		if (content.length() > 2000) {return false;}
 		if (tagIds == null) {tagIds = new ArrayList<>(0);}
 		
 		Tweet tweet = tweetPostService.newTweet(uid, content, tagIds);
