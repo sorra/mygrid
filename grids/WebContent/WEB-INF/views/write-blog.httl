@@ -48,7 +48,8 @@ $!{include("navbar.httl")}
 </div>
 <div class="footer"></div>
 
-$!{include("proto.httl")} $!{includeJS()}
+$!{include("proto.httl")}
+$!{includeJS()}
 <script type="text/javascript">
     'use strict';
     function refresh() {
