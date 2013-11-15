@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import sage.domain.service.TagService;
 import sage.domain.service.UserService;
 import sage.web.auth.AuthUtil;
+import sage.web.context.JsonUtil;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,16 +24,16 @@ public class HomeController {
     ObjectMapper objectMapper = new ObjectMapper();
 
     @RequestMapping({ "/", "/home" })
-    public String home(ModelMap model) throws JsonProcessingException {
+    public String home(ModelMap model) {
         Long uid = AuthUtil.checkLogin();
         // Temporal
         if (uid == null) {
             return "redirect:/login";
         }
         //
-        String userSelfJson = objectMapper.writeValueAsString(userService.getSelf(uid));
+        String userSelfJson = JsonUtil.json(userService.getSelf(uid));
         model.addAttribute("userSelfJson", userSelfJson);
-        String tagTreeJson = objectMapper.writeValueAsString(tagService.getTagTree());
+        String tagTreeJson = JsonUtil.json(tagService.getTagTree());
         model.addAttribute("tagTreeJson", tagTreeJson);
         return "home";
     }
