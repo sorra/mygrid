@@ -30,7 +30,7 @@ public class AuthController {
 	public String login(HttpServletRequest request,
 						@RequestParam("email") String email,
 						@RequestParam("password") String password) {
-		logger.info("email: {} password: {}", email, password);
+		logger.info("login email: {}", email);
 		
 		String referer = request.getHeader("referer");
 
