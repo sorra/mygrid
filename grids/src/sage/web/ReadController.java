@@ -64,7 +64,7 @@ public class ReadController {
 	
 	@RequestMapping("/tag/{id}")
 	@ResponseBody
-	public Stream tagStream(HttpSession session,
+	public Stream tagStream(
 			@PathVariable("id") Long tagId,
 			@RequestParam(value="before", required=false) Long beforeId,
             @RequestParam(value="after", required=false) Long afterId) {
@@ -73,7 +73,7 @@ public class ReadController {
 	
 	@RequestMapping("/u/{id}")
 	@ResponseBody
-	public Stream personalStream(HttpSession session,
+	public Stream personalStream(
 			@PathVariable("id") Long userId,
             @RequestParam(value="before", required=false) Long beforeId,
             @RequestParam(value="after", required=false) Long afterId) {
