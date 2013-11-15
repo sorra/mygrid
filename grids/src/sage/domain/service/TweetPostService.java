@@ -95,6 +95,9 @@ public class TweetPostService {
 				Constants.WEB_CONTEXT_ROOT + "/blog/" + blog.getId(), blog.getTitle());
 	}
 	
+	/*
+	 * Find the ultimate origin of Tweet
+	 */
 	private Tweet pureOrigin(Tweet tweet) {
 	    if (tweet.getOrigin() == null) {
 	        return tweet;
@@ -104,11 +107,17 @@ public class TweetPostService {
         }
 	}
 	
+	/*
+	 * Escape HTML and replace mentions
+	 */
 	private String processContent(String content) {
 	    content = StringUtils.escapeXml(content);
 	    return replaceMention(content, 0, new StringBuilder(), userRepos);
 	}
 
+	/*
+	 * Replace "@xxx" mentions recursively
+	 */
 	public static String replaceMention(String content, int startIndex, StringBuilder sb, UserRepository ur) {
 	    int indexOfAt = content.indexOf('@', startIndex);
 	    int indexOfSpace = content.indexOf(' ', indexOfAt);
