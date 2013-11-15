@@ -32,7 +32,7 @@ public class PostController {
 	public boolean tweet(
 			@RequestParam("content") String content, 
 			@RequestParam(value="tagIds[]", required=false) Collection<Long> tagIds) {
-		Long uid = AuthUtil.checkLogin();
+		Long uid = AuthUtil.currentUid();
 		if (uid == null) {return false;}
 		if (content.isEmpty()) {return false;}
 		if (content.length() > 2000) {return false;}
@@ -48,7 +48,7 @@ public class PostController {
 	public boolean forward(
 	        @RequestParam("content") String content,
 	        @RequestParam("originId") long originId) {
-	    Long uid = AuthUtil.checkLogin();
+	    Long uid = AuthUtil.currentUid();
 	    if (uid == null) {return false;}
 
 	    Tweet tweet = tweetPostService.forward(uid, content, originId);
@@ -62,7 +62,7 @@ public class PostController {
 			@RequestParam("title") String title,
 			@RequestParam("content") String content,
 			@RequestParam(value="tagIds[]", required=false) Collection<Long> tagIds) {
-		Long uid = AuthUtil.checkLogin();
+		Long uid = AuthUtil.currentUid();
 		if (uid == null) {return false;}
 		if (title.isEmpty() || content.isEmpty()) {return false;}
 		if (tagIds == null) {tagIds = new ArrayList<>(0);}
