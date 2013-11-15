@@ -21,8 +21,6 @@ public class HomeController {
     @Autowired
     TagService tagService;
 
-    ObjectMapper objectMapper = new ObjectMapper();
-
     @RequestMapping({ "/", "/home" })
     public String home(ModelMap model) {
         Long uid = AuthUtil.checkLogin();
