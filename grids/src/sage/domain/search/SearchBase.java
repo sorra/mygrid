@@ -60,7 +60,8 @@ public class SearchBase {
 		StringBuilder sb = new StringBuilder();
 		try {
 			while (in.available() > 0) {
-				sb.append(in.read(buf));
+			    in.read(buf);
+				sb.append(buf);
 			}
 			return sb.toString();
 		} catch (IOException e) {
