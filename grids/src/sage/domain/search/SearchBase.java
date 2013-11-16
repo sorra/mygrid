@@ -30,7 +30,7 @@ public class SearchBase {
 	public static final String TC = "tc";
 	private static final String INDEX = "sage";
 	
-	private static final Logger logger = LoggerFactory.getLogger(SearchBase.class);
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	private static final Map<Class<?>, String> typeMap = new HashMap<>();
 	static {
@@ -70,7 +70,7 @@ public class SearchBase {
 			try {
 				in.close();
 			} catch (IOException e) {
-				throw new RuntimeException(e);
+				logger.error("io-stream close error: ", e);
 			}
 		}
 	}
