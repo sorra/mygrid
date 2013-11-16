@@ -34,11 +34,11 @@ public class TweetReadService {
 	private CommentRepository commentRepos;
 	
 	public List<TweetCard> istream(long userId, Edge edge) {
-		//XXX consider fetch_size limit
 		List<Tweet> tweets = new ArrayList<>();
 		
 		tweets.addAll(tweetRepos.byAuthor(userId, edge));
 		
+		// Find and merge tweets from followings
 		List<Follow> followings = followRepos.followings(userId);
 		for (Follow follow : followings) {
 	        List<Tweet> result = tweetRepos.byAuthorAndTags(
