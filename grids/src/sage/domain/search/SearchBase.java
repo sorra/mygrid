@@ -113,22 +113,22 @@ public class SearchBase {
                 .execute();
     }
 	
-	public SearchResponse search(String q) {
-		return client.prepareSearch(INDEX)
-				.setTypes("bd", "tc")
-				.setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
-				.setQuery(queryString(q))
-				.setFrom(0).setSize(60).setExplain(true)
-				.execute()
-				.actionGet();
+    public SearchResponse search(String q) {
+	    return client.prepareSearch(INDEX)
+		        .setTypes("bd", "tc")
+		        .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
+		        .setQuery(queryString(q))
+		        .setFrom(0).setSize(60).setExplain(true)
+		        .execute()
+		        .actionGet();
 	}
 	
-	private static String mapType(Class<?> clazz) {
-		String type = typeMap.get(clazz);
-		if (type == null) {
-			throw new IllegalArgumentException(
-					clazz.getName() + " is not indexable!");
-		}
-		return type;
-	}
+    private static String mapType(Class<?> clazz) {
+        String type = typeMap.get(clazz);
+        if (type == null) {
+            throw new IllegalArgumentException(
+                    clazz.getName() + " is not indexable!");
+        }
+        return type;
+    }
 }
