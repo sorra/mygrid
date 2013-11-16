@@ -90,28 +90,28 @@ public class SearchBase {
 	 * @param id key
 	 * @param object a transfer object
 	 */
-	public void index(long id, Object object) {
-	    if (client == null) return;
-		if (object == null) {
-			throw new IllegalArgumentException("object is null");
-		}
-		String json;
-		try {
-			json = om.writeValueAsString(object);
-		} catch (JsonProcessingException e) {
-			throw new RuntimeException(e);
-		}
-		client.prepareIndex(INDEX, mapType(object.getClass()), String.valueOf(id))
-			.setSource(json)
-			.execute();
-	}
-	
-	public void delete(Class<?> clazz, long id) {
+    public void index(long id, Object object) {
         if (client == null) return;
-		client.prepareDelete().setIndex(INDEX)
-			.setType(mapType(clazz)).setId(String.valueOf(id))
-			.execute();
-	}
+        if (object == null) {
+            throw new IllegalArgumentException("object is null");
+        }
+        String json;
+        try {
+            json = om.writeValueAsString(object);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        client.prepareIndex(INDEX, mapType(object.getClass()), String.valueOf(id))
+                .setSource(json)
+                .execute();
+    }
+	
+    public void delete(Class<?> clazz, long id) {
+        if (client == null) return;
+        client.prepareDelete().setIndex(INDEX)
+                .setType(mapType(clazz)).setId(String.valueOf(id))
+                .execute();
+    }
 	
 	public SearchResponse search(String q) {
 		return client.prepareSearch(INDEX)
