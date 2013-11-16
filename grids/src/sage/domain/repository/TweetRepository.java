@@ -31,7 +31,7 @@ public class TweetRepository extends BaseRepository<Tweet> {
         }
         tags = TagRepository.getQueryTags(tags);
         String q= "select t from Tweet t join t.tags ta where ta in :tags";
-	    return buildQuery(q, edge)
+	    return enhanceQuery(q, edge)
                 .setParameterList("tags", tags)
                 .setMaxResults(MAX_RESULTS)
                 .list();
@@ -48,7 +48,7 @@ public class TweetRepository extends BaseRepository<Tweet> {
 	
 	public List<Tweet> byAuthor(long authorId, Edge edge) {
 	    String q = "from Tweet t where t.author.id=:authorId";
-		return buildQuery(q, edge)
+		return enhanceQuery(q, edge)
 				.setLong("authorId", authorId)
 				.list();
 	}
@@ -66,7 +66,7 @@ public class TweetRepository extends BaseRepository<Tweet> {
 		}
 		tags = TagRepository.getQueryTags(tags);
 		String q = "select t from Tweet t join t.tags ta where t.author.id=:authorId and ta in :tags";
-		return buildQuery(q, edge)
+		return enhanceQuery(q, edge)
 				.setLong("authorId", authorId)
 				.setParameterList("tags", tags)
 				.list();
@@ -108,7 +108,7 @@ public class TweetRepository extends BaseRepository<Tweet> {
 		return (long) query.uniqueResult();
 	}
 	
-	private Query buildQuery(String q, Edge edge) {
+	private Query enhanceQuery(String q, Edge edge) {
 	    switch (edge.type) {
         case NONE:
             q += " order by t.id desc";
