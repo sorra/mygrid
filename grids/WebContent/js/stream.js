@@ -143,7 +143,7 @@ function createTweetCard(card) {
     if (card.commentCount > 0) {
         $tc.find('.comment .count').text('('+card.commentCount+')');
     }
-    $tc.find('.forward').attr('href', 'javascript:void(0);').click(function(){
+    $tc.find('.forward').attr('href', 'javascript:;').click(function(){
         event.preventDefault();
         var $dialog = $('<div class="forward-dialog modal">')
             .css({
@@ -166,7 +166,7 @@ function createTweetCard(card) {
         $dialog.appendTo('#container').modal();
         console.log('forward dialog');
     });
-    $tc.find('.comment').attr('href', 'javascript:void(0);').click(function(){
+    $tc.find('.comment').attr('href', 'javascript:;').click(function(){
         event.preventDefault();
         var clKey = 'comment-list';
         var $cl = $(this).data(clKey);
