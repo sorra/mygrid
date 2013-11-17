@@ -24,6 +24,7 @@ public class Tweet {
 	private User author;
 	private Date time;
 	private Tweet origin = null;
+	private String prefo = null;
 	private Long blogId = null;
 	private Set<Tag> tags = new HashSet<>();
 	private Collection<Comment> comments = new ArrayList<>();
@@ -39,22 +40,21 @@ public class Tweet {
 	}
 	
 	public Tweet(String content, User author, Date time, Tweet origin) {
-		this.content = content;
-		this.author = author;
-		this.time = time;
-		tags.addAll(origin.getTags());
-		this.origin = origin;
+		this(content, author, time, origin.getTags());
+		setOrigin(origin);
 		if (origin.getOrigin() != null) {//XXX need better approach
 			throw new IllegalArgumentException("tweet's origin should not be nested!");
 		}
 	}
 	
+	public Tweet(String content, User author, Date time, Tweet origin, String prefo) {
+	    this(content, author, time, origin);
+	    setPrefo(prefo);
+	}
+	
 	public Tweet(String content, User author, Date time, Blog sourceBlog) {
-		this.content = content;
-		this.author = author;
-		this.time = time;
-		tags.addAll(sourceBlog.getTags());
-		blogId =  sourceBlog.getId();
+		this(content, author, time, sourceBlog.getTags());
+		setBlogId(sourceBlog.getId());
 	}
 
 	@Id
@@ -78,6 +78,9 @@ public class Tweet {
 	public Tweet getOrigin() {return origin;}
 	public void setOrigin(Tweet origin) {this.origin = origin;}
 
+	public String getPrefo() {return prefo;}
+	public void setPrefo(String prefo) {this.prefo = prefo;}
+	
 	public Long getBlogId() {return blogId;}
 	public void setBlogId(Long blogId) {this.blogId = blogId;}
 	
