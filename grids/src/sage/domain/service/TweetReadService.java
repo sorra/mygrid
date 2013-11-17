@@ -80,7 +80,7 @@ public class TweetReadService {
 	}
 
 	public Collection<Comment> getComments(long sourceId) {
-		return new ArrayList<>(tweetRepo.load(sourceId).getComments());
+		return new ArrayList<>(commentRepo.bySource(sourceId));
 	}
 	
 	/**
