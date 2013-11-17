@@ -52,9 +52,9 @@ public class ReadController {
 		return new Stream(tcs);
 	}
 	
-	@RequestMapping("/{id}/comments")
+	@RequestMapping("/{tweetId}/comments")
 	@ResponseBody
-	public List<CommentCard> comments(@PathVariable("id") Long tweetId) {
+	public List<CommentCard> comments(@PathVariable("tweetId") Long tweetId) {
 		List<CommentCard> list = new ArrayList<>();
 		for (Comment comment : tweetReadService.getComments(tweetId)) {
 			list.add(new CommentCard(comment));
