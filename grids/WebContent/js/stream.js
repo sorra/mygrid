@@ -170,13 +170,12 @@ function createTweetCard(card) {
         event.preventDefault();
         var clKey = 'comment-list';
         var $cl = $(this).data(clKey);
-        console.log($cl);
         if ($cl) {
             $cl.remove();
             $(this).removeData(clKey);
         }
         else {
-            $cl = createCommentList(card.id).appendTo($tc);
+            $cl = createCommentList(card.id).appendTo($tc.find('.t-part'));
             $(this).data(clKey, $cl);
         }
     });
@@ -226,12 +225,21 @@ function createBlogData(data) {
 
 function createCommentList(tweetId) {
     var $cl = $('<div>');
+    var $input = $('<input>').appendTo($cl);
+    $('<button class="btn btn-small btn-success">').text('评论').appendTo($cl)
+        .click(function(){
+           $.post(webroot+'/post/comment', {
+               content: $input.val(),
+               sourceId: tweetId
+           });
+        });
     var $loading = $('<div>').text('评论加载中').appendTo($cl);
 
     var $list = $('<ul>').appendTo($cl);
     $.get(webroot+'/read/'+tweetId+'/comments')
     .done(function(resp){
-        $.each(function(idx, item){
+        console.log(resp.length);
+        $.each(resp, function(idx, item){
             var $li = $('<li>').appendTo($list);
             $('<a>').append($('<img>').attr('src', '')).appendTo($li);
             $('<a>').text(item.authorName).appendTo($li);
