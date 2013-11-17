@@ -3,10 +3,21 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>网格: 登录</title>
+	<style type="text/css">
+	   table{
+	       margin-top: 100px;
+	       margin-left: auto;
+	       margin-right: auto;
+	   }
+	   body{
+	       background: lightgreen;
+	   }
+	</style>
 </head>
 <body>
 	<form method="POST" action="#!{base}/auth/login">
 		<table>
+		    <tr><td>贤者系统</td></tr>
 			<tr>
 				<td>用户名：</td>
 				<td><input type="text" name="email" /></td>
