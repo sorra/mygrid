@@ -49,8 +49,13 @@ public class TweetPostService {
 	public Tweet forward(long userId, String content, long originId) {
         content = processContent(content);
         Tweet origin = tweetRepo.load(originId);
-    	Tweet tweet = new Tweet(content,
-    	        userRepo.load(userId), new Date(), pureOrigin(origin));
+    	Tweet tweet;
+    	if (origin.getOrigin() == null) {
+    	    tweet = new Tweet(content, userRepo.load(userId), new Date(), origin);
+    	}
+    	else {
+    	    tweet = new Tweet(content, userRepo.load(userId), new Date(), pureOrigin(origin), enPrefo(origin));
+    	}
     	tweetRepo.save(tweet);
     	searchBase.index(tweet.getId(), transferService.getTweetCardNoCount(tweet));
     	return tweet;
@@ -106,6 +111,12 @@ public class TweetPostService {
 	    else {
 	        return pureOrigin(tweet.getOrigin());
         }
+	}
+	
+	private String enPrefo(Tweet tweet) {
+	    String asPrefo = " ||@"+tweet.getAuthor().getName()+"#"+tweet.getAuthor().getId()+" : "+tweet.getContent();
+	    if (tweet.getPrefo() == null) return asPrefo;
+	    else return asPrefo+tweet.getPrefo();
 	}
 	
 	/*

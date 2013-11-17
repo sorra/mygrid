@@ -17,6 +17,7 @@ public class TweetCard implements Item {
 	private String content;
 	private Date time;
 	private TweetCard origin = null;
+	private String prefo = null;
 	private List<TagLabel> tags = new ArrayList<>();
 	private long forwardCount;
 	private long commentCount;
@@ -31,6 +32,7 @@ public class TweetCard implements Item {
 		if (tweet.getOrigin() != null) {
 			origin = new TweetCard(tweet.getOrigin() , 0, 0);
 		}
+		prefo = tweet.getPrefo();
 		for (Tag tag : tweet.getTags()) {
 			tags.add(new TagLabel(tag));
 		}
@@ -67,6 +69,9 @@ public class TweetCard implements Item {
 	public TweetCard getOrigin() {
 		return origin;
 	}
+	public String getPrefo() {
+        return prefo;
+    }
 	@Override
 	public List<TagLabel> getTags() {
 		return tags;

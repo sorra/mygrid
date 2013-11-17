@@ -114,8 +114,9 @@ function createTweetCard(card) {
     $tc.data('id', card.id);    
     $tc.find('a.avatar').attr(userLinkAttrs(card.authorId))
         .find('img').attr('src', card.avatar);
-    $tc.find('.author-name').attr(userLinkAttrs(card.authorId)).text(card.authorName);    
-    $tc.find('.content').html(replaceMention(card.content));
+    $tc.find('.author-name').attr(userLinkAttrs(card.authorId)).text(card.authorName); 
+    var content = card.prefo ? card.content+card.prefo : card.content;
+    $tc.find('.content').html(replaceMention(content));
     
     $tc.find('a[uid]').mouseenter(launchUcOpener).mouseleave(launchUcCloser);
     
