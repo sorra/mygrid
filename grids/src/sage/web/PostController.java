@@ -47,7 +47,7 @@ public class PostController {
 	@ResponseBody
 	public boolean forward(
 	        @RequestParam("content") String content,
-	        @RequestParam("originId") long originId) {
+	        @RequestParam("originId") Long originId) {
 	    Long uid = AuthUtil.currentUid();
 	    if (uid == null) {return false;}
 

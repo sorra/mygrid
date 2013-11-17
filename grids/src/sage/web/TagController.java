@@ -19,7 +19,7 @@ public class TagController {
 	
 	@RequestMapping("/card/{id}")
 	@ResponseBody
-	public TagCard tagCard(@PathVariable("id") long id) {
+	public TagCard tagCard(@PathVariable("id") Long id) {
 		return tagService.getTagCard(id);
 	}
 	
@@ -32,13 +32,13 @@ public class TagController {
 	@RequestMapping("/new")
 	@ResponseBody
 	public long newTag(@RequestParam("name") String name,
-	        @RequestParam("parentId") long parentId) {
+	        @RequestParam("parentId") Long parentId) {
 	    return tagService.newTag(name, parentId);
 	}
 	
 	@RequestMapping("/change-parent")
 	public void changeParent(@RequestParam("id") long id,
-	        @RequestParam("parentId") long parentId) {
+	        @RequestParam("parentId") Long parentId) {
 	    tagService.changeParent(id, parentId);
 	}
 }

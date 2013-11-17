@@ -27,13 +27,13 @@ public class UserController {
 	
 	@RequestMapping("/card/{id}")
 	@ResponseBody
-	public UserCard userCard(@PathVariable("id") long id) {
+	public UserCard userCard(@PathVariable("id") Long id) {
 		Long uid = AuthUtil.checkLogin();
 		return userService.getUserCard(uid, id);
 	}
 	
 	@RequestMapping("/info/{id}")
-	public ModelAndView userInfo(@PathVariable("id") long id) {
+	public ModelAndView userInfo(@PathVariable("id") Long id) {
 		return null;
 	}
 }
