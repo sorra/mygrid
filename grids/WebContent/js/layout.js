@@ -1,4 +1,5 @@
 'use strict';
+var webroot = '/sage';
 $.fn.outerHTML = function(s) {
     return s
         ? this.before(s).remove()
@@ -54,7 +55,7 @@ function buildNavTagTree($lnk, tagTree) {
     var $footer = $('<div class="modal-footer">').appendTo($dialog);
     $('<button class="btn btn-primary">').text('确定').css({float: 'right'}).appendTo($footer)
         .click(function() {
-            $.post('/sage/tag/new', {
+            $.post(webroot+'/tag/new', {
                 name: $dialog.find('#name').val(),
                 parentId: $dialog.find('#parent-id').val()
             });
@@ -93,7 +94,7 @@ function tipover($node, text, duration) {
 }
 
 function userLinkAttrs(id) {
-    return {uid: id, href: '/sage/private/'+id};
+    return {uid: id, href: webroot+'/private/'+id};
 }
 
 $(document).ready(function(){

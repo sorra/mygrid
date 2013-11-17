@@ -22,7 +22,7 @@ $(document).ready(function(){
 			console.log('fff');
 		});
 
-		$.post('/sage/post/blog', {
+		$.post(webroot+'/post/blog', {
 			title: $('.blog .title').val(),
 			content: $('.blog .content').val(),
 			tagIds: selectedTagIds

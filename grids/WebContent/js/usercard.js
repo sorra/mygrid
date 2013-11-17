@@ -38,7 +38,7 @@ function openUserCard() {
 	cancelUcOpener();
 	closeUserCard();
 	console.log("open");
-	$.get('/sage/user/card/' + $(target).attr('uid'), {})
+	$.get(webroot+'/user/card/' + $(target).attr('uid'), {})
 		.done(function(resp) {
 			if (resp == null)
 				console.log('usercard null');
@@ -81,8 +81,8 @@ function createUserCard(card) {
 	$uc.find('.avatar > a').attr(userLinkAttrs(card.id)).find('img').attr('src', card.avatar);
 	$uc.find('.name').text(card.name);
 	$uc.find('.intro').text(card.intro);
-	$uc.find('.followings').attr('href', '/sage/followings/'+card.id);
-	$uc.find('.followers').attr('href', '/sage/followers/'+card.id);
+	$uc.find('.followings').attr('href', webroot+'/followings/'+card.id);
+	$uc.find('.followers').attr('href', webroot+'/followers/'+card.id);
 	$uc.find('.following-count').text(card.followingCount);
 	$uc.find('.follower-count').text(card.followerCount);
 	$uc.css({
@@ -130,7 +130,7 @@ function setAsFollowed($follow, uc) {
 			});
 
 			console.log("tagIds: " + selectedTagIds);
-			$.post('/sage/editfollow/'+uc.id, {tagIds: selectedTagIds})
+			$.post(webroot+'/editfollow/'+uc.id, {tagIds: selectedTagIds})
 			.fail(function(){
 				alert('操作失败');
 			});
@@ -140,7 +140,7 @@ function setAsFollowed($follow, uc) {
 		$('<button>').text('取消关注').addClass('btn btn-inverse')
 		.appendTo($dialog.find('.modal-footer'))
 		.click(function(){
-			$.post('/sage/unfollow/'+uc.id)
+			$.post(webroot+'/unfollow/'+uc.id)
 			.fail(function(){
 				alert('操作失败');
 			});
@@ -167,7 +167,7 @@ function setAsNotFollowed($follow, uc) {
 			});
 
 			console.log("tagIds: " + selectedTagIds);
-			$.post('/sage/follow/'+uc.id, {tagIds: selectedTagIds})
+			$.post(webroot+'/follow/'+uc.id, {tagIds: selectedTagIds})
 			.fail(function(){
 				alert('操作失败');
 			});

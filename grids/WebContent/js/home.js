@@ -32,7 +32,7 @@ $(document).ready(function(){
 			return;
 		} 
 
-		$.post('/sage/post/tweet', {
+		$.post(webroot+'/post/tweet', {
 			content: input,
 			tagIds: selectedTagIds
 		})
@@ -49,7 +49,7 @@ $(document).ready(function(){
 		});
 	});
 
-	getStream('/sage/read/istream');
+	getStream(webroot+'/read/istream');
 });
 
 function postTweetDone() {

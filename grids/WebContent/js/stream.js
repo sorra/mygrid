@@ -124,7 +124,7 @@ function createTweetCard(card) {
     else
         $tc.find('.origin').remove();
     
-    $tc.find('.time').text(showTime(card.time)).attr('href', '/sage/twt/'+card.id);
+    $tc.find('.time').text(showTime(card.time)).attr('href', webroot+'/twt/'+card.id);
     var $tags = $tc.find('.tags');
     var tags = card.origin ? card.origin.tags : card.tags;
     if (tags && tags.length > 0) {
@@ -156,7 +156,7 @@ function createTweetCard(card) {
         var $footer = $('<div class="modal-footer">').appendTo($dialog);
         $('<button class="btn btn-primary">').text('转发').css({float: 'right'}).appendTo($footer)
             .click(function() {
-                $.post('/sage/post/forward', {
+                $.post(webroot+'/post/forward', {
                     content: $dialog.find('.input').val(),
                     originId: card.id
                 });
@@ -203,7 +203,7 @@ function createBlogData(data) {
     var $bd = $('.proto > .blog').clone();
 
     $bd.find('.avatar').attr(userLinkAttrs(data.authorId))
-        .find('img').attr('src', data.author.avatar ? data.author.avatar : '/sage/rs/img/1.jpg');  
+        .find('img').attr('src', data.author.avatar ? data.author.avatar : webroot+'/rs/img/1.jpg');  
     $bd.find('.author-name').attr(userLinkAttrs(data.authorId)).text(data.author.name);
     $bd.find('.title').text(data.title);
     $bd.find('.content').html(data.content);
@@ -229,7 +229,7 @@ function createCommentList(tweetId) {
     var $loading = $('<div>').text('评论加载中').appendTo($cl);
 
     var $list = $('<ul>').appendTo($cl);
-    $.get('/sage/read/'+tweetId+'/comments')
+    $.get(webroot+'/read/'+tweetId+'/comments')
     .done(function(resp){
         $.each(function(idx, item){
             var $li = $('<li>').appendTo($list);
