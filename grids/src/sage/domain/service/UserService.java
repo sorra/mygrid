@@ -74,6 +74,7 @@ public class UserService {
 		}
 		//XXX existsName?
 		
+		user.setPassword(encrypt(user.getPassword()));
 		userRepos.save(user);
 		return user.getId();
 	}

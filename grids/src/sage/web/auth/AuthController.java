@@ -78,8 +78,8 @@ public class AuthController {
 	
 	@RequestMapping(value="/register", method=RequestMethod.POST)
 	@ResponseBody
-	public String register() {
-		logger.info("register TODO");
-		return userService.register(null)>=0 ? SUCCESS : FAILURE;
+	public String register(@RequestParam("email") String email, @RequestParam("password") String password) {
+		logger.info("register email: {}", email);
+		return userService.register(new User(email, password))>=0 ? SUCCESS : FAILURE;
 	}
 }
