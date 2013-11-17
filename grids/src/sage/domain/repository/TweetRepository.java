@@ -19,7 +19,7 @@ import sage.entity.Tweet;
 public class TweetRepository extends BaseRepository<Tweet> {
 	private static final int MAX_RESULTS = 20;
 	@Autowired
-	private TagRepository tagRepos;
+	private TagRepository tagRepo;
 	
 	public List<Tweet> byTags(Collection<Tag> tags) {
 		return byTags(tags, Edge.none());

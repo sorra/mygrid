@@ -26,39 +26,39 @@ import sage.transfer.UserSelf;
 @Transactional(readOnly=true)
 public class UserService {
 	@Autowired
-	private UserRepository userRepos;
+	private UserRepository userRepo;
 	@Autowired
-	private FollowRepository followRepos;
+	private FollowRepository followRepo;
 	@Autowired
-	private TagRepository tagRepos;
+	private TagRepository tagRepo;
 	@Autowired
-	private TweetRepository tweetRepos;
+	private TweetRepository tweetRepo;
 	@Autowired
-	private BlogRepository blogRepos;
+	private BlogRepository blogRepo;
 	
 	public UserSelf getSelf(long userId) {
-		return new UserSelf(userRepos.get(userId),
-				followRepos.followingCount(userId),
-				followRepos.followerCount(userId),
+		return new UserSelf(userRepo.get(userId),
+				followRepo.followingCount(userId),
+				followRepo.followerCount(userId),
 				topTags(userId));
 	}
 	
 	public UserCard getUserCard(long selfId, long userId) {
-		User user = userRepos.get(userId);
+		User user = userRepo.get(userId);
 		if (user == null) {
 			return null;
 		}
 		return new UserCard(user,
-				followRepos.followingCount(userId),
-				followRepos.followerCount(userId),
-				followRepos.find(selfId, userId)!=null,
-				followRepos.find(userId, selfId)!=null,
+				followRepo.followingCount(userId),
+				followRepo.followerCount(userId),
+				followRepo.find(selfId, userId)!=null,
+				followRepo.find(userId, selfId)!=null,
 				//TBD
 				topTags(userId));
 	}
 
 	public User login(String email, String password) {
-		User user = userRepos.findByEmail(email);
+		User user = userRepo.findByEmail(email);
 		if (user == null) {
 			return null;
 		}		
@@ -75,12 +75,12 @@ public class UserService {
 		//XXX existsName?
 		
 		user.setPassword(encrypt(user.getPassword()));
-		userRepos.save(user);
+		userRepo.save(user);
 		return user.getId();
 	}
 	
 	private boolean existsEmail(User user) {
-		return userRepos.findByEmail(user.getEmail()) != null;
+		return userRepo.findByEmail(user.getEmail()) != null;
 	}
 
 	@Deprecated
@@ -93,7 +93,7 @@ public class UserService {
 		List<PersonValue> list = new ArrayList<>();
 		List<TagLabel> selfTags = topTags(userId);
 		for (long i=1; ; i++) {
-			User person = userRepos.get(i);
+			User person = userRepo.get(i);
 			if (person == null) {
 				break;
 			}
@@ -123,10 +123,10 @@ public class UserService {
 
 	private List<TagLabel> topTags(long userId) {
 		List<TagCounter> topping = new ArrayList<>();
-		for (Tweet tweet : tweetRepos.byAuthor(userId)) {
+		for (Tweet tweet : tweetRepo.byAuthor(userId)) {
 			countTags(tweet.getTags(), topping);
 		}
-		for (Blog blog : blogRepos.byAuthor(userId)) {
+		for (Blog blog : blogRepo.byAuthor(userId)) {
 			countTags(blog.getTags(), topping);
 		}
 		Collections.sort(topping);

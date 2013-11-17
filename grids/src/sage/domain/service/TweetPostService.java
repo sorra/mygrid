@@ -29,38 +29,38 @@ public class TweetPostService {
 	@Autowired
 	private TransferService transferService;
 	@Autowired
-	private UserRepository userRepos;
+	private UserRepository userRepo;
 	@Autowired
-	private TweetRepository tweetRepos;
+	private TweetRepository tweetRepo;
 	@Autowired
-	private TagRepository tagRepos;
+	private TagRepository tagRepo;
 	@Autowired
-	private CommentRepository commentRepos;
+	private CommentRepository commentRepo;
 	
 	public Tweet newTweet(long userId, String content, Collection<Long> tagIds) {
         content = processContent(content);
-		Tweet tweet = new Tweet(content, userRepos.load(userId), new Date(),
-				tagRepos.byIds(tagIds));
-		tweetRepos.save(tweet);
+		Tweet tweet = new Tweet(content, userRepo.load(userId), new Date(),
+				tagRepo.byIds(tagIds));
+		tweetRepo.save(tweet);
 		searchBase.index(tweet.getId(), transferService.getTweetCardNoCount(tweet));
 		return tweet;
 	}
 	
 	public Tweet forward(long userId, String content, long originId) {
         content = processContent(content);
-        Tweet origin = tweetRepos.load(originId);
+        Tweet origin = tweetRepo.load(originId);
     	Tweet tweet = new Tweet(content,
-    	        userRepos.load(userId), new Date(), pureOrigin(origin));
-    	tweetRepos.save(tweet);
+    	        userRepo.load(userId), new Date(), pureOrigin(origin));
+    	tweetRepo.save(tweet);
     	searchBase.index(tweet.getId(), transferService.getTweetCardNoCount(tweet));
     	return tweet;
     }
 
     public void comment(long userId, String content, long sourceId) {
         content = processContent(content);
-		Comment comment = new Comment(content, userRepos.load(userId),
-				new Date(), tweetRepos.load(sourceId));
-		commentRepos.save(comment);
+		Comment comment = new Comment(content, userRepo.load(userId),
+				new Date(), tweetRepo.load(sourceId));
+		commentRepo.save(comment);
 	}
 	
 	public void share(long userId, String content, String sourceUrl) {
@@ -73,17 +73,17 @@ public class TweetPostService {
 		String summary = content.length()>SUM_LEN ? content.substring(0, SUM_LEN) : content;
 		Tweet tweet = new Tweet(
 				"发表了博客：["+blogRef(blog)+"] "+summary,
-				userRepos.load(userId),
+				userRepo.load(userId),
 				new Date(),
 				blog);
-		tweetRepos.save(tweet);
+		tweetRepo.save(tweet);
 		searchBase.index(tweet.getId(), transferService.getTweetCardNoCount(tweet));
 	}
 	
 	public boolean delete(long userId, long tweetId) {
-		Tweet tweet = tweetRepos.load(tweetId);
+		Tweet tweet = tweetRepo.load(tweetId);
 		if (userId == tweet.getAuthor().getId()) {
-			tweetRepos.delete(tweet);
+			tweetRepo.delete(tweet);
 			searchBase.delete(TweetCard.class, tweetId);
 			return true;
 		}
@@ -112,7 +112,7 @@ public class TweetPostService {
 	 */
 	private String processContent(String content) {
 	    content = StringUtils.escapeXml(content);
-	    return replaceMention(content, 0, new StringBuilder(), userRepos);
+	    return replaceMention(content, 0, new StringBuilder(), userRepo);
 	}
 
 	/*

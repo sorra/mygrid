@@ -17,52 +17,52 @@ import sage.entity.Follow;
 public class RelationService {
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired
-	UserRepository userRepos;
+	UserRepository userRepo;
 	@Autowired
-	FollowRepository followRepos;
+	FollowRepository followRepo;
 	@Autowired
-	TagRepository tagRepos;
+	TagRepository tagRepo;
 
 	public void follow(long userId, long targetId, Collection<Long> tagIds) {
 		if (userId == targetId) {
 			logger.warn("user {} should not follow himself!", userId);
 			return;
 		}
-		Assert.isNull(followRepos.find(userId, targetId));
+		Assert.isNull(followRepo.find(userId, targetId));
 		Follow follow = new Follow(
-				userRepos.load(userId), userRepos.load(targetId),
-				tagRepos.byIds(tagIds));
-		followRepos.save(follow);
+				userRepo.load(userId), userRepo.load(targetId),
+				tagRepo.byIds(tagIds));
+		followRepo.save(follow);
 	}
 	
 	/*
 	 * May optimize it by findByFollowId (surrogate key)
 	 */
 	public void editFollow(long userId, long targetId, Collection<Long> tagIds) {
-		Follow follow = followRepos.find(userId, targetId);
+		Follow follow = followRepo.find(userId, targetId);
 		Assert.notNull(follow);
-		follow.setTags(tagRepos.byIds(tagIds));
-		followRepos.merge(follow);
+		follow.setTags(tagRepo.byIds(tagIds));
+		followRepo.merge(follow);
 	}
 	
 	public void unfollow(long userId, long targetId) {
-		Follow follow = followRepos.find(userId, targetId);
+		Follow follow = followRepo.find(userId, targetId);
 		Assert.notNull(follow);
-		followRepos.delete(follow);
+		followRepo.delete(follow);
 	}
 	
 	@Transactional(readOnly=true)
 	public Follow getFollow(long sourceId, long targetId) {
-		return followRepos.find(sourceId, targetId);
+		return followRepo.find(sourceId, targetId);
 	}
 	
 	@Transactional(readOnly=true)
 	public Collection<Follow> followings(long userId) {
-		return followRepos.followings(userId);
+		return followRepo.followings(userId);
 	}
 
 	@Transactional(readOnly=true)
 	public Collection<Follow> followers(long userId) {
-		return followRepos.followers(userId);
+		return followRepo.followers(userId);
 	}
 }

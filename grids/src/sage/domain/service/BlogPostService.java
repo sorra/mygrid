@@ -24,31 +24,31 @@ public class BlogPostService {
 	@Autowired
 	private TransferService transferService;
 	@Autowired
-	private BlogRepository blogRepos;
+	private BlogRepository blogRepo;
 	@Autowired
-	private UserRepository userRepos;
+	private UserRepository userRepo;
 	@Autowired
-	private TagRepository tagRepos;
+	private TagRepository tagRepo;
 	
 	public Blog newBlog(long userId, String title, String content, Collection<Long> tagIds) {
-		Blog blog = new Blog(title, content, userRepos.load(userId), new Date(), tagRepos.byIds(tagIds));
+		Blog blog = new Blog(title, content, userRepo.load(userId), new Date(), tagRepo.byIds(tagIds));
 		escapeAndSet(blog);
 		
-		blogRepos.save(blog);
+		blogRepo.save(blog);
 		searchBase.index(blog.getId(), transferService.getBlogData(blog));
 		return blog;
 	}
 	
 	public Blog edit(long userId, long blogId, String title, String content, Collection<Long> tagIds) {
-	    Blog blog = blogRepos.get(blogId);
+	    Blog blog = blogRepo.get(blogId);
 		if (blog.getAuthor().getId() == userId) {
 		    blog.setTime(new Date());
 			blog.setTitle(title);
 			blog.setContent(content);
 			escapeAndSet(blog);
-			blog.setTags(tagRepos.byIds(tagIds));
+			blog.setTags(tagRepo.byIds(tagIds));
 			
-			blogRepos.update(blog);
+			blogRepo.update(blog);
 			searchBase.index(blog.getId(), transferService.getBlogData(blog));
 			return blog;
 		}
@@ -56,9 +56,9 @@ public class BlogPostService {
 	}
 	
 	public boolean delete(long userId, long blogId) {
-		Blog blog = blogRepos.load(blogId);
+		Blog blog = blogRepo.load(blogId);
 		if (blog.getAuthor().getId() == userId) {
-			blogRepos.delete(blog);
+			blogRepo.delete(blog);
 			searchBase.delete(BlogData.class, blog.getId());
 			return true;
 		}

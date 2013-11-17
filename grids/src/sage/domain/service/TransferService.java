@@ -18,15 +18,15 @@ public class TransferService {
 	@Autowired
 	private UserService userService;
 	@Autowired
-	private UserRepository userRepos;
+	private UserRepository userRepo;
 	@Autowired
-	private TweetRepository tweetRepos;
+	private TweetRepository tweetRepo;
 	@Autowired
-	private CommentRepository commentRepos;
+	private CommentRepository commentRepo;
 	
 	public BlogData getBlogData(Blog blog) {
 		long authorId = blog.getAuthor().getId();
-		return new BlogData(blog, userRepos.get(authorId));
+		return new BlogData(blog, userRepo.get(authorId));
 	}
 
 	public TweetCard getTweetCard(Tweet tweet) {
@@ -40,10 +40,10 @@ public class TransferService {
 	}
 
 	public long forwardCount(long originId) {
-		return tweetRepos.forwardCount(originId);
+		return tweetRepo.forwardCount(originId);
 	}
 
 	public long commentCount(long sourceId) {
-		return commentRepos.commentCount(sourceId);
+		return commentRepo.commentCount(sourceId);
 	}
 }
