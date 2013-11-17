@@ -56,11 +56,12 @@ public class TweetPostService {
     	return tweet;
     }
 
-    public void comment(long userId, String content, long sourceId) {
+    public Comment comment(long userId, String content, long sourceId) {
         content = processContent(content);
 		Comment comment = new Comment(content, userRepo.load(userId),
 				new Date(), tweetRepo.load(sourceId));
 		commentRepo.save(comment);
+		return comment;
 	}
 	
 	public void share(long userId, String content, String sourceUrl) {

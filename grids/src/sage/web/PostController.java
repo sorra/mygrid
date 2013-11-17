@@ -78,4 +78,15 @@ public class PostController {
 			return false;
 		}
 	}
+	
+	@RequestMapping("/comment")
+	@ResponseBody
+	public boolean comment(@RequestParam("content") String content, @RequestParam("source") Long sourceId) {
+	    Long uid = AuthUtil.currentUid();
+	    if (uid == null) {return false;}
+	    if (content.isEmpty()) {return false;}
+	    
+	    tweetPostService.comment(uid, content, sourceId);
+	    return true;
+	}
 }
