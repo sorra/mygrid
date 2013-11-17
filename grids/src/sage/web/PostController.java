@@ -19,7 +19,7 @@ import sage.entity.Tweet;
 import sage.web.auth.AuthUtil;
 
 @Controller
-@RequestMapping("/post")
+@RequestMapping(value="/post", method=RequestMethod.POST)
 public class PostController {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired
@@ -27,7 +27,7 @@ public class PostController {
 	@Autowired
 	private BlogPostService blogService;
 	
-	@RequestMapping(value="/tweet", method=RequestMethod.POST)
+	@RequestMapping("/tweet")
 	@ResponseBody
 	public boolean tweet(
 			@RequestParam("content") String content, 
@@ -43,7 +43,7 @@ public class PostController {
 		return true;
 	}
 	
-	@RequestMapping(value="/forward", method=RequestMethod.POST)
+	@RequestMapping("/forward")
 	@ResponseBody
 	public boolean forward(
 	        @RequestParam("content") String content,
@@ -56,7 +56,7 @@ public class PostController {
 	    return true;
 	}
 	
-	@RequestMapping(value="/blog", method=RequestMethod.POST)
+	@RequestMapping("/blog")
 	@ResponseBody
 	public boolean blog(
 			@RequestParam("title") String title,
