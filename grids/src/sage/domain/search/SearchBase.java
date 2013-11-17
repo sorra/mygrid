@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 
 import sage.transfer.BlogData;
 import sage.transfer.TweetCard;
+import sage.web.context.JsonUtil;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -95,12 +96,7 @@ public class SearchBase {
         if (object == null) {
             throw new IllegalArgumentException("object is null");
         }
-        String json;
-        try {
-            json = om.writeValueAsString(object);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+        String json = JsonUtil.json(object);
         client.prepareIndex(INDEX, mapType(object.getClass()), String.valueOf(id))
                 .setSource(json)
                 .execute();
