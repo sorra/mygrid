@@ -81,7 +81,7 @@ public class PostController {
 	
 	@RequestMapping("/comment")
 	@ResponseBody
-	public boolean comment(@RequestParam("content") String content, @RequestParam("source") Long sourceId) {
+	public boolean comment(@RequestParam("content") String content, @RequestParam("sourceId") Long sourceId) {
 	    Long uid = AuthUtil.currentUid();
 	    if (uid == null) {return false;}
 	    if (content.isEmpty()) {return false;}
