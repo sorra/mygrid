@@ -232,6 +232,7 @@ function createCommentList(tweetId) {
                content: $input.val(),
                sourceId: tweetId
            });
+           $input.val('');
         });
     var $loading = $('<div>').text('评论加载中').appendTo($cl);
 
