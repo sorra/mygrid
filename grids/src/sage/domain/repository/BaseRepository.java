@@ -8,6 +8,7 @@ public abstract class BaseRepository<T> {
 	@Autowired
 	private SessionFactory sessionFactory;
 	
+	// Another approach is generic-type reflection
 	protected abstract Class<T> getEntityClass();
 	
 	protected Session session() {
