@@ -15,25 +15,25 @@ import sage.web.auth.AuthUtil;
 @Controller
 @RequestMapping("/user")
 public class UserController {
-	@Autowired
-	UserService userService;
+    @Autowired
+    UserService userService;
 
-	@RequestMapping("/self")
-	@ResponseBody
-	public UserSelf self() {
-		Long uid = AuthUtil.checkLogin();
-		return userService.getSelf(uid);
-	}
-	
-	@RequestMapping("/card/{id}")
-	@ResponseBody
-	public UserCard userCard(@PathVariable("id") Long id) {
-		Long uid = AuthUtil.checkLogin();
-		return userService.getUserCard(uid, id);
-	}
-	
-	@RequestMapping("/info/{id}")
-	public ModelAndView userInfo(@PathVariable("id") Long id) {
-		return null;
-	}
+    @RequestMapping("/self")
+    @ResponseBody
+    public UserSelf self() {
+        Long uid = AuthUtil.checkLogin();
+        return userService.getSelf(uid);
+    }
+    
+    @RequestMapping("/card/{id}")
+    @ResponseBody
+    public UserCard userCard(@PathVariable("id") Long id) {
+        Long uid = AuthUtil.checkLogin();
+        return userService.getUserCard(uid, id);
+    }
+    
+    @RequestMapping("/info/{id}")
+    public ModelAndView userInfo(@PathVariable("id") Long id) {
+        return null;
+    }
 }

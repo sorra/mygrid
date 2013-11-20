@@ -17,30 +17,30 @@ import sage.domain.search.SearchBase;
 
 @Controller
 public class SearchController {
-	private Logger logger = LoggerFactory.getLogger(getClass());
-	@Autowired
-	private SearchBase searchBase;
-	
-	@RequestMapping("/search")
-	public String search(
-			@RequestParam("q") String q,
-			ModelMap model) throws UnsupportedEncodingException {
-	    if (q.isEmpty()) {
-	        return "forward:";
-	    }
-		q = new String(q.getBytes("ISO-8859-1"), "UTF-8");
-		logger.info("query: " + q);
-		SearchHit[] hits = searchBase.search(q).getHits().getHits();
-		
-		List<String> jsons = new ArrayList<>();
-		for (SearchHit hit : hits) {
-			logger.info("~hit~ id:{} type:{}", hit.id(), hit.type());
-			String sourceJson = hit.sourceAsString();
-			if (sourceJson.toLowerCase().contains(q.toLowerCase())) {
-				jsons.add(sourceJson);
-			}
-		}
-		model.addAttribute("hits", jsons);
-		return "search-result";
-	}
+    private Logger logger = LoggerFactory.getLogger(getClass());
+    @Autowired
+    private SearchBase searchBase;
+    
+    @RequestMapping("/search")
+    public String search(
+            @RequestParam("q") String q,
+            ModelMap model) throws UnsupportedEncodingException {
+        if (q.isEmpty()) {
+            return "forward:";
+        }
+        q = new String(q.getBytes("ISO-8859-1"), "UTF-8");
+        logger.info("query: " + q);
+        SearchHit[] hits = searchBase.search(q).getHits().getHits();
+        
+        List<String> jsons = new ArrayList<>();
+        for (SearchHit hit : hits) {
+            logger.info("~hit~ id:{} type:{}", hit.id(), hit.type());
+            String sourceJson = hit.sourceAsString();
+            if (sourceJson.toLowerCase().contains(q.toLowerCase())) {
+                jsons.add(sourceJson);
+            }
+        }
+        model.addAttribute("hits", jsons);
+        return "search-result";
+    }
 }

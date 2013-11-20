@@ -14,12 +14,12 @@ public class StaticPathExposer {
     public static final String RS = Constants.WEB_CONTEXT_ROOT+"/rs";
     
     @Autowired
-	private ServletContext servletContext;
-	
-	@PostConstruct
-	public void init() {
-		servletContext.setAttribute("base", BASE);
-		servletContext.setAttribute("rs", RS);
-	}
-	
+    private ServletContext servletContext;
+    
+    @PostConstruct
+    public void init() {
+        servletContext.setAttribute("base", BASE);
+        servletContext.setAttribute("rs", RS);
+    }
+    
 }

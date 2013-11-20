@@ -19,100 +19,100 @@ import javax.persistence.OneToOne;
 
 @Entity(name="Tweet")
 public class Tweet {
-	private long id;
-	private String content;
-	private User author;
-	private Date time;
-	private Tweet origin = null;
-	private String prefo = null;
-	private Long blogId = null;
-	private Set<Tag> tags = new HashSet<>();
-	private Collection<Comment> comments = new ArrayList<>();
+    private long id;
+    private String content;
+    private User author;
+    private Date time;
+    private Tweet origin = null;
+    private String prefo = null;
+    private Long blogId = null;
+    private Set<Tag> tags = new HashSet<>();
+    private Collection<Comment> comments = new ArrayList<>();
 
-	public Tweet() {
-	}
+    public Tweet() {
+    }
 
-	public Tweet(String content, User author, Date time, Set<Tag> tags) {
-		this.content = content;
-		this.author = author;
-		this.time = time;
-		this.tags.addAll(tags);
-	}
-	
-	public Tweet(String content, User author, Date time, Tweet origin) {
-		this(content, author, time, origin.getTags());
-		setOrigin(origin);
-		if (origin.getOrigin() != null) {//XXX need better approach
-			throw new IllegalArgumentException("tweet's origin should not be nested!");
-		}
-	}
-	
-	public Tweet(String content, User author, Date time, Tweet origin, String prefo) {
-	    this(content, author, time, origin);
-	    setPrefo(prefo);
-	}
-	
-	public Tweet(String content, User author, Date time, Blog sourceBlog) {
-		this(content, author, time, sourceBlog.getTags());
-		setBlogId(sourceBlog.getId());
-	}
+    public Tweet(String content, User author, Date time, Set<Tag> tags) {
+        this.content = content;
+        this.author = author;
+        this.time = time;
+        this.tags.addAll(tags);
+    }
+    
+    public Tweet(String content, User author, Date time, Tweet origin) {
+        this(content, author, time, origin.getTags());
+        setOrigin(origin);
+        if (origin.getOrigin() != null) {//XXX need better approach
+            throw new IllegalArgumentException("tweet's origin should not be nested!");
+        }
+    }
+    
+    public Tweet(String content, User author, Date time, Tweet origin, String prefo) {
+        this(content, author, time, origin);
+        setPrefo(prefo);
+    }
+    
+    public Tweet(String content, User author, Date time, Blog sourceBlog) {
+        this(content, author, time, sourceBlog.getTags());
+        setBlogId(sourceBlog.getId());
+    }
 
-	@Id
-	@GeneratedValue
-	public long getId() {return id;}
-	public void setId(long id) {this.id = id;}
-	
+    @Id
+    @GeneratedValue
+    public long getId() {return id;}
+    public void setId(long id) {this.id = id;}
+    
     @Column(columnDefinition="TEXT")
     @Lob
-	public String getContent() {return content;}
-	public void setContent(String content) {this.content = content;}
+    public String getContent() {return content;}
+    public void setContent(String content) {this.content = content;}
 
-	@ManyToOne(optional=false)
-	public User getAuthor() {return author;}
-	public void setAuthor(User author) {this.author = author;}
+    @ManyToOne(optional=false)
+    public User getAuthor() {return author;}
+    public void setAuthor(User author) {this.author = author;}
 
-	public Date getTime() {return time;}
-	public void setTime(Date time) {this.time = time;}
+    public Date getTime() {return time;}
+    public void setTime(Date time) {this.time = time;}
 
-	@OneToOne
-	public Tweet getOrigin() {return origin;}
-	public void setOrigin(Tweet origin) {this.origin = origin;}
+    @OneToOne
+    public Tweet getOrigin() {return origin;}
+    public void setOrigin(Tweet origin) {this.origin = origin;}
 
-	public String getPrefo() {return prefo;}
-	public void setPrefo(String prefo) {this.prefo = prefo;}
-	
-	public Long getBlogId() {return blogId;}
-	public void setBlogId(Long blogId) {this.blogId = blogId;}
-	
-	@ManyToMany(fetch=FetchType.EAGER)
-	public Set<Tag> getTags() {return tags;}
-	public void setTags(Set<Tag> tags) {this.tags = tags;}
-	
-	@OneToMany(mappedBy="source")
-	public Collection<Comment> getComments() {return comments;}
-	public void setComments(Collection<Comment> comments) {this.comments = comments;}
-	
-	@Override
-	public String toString() {
-		return author + ": " + content + tags;
-	}
+    public String getPrefo() {return prefo;}
+    public void setPrefo(String prefo) {this.prefo = prefo;}
+    
+    public Long getBlogId() {return blogId;}
+    public void setBlogId(Long blogId) {this.blogId = blogId;}
+    
+    @ManyToMany(fetch=FetchType.EAGER)
+    public Set<Tag> getTags() {return tags;}
+    public void setTags(Set<Tag> tags) {this.tags = tags;}
+    
+    @OneToMany(mappedBy="source")
+    public Collection<Comment> getComments() {return comments;}
+    public void setComments(Collection<Comment> comments) {this.comments = comments;}
+    
+    @Override
+    public String toString() {
+        return author + ": " + content + tags;
+    }
 
-	@Override
-	public int hashCode() {
-		return Long.valueOf(id).hashCode();
-	}
+    @Override
+    public int hashCode() {
+        return Long.valueOf(id).hashCode();
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Tweet other = (Tweet) obj;
-		if (id != other.id)
-			return false;
-		return true;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Tweet other = (Tweet) obj;
+        if (id != other.id)
+            return false;
+        return true;
+    }
 }

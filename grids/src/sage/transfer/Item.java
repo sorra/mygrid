@@ -4,6 +4,6 @@ import java.util.List;
 
 public interface Item {
     String getType();
-	List<TagLabel> getTags();
-	TweetCard getOrigin();
+    List<TagLabel> getTags();
+    TweetCard getOrigin();
 }

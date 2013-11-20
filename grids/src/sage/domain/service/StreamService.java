@@ -20,95 +20,95 @@ import sage.transfer.TweetCard;
 
 @Service
 public class StreamService {
-	private Logger logger = LoggerFactory.getLogger(getClass());
-	@Autowired
-	private TweetReadService tweetReadService;
-	@Autowired
-	private TagService tagService;
-	@Autowired
-	private TransferService transferService;
+    private Logger logger = LoggerFactory.getLogger(getClass());
+    @Autowired
+    private TweetReadService tweetReadService;
+    @Autowired
+    private TagService tagService;
+    @Autowired
+    private TransferService transferService;
 
-	public Stream istream(long userId) {
-	    return istream(userId, Edge.none());
-	}
-	
-	public Stream istream(long userId, Edge edge) {	
-		List<TweetCard> tcs = tweetReadService.istream(userId, edge);
-		Stream stream = new Stream();
-		stream.addAll(higherSort(tcs));
-		
-		return stream;
-	}
+    public Stream istream(long userId) {
+        return istream(userId, Edge.none());
+    }
+    
+    public Stream istream(long userId, Edge edge) {    
+        List<TweetCard> tcs = tweetReadService.istream(userId, edge);
+        Stream stream = new Stream();
+        stream.addAll(higherSort(tcs));
+        
+        return stream;
+    }
 
-	private List<Item> higherSort(List<TweetCard> tcs) {
-		List<Item> cleanList = new ArrayList<>();
-		cleanList.addAll(tcs);
-		
-		//TODO Pull-near
-		return combine(tcs);
-	}
+    private List<Item> higherSort(List<TweetCard> tcs) {
+        List<Item> cleanList = new ArrayList<>();
+        cleanList.addAll(tcs);
+        
+        //TODO Pull-near
+        return combine(tcs);
+    }
 
-	private List<Item> combine(List<TweetCard> tcs) {
-		List<CombineGroup> groupSeq = new ArrayList<>();
-		for (TweetCard tc : tcs) {
-			if (tc.getOrigin() != null) {
-				long originId = tc.getOrigin().getId();
-				CombineGroup foundGroup = findInSeq(originId, groupSeq);
-				if (foundGroup != null) {
-					foundGroup.addForward(tc);
-				}
-				else {
-					groupSeq.add(CombineGroup.newByFirst(tc));
-				}
-			}
-			else {
-				CombineGroup foundGroup = findInSeq(tc.getId(), groupSeq);
-				if (foundGroup != null) {
-					foundGroup.addOrigin(tc);
-				}
-				else {
-					groupSeq.add(CombineGroup.newByOrigin(tc));
-				}
-			}
-		}
+    private List<Item> combine(List<TweetCard> tcs) {
+        List<CombineGroup> groupSeq = new ArrayList<>();
+        for (TweetCard tc : tcs) {
+            if (tc.getOrigin() != null) {
+                long originId = tc.getOrigin().getId();
+                CombineGroup foundGroup = findInSeq(originId, groupSeq);
+                if (foundGroup != null) {
+                    foundGroup.addForward(tc);
+                }
+                else {
+                    groupSeq.add(CombineGroup.newByFirst(tc));
+                }
+            }
+            else {
+                CombineGroup foundGroup = findInSeq(tc.getId(), groupSeq);
+                if (foundGroup != null) {
+                    foundGroup.addOrigin(tc);
+                }
+                else {
+                    groupSeq.add(CombineGroup.newByOrigin(tc));
+                }
+            }
+        }
 
-		List<Item> sequence = new ArrayList<>(groupSeq.size());
-		for (CombineGroup group : groupSeq) {
-			if (group.getForwards().isEmpty()) {
-			    Assert.notNull(group.getOrigin());
-				sequence.add(group.getOrigin());
-			}
-			else sequence.add(group);
-		}
-		return sequence;
-	}
-	
-	private CombineGroup findInSeq(long id, List<CombineGroup> groupSequence) {
-		for (CombineGroup group : groupSequence) {
-			if (group.getOrigin().getId() == id) {
-				return group;
-			}
-		}
-		return null;
-	}
+        List<Item> sequence = new ArrayList<>(groupSeq.size());
+        for (CombineGroup group : groupSeq) {
+            if (group.getForwards().isEmpty()) {
+                Assert.notNull(group.getOrigin());
+                sequence.add(group.getOrigin());
+            }
+            else sequence.add(group);
+        }
+        return sequence;
+    }
+    
+    private CombineGroup findInSeq(long id, List<CombineGroup> groupSequence) {
+        for (CombineGroup group : groupSequence) {
+            if (group.getOrigin().getId() == id) {
+                return group;
+            }
+        }
+        return null;
+    }
 
-	public Stream tagStream(long tagId, Edge edge) {
-		List<Tweet> tweets = tweetReadService.tweetsByTags(tagService.getQueryTags(tagId), edge);
-		Collections.sort(tweets, new TweetOnIdComparator());
-		Stream stream = new Stream();
-		for (Tweet tweet : tweets) {
-			stream.add(transferService.getTweetCard(tweet));
-		}
-		return stream;
-	}
-
-	public Stream personalStream(long userId, Edge edge) {
-		List<Tweet> tweets = tweetReadService.tweetsByAuthor(userId, edge);
+    public Stream tagStream(long tagId, Edge edge) {
+        List<Tweet> tweets = tweetReadService.tweetsByTags(tagService.getQueryTags(tagId), edge);
         Collections.sort(tweets, new TweetOnIdComparator());
-		Stream stream = new Stream();
-		for (Tweet tweet : tweets) {
-			stream.add(transferService.getTweetCard(tweet));
-		}
-		return stream;
-	}
+        Stream stream = new Stream();
+        for (Tweet tweet : tweets) {
+            stream.add(transferService.getTweetCard(tweet));
+        }
+        return stream;
+    }
+
+    public Stream personalStream(long userId, Edge edge) {
+        List<Tweet> tweets = tweetReadService.tweetsByAuthor(userId, edge);
+        Collections.sort(tweets, new TweetOnIdComparator());
+        Stream stream = new Stream();
+        for (Tweet tweet : tweets) {
+            stream.add(transferService.getTweetCard(tweet));
+        }
+        return stream;
+    }
 }

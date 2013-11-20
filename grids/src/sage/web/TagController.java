@@ -14,31 +14,31 @@ import sage.transfer.TagNode;
 @Controller
 @RequestMapping("/tag")
 public class TagController {
-	@Autowired
-	TagService tagService;
-	
-	@RequestMapping("/card/{id}")
-	@ResponseBody
-	public TagCard tagCard(@PathVariable("id") Long id) {
-		return tagService.getTagCard(id);
-	}
-	
-	@RequestMapping("/tree")
-	@ResponseBody
-	public TagNode tagTree() {
-		return tagService.getTagTree();
-	}
-	
-	@RequestMapping("/new")
-	@ResponseBody
-	public long newTag(@RequestParam("name") String name,
-	        @RequestParam("parentId") Long parentId) {
-	    return tagService.newTag(name, parentId);
-	}
-	
-	@RequestMapping("/change-parent")
-	public void changeParent(@RequestParam("id") long id,
-	        @RequestParam("parentId") Long parentId) {
-	    tagService.changeParent(id, parentId);
-	}
+    @Autowired
+    TagService tagService;
+    
+    @RequestMapping("/card/{id}")
+    @ResponseBody
+    public TagCard tagCard(@PathVariable("id") Long id) {
+        return tagService.getTagCard(id);
+    }
+    
+    @RequestMapping("/tree")
+    @ResponseBody
+    public TagNode tagTree() {
+        return tagService.getTagTree();
+    }
+    
+    @RequestMapping("/new")
+    @ResponseBody
+    public long newTag(@RequestParam("name") String name,
+            @RequestParam("parentId") Long parentId) {
+        return tagService.newTag(name, parentId);
+    }
+    
+    @RequestMapping("/change-parent")
+    public void changeParent(@RequestParam("id") long id,
+            @RequestParam("parentId") Long parentId) {
+        tagService.changeParent(id, parentId);
+    }
 }

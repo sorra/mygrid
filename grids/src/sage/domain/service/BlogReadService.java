@@ -15,30 +15,30 @@ import sage.transfer.BlogData;
 @Service
 @Transactional(readOnly=true)
 public class BlogReadService {
-	@Autowired
-	private BlogRepository blogRepo;
-	@Autowired
-	private TweetRepository tweetRepo;
-	@Autowired
-	private TransferService transferService;
+    @Autowired
+    private BlogRepository blogRepo;
+    @Autowired
+    private TweetRepository tweetRepo;
+    @Autowired
+    private TransferService transferService;
 
-	/**
-	 * @return blogData | null
-	 */
-	public BlogData getBlogData(long blogId) {
-		Blog blog = blogRepo.get(blogId);
-		if (blog == null) {
-			return null;
-		}
-		return transferService.getBlogData(blog);
-	}
+    /**
+     * @return blogData | null
+     */
+    public BlogData getBlogData(long blogId) {
+        Blog blog = blogRepo.get(blogId);
+        if (blog == null) {
+            return null;
+        }
+        return transferService.getBlogData(blog);
+    }
 
 
-	public List<BlogData> getAllBlogData() {
-		List<BlogData> allBD = new ArrayList<>();
-		for (Blog blog : blogRepo.all()) {
-			allBD.add(transferService.getBlogData(blog));
-		}
-		return allBD;
-	}
+    public List<BlogData> getAllBlogData() {
+        List<BlogData> allBD = new ArrayList<>();
+        for (Blog blog : blogRepo.all()) {
+            allBD.add(transferService.getBlogData(blog));
+        }
+        return allBD;
+    }
 }

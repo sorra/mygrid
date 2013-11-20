@@ -27,59 +27,59 @@ import sage.web.auth.AuthUtil;
 @Controller
 @RequestMapping("/read")
 public class ReadController {
-	private final static Logger logger = LoggerFactory.getLogger(ReadController.class);
-	@Autowired
-	private StreamService streamService;
-	@Autowired
-	private BlogReadService blogReadService;
-	@Autowired
-	private TweetReadService tweetReadService;
-	
-	@RequestMapping("/istream")
-	@ResponseBody
-	public Stream istream(
-	        @RequestParam(value="before", required=false) Long beforeId,
-	        @RequestParam(value="after", required=false) Long afterId) {
-		Long uid = AuthUtil.checkLogin();
-		logger.info("before {}, after {}", beforeId, afterId);
-		return streamService.istream(uid, getEdge(beforeId, afterId));
-	}
-	
-	@RequestMapping("/connect/{blogId}")
-	@ResponseBody
-	public Stream connect(@PathVariable("blogId") Long blogId) {
-		List<TweetCard> tcs = tweetReadService.connectTweets(blogId);
-		return new Stream(tcs);
-	}
-	
-	@RequestMapping("/{tweetId}/comments")
-	@ResponseBody
-	public List<CommentCard> comments(@PathVariable("tweetId") Long tweetId) {
-		List<CommentCard> list = new ArrayList<>();
-		for (Comment comment : tweetReadService.getComments(tweetId)) {
-			list.add(new CommentCard(comment));
-		}
-		return list;
-	}
-	
-	@RequestMapping("/tag/{id}")
-	@ResponseBody
-	public Stream tagStream(
-			@PathVariable("id") Long tagId,
-			@RequestParam(value="before", required=false) Long beforeId,
-            @RequestParam(value="after", required=false) Long afterId) {
-		return streamService.tagStream(tagId, getEdge(beforeId, afterId));
-	}
-	
-	@RequestMapping("/u/{id}")
-	@ResponseBody
-	public Stream personalStream(
-			@PathVariable("id") Long userId,
+    private final static Logger logger = LoggerFactory.getLogger(ReadController.class);
+    @Autowired
+    private StreamService streamService;
+    @Autowired
+    private BlogReadService blogReadService;
+    @Autowired
+    private TweetReadService tweetReadService;
+    
+    @RequestMapping("/istream")
+    @ResponseBody
+    public Stream istream(
             @RequestParam(value="before", required=false) Long beforeId,
             @RequestParam(value="after", required=false) Long afterId) {
-		return streamService.personalStream(userId, getEdge(beforeId, afterId));
-	}
-	
+        Long uid = AuthUtil.checkLogin();
+        logger.info("before {}, after {}", beforeId, afterId);
+        return streamService.istream(uid, getEdge(beforeId, afterId));
+    }
+    
+    @RequestMapping("/connect/{blogId}")
+    @ResponseBody
+    public Stream connect(@PathVariable("blogId") Long blogId) {
+        List<TweetCard> tcs = tweetReadService.connectTweets(blogId);
+        return new Stream(tcs);
+    }
+    
+    @RequestMapping("/{tweetId}/comments")
+    @ResponseBody
+    public List<CommentCard> comments(@PathVariable("tweetId") Long tweetId) {
+        List<CommentCard> list = new ArrayList<>();
+        for (Comment comment : tweetReadService.getComments(tweetId)) {
+            list.add(new CommentCard(comment));
+        }
+        return list;
+    }
+    
+    @RequestMapping("/tag/{id}")
+    @ResponseBody
+    public Stream tagStream(
+            @PathVariable("id") Long tagId,
+            @RequestParam(value="before", required=false) Long beforeId,
+            @RequestParam(value="after", required=false) Long afterId) {
+        return streamService.tagStream(tagId, getEdge(beforeId, afterId));
+    }
+    
+    @RequestMapping("/u/{id}")
+    @ResponseBody
+    public Stream personalStream(
+            @PathVariable("id") Long userId,
+            @RequestParam(value="before", required=false) Long beforeId,
+            @RequestParam(value="after", required=false) Long afterId) {
+        return streamService.personalStream(userId, getEdge(beforeId, afterId));
+    }
+    
     private Edge getEdge(Long beforeId, Long afterId) {
         if (beforeId == null && afterId == null) {
             return Edge.none();
