@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,8 +33,7 @@ public class PostController {
     public boolean tweet(
             @RequestParam("content") String content, 
             @RequestParam(value="tagIds[]", required=false) Collection<Long> tagIds) {
-        Long uid = AuthUtil.currentUid();
-        if (uid == null) {return false;}
+        Long uid = AuthUtil.checkLogin();
         if (content.isEmpty()) {return false;}
         if (content.length() > 2000) {return false;}
         if (tagIds == null) {tagIds = new ArrayList<>(0);}
@@ -48,8 +48,7 @@ public class PostController {
     public boolean forward(
             @RequestParam("content") String content,
             @RequestParam("originId") Long originId) {
-        Long uid = AuthUtil.currentUid();
-        if (uid == null) {return false;}
+        Long uid = AuthUtil.checkLogin();
 
         Tweet tweet = tweetPostService.forward(uid, content, originId);
         logger.info("forward tweet {} success", tweet.getId());
@@ -62,8 +61,7 @@ public class PostController {
             @RequestParam("title") String title,
             @RequestParam("content") String content,
             @RequestParam(value="tagIds[]", required=false) Collection<Long> tagIds) {
-        Long uid = AuthUtil.currentUid();
-        if (uid == null) {return false;}
+        Long uid = AuthUtil.checkLogin();
         if (title.isEmpty() || content.isEmpty()) {return false;}
         if (tagIds == null) {tagIds = new ArrayList<>(0);}
 
@@ -71,19 +69,30 @@ public class PostController {
         tweetPostService.share(uid, blog);
         if (blog != null) {
             logger.info("post blog {} success", blog.getId());
-            return true;
         }
-        else {
-            logger.info("post blog failure");
-            return false;
-        }
+        return blog != null;
+    }
+    
+    @RequestMapping("/edit-blog/{blogId}")
+    @ResponseBody
+    public boolean editBlog(
+            @PathVariable("blogId") Long blogId,
+            @RequestParam("title") String title,
+            @RequestParam("content") String content,
+            @RequestParam(value="tagIds[]", required=false) Collection<Long> tagIds) {
+        Long uid = AuthUtil.checkLogin();
+        if (title.isEmpty() || content.isEmpty()) {return false;}
+        if (tagIds == null) {tagIds = new ArrayList<>(0);}
+        
+        Blog blog = blogService.edit(uid, blogId, title, content, tagIds);
+        
+        return blog != null;
     }
     
     @RequestMapping("/comment")
     @ResponseBody
     public boolean comment(@RequestParam("content") String content, @RequestParam("sourceId") Long sourceId) {
-        Long uid = AuthUtil.currentUid();
-        if (uid == null) {return false;}
+        Long uid = AuthUtil.checkLogin();
         if (content.isEmpty()) {return false;}
         
         tweetPostService.comment(uid, content, sourceId);

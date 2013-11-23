@@ -23,6 +23,9 @@ $!{include("navbar.httl")}
 	<div class="blog">
 		<span id="id" style="display:none">$!{blog.id}</span>
 		<h3 class="title">$!{blog.title}</h3>
+		#if(uid.equals(blog.authorId))
+		<a href="$!{base}/editBlog/$!{blog.id}">编辑</a>
+		#end
 		<span>$!{blog.time}</span>
 		<div class="tags">$!{blog.tags}</div>
 		<div class="content">$!{blog.content}</div>
@@ -36,7 +39,7 @@ $!{include("proto.httl")}
 $!{includeJS()}
 <script type="text/javascript">
 console.log('blog-id: ' + $('#id').text());
-getStream('/sage/read/connect/'+$('#id').text());
+getStream(webroot+'/read/connect/'+$('#id').text());
 function unescape(str) {
     return String(str).replace(/&gt;/g, '>');
 }
