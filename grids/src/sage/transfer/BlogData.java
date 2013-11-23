@@ -10,8 +10,8 @@ import sage.entity.User;
 
 public class BlogData {
     
-    private long id;
-    private long authorId;
+    private Long id;
+    private Long authorId;
     private String authorName;
     private String avatar;
     private UserCard authorCard = null;
@@ -34,11 +34,11 @@ public class BlogData {
         }
     }
     
-    public long getId() {
+    public Long getId() {
         return id;
     }
     
-    public long getAuthorId() {
+    public Long getAuthorId() {
         return authorId;
     }
     
