@@ -19,12 +19,14 @@
 		</div>
 	</div>
 </div>
+<script type="text/javascript" src="$!{rs}/js/jquery-1.9.1.js"></script>
 <script type="text/javascript">
-// $(document).ready(function(){
-// 	$('form.search').submit(function(event){
-// 		event.preventDefault();
-// 		console.log($(this).serialize());
-// 		window.open('/sage/search?'+$(this).serialize());
-// 	});
-// });
+$(document).ready(function(){
+	$('form.search').submit(function(event){
+		event.preventDefault();
+        var q = $('form.search > *[name=q]').val();
+		console.log(encodeURI(q));
+        window.open('/sage/search?q='+encodeURI(q));
+	});
+});
 </script>
