@@ -203,11 +203,11 @@ function createBlogData(data) {
     var $bd = $('.proto > .blog').clone();
 
     $bd.find('.avatar').attr(userLinkAttrs(data.authorId))
-        .find('img').attr('src', data.author.avatar ? data.author.avatar : webroot+'/rs/img/1.jpg');  
-    $bd.find('.author-name').attr(userLinkAttrs(data.authorId)).text(data.author.name);
+        .find('img').attr('src', data.avatar);  
+    $bd.find('.author-name').attr(userLinkAttrs(data.authorId)).text(data.authorName);
     $bd.find('.title').text(data.title);
     $bd.find('.content').html(data.content);
-    $bd.find('.time').text(showTime(data.time)).attr('href', '#bd/'+data.id);
+    $bd.find('.time').text(showTime(data.time)).attr('href', webroot+'/blog/'+data.id);
 
     var $tags = $bd.find('.tags');
     var tags = data.tags;
