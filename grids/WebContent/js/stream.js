@@ -109,28 +109,28 @@ function createStreamBefore(stream) {
     });
 }
 
-function createTweetCard(card) {
+function createTweetCard(tweet) {
     var $tc = $('.proto > .tweet').clone();
-    $tc.data('id', card.id);    
-    $tc.find('a.avatar').attr(userLinkAttrs(card.authorId))
-        .find('img').attr('src', card.avatar);
-    $tc.find('.author-name').attr(userLinkAttrs(card.authorId)).text(card.authorName); 
-    var content = card.prefo ? card.content+card.prefo : card.content;
+    $tc.data('id', tweet.id);    
+    $tc.find('a.avatar').attr(userLinkAttrs(tweet.authorId))
+        .find('img').attr('src', tweet.avatar);
+    $tc.find('.author-name').attr(userLinkAttrs(tweet.authorId)).text(tweet.authorName); 
+    var content = tweet.prefo ? tweet.content+tweet.prefo : tweet.content;
     $tc.find('.content').html(replaceMention(content));
     
     $tc.find('a[uid]').mouseenter(launchUcOpener).mouseleave(launchUcCloser);
     
-    if (card.origin)
-        $tc.find('.origin').replaceWith(createOriginCard(card.origin));
+    if (tweet.origin)
+        $tc.find('.origin').replaceWith(createOriginCard(tweet.origin));
     else
         $tc.find('.origin').remove();
     
-    $tc.find('.time').text(showTime(card.time)).attr('href', webroot+'/twt/'+card.id);
+    $tc.find('.time').text(showTime(tweet.time)).attr('href', webroot+'/tweet/'+tweet.id);
     var $tags = $tc.find('.tags');
-    var tags = card.origin ? card.origin.tags : card.tags;
+    var tags = tweet.origin ? tweet.origin.tags : tweet.tags;
     if (tags && tags.length > 0) {
         $tags.html('');
-        $.each(card.tags, function(idx, tag){
+        $.each(tweet.tags, function(idx, tag){
             createTagLabel(tag).appendTo($tags);
         });
     }
@@ -138,11 +138,11 @@ function createTweetCard(card) {
         $tags.remove();
     }
     
-    if (card.forwardCount > 0) {
-        $tc.find('.forward .count').text('('+card.forwardCount+')');
+    if (tweet.forwardCount > 0) {
+        $tc.find('.forward .count').text('('+tweet.forwardCount+')');
     }
-    if (card.commentCount > 0) {
-        $tc.find('.comment .count').text('('+card.commentCount+')');
+    if (tweet.commentCount > 0) {
+        $tc.find('.comment .count').text('('+tweet.commentCount+')');
     }
     $tc.find('.forward').attr('href', 'javascript:;').click(function(){
         event.preventDefault();
@@ -159,7 +159,7 @@ function createTweetCard(card) {
             .click(function() {
                 $.post(webroot+'/post/forward', {
                     content: $dialog.find('.input').val(),
-                    originId: card.id
+                    originId: tweet.id
                 });
                 $dialog.modal('hide');
             });
@@ -176,7 +176,7 @@ function createTweetCard(card) {
             $(this).removeData(clKey);
         }
         else {
-            $cl = createCommentList(card.id).appendTo($tc.find('.t-part'));
+            $cl = createCommentList(tweet.id).appendTo($tc.find('.t-part'));
             $(this).data(clKey, $cl);
         }
     });
@@ -199,21 +199,21 @@ function createCombineGroup(group) {
     return $cg;
 }
 
-function createBlogData(data) {
+function createBlogData(blog) {
     var $bd = $('.proto > .blog').clone();
 
-    $bd.find('.avatar').attr(userLinkAttrs(data.authorId))
-        .find('img').attr('src', data.avatar);  
-    $bd.find('.author-name').attr(userLinkAttrs(data.authorId)).text(data.authorName);
-    $bd.find('.title').text(data.title);
-    $bd.find('.content').html(data.content);
-    $bd.find('.time').text(showTime(data.time)).attr('href', webroot+'/blog/'+data.id);
+    $bd.find('.avatar').attr(userLinkAttrs(blog.authorId))
+        .find('img').attr('src', blog.avatar);  
+    $bd.find('.author-name').attr(userLinkAttrs(blog.authorId)).text(blog.authorName);
+    $bd.find('.title').text(blog.title);
+    $bd.find('.content').html(blog.content);
+    $bd.find('.time').text(showTime(blog.time)).attr('href', webroot+'/blog/'+blog.id);
 
     var $tags = $bd.find('.tags');
-    var tags = data.tags;
+    var tags = blog.tags;
     if (tags && tags.length > 0) {
         $tags.html('');
-        $.each(data.tags, function(idx, tag){
+        $.each(blog.tags, function(idx, tag){
             createTagLabel(tag).appendTo($tags);
         });
     }
