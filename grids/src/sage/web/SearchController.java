@@ -35,9 +35,8 @@ public class SearchController {
         List<String> jsons = new ArrayList<>();
         for (SearchHit hit : hits) {
             logger.info("~hit~ id:{} type:{}", hit.id(), hit.type());
-            String sourceJson = hit.sourceAsString();
-            if (sourceJson.toLowerCase().contains(q.toLowerCase())) {
-                jsons.add(sourceJson);
+            if (hit.sourceAsMap().values().toString().toLowerCase().contains(q.toLowerCase())) {
+                jsons.add(hit.sourceAsString());
             }
         }
         model.addAttribute("hits", jsons);
