@@ -100,6 +100,20 @@ public class PageController {
         return "write-blog";
     }
     
+    @RequestMapping("/blog/{blogId}/edit")
+    public String blogEdit(@PathVariable("blogId") Long blogId, ModelMap model) {
+        Long id = AuthUtil.checkLogin();
+        model.addAttribute("userSelfJson", JsonUtil.json(userService.getSelf(id)));
+        model.addAttribute("tagTreeJson", JsonUtil.json(tagService.getTagTree()));
+        
+        BlogData blog = blogReadService.getBlogData(blogId);
+        if (blog.getAuthorId().equals(id)) {
+            model.addAttribute("blog", blog);
+            return "write-blog";
+        }
+        else return "error";
+    }
+    
     @RequestMapping("/followings")
     public String followings(ModelMap model) {
         Long uid = AuthUtil.checkLogin();
