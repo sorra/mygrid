@@ -31,7 +31,7 @@ public class PostController {
     @RequestMapping("/tweet")
     @ResponseBody
     public boolean tweet(
-            @RequestParam("content") String content, 
+            @RequestParam("content") String content,
             @RequestParam(value="tagIds[]", required=false) Collection<Long> tagIds) {
         Long uid = AuthUtil.checkLogin();
         if (content.isEmpty()) {return false;}
@@ -45,9 +45,7 @@ public class PostController {
     
     @RequestMapping("/forward")
     @ResponseBody
-    public boolean forward(
-            @RequestParam("content") String content,
-            @RequestParam("originId") Long originId) {
+    public boolean forward(@RequestParam("content") String content, @RequestParam("originId") Long originId) {
         Long uid = AuthUtil.checkLogin();
 
         Tweet tweet = tweetPostService.forward(uid, content, originId);
