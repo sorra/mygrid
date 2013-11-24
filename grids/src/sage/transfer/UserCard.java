@@ -1,8 +1,11 @@
 package sage.transfer;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import sage.entity.Follow;
+import sage.entity.Tag;
 import sage.entity.User;
 
 public class UserCard {
@@ -15,19 +18,23 @@ public class UserCard {
     private boolean isFollowing;
     private boolean isFollower;
     private List<TagLabel> tags = new ArrayList<>();
+    private List<Long> followedTagIds = new ArrayList<>();
     
     public UserCard(User user, int followingCount, int followerCount,
-            boolean isFollowing, boolean isFollower, List<TagLabel> tags) {
+            Follow followFromCurrentUser, Follow followToCurrentUser, Collection<TagLabel> tags) {
         id = user.getId();
         name = user.getName();
         avatar = user.getAvatar();
         intro = user.getIntro();
         this.followingCount = followingCount;
         this.followerCount = followerCount;
-        this.isFollowing = isFollowing;
-        this.isFollower = isFollower;
-        for (TagLabel tag : tags) {
-            this.tags.add(tag);
+        this.tags.addAll(tags);
+        isFollowing = followFromCurrentUser != null;
+        isFollower = followToCurrentUser != null;
+        if (isFollowing) {
+            for (Tag tag : followFromCurrentUser.getTags()) {
+                followedTagIds.add(tag.getId());
+            }
         }
     }
 
@@ -65,5 +72,9 @@ public class UserCard {
     
     public List<TagLabel> getTags() {
         return tags;
+    }
+    
+    public List<Long> getFollowedTagIds() {
+        return followedTagIds;
     }
 }

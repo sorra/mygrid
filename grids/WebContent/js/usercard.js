@@ -188,10 +188,14 @@ function createTagDialog(uc) {
 	$('<div>').addClass('modal-header').text('请选择0~n个标签').appendTo($dialog);
 	var $body = $('<div>').addClass('modal-body').appendTo($dialog);
 	$.each(uc.tags, function(idx, item){
-		$('<button>').text(item.name).attr('tag-id', item.id).addClass('btn').appendTo($body)
+		var $tagBtn = $('<button>').text(item.name).attr('tag-id', item.id).addClass('btn').appendTo($body)
 		.click(function(){
 			$(this).toggleClass('btn-success');
 		});
+		console.log('ftids: '+uc.followedTagIds);
+		if ($.inArray(item.id, uc.followedTagIds) >= 0) {
+		    $tagBtn.addClass('btn-success');
+		}
 	});
 	$('<div>').addClass('modal-footer').appendTo($dialog);
 

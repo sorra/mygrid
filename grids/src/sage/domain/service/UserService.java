@@ -15,6 +15,7 @@ import sage.domain.repository.TagRepository;
 import sage.domain.repository.TweetRepository;
 import sage.domain.repository.UserRepository;
 import sage.entity.Blog;
+import sage.entity.Follow;
 import sage.entity.Tag;
 import sage.entity.Tweet;
 import sage.entity.User;
@@ -51,8 +52,8 @@ public class UserService {
         return new UserCard(user,
                 followRepo.followingCount(userId),
                 followRepo.followerCount(userId),
-                followRepo.find(selfId, userId)!=null,
-                followRepo.find(userId, selfId)!=null,
+                followRepo.find(selfId, userId),
+                followRepo.find(userId, selfId),
                 //TBD
                 topTags(userId));
     }
