@@ -12,7 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-
+/**
+ * This should be a permanently cached entity-type
+ */
 @Entity(name="Tag")
 public class Tag {
     public static final long ROOT_ID = 1; 
