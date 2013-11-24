@@ -1,7 +1,7 @@
 package sage.web;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,7 +27,7 @@ public class RelationController {
         if (uid == null){return;}
         
         if (tagIds == null) {
-            tagIds = new ArrayList<>(0);
+            tagIds = Collections.EMPTY_LIST;
         }
         relationService.follow(uid, targetId, tagIds);
     }
@@ -40,7 +40,7 @@ public class RelationController {
         if (uid == null){return;}
         
         if (tagIds == null) {
-            tagIds = new ArrayList<>(0);
+            tagIds = Collections.EMPTY_LIST;
         }
         relationService.editFollow(uid, targetId, tagIds);
     }

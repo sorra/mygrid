@@ -1,7 +1,7 @@
  package sage.web;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +36,7 @@ public class PostController {
         Long uid = AuthUtil.checkLogin();
         if (content.isEmpty()) {return false;}
         if (content.length() > 2000) {return false;}
-        if (tagIds == null) {tagIds = new ArrayList<>(0);}
+        if (tagIds == null) {tagIds = Collections.EMPTY_LIST;}
         
         Tweet tweet = tweetPostService.newTweet(uid, content, tagIds);
         logger.info("post tweet {} success", tweet.getId());
@@ -63,7 +63,7 @@ public class PostController {
             @RequestParam(value="tagIds[]", required=false) Collection<Long> tagIds) {
         Long uid = AuthUtil.checkLogin();
         if (title.isEmpty() || content.isEmpty()) {return false;}
-        if (tagIds == null) {tagIds = new ArrayList<>(0);}
+        if (tagIds == null) {tagIds = Collections.EMPTY_LIST;}
 
         Blog blog = blogService.newBlog(uid, title, content, tagIds);
         tweetPostService.share(uid, blog);
@@ -82,7 +82,7 @@ public class PostController {
             @RequestParam(value="tagIds[]", required=false) Collection<Long> tagIds) {
         Long uid = AuthUtil.checkLogin();
         if (title.isEmpty() || content.isEmpty()) {return false;}
-        if (tagIds == null) {tagIds = new ArrayList<>(0);}
+        if (tagIds == null) {tagIds = Collections.EMPTY_LIST;}
         
         Blog blog = blogService.edit(uid, blogId, title, content, tagIds);
         
