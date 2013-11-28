@@ -50,6 +50,7 @@ public class PageController {
     @RequestMapping("/private")
     public String privatePage(ModelMap model) {
         Long id = AuthUtil.checkLogin();
+        model.addAttribute("isSelfPage", true);
         return privatePage(id, model);
     }
 

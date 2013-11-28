@@ -12,6 +12,9 @@ $!{include("navbar.httl")}
     <span id="user-self-json">${userSelfJson}</span>
     <span id="tag-tree-json">${tagTreeJson}</span>
     <span id="id-holder">${id}</span>
+    #if(isSelfPage != null)
+    <span id="is-self-page"></span>
+    #end
 </div>
 
 <div class="container" id="container" style="margin-top: 50px">
@@ -33,7 +36,27 @@ $(document).ready(function(){
     $selfCard.find('.follow').remove();
     $selfCard.appendTo($('.side'));
     
-	getStream('/sage/read/u/' + $('#id-holder').text());
+	var deferred = getStream('/sage/read/u/' + $('#id-holder').text());
+	if ($('#is-self-page').length > 0) {
+	    deferred.done(function(){
+		    $('.slist .tweet').warnEmpty().each(function(){
+		        var $tweet = $(this);
+		        var $del = $('<a href="javascript:;">').text('删除')
+		        .css({marginLeft: '0.5em', marginRight: '0.5em'})
+		        .click(function(){
+		            event.preventDefault();
+		            var id = $tweet.data('id');
+		            if (!id) {
+		                console.warn('this id is '+id);
+		                return;
+		            }
+		            $.post(webroot+'/tweet/'+id+'/delete');
+		        });
+		        console.log($tweet.data('id'));
+		        $(this).find('.forward').before($del);
+		    });
+	    });
+	}
 });
 </script>
 </body>
