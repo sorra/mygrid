@@ -1,7 +1,7 @@
 'use strict';
 
 function getStream(url) {
-    $.get(url, {})
+    return $.get(url, {})
         .done(function(resp){
             if (resp == null) alert('stream is null');
             else createStream(resp, url);
@@ -13,7 +13,7 @@ function getStream(url) {
 
 function getStreamAfter(url, afterId) {
     if (afterId == undefined) throw new Error;
-    $.get(url, {after: afterId})
+    return $.get(url, {after: afterId})
         .done(function(resp){
             if (resp == null) alert('stream is null');
             else createStreamAfter(resp, url);
@@ -25,7 +25,7 @@ function getStreamAfter(url, afterId) {
 
 function getStreamBefore(url, beforeId) {
     if (beforeId == undefined) throw new Error;
-    $.get(url, {before: beforeId})
+    return $.get(url, {before: beforeId})
         .done(function(resp){
             if (resp == null) alert('stream is null');
             else createStreamBefore(resp, url);
