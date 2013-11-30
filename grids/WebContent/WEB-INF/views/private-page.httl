@@ -3,7 +3,7 @@
 #set(components = ["bootstrap", "layout", "stream", "tag", "usercard"])
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>贤者：用户页</title>
+	<title>私人主页</title>
 	$!{includeCSS()}
 </head>
 <body>
@@ -12,7 +12,7 @@ $!{include("navbar.httl")}
     <span id="user-self-json">${userSelfJson}</span>
     <span id="tag-tree-json">${tagTreeJson}</span>
     <span id="id-holder">${id}</span>
-    #if(isSelfPage != null)
+    #if(id.equals(uid))
     <span id="is-self-page"></span>
     #end
 </div>

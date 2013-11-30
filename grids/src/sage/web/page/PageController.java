@@ -49,9 +49,8 @@ public class PageController {
     
     @RequestMapping("/private")
     public String privatePage(ModelMap model) {
-        Long id = AuthUtil.checkLogin();
-        model.addAttribute("isSelfPage", true);
-        return privatePage(id, model);
+        Long uid = AuthUtil.checkLogin();
+        return "redirect:/private/"+uid;
     }
 
     @RequestMapping("/private/{id}")
@@ -118,7 +117,7 @@ public class PageController {
     @RequestMapping("/followings")
     public String followings(ModelMap model) {
         Long uid = AuthUtil.checkLogin();
-        return followings(uid, model);
+        return "redirect:/followings/"+uid;
     }
 
     @RequestMapping("/followings/{uid}")
@@ -135,7 +134,7 @@ public class PageController {
     @RequestMapping("/followers")
     public String followers(ModelMap model) {
         Long uid = AuthUtil.checkLogin();
-        return followers(uid, model);
+        return "redirect:/followers/"+uid;
     }
     
     @RequestMapping("/followers/{uid}")
