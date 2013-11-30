@@ -15,7 +15,6 @@ import sage.domain.repository.TagRepository;
 import sage.domain.repository.TweetRepository;
 import sage.domain.repository.UserRepository;
 import sage.entity.Blog;
-import sage.entity.Follow;
 import sage.entity.Tag;
 import sage.entity.Tweet;
 import sage.entity.User;

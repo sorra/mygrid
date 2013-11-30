@@ -10,9 +10,6 @@ import sage.domain.service.UserService;
 import sage.web.auth.AuthUtil;
 import sage.web.context.JsonUtil;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 @Controller
 @RequestMapping
 public class HomeController {

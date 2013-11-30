@@ -1,5 +1,7 @@
 package sage.domain.search;
 
+import static org.elasticsearch.index.query.QueryBuilders.queryString;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -7,11 +9,8 @@ import java.util.Map;
 
 import javax.annotation.PreDestroy;
 
-import static org.elasticsearch.index.query.QueryBuilders.*;
-
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
-import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.slf4j.Logger;
@@ -22,7 +21,6 @@ import sage.transfer.BlogData;
 import sage.transfer.TweetCard;
 import sage.web.context.JsonUtil;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
