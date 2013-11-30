@@ -48,7 +48,7 @@ public class PageController {
     }
     
     @RequestMapping("/private")
-    public String privatePage(ModelMap model) {
+    public String privatePage() {
         Long uid = AuthUtil.checkLogin();
         return "redirect:/private/"+uid;
     }
@@ -56,8 +56,6 @@ public class PageController {
     @RequestMapping("/private/{id}")
     public String privatePage(@PathVariable("id") long id, ModelMap model) {
         model.addAttribute("id", id);
-        model.addAttribute("userSelfJson", JsonUtil.json(userService.getSelf(id)));
-        model.addAttribute("tagTreeJson", JsonUtil.json(tagService.getTagTree()));
         return "private-page";
     }
 
@@ -93,18 +91,14 @@ public class PageController {
     }
 
     @RequestMapping("/write-blog")
-    public String writeBlog(ModelMap model) {
-        Long id = AuthUtil.checkLogin();
-        model.addAttribute("userSelfJson", JsonUtil.json(userService.getSelf(id)));
-        model.addAttribute("tagTreeJson", JsonUtil.json(tagService.getTagTree()));
+    public String writeBlog() {
+        AuthUtil.checkLogin();
         return "write-blog";
     }
     
     @RequestMapping("/blog/{blogId}/edit")
     public String blogEdit(@PathVariable("blogId") Long blogId, ModelMap model) {
         Long id = AuthUtil.checkLogin();
-        model.addAttribute("userSelfJson", JsonUtil.json(userService.getSelf(id)));
-        model.addAttribute("tagTreeJson", JsonUtil.json(tagService.getTagTree()));
         
         BlogData blog = blogReadService.getBlogData(blogId);
         if (blog.getAuthorId().equals(id)) {
@@ -115,7 +109,7 @@ public class PageController {
     }
     
     @RequestMapping("/followings")
-    public String followings(ModelMap model) {
+    public String followings() {
         Long uid = AuthUtil.checkLogin();
         return "redirect:/followings/"+uid;
     }
@@ -132,7 +126,7 @@ public class PageController {
     }
 
     @RequestMapping("/followers")
-    public String followers(ModelMap model) {
+    public String followers() {
         Long uid = AuthUtil.checkLogin();
         return "redirect:/followers/"+uid;
     }
