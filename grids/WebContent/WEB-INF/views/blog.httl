@@ -39,12 +39,17 @@ $!{include("proto.httl")}
 $!{includeJS()}
 <script type="text/javascript">
 console.log('blog-id: ' + $('#id').text());
-getStream(webroot+'/read/connect/'+$('#id').text());
 function unescape(str) {
     return String(str).replace(/&gt;/g, '>');
 }
 var $content = $('.content').warnEmpty();
 $content.html(markdown.toHTML(unescape($content.html())));
+
+getStream(webroot+'/read/connect/'+$('#id').text())
+    .done(function(){
+        $('.newfeed').remove();
+        $('.oldfeed').remove();
+    });
 </script>
 </body>
 </html>
