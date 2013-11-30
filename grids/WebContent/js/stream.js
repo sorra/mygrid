@@ -257,6 +257,40 @@ function createCommentList(tweetId) {
     return $cl;
 }
 
+function addDeleteButtons(){
+    function doDelete(id){
+        if (!id) {
+            console.warn('this id is '+id);
+            return;
+        }
+        $.post(webroot+'/tweet/'+id+'/delete');
+        //TODO return done or fail
+    }
+    function initConfirmBox($del, id) {
+        var $block = $('<div>');
+        $('<button class="btn">').text('是').appendTo($block).click(function(){
+            doDelete(id);
+        });
+        $('<button class="btn">').text('否').appendTo($block).click(function(){
+            $del.popover('hide');
+        });
+        $del.popover({
+            html: true,
+            title: '确认要删除吗？',
+            placement: 'left',
+            content: $block
+        });
+    }
+    $('.slist .tweet').warnEmpty().each(function(){
+        var $tweet = $(this);
+        var $del = $('<a href="javascript:;">').text('删除')
+        .css({marginLeft: '0.5em', marginRight: '0.5em'});
+        initConfirmBox($del, $tweet.data('id'));
+        console.log($tweet.data('id'));
+        $(this).find('>.t-part>div>span .forward').before($del);
+    });
+}
+
 function showTime(time) {
     return new Date(time).toLocaleString();
 }

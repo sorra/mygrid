@@ -38,24 +38,7 @@ $(document).ready(function(){
     
 	var deferred = getStream('/sage/read/u/' + $('#id-holder').text());
 	if ($('#is-self-page').length > 0) {
-	    deferred.done(function(){
-		    $('.slist .tweet').warnEmpty().each(function(){
-		        var $tweet = $(this);
-		        var $del = $('<a href="javascript:;">').text('删除')
-		        .css({marginLeft: '0.5em', marginRight: '0.5em'})
-		        .click(function(){
-		            event.preventDefault();
-		            var id = $tweet.data('id');
-		            if (!id) {
-		                console.warn('this id is '+id);
-		                return;
-		            }
-		            $.post(webroot+'/tweet/'+id+'/delete');
-		        });
-		        console.log($tweet.data('id'));
-		        $(this).find('.forward').before($del);
-		    });
-	    });
+	    deferred.done(addDeleteButtons);
 	}
 });
 </script>
