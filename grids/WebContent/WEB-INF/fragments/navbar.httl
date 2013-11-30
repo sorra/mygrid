@@ -19,6 +19,14 @@
 		</div>
 	</div>
 </div>
+<div class="data-holder">
+    #if(userSelfJson != null)
+    <span id="user-self-json">${userSelfJson}</span>
+    #end
+    #if(tagTreeJson != null)
+    <span id="tag-tree-json">${tagTreeJson}</span>
+    #end
+</div>
 <script type="text/javascript" src="$!{rs}/js/jquery-1.9.1.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){

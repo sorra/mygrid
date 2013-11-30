@@ -21,9 +21,7 @@
 </head>
 <body>
 $!{include("navbar.httl")}
-<div id="data-holder">
-	<span id="user-self-json">${userSelfJson}</span>
-	<span id="tag-tree-json">${tagTreeJson}</span>
+<div class="data-holder">
 	#if(blog != null)
 	<span id="blog-id">$!{blog.id}</span>
 	#end

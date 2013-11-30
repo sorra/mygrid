@@ -8,7 +8,7 @@ $!{includeCSS()}
 </head>
 <body>
 $!{include("navbar.httl")}
-<div id="data-holder">
+<div class="data-holder">
     <span id="tc-json">${tcJson}</span>
 </div>
 <div class="container"></div>

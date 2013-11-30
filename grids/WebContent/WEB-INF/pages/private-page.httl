@@ -8,9 +8,7 @@
 </head>
 <body>
 $!{include("navbar.httl")}
-<div id="data-holder">
-    <span id="user-self-json">${userSelfJson}</span>
-    <span id="tag-tree-json">${tagTreeJson}</span>
+<div class="data-holder">
     <span id="id-holder">${id}</span>
     #if(id.equals(uid))
     <span id="is-self-page"></span>
