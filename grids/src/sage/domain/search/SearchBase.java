@@ -4,6 +4,9 @@ import static org.elasticsearch.index.query.QueryBuilders.queryString;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,6 +15,7 @@ import javax.annotation.PreDestroy;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.base.Charsets;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +49,7 @@ public class SearchBase {
           .addTransportAddresses(new InetSocketTransportAddress("localhost", 9300));
         if (client.connectedNodes().isEmpty()) {
             logger.error("Cannot connect to search server!");
+            client.close();
             client = null;
             return;
         }
@@ -53,14 +58,13 @@ public class SearchBase {
     }
     
     private String getMappingSource(String filename) {
-        InputStream in = getClass().getClassLoader()
-                .getResourceAsStream(filename);
-        byte[] buf = new byte[100];
+        Reader in = new InputStreamReader(getClass().getClassLoader().getResourceAsStream(filename), Charsets.UTF_8);
+        char[] buf = new char[100];
         StringBuilder sb = new StringBuilder();
         try {
-            while (in.available() > 0) {
-                in.read(buf);
-                sb.append(buf);
+            while (in.ready()) {
+                int len = in.read(buf);
+                sb.append(buf, 0, len);
             }
             return sb.toString();
         } catch (IOException e) {
