@@ -3,10 +3,8 @@ package sage.domain.search;
 import static org.elasticsearch.index.query.QueryBuilders.queryString;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,8 +23,6 @@ import sage.transfer.BlogData;
 import sage.transfer.TweetCard;
 import sage.web.context.JsonUtil;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 @Component
 public class SearchBase {
     public static final String BD = "bd";
@@ -42,7 +38,6 @@ public class SearchBase {
     }
     
     private TransportClient client;
-    private ObjectMapper om = new ObjectMapper();
     
     SearchBase() {
         client = new TransportClient()
@@ -73,7 +68,7 @@ public class SearchBase {
             try {
                 in.close();
             } catch (IOException e) {
-                logger.error("io-stream close error: ", e);
+                logger.error("input stream close error: ", e);
             }
         }
     }
