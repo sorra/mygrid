@@ -41,7 +41,7 @@ public class ServiceInitializer {
         user();
         relation();
         post();
-        istream();
+        //istream();
     }
     
     long root = Tag.ROOT_ID;
