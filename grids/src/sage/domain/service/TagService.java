@@ -12,12 +12,13 @@ import sage.entity.Tag;
 import sage.transfer.TagCard;
 import sage.transfer.TagLabel;
 import sage.transfer.TagNode;
+import sage.web.context.JsonUtil;
 
 @Service
 @Transactional
 public class TagService {
     @Autowired
-    TagRepository tagRepo;
+    private TagRepository tagRepo;
     
     public long newTag(String name, long parentId) {
         Tag tag = new Tag(name, tagRepo.load(parentId));
@@ -43,6 +44,11 @@ public class TagService {
     @Transactional(readOnly=true)
     public TagNode getTagTree() {
         return new TagNode(tagRepo.get(Tag.ROOT_ID));
+    }
+    
+    //TODO Cache it
+    public String getTagTreeJson() {
+    	return JsonUtil.json(getTagTree());
     }
     
     @Transactional(readOnly=true)

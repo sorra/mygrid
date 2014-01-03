@@ -23,6 +23,6 @@ public class CommonModelAttributesHandler {
     
     @ModelAttribute("tagTreeJson")
     public String tagTreeJson() {
-        return JsonUtil.json(tagService.getTagTree());
+        return tagService.getTagTreeJson();
     }
 }
