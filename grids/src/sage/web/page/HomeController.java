@@ -21,11 +21,7 @@ public class HomeController {
     @RequestMapping({ "/", "/home" })
     public String home(ModelMap model) {
         Long uid = AuthUtil.checkLogin();
-        // Temporal
-        if (uid == null) {
-            return "redirect:/login";
-        }
-        //
+        
         String userSelfJson = JsonUtil.json(userService.getSelf(uid));
         model.addAttribute("userSelfJson", userSelfJson);
         String tagTreeJson = JsonUtil.json(tagService.getTagTree());
