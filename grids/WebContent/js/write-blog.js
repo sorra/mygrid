@@ -58,9 +58,10 @@ $(document).ready(function() {
         }
     })
     .keyup(function() {
-        window.refresh();
+        refresh();
     });
     $('#tabs a[href="#content"]').warnEmpty().tab('show');
+    refresh();
 });
 
 function postBlogDone() {
