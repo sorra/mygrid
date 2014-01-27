@@ -281,14 +281,17 @@ function addDeleteButtons(){
             content: $block
         });
     }
-    $('.slist .tweet').warnEmpty().each(function(){
-        var $tweet = $(this);
-        var $del = $('<a href="javascript:;">').text('删除')
-        .css({marginLeft: '0.5em', marginRight: '0.5em'});
-        initConfirmBox($del, $tweet.data('id'));
-        console.log($tweet.data('id'));
-        $(this).find('>.t-part>div>span .forward').before($del);
-    });
+    function func(selfId){
+    	var id = $(this).data('id');
+    	if (selfId === id) {
+            var $del = $('<a href="javascript:;">').text('删除')
+            	.css({marginLeft: '0.5em', marginRight: '0.5em'});
+            initConfirmBox($del, id);
+            console.log(id);
+            $(this).find('>.t-part>div>span .forward').before($del);
+    	}
+    };
+    $('.slist .tweet').warnEmpty().each(function(){func(uid);});
 }
 
 function showTime(time) {

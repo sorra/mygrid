@@ -8,8 +8,9 @@
 </head>
 <body>
 $!{include("navbar.httl")}
-<div class="container" id="container" style="margin-top: 50px">
-	<div id="id-holder" style="display:none">${id}</div>
+<div id="id-holder" style="display:none">${id}</div>
+
+<div class="container" id="container">
 	<div id="chain"></div>
 	<div class="row">
 		<div class="side span3">SIDE</div>
