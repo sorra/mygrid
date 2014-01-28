@@ -36,7 +36,7 @@ $(document).ready(function(){
     
 	var deferred = getStream(webroot+'/read/u/' + $('#id-holder').text());
 	if ($('#is-self-page').length > 0) {
-	    deferred.done(function(){addDeleteButtons($('.slist .tweet'))});
+	    deferred.done(function(){addDeleteButtons($('.slist .tweet'));});
 	}
 });
 </script>

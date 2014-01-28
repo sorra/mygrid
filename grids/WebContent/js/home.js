@@ -49,7 +49,7 @@ $(document).ready(function(){
 		});
 	});
 
-	getStream(webroot+'/read/istream');
+	getStream(webroot+'/read/istream').done(function(){addDeleteButtons($('.slist .tweet'));});
 });
 
 function postTweetDone() {

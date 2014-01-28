@@ -111,4 +111,8 @@ public class StreamService {
         }
         return stream;
     }
+    
+    public Stream groupStream(long groupId, Edge edge) {
+    	return null;
+    }
 }

@@ -78,6 +78,15 @@ public class ReadController {
         return streamService.personalStream(userId, getEdge(beforeId, afterId));
     }
     
+    
+    @RequestMapping("/group/{id}")
+    @ResponseBody
+    public Stream groupStream(@PathVariable("id") Long groupId,
+            @RequestParam(value="before", required=false) Long beforeId,
+            @RequestParam(value="after", required=false) Long afterId) {
+    	return streamService.groupStream(groupId, getEdge(beforeId, afterId));
+    }
+    
     private Edge getEdge(Long beforeId, Long afterId) {
         if (beforeId == null && afterId == null) {
             return Edge.none();

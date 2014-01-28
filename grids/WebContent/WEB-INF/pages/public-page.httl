@@ -27,7 +27,7 @@ $!{includeJS()}
 <script type="text/javascript">
 $(document).ready(function(){
 	var tagId = $('#id-holder').text();
-	getStream('/sage/read/tag/' + tagId);
+	getStream('/sage/read/tag/' + tagId).done(function(){addDeleteButtons($('.slist .tweet'));});
 	getTagChain(tagId, $('#chain'));
 });
 </script>

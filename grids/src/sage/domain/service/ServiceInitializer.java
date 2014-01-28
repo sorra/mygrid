@@ -45,11 +45,12 @@ public class ServiceInitializer {
     }
     
     long root = Tag.ROOT_ID;
-    long society, culture, economy, tech;
+    long life, society, culture, economy, tech;
     long view, art, painting, music, prog, digital;    
     long admin, bethia, centos;
 
     private void tag() {
+    	life = tagService.newTag("生活", root);
         society = tagService.newTag("社会", root);
         culture = tagService.newTag("文化", root);
         economy = tagService.newTag("经济", root);

@@ -67,7 +67,7 @@ public class TagService {
 
     public void init() {
         if (needInitialize) {
-            tagRepo.save(new Tag("root", null));
+            tagRepo.save(new Tag("全", null));
             needInitialize = false;
         }
     }
