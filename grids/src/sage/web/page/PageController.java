@@ -50,7 +50,7 @@ public class PageController {
     @RequestMapping("/private")
     public String privatePage() {
         Long uid = AuthUtil.checkLogin();
-        return "redirect:/private/"+uid;
+        return "forward:/private/"+uid;
     }
 
     @RequestMapping("/private/{id}")
@@ -111,7 +111,7 @@ public class PageController {
     @RequestMapping("/followings")
     public String followings() {
         Long uid = AuthUtil.checkLogin();
-        return "redirect:/followings/"+uid;
+        return "forward:/followings/"+uid;
     }
 
     @RequestMapping("/followings/{uid}")
@@ -128,7 +128,7 @@ public class PageController {
     @RequestMapping("/followers")
     public String followers() {
         Long uid = AuthUtil.checkLogin();
-        return "redirect:/followers/"+uid;
+        return "forward:/followers/"+uid;
     }
     
     @RequestMapping("/followers/{uid}")
