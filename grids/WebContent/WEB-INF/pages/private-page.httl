@@ -34,9 +34,9 @@ $(document).ready(function(){
     $selfCard.find('.follow').remove();
     $selfCard.appendTo($('.side'));
     
-	var deferred = getStream('/sage/read/u/' + $('#id-holder').text());
+	var deferred = getStream(webroot+'/read/u/' + $('#id-holder').text());
 	if ($('#is-self-page').length > 0) {
-	    deferred.done(addDeleteButtons);
+	    deferred.done(function(){addDeleteButtons($('.slist .tweet'))});
 	}
 });
 </script>

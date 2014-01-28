@@ -257,7 +257,7 @@ function createCommentList(tweetId) {
     return $cl;
 }
 
-function addDeleteButtons(){
+function initConfirmBox($del, id) {
     function doDelete(id){
         if (!id) {
             console.warn('this id is '+id);
@@ -266,32 +266,32 @@ function addDeleteButtons(){
         $.post(webroot+'/tweet/'+id+'/delete');
         //TODO return done or fail
     }
-    function initConfirmBox($del, id) {
-        var $block = $('<div>');
-        $('<button class="btn">').text('是').appendTo($block).click(function(){
-            doDelete(id);
-        });
-        $('<button class="btn">').text('否').appendTo($block).click(function(){
-            $del.popover('hide');
-        });
-        $del.popover({
-            html: true,
-            title: '确认要删除吗？',
-            placement: 'left',
-            content: $block
-        });
-    }
-    function func(selfId){
-    	var id = $(this).data('id');
-    	if (selfId === id) {
-            var $del = $('<a href="javascript:;">').text('删除')
-            	.css({marginLeft: '0.5em', marginRight: '0.5em'});
-            initConfirmBox($del, id);
-            console.log(id);
-            $(this).find('>.t-part>div>span .forward').before($del);
-    	}
-    };
-    $('.slist .tweet').warnEmpty().each(function(){func(uid);});
+    var $block = $('<div>');
+    $('<button class="btn">').text('是').appendTo($block).click(function(){
+        doDelete(id);
+    });
+    $('<button class="btn">').text('否').appendTo($block).click(function(){
+        $del.popover('hide');
+    });
+    $del.popover({
+        html: true,
+        title: '确认要删除吗？',
+        placement: 'left',
+        content: $block
+    });
+}
+function addDelBtnIfNeeded($tweet, selfId){
+	var id = $tweet.data('id');
+	if (selfId === id) {
+        var $del = $('<a href="javascript:;">').text('删除')
+        	.css({marginLeft: '0.5em', marginRight: '0.5em'});
+        initConfirmBox($del, id);
+        console.log(id);
+        $(this).find('>.t-part>div>span .forward').before($del);
+	}
+};
+function addDeleteButtons($tweetList){
+    $tweetList.warnEmpty().each(function(){addDelBtnIfNeeded($(this), uid);});
 }
 
 function showTime(time) {
