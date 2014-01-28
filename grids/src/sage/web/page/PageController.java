@@ -56,6 +56,9 @@ public class PageController {
     @RequestMapping("/private/{id}")
     public String privatePage(@PathVariable("id") long id, ModelMap model) {
         model.addAttribute("id", id);
+        UserCard thisUser = userService.getUserCard(AuthUtil.currentUid(), id);
+        model.addAttribute("thisUserJson", JsonUtil.json(thisUser));
+        model.remove("userSelfJson");
         return "private-page";
     }
 

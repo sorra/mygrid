@@ -13,11 +13,12 @@ $!{include("navbar.httl")}
     #if(id.equals(uid))
     <span id="is-self-page"></span>
     #end
+    <span id="this-user-holder">${thisUserJson}</span>
 </div>
 
 <div class="container" id="container">
 	<div class="row">
-		<div class="side span3"></div>
+		<div class="side span3"><div style="height:30px;"></div></div>
 		<div class="main span9">
 			<div class="stream row">
 				<div class="slist span9"></div>
@@ -30,9 +31,10 @@ $!{include("proto.httl")}
 $!{includeJS()}
 <script type="text/javascript">
 $(document).ready(function(){
-    var $selfCard = createUserCard(userSelf).css('border', '').css('border-radius', '');
-    $selfCard.find('.follow').remove();
-    $selfCard.appendTo($('.side'));
+	window.thisUser = $.parseJSON($('#this-user-holder').text());
+    var $thisUser = createUserCard(window.thisUser).css('border', '').css('border-radius', '');
+    $thisUser.find('.follow').remove();
+    $thisUser.appendTo($('.side'));
     
 	var deferred = getStream(webroot+'/read/u/' + $('#id-holder').text());
 	if ($('#is-self-page').length > 0) {
