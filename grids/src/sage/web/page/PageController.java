@@ -145,7 +145,7 @@ public class PageController {
         return "followers";
     }
 
-    @RequestMapping("/manipTag")
+    @RequestMapping("/manip-tag")
     public void manipulateTag() {
 
     }

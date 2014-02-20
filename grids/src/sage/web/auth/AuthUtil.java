@@ -31,7 +31,7 @@ public class AuthUtil {
         }
     }
     
-    static String decodeLink (String link) {
+    static String decodeLink(String link) {
         try {
             return UriUtils.decode(link, "ISO-8859-1");
         } catch (UnsupportedEncodingException e) {
