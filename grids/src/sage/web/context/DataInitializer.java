@@ -45,20 +45,11 @@ public class DataInitializer {
         logger.info("Reading docRootPath: " + docRootPath);
         File docFolder = new File(docRootPath);
         Assert.isTrue(docFolder.exists());
-        for (File doc : docFolder.listFiles()) {
-            BufferedReader br = null;
-            try {
-                br = new BufferedReader(
-                        new InputStreamReader(new FileInputStream(doc)));
-                loadDoc(br);
+        for (File doc : docFolder.listFiles()) {            	
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(doc)));) {
+            	loadDoc(br);
             } catch (IOException e) {
-                logger.error("File: "+doc.getAbsolutePath(), e);
-            } finally {
-                try {
-                    br.close();
-                } catch (IOException e) {
-                    logger.error("Close failed!", e);
-                }
+                logger.error("Fail at file: "+doc.getAbsolutePath(), e);
             }
         }
     }
