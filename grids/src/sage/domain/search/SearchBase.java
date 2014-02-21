@@ -5,6 +5,9 @@ import static org.elasticsearch.index.query.QueryBuilders.queryString;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,24 +56,11 @@ public class SearchBase {
     }
     
     private String getMappingSource(String filename) {
-        Reader in = new InputStreamReader(getClass().getClassLoader().getResourceAsStream(filename), Charsets.UTF_8);
-        char[] buf = new char[100];
-        StringBuilder sb = new StringBuilder();
-        try {
-            while (in.ready()) {
-                int len = in.read(buf);
-                sb.append(buf, 0, len);
-            }
-            return sb.toString();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } finally {
-            try {
-                in.close();
-            } catch (IOException e) {
-                logger.error("input stream close error: ", e);
-            }
-        }
+    	try {
+			return new String(Files.readAllBytes(Paths.get(getClass().getClassLoader().getResource(filename).toURI())));
+		} catch (IOException | URISyntaxException e) {
+			throw new RuntimeException(e);
+		}
     }
     
     private void putMapping(String mappingSource, String type) {
