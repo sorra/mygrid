@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import sage.domain.service.RelationService;
 import sage.domain.service.TagService;
 import sage.domain.service.UserService;
 import sage.web.auth.AuthUtil;
@@ -17,6 +18,8 @@ public class HomeController {
     UserService userService;
     @Autowired
     TagService tagService;
+    @Autowired
+    RelationService relationService;
 
     @RequestMapping({ "/", "/home" })
     public String home(ModelMap model) {
@@ -26,6 +29,8 @@ public class HomeController {
         model.addAttribute("userSelfJson", userSelfJson);
         String tagTreeJson = JsonUtil.json(tagService.getTagTree());
         model.addAttribute("tagTreeJson", tagTreeJson);
+        String friendsJson = JsonUtil.json(relationService.friends(uid));
+        model.addAttribute("friendsJson", friendsJson);
         return "home";
     }
 
