@@ -82,6 +82,9 @@ function buildNavTagTree($lnk, tagTree) {
     });
 }
 
+/*
+ * common tip function
+ */
 function tipover($node, text, duration) {
     if (!duration) duration = 1000;
     

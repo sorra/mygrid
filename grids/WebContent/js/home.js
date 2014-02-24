@@ -8,6 +8,7 @@ $(document).ready(function(){
 	buildTagSels();
 	buildTagPlus();
 
+	// prepare tweet-submit-button
 	$('form.top-box .btn[type="submit"]')
 	.tooltip({
 		placement: 'top',
@@ -49,6 +50,7 @@ $(document).ready(function(){
 		});
 	});
 
+	// load istream
 	getStream(webroot+'/read/istream').done(function(){addDeleteButtons($('.slist .tweet'));});
 });
 
