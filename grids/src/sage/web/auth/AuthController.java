@@ -20,8 +20,6 @@ import sage.entity.User;
 @RequestMapping("/auth")
 public class AuthController {
     private final static Logger logger = LoggerFactory.getLogger(AuthController.class);
-    private static final String SUCCESS = "success";
-    private static final String FAILURE = "failure";
     
     @Autowired
     UserService userService;
@@ -80,6 +78,6 @@ public class AuthController {
     @ResponseBody
     public String register(@RequestParam("email") String email, @RequestParam("password") String password) {
         logger.info("register email: {}", email);
-        return userService.register(new User(email, password))>=0 ? SUCCESS : FAILURE;
+        return String.valueOf(userService.register(new User(email, password)));
     }
 }
