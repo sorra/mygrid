@@ -33,6 +33,13 @@ public class BlogRepository extends BaseRepository<Blog> {
                 .setLong("authorId", authorId)
                 .list();
     }
+    
+    public int countByAuthor(long authorId) {
+    	return (int)(long) session().createQuery(
+    			"select count(*) from Blog b where b.author.id = :authorId")
+    			.setLong("authorId", authorId)
+    			.uniqueResult();
+    }
 
     @Override
     protected Class<Blog> getEntityClass() {

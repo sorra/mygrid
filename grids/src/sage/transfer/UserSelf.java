@@ -1,5 +1,6 @@
 package sage.transfer;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import sage.entity.User;
@@ -9,32 +10,38 @@ public class UserSelf {
     private String name;
     private String avatar;
     private String intro;
+    
     private int followingCount;
     private int followerCount;
-    private Collection<TagLabel> topTags;
+    private int blogCount;
+    private int tweetCount;
     
-    public UserSelf(User user, int followingCount, int followerCount, Collection<TagLabel> topTags) {
+    private Collection<TagLabel> topTags = new ArrayList<>();
+    
+    public UserSelf(User user, int _followingCount, int _followerCount, int _blogCount, int _tweetCount,
+    		Collection<TagLabel> _topTags) {
         id = user.getId();
         name = user.getName();
         avatar = user.getAvatar();
         intro = user.getIntro();
-        this.followingCount = followingCount;
-        this.followerCount = followerCount;
-        this.topTags = topTags;
+        
+        followingCount = _followingCount;
+        followerCount = _followerCount;
+        blogCount = _blogCount;
+        tweetCount = _tweetCount;
+        
+        topTags.addAll(_topTags);
     }
 
     public long getId() {
         return id;
     }
-
     public String getName() {
         return name;
     }
-    
     public String getAvatar() {
         return avatar;
     }
-
     public String getIntro() {
         return intro;
     }
@@ -42,10 +49,15 @@ public class UserSelf {
     public int getFollowingCount() {
         return followingCount;
     }
-
     public int getFollowerCount() {
         return followerCount;
     }
+    public int getBlogCount() {
+		return blogCount;
+	}
+    public int getTweetCount() {
+		return tweetCount;
+	}
     
     public Collection<TagLabel> getTopTags() {
         return topTags;

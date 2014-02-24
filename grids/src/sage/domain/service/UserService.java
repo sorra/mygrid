@@ -40,6 +40,8 @@ public class UserService {
         return new UserSelf(userRepo.get(userId),
                 followRepo.followingCount(userId),
                 followRepo.followerCount(userId),
+                blogRepo.countByAuthor(userId),
+                tweetRepo.countByAuthor(userId),
                 topTags(userId));
     }
     
@@ -49,8 +51,9 @@ public class UserService {
             return null;
         }
         return new UserCard(user,
-                followRepo.followingCount(userId),
-                followRepo.followerCount(userId),
+        		followRepo.followerCount(userId),
+        		blogRepo.countByAuthor(userId),
+        		tweetRepo.countByAuthor(userId),
                 followRepo.find(selfId, userId),
                 followRepo.find(userId, selfId),
                 //TBD

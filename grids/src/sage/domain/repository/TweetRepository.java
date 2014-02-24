@@ -47,10 +47,17 @@ public class TweetRepository extends BaseRepository<Tweet> {
     }
     
     public List<Tweet> byAuthor(long authorId, Edge edge) {
-        String q = "from Tweet t where t.author.id=:authorId";
+        String q = "from Tweet t where t.author.id = :authorId";
         return enhanceQuery(q, edge)
                 .setLong("authorId", authorId)
                 .list();
+    }
+    
+    public int countByAuthor(long authorId) {
+    	return (int)(long) session().createQuery(
+    			"select count(*) from Tweet t where t.author.id = :authorId")
+    			.setLong("authorId", authorId)
+    			.uniqueResult();
     }
 
     public List<Tweet> byAuthorAndTags(long authorId, Collection<Tag> tags) {

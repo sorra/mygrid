@@ -13,24 +13,32 @@ public class UserCard {
     private String name;
     private String avatar;
     private String intro;
-    private int followingCount;
+    
     private int followerCount;
+    private int blogCount;
+    private int tweetCount;
+    
     private boolean isFollowing;
     private boolean isFollower;
+    
     private List<TagLabel> tags = new ArrayList<>();
     private List<Long> followedTagIds = new ArrayList<>();
     
-    public UserCard(User user, int followingCount, int followerCount,
-            Follow followFromCurrentUser, Follow followToCurrentUser, Collection<TagLabel> tags) {
+    public UserCard(User user, int _followerCount, int _blogCount, int _tweetCount,
+            Follow followFromCurrentUser, Follow followToCurrentUser, Collection<TagLabel> _tags) {
         id = user.getId();
         name = user.getName();
         avatar = user.getAvatar();
         intro = user.getIntro();
-        this.followingCount = followingCount;
-        this.followerCount = followerCount;
-        this.tags.addAll(tags);
+        
+        followerCount = _followerCount;
+        blogCount = _blogCount;
+        tweetCount = _tweetCount;
+        
         isFollowing = followFromCurrentUser != null;
         isFollower = followToCurrentUser != null;
+        
+        tags.addAll(_tags);
         if (isFollowing) {
             for (Tag tag : followFromCurrentUser.getTags()) {
                 followedTagIds.add(tag.getId());
@@ -41,31 +49,29 @@ public class UserCard {
     public long getId() {
         return id;
     }
-
     public String getName() {
         return name;
     }
-    
     public String getAvatar() {
         return avatar;
     }
-
     public String getIntro() {
         return intro;
-    }
-
-    public int getFollowingCount() {
-        return followingCount;
     }
 
     public int getFollowerCount() {
         return followerCount;
     }
+    public int getBlogCount() {
+		return blogCount;
+	}
+    public int getTweetCount() {
+		return tweetCount;
+	}
     
     public boolean getIsFollowing() {
         return isFollowing;
     }
-    
     public boolean getIsFollower() {
         return isFollower;
     }
@@ -73,7 +79,6 @@ public class UserCard {
     public List<TagLabel> getTags() {
         return tags;
     }
-    
     public List<Long> getFollowedTagIds() {
         return followedTagIds;
     }
