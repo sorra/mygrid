@@ -76,26 +76,26 @@ function createPopupUserCard(target, card) {
 	return $uc;
 }
 
-function createUserCard(card) {
+function createUserCard(ucard) {
 	var $uc = $('.proto > .user-card').clone();
-	$uc.find('.avatar > a').attr(userLinkAttrs(card.id)).find('img').attr('src', card.avatar);
-	$uc.find('.name').text(card.name);
-	$uc.find('.intro').text(card.intro);
-	$uc.find('.followings').attr('href', webroot+'/followings/'+card.id);
-	$uc.find('.followers').attr('href', webroot+'/followers/'+card.id);
-	$uc.find('.following-count').text(card.followingCount);
-	$uc.find('.follower-count').text(card.followerCount);
+	$uc.find('.avatar > a').attr(userLinkAttrs(ucard.id)).find('img').attr('src', ucard.avatar);
+	$uc.find('.name').text(ucard.name);
+	$uc.find('.intro').text(ucard.intro);
+	$uc.find('.followings').attr('href', webroot+'/followings/'+ucard.id);
+	$uc.find('.followers').attr('href', webroot+'/followers/'+ucard.id);
+	$uc.find('.following-count').text(ucard.followingCount);
+	$uc.find('.follower-count').text(ucard.followerCount);
 	$uc.css({
 		minWidth: '200px', background: '#f0f0f0', padding: '2px',
 		border: 'orange solid 2px', borderRadius: '8px'
 	});
 
 	var $follow = $uc.find('.follow');
-	if (card.isFollowing) {
-		setAsFollowed($follow, card);
+	if (ucard.isFollowing) {
+		setAsFollowed($follow, ucard);
 	}
 	else {
-		setAsNotFollowed($follow, card);
+		setAsNotFollowed($follow, ucard);
 	}
 	return $uc;
 }
