@@ -13,8 +13,11 @@ $!{include("navbar.httl")}
 </div>
 <div id="container" class="container">
 	<div class="row">
-		<div class="side span3"></div>
-		<div class="main span9">
+		<div class="side span3" style="width: 260px">
+		  <div class="self-card"></div>
+		  <ul class="friends unstyled">好友</ul>
+		</div>
+		<div class="main span9" style="width: 660px">
 			$!{include("top-box.httl")}
 			<div class="stream row">
 				<div class="slist span9"></div>

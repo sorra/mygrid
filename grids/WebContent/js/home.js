@@ -1,9 +1,18 @@
 'use strict';
 
 $(document).ready(function(){
-    var $selfCard = createUserCard(userSelf).css('border', '').css('border-radius', '');
+    var $selfCard = createUserCard(window.userSelf).css('border', '').css('border-radius', '');
     $selfCard.find('.follow').remove();
-    $selfCard.appendTo($('.side'));
+    $selfCard.appendTo($('.self-card'));
+    
+    window.friends = $.parseJSON($('#friends-json').text());
+    var $friends = $('.friends');
+    for (var _i in friends) {
+        var $li = $('<li>');
+        createUserLabel(friends[_i]).appendTo($li);
+        $li.appendTo($friends);
+    }
+    $friends.appendTo($('.friends'));
     
 	buildTagSels();
 	buildTagPlus();
@@ -63,4 +72,16 @@ function postTweetDone() {
 function postTweetFail() {
 	var $submit = $('form.top-box .btn[type="submit"]');
 	tipover($submit, '发表失败', 1000);
+}
+
+function createUserLabel(ulabel) {
+    var $ulb = $('.proto > .user-label').clone();
+    
+    $ulb.data("id", ulabel.id);
+    $ulb.find('.name').attr(userLinkAttrs(ulabel.id)).text(ulabel.name);
+    $ulb.find('.avatar').attr(userLinkAttrs(ulabel.id))
+        .find('img').attr('src', ulabel.avatar);
+    $ulb.find('a[uid]').mouseenter(launchUcOpener).mouseleave(launchUcCloser);
+    
+    return $ulb;
 }

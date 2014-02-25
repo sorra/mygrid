@@ -1,4 +1,4 @@
-<div class="proto" style="display:none;">
+<div class="proto" style="display:none">
 	<div class="tweet item row">
 		<a class="avatar span1" href=""><img src=""/></a>
 		<div class="t-part span7">
@@ -36,12 +36,19 @@
 				<p class="name"></p>
 				<p class="intro"></p>
 				<div>
-					<a class="followings">关注</a>：<span class="following-count"></span>
+					<!-- <a class="followings">关注</a>：<span class="following-count"></span> -->
 					<a class="followers">粉丝</a>：<span class="follower-count"></span>
+					博客：<span class="blog-count"></span>
+					微博：<span class="tweet-count"></span>
 				</div>
 			</div>
 			<button class="follow"></button>
 		</div>
+	</div>
+	
+	<div class="user-label">
+	   <a class="avatar"><img /></a>
+	   <a class="name"></a>
 	</div>
 
 	<a class="tag-label" title="">name</a>

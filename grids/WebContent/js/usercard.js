@@ -81,10 +81,13 @@ function createUserCard(ucard) {
 	$uc.find('.avatar > a').attr(userLinkAttrs(ucard.id)).find('img').attr('src', ucard.avatar);
 	$uc.find('.name').text(ucard.name);
 	$uc.find('.intro').text(ucard.intro);
-	$uc.find('.followings').attr('href', webroot+'/followings/'+ucard.id);
+	
+//	$uc.find('.followings').attr('href', webroot+'/followings/'+ucard.id);
 	$uc.find('.followers').attr('href', webroot+'/followers/'+ucard.id);
-	$uc.find('.following-count').text(ucard.followingCount);
+//	$uc.find('.following-count').text(ucard.followingCount);
 	$uc.find('.follower-count').text(ucard.followerCount);
+	$uc.find('.blog-count').text(ucard.blogCount);
+	$uc.find('.tweet-count').text(ucard.tweetCount);
 	$uc.css({
 		minWidth: '200px', background: '#f0f0f0', padding: '2px',
 		border: 'orange solid 2px', borderRadius: '8px'
