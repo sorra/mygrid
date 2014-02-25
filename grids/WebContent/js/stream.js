@@ -291,7 +291,7 @@ function addDelBtnIfNeeded($tweet, selfId){
 	}
 };
 function addDeleteButtons($tweetList){
-    $tweetList.warnEmpty().each(function(){addDelBtnIfNeeded($(this), uid);});
+    $tweetList.warnEmpty().each(function(){addDelBtnIfNeeded($(this), window.uid);});
 }
 
 function showTime(time) {
