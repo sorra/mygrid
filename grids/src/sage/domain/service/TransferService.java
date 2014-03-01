@@ -24,11 +24,6 @@ public class TransferService {
     @Autowired
     private CommentRepository commentRepo;
     
-    public BlogData getBlogData(Blog blog) {
-        long authorId = blog.getAuthor().getId();
-        return new BlogData(blog, userRepo.get(authorId));
-    }
-
     public TweetCard getTweetCard(Tweet tweet) {
         return new TweetCard(tweet,
                 forwardCount(tweet.getId()),

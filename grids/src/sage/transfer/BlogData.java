@@ -20,14 +20,17 @@ public class BlogData {
     private Date time;
     private List<TagLabel> tags;
     
-    public BlogData(Blog blog, User author) {
+    public BlogData(Blog blog) {
         id = blog.getId();
+        User author = blog.getAuthor();
         authorId = author.getId();
         authorName = author.getName();
         avatar = author.getAvatar();
+        
         title = blog.getTitle();
         content = blog.getContent();
         time = blog.getTime();
+        
         tags = new ArrayList<>();
         for (Tag tag : blog.getTags()) {
             tags.add(new TagLabel(tag));

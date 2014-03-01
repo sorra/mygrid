@@ -22,8 +22,6 @@ public class BlogPostService {
     @Autowired
     private SearchBase searchBase;
     @Autowired
-    private TransferService transferService;
-    @Autowired
     private BlogRepository blogRepo;
     @Autowired
     private UserRepository userRepo;
@@ -35,7 +33,7 @@ public class BlogPostService {
         escapeAndSet(blog);
         
         blogRepo.save(blog);
-        searchBase.index(blog.getId(), transferService.getBlogData(blog));
+        searchBase.index(blog.getId(), new BlogData(blog));
         return blog;
     }
     
@@ -49,7 +47,7 @@ public class BlogPostService {
             blog.setTags(tagRepo.byIds(tagIds));
             
             blogRepo.update(blog);
-            searchBase.index(blog.getId(), transferService.getBlogData(blog));
+            searchBase.index(blog.getId(), new BlogData(blog));
             return blog;
         }
         else return null;
