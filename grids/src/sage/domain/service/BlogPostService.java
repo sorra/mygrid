@@ -30,7 +30,7 @@ public class BlogPostService {
     
     public Blog newBlog(long userId, String title, String content, Collection<Long> tagIds) {
         Blog blog = new Blog(title, content, userRepo.load(userId), new Date(), tagRepo.byIds(tagIds));
-        escapeAndSet(blog);
+        escapeAndSetText(blog);
         
         blogRepo.save(blog);
         searchBase.index(blog.getId(), new BlogData(blog));
@@ -41,10 +41,8 @@ public class BlogPostService {
         Blog blog = blogRepo.get(blogId);
         if (blog.getAuthor().getId() == userId) {
             blog.setTime(new Date());
-            blog.setTitle(title);
-            blog.setContent(content);
-            escapeAndSet(blog);
             blog.setTags(tagRepo.byIds(tagIds));
+            escapeAndSetText(blog);
             
             blogRepo.update(blog);
             searchBase.index(blog.getId(), new BlogData(blog));
@@ -63,7 +61,7 @@ public class BlogPostService {
         else return false;
     }
     
-    private void escapeAndSet(Blog blog) {
+    private void escapeAndSetText(Blog blog) {
         String title = StringUtils.escapeXml(blog.getTitle());
         String content = StringUtils.escapeXml(blog.getContent()).replace("\n", "  \n");
         blog.setTitle(title);
