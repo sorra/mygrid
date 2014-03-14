@@ -11,16 +11,16 @@ public class Stream {
         items = new ArrayList<>();
     }
     
-    public Stream(List<? extends Item> items) {
-        this.items = new ArrayList<>(items);
+    public Stream(List<? extends Item> _items) {
+        items = new ArrayList<>(_items);
     }
     
     public void add(Item item) {
         getItems().add(item);
     }
     
-    public void addAll(Collection<? extends Item> items) {
-        getItems().addAll(items);
+    public void addAll(Collection<? extends Item> _items) {
+        getItems().addAll(_items);
     }
     public List<Item> getItems() {
         return items;
@@ -28,6 +28,6 @@ public class Stream {
 
     @Override
     public String toString() {
-        return " Tweets count: " + items.size();
+        return "Stream tweets count: " + items.size();
     }
 }
