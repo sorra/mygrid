@@ -95,9 +95,7 @@ public class StreamService {
         List<Tweet> tweets = tweetReadService.tweetsByTags(tagService.getQueryTags(tagId), edge);
         Collections.sort(tweets, new TweetOnIdComparator());
         Stream stream = new Stream();
-        for (Tweet tweet : tweets) {
-            stream.add(transferService.getTweetCard(tweet));
-        }
+        stream.addAll(transferService.listTweetCards(tweets, false));
         return stream;
     }
 
@@ -105,9 +103,7 @@ public class StreamService {
         List<Tweet> tweets = tweetReadService.tweetsByAuthor(userId, edge);
         Collections.sort(tweets, new TweetOnIdComparator());
         Stream stream = new Stream();
-        for (Tweet tweet : tweets) {
-            stream.add(transferService.getTweetCard(tweet));
-        }
+        stream.addAll(transferService.listTweetCards(tweets, false));
         return stream;
     }
     

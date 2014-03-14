@@ -19,7 +19,7 @@ public class Stream {
         getItems().add(item);
     }
     
-    public void addAll(Collection<Item> items) {
+    public void addAll(Collection<? extends Item> items) {
         getItems().addAll(items);
     }
     public List<Item> getItems() {

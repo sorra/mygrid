@@ -1,5 +1,8 @@
 package sage.domain.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,10 +27,23 @@ public class TransferService {
     @Autowired
     private CommentRepository commentRepo;
     
-    public TweetCard getTweetCard(Tweet tweet) {
+    private static final int MIN_LIST_SIZE = 20;
+    
+    public TweetCard toTweetCard(Tweet tweet) {
         return new TweetCard(tweet,
                 forwardCount(tweet.getId()),
                 commentCount(tweet.getId()));
+    }
+    
+    public List<TweetCard> listTweetCards(List<Tweet> tweets, boolean eagerCopy) {
+    	if (eagerCopy) {
+    		tweets = new ArrayList<>(tweets);
+    	}
+    	List<TweetCard> tcs = new ArrayList<>(MIN_LIST_SIZE);
+    	for (Tweet t : tweets) {
+    		tcs.add(toTweetCard(t));
+    	}
+    	return tcs;
     }
     
     public TweetCard getTweetCardNoCount(Tweet tweet) {

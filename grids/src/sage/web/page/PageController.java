@@ -89,7 +89,7 @@ public class PageController {
 
     @RequestMapping("/blogs")
     public String blogs(ModelMap model) {
-        model.addAttribute("blogs", blogReadService.getAllBlogData());
+        model.addAttribute("blogs", blogReadService.getAllBlogDatas());
         return "blogs";
     }
 
