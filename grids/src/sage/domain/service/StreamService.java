@@ -33,10 +33,7 @@ public class StreamService {
     
     public Stream istream(long userId, Edge edge) {    
         List<TweetCard> tcs = tweetReadService.istream(userId, edge);
-        Stream stream = new Stream();
-        stream.addAll(higherSort(tcs));
-        
-        return stream;
+        return new Stream(higherSort(tcs));
     }
 
     private List<Item> higherSort(List<TweetCard> tcs) {
@@ -94,17 +91,13 @@ public class StreamService {
     public Stream tagStream(long tagId, Edge edge) {
         List<Tweet> tweets = tweetReadService.tweetsByTags(tagService.getQueryTags(tagId), edge);
         Collections.sort(tweets, new TweetOnIdComparator());
-        Stream stream = new Stream();
-        stream.addAll(transferService.listTweetCards(tweets, false));
-        return stream;
+        return new Stream(transferService.listTweetCards(tweets, false));
     }
 
     public Stream personalStream(long userId, Edge edge) {
         List<Tweet> tweets = tweetReadService.tweetsByAuthor(userId, edge);
         Collections.sort(tweets, new TweetOnIdComparator());
-        Stream stream = new Stream();
-        stream.addAll(transferService.listTweetCards(tweets, false));
-        return stream;
+        return new Stream(transferService.listTweetCards(tweets, false));
     }
     
     public Stream groupStream(long groupId, Edge edge) {
