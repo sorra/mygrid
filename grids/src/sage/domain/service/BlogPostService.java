@@ -40,6 +40,8 @@ public class BlogPostService {
     public Blog edit(long userId, long blogId, String title, String content, Collection<Long> tagIds) {
         Blog blog = blogRepo.get(blogId);
         if (blog.getAuthor().getId() == userId) {
+        	blog.setTitle(title);
+        	blog.setContent(content);
             blog.setTime(new Date());
             blog.setTags(tagRepo.byIds(tagIds));
             escapeAndSetText(blog);
