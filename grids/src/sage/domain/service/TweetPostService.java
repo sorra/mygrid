@@ -42,7 +42,7 @@ public class TweetPostService {
         Tweet tweet = new Tweet(content, userRepo.load(userId), new Date(),
                 tagRepo.byIds(tagIds));
         tweetRepo.save(tweet);
-        searchBase.index(tweet.getId(), transferService.getTweetCardNoCount(tweet));
+        searchBase.index(tweet.getId(), transferService.toTweetCardNoCount(tweet));
         return tweet;
     }
     
@@ -57,7 +57,7 @@ public class TweetPostService {
             tweet = new Tweet(content, userRepo.load(userId), new Date(), pureOrigin(origin), enPrefo(origin));
         }
         tweetRepo.save(tweet);
-        searchBase.index(tweet.getId(), transferService.getTweetCardNoCount(tweet));
+        searchBase.index(tweet.getId(), transferService.toTweetCardNoCount(tweet));
         return tweet;
     }
 
@@ -83,7 +83,7 @@ public class TweetPostService {
                 new Date(),
                 blog);
         tweetRepo.save(tweet);
-        searchBase.index(tweet.getId(), transferService.getTweetCardNoCount(tweet));
+        searchBase.index(tweet.getId(), transferService.toTweetCardNoCount(tweet));
     }
     
     public boolean delete(long userId, long tweetId) {

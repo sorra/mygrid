@@ -10,9 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import sage.domain.repository.CommentRepository;
 import sage.domain.repository.TweetRepository;
 import sage.domain.repository.UserRepository;
-import sage.entity.Blog;
 import sage.entity.Tweet;
-import sage.transfer.BlogData;
 import sage.transfer.TweetCard;
 
 @Service
@@ -46,7 +44,7 @@ public class TransferService {
     	return tcs;
     }
     
-    public TweetCard getTweetCardNoCount(Tweet tweet) {
+    public TweetCard toTweetCardNoCount(Tweet tweet) {
         return new TweetCard(tweet, 0, 0);
     }
 
