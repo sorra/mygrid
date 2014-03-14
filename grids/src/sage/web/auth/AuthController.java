@@ -29,6 +29,7 @@ public class AuthController {
                         @RequestParam("email") String email,
                         @RequestParam("password") String password) {
         logger.info("login email: {}", email);
+        AuthUtil.invalidateSession(request);
         
         String referer = request.getHeader("referer");
         logger.debug("Referer: {}", referer);
