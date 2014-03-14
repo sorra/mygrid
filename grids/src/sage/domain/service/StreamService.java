@@ -20,7 +20,6 @@ import sage.transfer.TweetCard;
 
 @Service
 public class StreamService {
-    private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     private TweetReadService tweetReadService;
     @Autowired
