@@ -24,6 +24,7 @@ import sage.transfer.TweetCard;
 @Transactional(readOnly=true)
 public class TweetReadService {
     private static final int FETCH_SIZE = 20;
+    
     @Autowired
     private TransferService transferService;
     @Autowired
@@ -39,7 +40,7 @@ public class TweetReadService {
         tweets.addAll(tweetRepo.byAuthor(userId, edge));
         
         // Find and merge tweets from followings
-        List<Follow> followings = followRepo.followings(userId);
+        List<Follow> followings = new ArrayList<>(followRepo.followings(userId));
         for (Follow follow : followings) {
             List<Tweet> result = tweetRepo.byAuthorAndTags(
                     follow.getTarget().getId(), follow.getTags(), edge);
@@ -47,16 +48,12 @@ public class TweetReadService {
         }
         Collections.sort(tweets, new TweetOnIdComparator());
         
-        List<TweetCard> tcs = new ArrayList<>();
 
         // Select the top items, for later's higher sort
         List<Tweet> tops = (FETCH_SIZE < tweets.size())
                 ? tweets.subList(0, FETCH_SIZE) : tweets;
-        for (Tweet tweet : tops) {
-            // How to optimize the counting, by session cache?
-            tcs.add(transferService.getTweetCard(tweet));
-        }
-        return tcs;
+        // How to optimize the counting inside, by Hibernate L1 cache?
+        return transferService.listTweetCards(tops, false);
     }
     
     public List<Tweet> tweetsByTags(Collection<Tag> tags, Edge edge) {
@@ -69,10 +66,7 @@ public class TweetReadService {
 
     public TweetCard getTweetCard(long tweetId) {
         Tweet tweet = tweetRepo.get(tweetId);
-        if (tweet == null) {
-            return null;
-        }
-        return transferService.getTweetCard(tweet);
+        return tweet==null ? null : transferService.toTweetCard(tweet);
     }
 
     public Collection<Tweet> getForwards(long originId) {
@@ -90,7 +84,7 @@ public class TweetReadService {
     public List<TweetCard> connectTweets(long blogId) {
         List<TweetCard> tcs = new ArrayList<>();
         for (Tweet tweet : tweetRepo.connectTweets(blogId)) {
-            tcs.add(transferService.getTweetCard(tweet));
+            tcs.add(transferService.toTweetCard(tweet));
         }
         return tcs;
     }

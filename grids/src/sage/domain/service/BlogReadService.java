@@ -9,7 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import sage.domain.Edge;
 import sage.domain.repository.BlogRepository;
+import sage.domain.repository.FollowRepository;
 import sage.entity.Blog;
+import sage.entity.Follow;
 import sage.transfer.BlogData;
 
 @Service
@@ -17,31 +19,46 @@ import sage.transfer.BlogData;
 public class BlogReadService {
     @Autowired
     private BlogRepository blogRepo;
+    @Autowired
+    private FollowRepository followRepo;
+    
+    private static final int MIN_LIST_SIZE = 20;
 
     /**
      * @return blogData | null
      */
     public BlogData getBlogData(long blogId) {
         Blog blog = blogRepo.get(blogId);
-        if (blog == null) {
-            return null;
-        }
-        return new BlogData(blog);
+        return blog==null ? null : new BlogData(blog);
     }
 
 
-    public List<BlogData> getAllBlogData() {
-        List<BlogData> allBD = new ArrayList<>();
-        for (Blog blog : blogRepo.all()) {
-            allBD.add(new BlogData(blog));
-        }
-        return allBD;
+    public List<BlogData> getAllBlogDatas() {
+        return listBlogDatas(blogRepo.all(), true);
     }
     
     public List<BlogData> blogStream(long userId, Edge edge) {
-    	List<BlogData> blogs = new ArrayList<>();
-    	//TODO
-    	
-    	return blogs;
+    	List<Blog> blogs = new ArrayList<>();
+    	//TODO also use tags
+    	for (Follow follow : followRepo.followings(userId)) {
+    		List<Blog> results = blogRepo.byAuthor(follow.getTarget().getId());
+    		blogs.addAll(results);
+    	}
+    	return listBlogDatas(blogs, false);
+    }
+    
+    public List<BlogData> byAuthor(long authorId) {
+    	return listBlogDatas(blogRepo.byAuthor(authorId), true);
+    }
+    
+    private List<BlogData> listBlogDatas(List<Blog> blogs, boolean eagerCopy) {
+    	if (eagerCopy) {
+    		blogs = new ArrayList<>(blogs);
+    	}
+    	List<BlogData> bds = new ArrayList<>(MIN_LIST_SIZE);
+    	for (Blog b : blogs) {
+    		bds.add(new BlogData(b));
+    	}
+    	return bds;
     }
 }
