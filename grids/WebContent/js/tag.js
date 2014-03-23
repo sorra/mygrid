@@ -32,10 +32,10 @@ function createTagChain(tagCard) {
 		}
 		
 		if (i > 0) {
-			$tag.click(function(event) {
-			    event.preventDefault();
-			    gotoTag($(this).data('tagId'));
-			});
+//			$tag.click(function(event) {
+//			    event.preventDefault();
+//			    gotoTag($(this).data('tagId'));
+//			});
             var pleft = inc*(60+50) + 60;
 			var $line = $('<div></div>').addClass('line').appendTo($tch);
 			$line.css({width:	'50px',
