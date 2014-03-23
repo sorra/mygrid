@@ -55,36 +55,38 @@ public class PostController {
     
     @RequestMapping("/blog")
     @ResponseBody
-    public boolean blog(
+    public Long blog(
             @RequestParam("title") String title,
             @RequestParam("content") String content,
             @RequestParam(value="tagIds[]", required=false) Collection<Long> tagIds) {
         Long uid = AuthUtil.checkLogin();
-        if (title.isEmpty() || content.isEmpty()) {return false;}
+        if (title.isEmpty() || content.isEmpty()) {
+        	return null;
+        }
         if (tagIds == null) {tagIds = Collections.EMPTY_LIST;}
 
         Blog blog = blogService.newBlog(uid, title, content, tagIds);
         tweetPostService.share(uid, blog);
-        if (blog != null) {
+        if (true) {
             logger.info("post blog {} success", blog.getId());
         }
-        return blog != null;
+        return blog.getId();
     }
     
     @RequestMapping("/edit-blog/{blogId}")
     @ResponseBody
-    public boolean editBlog(
+    public Long editBlog(
             @PathVariable("blogId") Long blogId,
             @RequestParam("title") String title,
             @RequestParam("content") String content,
             @RequestParam(value="tagIds[]", required=false) Collection<Long> tagIds) {
         Long uid = AuthUtil.checkLogin();
-        if (title.isEmpty() || content.isEmpty()) {return false;}
+        if (title.isEmpty() || content.isEmpty()) {return null;}
         if (tagIds == null) {tagIds = Collections.EMPTY_LIST;}
         
         Blog blog = blogService.edit(uid, blogId, title, content, tagIds);
         
-        return blog != null;
+        return blog.getId();
     }
     
     @RequestMapping("/comment")

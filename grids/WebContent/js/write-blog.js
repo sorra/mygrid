@@ -36,11 +36,11 @@ $(document).ready(function(){
 			$submit.prop('disabled', false);
 		})
 		.done(function(resp){
-			if (resp == true) postBlogDone();
-			else postBlogFail();
+			if (resp >= 0) postBlogDone(resp);
+			else postBlogFail(resp);
 		})
 		.fail(function(resp){
-			postBlogFail();
+			postBlogFail(resp);
 		});
 	});
 });
@@ -64,12 +64,14 @@ $(document).ready(function() {
     refresh();
 });
 
-function postBlogDone() {
+function postBlogDone(blogId) {
 	var $submit = $('form.blog .btn[type=submit]');
     tipover($submit, '发表成功', 1000);
+    setTimeout(function(){window.location = webroot + '/blog/'+blogId}, 1000);
 }
 
-function postBlogFail() {
+function postBlogFail(resp) {
+    console.warn("Post-blog-fail: " + resp);
 	var $submit = $('form.blog .btn[type=submit]');
     tipover($submit, '发表失败', 1000);
 }
