@@ -17,7 +17,9 @@ import javax.persistence.OneToMany;
  */
 @Entity(name="Tag")
 public class Tag {
-    public static final long ROOT_ID = 1; 
+    public static final long ROOT_ID = 1;
+    public static final String ROOT_NAME = "无";
+    
     private long id;
     private String name;
     private Set<Tag> children = new HashSet<>();
