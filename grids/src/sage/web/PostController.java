@@ -33,7 +33,7 @@ public class PostController {
     public boolean tweet(
             @RequestParam("content") String content,
             @RequestParam(value="tagIds[]", required=false) Collection<Long> tagIds) {
-        Long uid = AuthUtil.checkLogin();
+        Long uid = AuthUtil.checkCurrentUid();
         if (content.isEmpty()) {return false;}
         if (content.length() > 2000) {return false;}
         if (tagIds == null) {tagIds = Collections.EMPTY_LIST;}
@@ -46,7 +46,7 @@ public class PostController {
     @RequestMapping("/forward")
     @ResponseBody
     public boolean forward(@RequestParam("content") String content, @RequestParam("originId") Long originId) {
-        Long uid = AuthUtil.checkLogin();
+        Long uid = AuthUtil.checkCurrentUid();
 
         Tweet tweet = tweetPostService.forward(uid, content, originId);
         logger.info("forward tweet {} success", tweet.getId());
@@ -59,7 +59,7 @@ public class PostController {
             @RequestParam("title") String title,
             @RequestParam("content") String content,
             @RequestParam(value="tagIds[]", required=false) Collection<Long> tagIds) {
-        Long uid = AuthUtil.checkLogin();
+        Long uid = AuthUtil.checkCurrentUid();
         if (title.isEmpty() || content.isEmpty()) {
         	return null;
         }
@@ -80,7 +80,7 @@ public class PostController {
             @RequestParam("title") String title,
             @RequestParam("content") String content,
             @RequestParam(value="tagIds[]", required=false) Collection<Long> tagIds) {
-        Long uid = AuthUtil.checkLogin();
+        Long uid = AuthUtil.checkCurrentUid();
         if (title.isEmpty() || content.isEmpty()) {return null;}
         if (tagIds == null) {tagIds = Collections.EMPTY_LIST;}
         
@@ -92,7 +92,7 @@ public class PostController {
     @RequestMapping("/comment")
     @ResponseBody
     public boolean comment(@RequestParam("content") String content, @RequestParam("sourceId") Long sourceId) {
-        Long uid = AuthUtil.checkLogin();
+        Long uid = AuthUtil.checkCurrentUid();
         if (content.isEmpty()) {return false;}
         
         tweetPostService.comment(uid, content, sourceId);

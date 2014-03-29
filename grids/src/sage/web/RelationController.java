@@ -23,8 +23,7 @@ public class RelationController {
     @ResponseBody
     public void follow(@PathVariable("id") Long targetId,
             @RequestParam(value="tagIds[]", required=false) Collection<Long> tagIds) {
-        Long uid = AuthUtil.checkLogin();
-        if (uid == null){return;}
+        Long uid = AuthUtil.checkCurrentUid();
         
         if (tagIds == null) {
             tagIds = Collections.EMPTY_LIST;
@@ -36,8 +35,7 @@ public class RelationController {
     @ResponseBody
     public void editFollow(@PathVariable("id") Long targetId,
             @RequestParam(value="tagIds[]", required=false) Collection<Long> tagIds) {
-        Long uid = AuthUtil.checkLogin();
-        if (uid == null){return;}
+        Long uid = AuthUtil.checkCurrentUid();
         
         if (tagIds == null) {
             tagIds = Collections.EMPTY_LIST;
@@ -48,8 +46,8 @@ public class RelationController {
     @RequestMapping("/unfollow/{id}")
     @ResponseBody
     private void unfollow(@PathVariable("id") Long targetId) {
-        Long uid = AuthUtil.checkLogin();
-        if (uid == null){return;}
+        Long uid = AuthUtil.checkCurrentUid();
+        
         relationService.unfollow(uid, targetId);
     }
 }

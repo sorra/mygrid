@@ -49,14 +49,13 @@ public class PageController {
     
     @RequestMapping("/private")
     public String privatePage() {
-        Long uid = AuthUtil.checkLogin();
-        return "forward:/private/"+uid;
+        return "forward:/private/" + AuthUtil.checkCurrentUid();
     }
 
     @RequestMapping("/private/{id}")
     public String privatePage(@PathVariable("id") long id, ModelMap model) {
         model.addAttribute("id", id);
-        UserCard thisUser = userService.getUserCard(AuthUtil.currentUid(), id);
+        UserCard thisUser = userService.getUserCard(AuthUtil.checkCurrentUid(), id);
         model.addAttribute("thisUserJson", JsonUtil.json(thisUser));
         model.remove("userSelfJson");
         return "private-page";
@@ -95,16 +94,16 @@ public class PageController {
 
     @RequestMapping("/write-blog")
     public String writeBlog() {
-        AuthUtil.checkLogin();
+        AuthUtil.checkCurrentUid();
         return "write-blog";
     }
     
     @RequestMapping("/blog/{blogId}/edit")
     public String blogEdit(@PathVariable("blogId") Long blogId, ModelMap model) {
-        Long id = AuthUtil.checkLogin();
-        
+    	Long currentUid = AuthUtil.checkCurrentUid();
+    	
         BlogData blog = blogReadService.getBlogData(blogId);
-        if (blog.getAuthorId().equals(id)) {
+        if (blog.getAuthorId().equals(currentUid)) {
             model.addAttribute("blog", blog);
             return "write-blog";
         }
@@ -113,8 +112,7 @@ public class PageController {
     
     @RequestMapping("/followings")
     public String followings() {
-        Long uid = AuthUtil.checkLogin();
-        return "forward:/followings/"+uid;
+        return "forward:/followings/" + AuthUtil.checkCurrentUid();
     }
 
     @RequestMapping("/followings/{uid}")
@@ -130,8 +128,7 @@ public class PageController {
 
     @RequestMapping("/followers")
     public String followers() {
-        Long uid = AuthUtil.checkLogin();
-        return "forward:/followers/"+uid;
+        return "forward:/followers/" + AuthUtil.checkCurrentUid();
     }
     
     @RequestMapping("/followers/{uid}")

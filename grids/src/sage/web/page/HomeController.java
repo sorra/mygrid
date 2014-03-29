@@ -23,7 +23,7 @@ public class HomeController {
 
     @RequestMapping({ "/", "/home" })
     public String home(ModelMap model) {
-        Long uid = AuthUtil.checkLogin();
+        Long uid = AuthUtil.checkCurrentUid();
         
         String userSelfJson = JsonUtil.json(userService.getSelf(uid));
         model.addAttribute("userSelfJson", userSelfJson);

@@ -14,12 +14,13 @@ import sage.web.context.WebContexts;
 public class AuthUtil {
     private final static Logger logger = LoggerFactory.getLogger(AuthUtil.class);
     
-    public static Long checkLogin() {
-        if (WebContexts.getSessionBean(SessionKeys.UID) == null) {
+    public static Long checkCurrentUid() {
+    	Long cuid = currentUid();
+        if (cuid == null) {
             logger.debug("require login");
             throw new RequireLoginException();
         }
-        else return currentUid();
+        else return cuid;
     }
     
     public static Long currentUid() {

@@ -21,14 +21,14 @@ public class UserController {
     @RequestMapping("/self")
     @ResponseBody
     public UserSelf self() {
-        Long uid = AuthUtil.checkLogin();
+        Long uid = AuthUtil.checkCurrentUid();
         return userService.getSelf(uid);
     }
     
     @RequestMapping("/card/{id}")
     @ResponseBody
     public UserCard userCard(@PathVariable("id") Long id) {
-        Long uid = AuthUtil.checkLogin();
+        Long uid = AuthUtil.checkCurrentUid();
         return userService.getUserCard(uid, id);
     }
     

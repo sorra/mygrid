@@ -22,14 +22,14 @@ public class DeleteController {
     @RequestMapping("/tweet/{id}/delete")
     @ResponseBody
     public void deleteTweet(@PathVariable("id") Long id) {
-        long uid = AuthUtil.checkLogin();
+        long uid = AuthUtil.checkCurrentUid();
         tweetPostService.delete(uid, id);
     }
     
     @RequestMapping("/blog/{id}/delete")
     @ResponseBody
     public void deleteBlog(@PathVariable("id") Long id) {
-        long uid = AuthUtil.checkLogin();
+        long uid = AuthUtil.checkCurrentUid();
         blogPostService.delete(uid, id);
     }
 }
