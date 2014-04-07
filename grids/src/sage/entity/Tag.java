@@ -23,6 +23,7 @@ public class Tag {
 
   private long id;
   private String name;
+  private boolean isCore;
   private Set<Tag> children = new HashSet<>();
   private Tag parent;
 
@@ -54,6 +55,14 @@ public class Tag {
 
   public void setName(String name) {
     this.name = name;
+  }
+  
+  public boolean isCore() {
+    return isCore;
+  }
+  
+  public void setCore(boolean isCore) {
+    this.isCore = isCore;
   }
 
   @OneToMany(mappedBy = "parent")

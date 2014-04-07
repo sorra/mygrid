@@ -1,6 +1,8 @@
 package sage.transfer;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 import sage.entity.Tag;
@@ -8,13 +10,21 @@ import sage.entity.Tag;
 public class TagCard {
   private long id;
   private String name;
+  private boolean isCore;
   private List<TagLabel> chainUp = new ArrayList<>();
+  private Collection<TagLabel> children = new HashSet<>();
 
   public TagCard(Tag tag) {
     id = tag.getId();
     name = tag.getName();
+    isCore = tag.isCore();
+    
     for (Tag node : tag.chainUp()) {
       chainUp.add(new TagLabel(node));
+    }
+    
+    for (Tag child : tag.getChildren()) {
+      children.add(new TagLabel(child));
     }
   }
 
@@ -25,12 +35,20 @@ public class TagCard {
   public String getName() {
     return name;
   }
+  
+  public boolean isCore() {
+    return isCore;
+  }
 
   /**
    * @see Tag#chainUp()
    */
   public List<TagLabel> getChainUp() {
     return chainUp;
+  }
+  
+  public Collection<TagLabel> getChildren() {
+    return children;
   }
 
   @Override

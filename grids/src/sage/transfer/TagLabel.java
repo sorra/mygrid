@@ -7,11 +7,13 @@ import sage.entity.Tag;
 public class TagLabel {
   private long id;
   private String name;
+  private boolean isCore;
   private String chainStr;
 
   public TagLabel(Tag tag) {
     id = tag.getId();
     name = tag.getName();
+    isCore = tag.isCore();
 
     List<Tag> chainUp = tag.chainUp();
     if (chainUp.isEmpty()) {
@@ -34,6 +36,10 @@ public class TagLabel {
 
   public String getName() {
     return name;
+  }
+  
+  public boolean isCore() {
+    return isCore;
   }
 
   public String getChainStr() {
