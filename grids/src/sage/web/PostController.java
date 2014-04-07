@@ -32,16 +32,13 @@ public class PostController {
   @ResponseBody
   public boolean tweet(
       @RequestParam("content") String content,
-      @RequestParam(value = "tagIds[]", required = false) Collection<Long> tagIds) {
+      @RequestParam(value = "tagIds[]", defaultValue = "") Collection<Long> tagIds) {
     Long uid = AuthUtil.checkCurrentUid();
     if (content.isEmpty()) {
       return false;
     }
     if (content.length() > 2000) {
       return false;
-    }
-    if (tagIds == null) {
-      tagIds = Collections.EMPTY_LIST;
     }
 
     Tweet tweet = tweetPostService.newTweet(uid, content, tagIds);
@@ -51,7 +48,8 @@ public class PostController {
 
   @RequestMapping("/forward")
   @ResponseBody
-  public boolean forward(@RequestParam("content") String content,
+  public boolean forward(
+      @RequestParam("content") String content,
       @RequestParam("originId") Long originId) {
     Long uid = AuthUtil.checkCurrentUid();
 
@@ -65,13 +63,10 @@ public class PostController {
   public Long blog(
       @RequestParam("title") String title,
       @RequestParam("content") String content,
-      @RequestParam(value = "tagIds[]", required = false) Collection<Long> tagIds) {
+      @RequestParam(value = "tagIds[]", defaultValue = "") Collection<Long> tagIds) {
     Long uid = AuthUtil.checkCurrentUid();
     if (title.isEmpty() || content.isEmpty()) {
       return null;
-    }
-    if (tagIds == null) {
-      tagIds = Collections.EMPTY_LIST;
     }
 
     Blog blog = blogService.newBlog(uid, title, content, tagIds);
@@ -88,13 +83,10 @@ public class PostController {
       @PathVariable("blogId") Long blogId,
       @RequestParam("title") String title,
       @RequestParam("content") String content,
-      @RequestParam(value = "tagIds[]", required = false) Collection<Long> tagIds) {
+      @RequestParam(value = "tagIds[]", defaultValue = "") Collection<Long> tagIds) {
     Long uid = AuthUtil.checkCurrentUid();
     if (title.isEmpty() || content.isEmpty()) {
       return null;
-    }
-    if (tagIds == null) {
-      tagIds = Collections.EMPTY_LIST;
     }
 
     Blog blog = blogService.edit(uid, blogId, title, content, tagIds);
@@ -104,7 +96,8 @@ public class PostController {
 
   @RequestMapping("/comment")
   @ResponseBody
-  public boolean comment(@RequestParam("content") String content,
+  public boolean comment(
+      @RequestParam("content") String content,
       @RequestParam("sourceId") Long sourceId) {
     Long uid = AuthUtil.checkCurrentUid();
     if (content.isEmpty()) {
