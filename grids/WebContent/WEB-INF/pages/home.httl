@@ -28,5 +28,6 @@ $!{include("navbar.httl")}
 </div>
 $!{include("proto.httl")}
 $!{includeJS()}
+$!{includeProto}
 </body>
 </html>

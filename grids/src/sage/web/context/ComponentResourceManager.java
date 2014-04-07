@@ -1,7 +1,7 @@
 package sage.web.context;
 
 import java.io.File;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -21,7 +21,9 @@ public class ComponentResourceManager {
   private ServletContext servletContext;
 
   /**
-   * xxx.css xxx.js
+   * *.css
+   * *.js
+   * *.proto.httl
    */
   private final Set<String> presentFileNames = new HashSet<>();
 
@@ -48,13 +50,17 @@ public class ComponentResourceManager {
         presentFileNames.add(js.getName());
       }
     }
+    
+    File protoRoot = new File(servletContext.getRealPath("/WEB-INF/prototypes/"));
+    Assert.isTrue(protoRoot.exists());
+    for (File proto : protoRoot.listFiles()) {
+      if (proto.getPath().endsWith(".proto.httl")) {
+        presentFileNames.add(proto.getName());
+      }
+    }
   }
 
   public String includeCSS(String[] components) {
-    return includeCSS(Arrays.asList(components));
-  }
-
-  public String includeCSS(Collection<String> components) {
     StringBuilder sb = new StringBuilder();
     for (String each : components) {
       if (presentFileNames.contains(each + ".css")) {
@@ -65,10 +71,6 @@ public class ComponentResourceManager {
   }
 
   public String includeJS(String[] components) {
-    return includeJS(Arrays.asList(components));
-  }
-
-  public String includeJS(Collection<String> components) {
     StringBuilder sb = new StringBuilder(includeOneJS("jquery-1.9.1")).append('\n');
     for (String each : components) {
       if (presentFileNames.contains(each + ".js")) {
@@ -76,6 +78,17 @@ public class ComponentResourceManager {
       }
     }
     return sb.toString();
+  }
+  
+  public Collection<String> includeProtos(String[] components) {
+    Collection<String> protos = new ArrayList<>(components.length);
+    for (String comp : components) {
+      String pf = comp + ".proto.httl";
+      if (presentFileNames.contains(pf)) {
+        protos.add(pf);
+      }
+    }
+    return protos;
   }
 
   private String includeOneCSS(String componentName) {
