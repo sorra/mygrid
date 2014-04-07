@@ -10,10 +10,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 @Order(Ordered.LOWEST_PRECEDENCE)
 public class ControllerExceptionReporter {
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-    @ExceptionHandler
-    public void logAny(Throwable e) throws Throwable {
-        logger.error("controller error encountered");
-        throw e;
-    }
+  private final Logger logger = LoggerFactory.getLogger(getClass());
+
+  @ExceptionHandler
+  public void logAny(Throwable e) throws Throwable {
+    logger.error("controller error encountered");
+    throw e;
+  }
 }

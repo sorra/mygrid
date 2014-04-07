@@ -14,33 +14,33 @@ import sage.web.context.JsonUtil;
 @Controller
 @RequestMapping
 public class HomeController {
-    @Autowired
-    UserService userService;
-    @Autowired
-    TagService tagService;
-    @Autowired
-    RelationService relationService;
+  @Autowired
+  UserService userService;
+  @Autowired
+  TagService tagService;
+  @Autowired
+  RelationService relationService;
 
-    @RequestMapping({ "/", "/home" })
-    public String home(ModelMap model) {
-        Long uid = AuthUtil.checkCurrentUid();
-        
-        String userSelfJson = JsonUtil.json(userService.getSelf(uid));
-        model.addAttribute("userSelfJson", userSelfJson);
-        String tagTreeJson = JsonUtil.json(tagService.getTagTree());
-        model.addAttribute("tagTreeJson", tagTreeJson);
-        String friendsJson = JsonUtil.json(relationService.friends(uid));
-        model.addAttribute("friendsJson", friendsJson);
-        return "home";
-    }
+  @RequestMapping({ "/", "/home" })
+  public String home(ModelMap model) {
+    Long uid = AuthUtil.checkCurrentUid();
 
-    @RequestMapping("/login")
-    public String login() {
-        return "login";
-    }
-    
-    @RequestMapping("/register")
-    public String register() {
-    	return "register";
-    }
+    String userSelfJson = JsonUtil.json(userService.getSelf(uid));
+    model.addAttribute("userSelfJson", userSelfJson);
+    String tagTreeJson = JsonUtil.json(tagService.getTagTree());
+    model.addAttribute("tagTreeJson", tagTreeJson);
+    String friendsJson = JsonUtil.json(relationService.friends(uid));
+    model.addAttribute("friendsJson", friendsJson);
+    return "home";
+  }
+
+  @RequestMapping("/login")
+  public String login() {
+    return "login";
+  }
+
+  @RequestMapping("/register")
+  public String register() {
+    return "register";
+  }
 }

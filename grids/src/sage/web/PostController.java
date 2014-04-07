@@ -1,4 +1,4 @@
- package sage.web;
+package sage.web;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -20,82 +20,98 @@ import sage.entity.Tweet;
 import sage.web.auth.AuthUtil;
 
 @Controller
-@RequestMapping(value="/post", method=RequestMethod.POST)
+@RequestMapping(value = "/post", method = RequestMethod.POST)
 public class PostController {
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-    @Autowired
-    private TweetPostService tweetPostService;
-    @Autowired
-    private BlogPostService blogService;
-    
-    @RequestMapping("/tweet")
-    @ResponseBody
-    public boolean tweet(
-            @RequestParam("content") String content,
-            @RequestParam(value="tagIds[]", required=false) Collection<Long> tagIds) {
-        Long uid = AuthUtil.checkCurrentUid();
-        if (content.isEmpty()) {return false;}
-        if (content.length() > 2000) {return false;}
-        if (tagIds == null) {tagIds = Collections.EMPTY_LIST;}
-        
-        Tweet tweet = tweetPostService.newTweet(uid, content, tagIds);
-        logger.info("post tweet {} success", tweet.getId());
-        return true;
-    }
-    
-    @RequestMapping("/forward")
-    @ResponseBody
-    public boolean forward(@RequestParam("content") String content, @RequestParam("originId") Long originId) {
-        Long uid = AuthUtil.checkCurrentUid();
+  private final Logger logger = LoggerFactory.getLogger(getClass());
+  @Autowired
+  private TweetPostService tweetPostService;
+  @Autowired
+  private BlogPostService blogService;
 
-        Tweet tweet = tweetPostService.forward(uid, content, originId);
-        logger.info("forward tweet {} success", tweet.getId());
-        return true;
+  @RequestMapping("/tweet")
+  @ResponseBody
+  public boolean tweet(
+      @RequestParam("content") String content,
+      @RequestParam(value = "tagIds[]", required = false) Collection<Long> tagIds) {
+    Long uid = AuthUtil.checkCurrentUid();
+    if (content.isEmpty()) {
+      return false;
     }
-    
-    @RequestMapping("/blog")
-    @ResponseBody
-    public Long blog(
-            @RequestParam("title") String title,
-            @RequestParam("content") String content,
-            @RequestParam(value="tagIds[]", required=false) Collection<Long> tagIds) {
-        Long uid = AuthUtil.checkCurrentUid();
-        if (title.isEmpty() || content.isEmpty()) {
-        	return null;
-        }
-        if (tagIds == null) {tagIds = Collections.EMPTY_LIST;}
+    if (content.length() > 2000) {
+      return false;
+    }
+    if (tagIds == null) {
+      tagIds = Collections.EMPTY_LIST;
+    }
 
-        Blog blog = blogService.newBlog(uid, title, content, tagIds);
-        tweetPostService.share(uid, blog);
-        if (true) {
-            logger.info("post blog {} success", blog.getId());
-        }
-        return blog.getId();
+    Tweet tweet = tweetPostService.newTweet(uid, content, tagIds);
+    logger.info("post tweet {} success", tweet.getId());
+    return true;
+  }
+
+  @RequestMapping("/forward")
+  @ResponseBody
+  public boolean forward(@RequestParam("content") String content,
+      @RequestParam("originId") Long originId) {
+    Long uid = AuthUtil.checkCurrentUid();
+
+    Tweet tweet = tweetPostService.forward(uid, content, originId);
+    logger.info("forward tweet {} success", tweet.getId());
+    return true;
+  }
+
+  @RequestMapping("/blog")
+  @ResponseBody
+  public Long blog(
+      @RequestParam("title") String title,
+      @RequestParam("content") String content,
+      @RequestParam(value = "tagIds[]", required = false) Collection<Long> tagIds) {
+    Long uid = AuthUtil.checkCurrentUid();
+    if (title.isEmpty() || content.isEmpty()) {
+      return null;
     }
-    
-    @RequestMapping("/edit-blog/{blogId}")
-    @ResponseBody
-    public Long editBlog(
-            @PathVariable("blogId") Long blogId,
-            @RequestParam("title") String title,
-            @RequestParam("content") String content,
-            @RequestParam(value="tagIds[]", required=false) Collection<Long> tagIds) {
-        Long uid = AuthUtil.checkCurrentUid();
-        if (title.isEmpty() || content.isEmpty()) {return null;}
-        if (tagIds == null) {tagIds = Collections.EMPTY_LIST;}
-        
-        Blog blog = blogService.edit(uid, blogId, title, content, tagIds);
-        
-        return blog.getId();
+    if (tagIds == null) {
+      tagIds = Collections.EMPTY_LIST;
     }
-    
-    @RequestMapping("/comment")
-    @ResponseBody
-    public boolean comment(@RequestParam("content") String content, @RequestParam("sourceId") Long sourceId) {
-        Long uid = AuthUtil.checkCurrentUid();
-        if (content.isEmpty()) {return false;}
-        
-        tweetPostService.comment(uid, content, sourceId);
-        return true;
+
+    Blog blog = blogService.newBlog(uid, title, content, tagIds);
+    tweetPostService.share(uid, blog);
+    if (true) {
+      logger.info("post blog {} success", blog.getId());
     }
+    return blog.getId();
+  }
+
+  @RequestMapping("/edit-blog/{blogId}")
+  @ResponseBody
+  public Long editBlog(
+      @PathVariable("blogId") Long blogId,
+      @RequestParam("title") String title,
+      @RequestParam("content") String content,
+      @RequestParam(value = "tagIds[]", required = false) Collection<Long> tagIds) {
+    Long uid = AuthUtil.checkCurrentUid();
+    if (title.isEmpty() || content.isEmpty()) {
+      return null;
+    }
+    if (tagIds == null) {
+      tagIds = Collections.EMPTY_LIST;
+    }
+
+    Blog blog = blogService.edit(uid, blogId, title, content, tagIds);
+
+    return blog.getId();
+  }
+
+  @RequestMapping("/comment")
+  @ResponseBody
+  public boolean comment(@RequestParam("content") String content,
+      @RequestParam("sourceId") Long sourceId) {
+    Long uid = AuthUtil.checkCurrentUid();
+    if (content.isEmpty()) {
+      return false;
+    }
+
+    tweetPostService.comment(uid, content, sourceId);
+    return true;
+  }
 }

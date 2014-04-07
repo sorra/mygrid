@@ -18,63 +18,64 @@ import sage.web.context.JsonUtil;
 @Controller
 @RequestMapping
 public class PageController {
-    private final static Logger logger = LoggerFactory.getLogger(PageController.class);
-    @Autowired
-    private BlogReadService blogReadService;
-    @Autowired
-    private TweetReadService tweetReadService;
-    
-    @RequestMapping("/tweet/{id}")
-    public String tweetPage(@PathVariable("id") long id, ModelMap model) {
-        TweetCard tc = tweetReadService.getTweetCard(id);
-        String tcJson = JsonUtil.json(tc);
-        model.addAttribute("tcJson", tcJson);
-        return "tweet";
+  private final static Logger logger = LoggerFactory.getLogger(PageController.class);
+  @Autowired
+  private BlogReadService blogReadService;
+  @Autowired
+  private TweetReadService tweetReadService;
+
+  @RequestMapping("/tweet/{id}")
+  public String tweetPage(@PathVariable("id") long id, ModelMap model) {
+    TweetCard tc = tweetReadService.getTweetCard(id);
+    String tcJson = JsonUtil.json(tc);
+    model.addAttribute("tcJson", tcJson);
+    return "tweet";
+  }
+
+  @RequestMapping("/blog/{id}")
+  public String blogPage(@PathVariable("id") long id, ModelMap model) {
+    BlogData blog = blogReadService.getBlogData(id);
+    if (blog == null) {
+      logger.info("blog {} is null!", id);
+      return "redirect:/";
     }
 
-    @RequestMapping("/blog/{id}")
-    public String blogPage(@PathVariable("id") long id, ModelMap model) {
-        BlogData blog = blogReadService.getBlogData(id);
-        if (blog == null) {
-            logger.info("blog {} is null!", id);
-            return "redirect:/";
-        }
+    model.addAttribute("blog", blog).addAttribute("tweets", tweetReadService.connectTweets(id));
+    return "blog";
+  }
 
-        model.addAttribute("blog", blog).addAttribute("tweets", tweetReadService.connectTweets(id));
-        return "blog";
-    }
+  @RequestMapping("/blogs")
+  public String blogs(ModelMap model) {
+    model.addAttribute("blogs", blogReadService.getAllBlogDatas());
+    return "blogs";
+  }
 
-    @RequestMapping("/blogs")
-    public String blogs(ModelMap model) {
-        model.addAttribute("blogs", blogReadService.getAllBlogDatas());
-        return "blogs";
-    }
+  @RequestMapping("/write-blog")
+  public String writeBlog() {
+    AuthUtil.checkCurrentUid();
+    return "write-blog";
+  }
 
-    @RequestMapping("/write-blog")
-    public String writeBlog() {
-        AuthUtil.checkCurrentUid();
-        return "write-blog";
-    }
-    
-    @RequestMapping("/blog/{blogId}/edit")
-    public String blogEdit(@PathVariable("blogId") Long blogId, ModelMap model) {
-    	Long currentUid = AuthUtil.checkCurrentUid();
-    	
-        BlogData blog = blogReadService.getBlogData(blogId);
-        if (blog.getAuthorId().equals(currentUid)) {
-            model.addAttribute("blog", blog);
-            return "write-blog";
-        }
-        else return "error";
-    }
-    
-    @RequestMapping("/manip-tag")
-    public void manipulateTag() {
+  @RequestMapping("/blog/{blogId}/edit")
+  public String blogEdit(@PathVariable("blogId") Long blogId, ModelMap model) {
+    Long currentUid = AuthUtil.checkCurrentUid();
 
+    BlogData blog = blogReadService.getBlogData(blogId);
+    if (blog.getAuthorId().equals(currentUid)) {
+      model.addAttribute("blog", blog);
+      return "write-blog";
     }
+    else
+      return "error";
+  }
 
-    @RequestMapping("/test")
-    public String test() {
-        return "test";
-    }
+  @RequestMapping("/manip-tag")
+  public void manipulateTag() {
+
+  }
+
+  @RequestMapping("/test")
+  public String test() {
+    return "test";
+  }
 }

@@ -19,66 +19,68 @@ import sage.entity.User;
 @Controller
 @RequestMapping("/auth")
 public class AuthController {
-    private final static Logger logger = LoggerFactory.getLogger(AuthController.class);
-    
-    @Autowired
-    UserService userService;
-    
-    @RequestMapping(value="/login", method=RequestMethod.POST)
-    public String login(HttpServletRequest request,
-                        @RequestParam("email") String email,
-                        @RequestParam("password") String password) {
-        logger.info("login email: {}", email);
-        AuthUtil.invalidateSession(request);
-        
-        String referer = request.getHeader("referer");
-        logger.debug("Referer: {}", referer);
+  private final static Logger logger = LoggerFactory.getLogger(AuthController.class);
 
-        final String destContext = "?goto="+Constants.WEB_CONTEXT_ROOT;
-        int idx = referer.lastIndexOf(destContext);
-        String dest = idx < 0 ? null : referer.substring(
-                idx+destContext.length(), referer.length());
-        if (dest != null && dest.contains(":")) {
-            logger.info("XSS URL = "+dest);
-            dest = null; // Escape cross-site url
-        }
-        
-        User user = userService.login(email, password);
-        if (user != null){
-            HttpSession sesison = request.getSession(true);
-            sesison.setAttribute(SessionKeys.UID, user.getId());
-            logger.info("User {} logged in.", user.getId());
-            if (dest == null) {
-                return "redirect:/";
-            }
-            else {
-                return "redirect:" + AuthUtil.decodeLink(dest);
-            }
-        }
-        else {
-            logger.info("{} login failed.", email);
-            if (dest == null) {
-                return "redirect:/login";
-            }
-            else {
-                return "redirect:/login?" + AuthUtil.getRedirectGoto(dest);
-            }
-        }
+  @Autowired
+  UserService userService;
+
+  @RequestMapping(value = "/login", method = RequestMethod.POST)
+  public String login(HttpServletRequest request,
+      @RequestParam("email") String email,
+      @RequestParam("password") String password) {
+    logger.info("login email: {}", email);
+    AuthUtil.invalidateSession(request);
+
+    String referer = request.getHeader("referer");
+    logger.debug("Referer: {}", referer);
+
+    final String destContext = "?goto=" + Constants.WEB_CONTEXT_ROOT;
+    int idx = referer.lastIndexOf(destContext);
+    String dest = idx < 0 ? null : referer.substring(
+        idx + destContext.length(), referer.length());
+    if (dest != null && dest.contains(":")) {
+      logger.info("XSS URL = " + dest);
+      dest = null; // Escape cross-site url
     }
-    
-    @RequestMapping("/logout")
-    public String logout(HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            session.invalidate();
-        }
+
+    User user = userService.login(email, password);
+    if (user != null) {
+      HttpSession sesison = request.getSession(true);
+      sesison.setAttribute(SessionKeys.UID, user.getId());
+      logger.info("User {} logged in.", user.getId());
+      if (dest == null) {
+        return "redirect:/";
+      }
+      else {
+        return "redirect:" + AuthUtil.decodeLink(dest);
+      }
+    }
+    else {
+      logger.info("{} login failed.", email);
+      if (dest == null) {
         return "redirect:/login";
+      }
+      else {
+        return "redirect:/login?" + AuthUtil.getRedirectGoto(dest);
+      }
     }
-    
-    @RequestMapping(value="/register", method=RequestMethod.POST)
-    @ResponseBody
-    public String register(@RequestParam("email") String email, @RequestParam("password") String password) {
-        logger.info("register email: {}", email);
-        return String.valueOf(userService.register(new User(email, password)));
+  }
+
+  @RequestMapping("/logout")
+  public String logout(HttpServletRequest request) {
+    HttpSession session = request.getSession(false);
+    if (session != null) {
+      session.invalidate();
     }
+    return "redirect:/login";
+  }
+
+  @RequestMapping(value = "/register", method = RequestMethod.POST)
+  @ResponseBody
+  public String register(
+      @RequestParam("email") String email,
+      @RequestParam("password") String password) {
+    logger.info("register email: {}", email);
+    return String.valueOf(userService.register(new User(email, password)));
+  }
 }

@@ -10,19 +10,19 @@ import sage.web.auth.AuthUtil;
 
 @ControllerAdvice
 public class CommonModelAttributesHandler {
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private TagService tagService;
-    
-    @ModelAttribute("userSelfJson")
-    public String userSelfJson() {
-        Long uid = AuthUtil.currentUid();
-        return uid==null ? null : JsonUtil.json(userService.getSelf(uid));
-    }
-    
-    @ModelAttribute("tagTreeJson")
-    public String tagTreeJson() {
-        return tagService.getTagTreeJson();
-    }
+  @Autowired
+  private UserService userService;
+  @Autowired
+  private TagService tagService;
+
+  @ModelAttribute("userSelfJson")
+  public String userSelfJson() {
+    Long uid = AuthUtil.currentUid();
+    return uid == null ? null : JsonUtil.json(userService.getSelf(uid));
+  }
+
+  @ModelAttribute("tagTreeJson")
+  public String tagTreeJson() {
+    return tagService.getTagTreeJson();
+  }
 }

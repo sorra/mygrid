@@ -16,38 +16,38 @@ import sage.web.auth.AuthUtil;
 @Controller
 @RequestMapping
 public class RelationController {
-    @Autowired
-    private RelationService relationService;
-    
-    @RequestMapping("/follow/{id}")
-    @ResponseBody
-    public void follow(@PathVariable("id") Long targetId,
-            @RequestParam(value="tagIds[]", required=false) Collection<Long> tagIds) {
-        Long uid = AuthUtil.checkCurrentUid();
-        
-        if (tagIds == null) {
-            tagIds = Collections.EMPTY_LIST;
-        }
-        relationService.follow(uid, targetId, tagIds);
+  @Autowired
+  private RelationService relationService;
+
+  @RequestMapping("/follow/{id}")
+  @ResponseBody
+  public void follow(@PathVariable("id") Long targetId,
+      @RequestParam(value = "tagIds[]", required = false) Collection<Long> tagIds) {
+    Long uid = AuthUtil.checkCurrentUid();
+
+    if (tagIds == null) {
+      tagIds = Collections.EMPTY_LIST;
     }
-    
-    @RequestMapping("/editfollow/{id}")
-    @ResponseBody
-    public void editFollow(@PathVariable("id") Long targetId,
-            @RequestParam(value="tagIds[]", required=false) Collection<Long> tagIds) {
-        Long uid = AuthUtil.checkCurrentUid();
-        
-        if (tagIds == null) {
-            tagIds = Collections.EMPTY_LIST;
-        }
-        relationService.editFollow(uid, targetId, tagIds);
+    relationService.follow(uid, targetId, tagIds);
+  }
+
+  @RequestMapping("/editfollow/{id}")
+  @ResponseBody
+  public void editFollow(@PathVariable("id") Long targetId,
+      @RequestParam(value = "tagIds[]", required = false) Collection<Long> tagIds) {
+    Long uid = AuthUtil.checkCurrentUid();
+
+    if (tagIds == null) {
+      tagIds = Collections.EMPTY_LIST;
     }
-    
-    @RequestMapping("/unfollow/{id}")
-    @ResponseBody
-    private void unfollow(@PathVariable("id") Long targetId) {
-        Long uid = AuthUtil.checkCurrentUid();
-        
-        relationService.unfollow(uid, targetId);
-    }
+    relationService.editFollow(uid, targetId, tagIds);
+  }
+
+  @RequestMapping("/unfollow/{id}")
+  @ResponseBody
+  private void unfollow(@PathVariable("id") Long targetId) {
+    Long uid = AuthUtil.checkCurrentUid();
+
+    relationService.unfollow(uid, targetId);
+  }
 }

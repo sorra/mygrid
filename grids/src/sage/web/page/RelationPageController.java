@@ -18,40 +18,40 @@ import sage.web.context.JsonUtil;
 
 @Controller
 public class RelationPageController {
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private RelationService relationService;
-    
-    @RequestMapping("/followings")
-    public String followings() {
-        return "forward:/followings/" + AuthUtil.checkCurrentUid();
-    }
+  @Autowired
+  private UserService userService;
+  @Autowired
+  private RelationService relationService;
 
-    @RequestMapping("/followings/{uid}")
-    public String followings(@PathVariable("uid") long uid, ModelMap model) {
-        List<String> followingsInJson = new ArrayList<>();
-        for (Follow follow : relationService.followings(uid)) {
-            UserCard followingUc = userService.getUserCard(uid, follow.getTarget().getId());
-            followingsInJson.add(JsonUtil.json(followingUc));
-        }
-        model.addAttribute("followings", followingsInJson);
-        return "followings";
-    }
+  @RequestMapping("/followings")
+  public String followings() {
+    return "forward:/followings/" + AuthUtil.checkCurrentUid();
+  }
 
-    @RequestMapping("/followers")
-    public String followers() {
-        return "forward:/followers/" + AuthUtil.checkCurrentUid();
+  @RequestMapping("/followings/{uid}")
+  public String followings(@PathVariable("uid") long uid, ModelMap model) {
+    List<String> followingsInJson = new ArrayList<>();
+    for (Follow follow : relationService.followings(uid)) {
+      UserCard followingUc = userService.getUserCard(uid, follow.getTarget().getId());
+      followingsInJson.add(JsonUtil.json(followingUc));
     }
-    
-    @RequestMapping("/followers/{uid}")
-    public String followers(@PathVariable("uid") long uid, ModelMap model) {
-        List<String> followersInJson = new ArrayList<>();
-        for (Follow follow : relationService.followers(uid)) {
-            UserCard followerUc = userService.getUserCard(uid, follow.getSource().getId());
-            followersInJson.add(JsonUtil.json(followerUc));
-        }
-        model.addAttribute("followers", followersInJson);
-        return "followers";
+    model.addAttribute("followings", followingsInJson);
+    return "followings";
+  }
+
+  @RequestMapping("/followers")
+  public String followers() {
+    return "forward:/followers/" + AuthUtil.checkCurrentUid();
+  }
+
+  @RequestMapping("/followers/{uid}")
+  public String followers(@PathVariable("uid") long uid, ModelMap model) {
+    List<String> followersInJson = new ArrayList<>();
+    for (Follow follow : relationService.followers(uid)) {
+      UserCard followerUc = userService.getUserCard(uid, follow.getSource().getId());
+      followersInJson.add(JsonUtil.json(followerUc));
     }
+    model.addAttribute("followers", followersInJson);
+    return "followers";
+  }
 }
