@@ -9,7 +9,7 @@ public class WebContexts {
     return RequestContextHolder.currentRequestAttributes();
   }
 
-  public static Object getRequestBean(String name) {
+  public static Object getRequestAttr(String name) {
     return current().getAttribute(name, RequestAttributes.SCOPE_REQUEST);
   }
 
@@ -17,11 +17,11 @@ public class WebContexts {
     current().setAttribute(name, value, RequestAttributes.SCOPE_REQUEST);
   }
 
-  public static Object getSessionBean(String name) {
+  public static Object getSessionAttr(String name) {
     return current().getAttribute(name, RequestAttributes.SCOPE_SESSION);
   }
 
-  public static void setSessionBean(String name, Object value) {
+  public static void setSessionAttr(String name, Object value) {
     current().setAttribute(name, value, RequestAttributes.SCOPE_SESSION);
   }
 }

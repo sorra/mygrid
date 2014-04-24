@@ -25,7 +25,7 @@ public class AuthUtil {
   }
 
   public static Long currentUid() {
-    return (Long) WebContexts.getSessionBean(SessionKeys.UID);
+    return (Long) WebContexts.getSessionAttr(SessionKeys.UID);
   }
 
   public static void invalidateSession(HttpServletRequest request) {
