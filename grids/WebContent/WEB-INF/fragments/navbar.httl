@@ -8,14 +8,16 @@
 				<li><a id="nav-groups" href="#">群组</a></li>
 				<li><a id="nav-private" href="$!{base}/private">私人</a></li>
 				<li><a href="$!{base}/write-blog">写博客</a></li>
-            </ul>
-            <ul class="nav pull-right">
+				<li><a href="$!{base}/fav">收藏夹</a></li>
+      </ul>
+      
+      <ul class="nav pull-right">
 				<li>
 					<form class="search" action="/sage/search" method="get" accept-charset="UTF-8">
 						<input type="text" name="q" placeholder="搜索"/>
 					</form>
 				</li>
-            </ul>
+      </ul>
 		</div>
 	</div>
 </div>
