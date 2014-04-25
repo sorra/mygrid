@@ -39,7 +39,7 @@ public class ReadController {
       @RequestParam(value = "before", required = false) Long beforeId,
       @RequestParam(value = "after", required = false) Long afterId) {
     Long uid = AuthUtil.checkCurrentUid();
-    logger.info("before {}, after {}", beforeId, afterId);
+    logger.debug("before {}, after {}", beforeId, afterId);
     return streamService.istream(uid, getEdge(beforeId, afterId));
   }
 
