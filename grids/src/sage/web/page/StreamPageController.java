@@ -1,24 +1,55 @@
 package sage.web.page;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import sage.domain.service.TagService;
 import sage.domain.service.UserService;
+import sage.entity.Tag;
+import sage.transfer.TagCard;
+import sage.transfer.TagLabel;
 import sage.transfer.UserCard;
 import sage.web.auth.AuthUtil;
+import sage.web.context.FrontMap;
 import sage.web.context.JsonUtil;
 
 @Controller
 public class StreamPageController {
   @Autowired
   private UserService userService;
+  @Autowired
+  private TagService tagService;
 
   @RequestMapping("/public/{id}")
   public String publicPage(@PathVariable("id") long id, ModelMap model) {
     model.addAttribute("id", id);
+    
+    List<TagLabel> coreTags = new ArrayList<>();
+    List<TagLabel> nonCoreTags = new ArrayList<>();
+    TagCard tagCard = tagService.getTagCard(id);
+    for (TagLabel child : tagCard.getChildren()) {
+      if (child.isCore()) {
+        coreTags.add(child);
+      } else {
+        nonCoreTags.add(child);
+      }
+    }
+    
+    Collection<Tag> sameNameTags = tagService.getSameNameTags(id);
+    
+    FrontMap fm = FrontMap.from(model);
+    fm.put("coreTags", coreTags);
+    fm.put("nonCoreTags", nonCoreTags);
+    fm.put("sameNameTags", sameNameTags);
+    fm.put("relatedTags", null);
+    
     return "public-page";
   }
 

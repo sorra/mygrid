@@ -61,6 +61,14 @@ public class TagService {
   public Collection<Tag> getTagsByName(String name) {
     return new ArrayList<>(tagRepo.byName(name));
   }
+  
+  @Transactional(readOnly = true)
+  public Collection<Tag> getSameNameTags(long tagId) {
+    Tag tag = tagRepo.get(tagId);
+    Collection<Tag> tagsByName = getTagsByName(tag.getName());
+    tagsByName.remove(tag);
+    return tagsByName;
+  }
 
   public void changeParent(long id, long parentId) {
     tagRepo.get(id).setParent(tagRepo.load(parentId));
