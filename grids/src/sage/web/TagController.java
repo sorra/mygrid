@@ -31,14 +31,12 @@ public class TagController {
 
   @RequestMapping("/new")
   @ResponseBody
-  public long newTag(@RequestParam("name") String name,
-      @RequestParam("parentId") Long parentId) {
+  public long newTag(@RequestParam("name") String name, @RequestParam("parentId") Long parentId) {
     return tagService.newTag(name, parentId);
   }
 
   @RequestMapping("/change-parent")
-  public void changeParent(@RequestParam("id") long id,
-      @RequestParam("parentId") Long parentId) {
+  public void changeParent(@RequestParam("id") long id, @RequestParam("parentId") Long parentId) {
     tagService.changeParent(id, parentId);
   }
 }

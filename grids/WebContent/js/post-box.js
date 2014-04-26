@@ -1,12 +1,11 @@
 'use strict';
 
 function createTagSel(tagLabel) {
-	return createTagLabel(tagLabel).addClass('tag-sel').addClass('btn btn-small')
-	        .off('click')
-			.click(function(event){
-			    event.preventDefault();
-			    $(this).toggleClass('btn-success');
-			  });
+	return createTagLabel(tagLabel).addClass('tag-sel').addClass('btn btn-small').off('click').click(
+      function(event) {
+        event.preventDefault();
+        $(this).toggleClass('btn-success');
+      });
 }
 
 function buildTagSels() {
