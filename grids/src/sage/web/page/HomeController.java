@@ -25,10 +25,6 @@ public class HomeController {
   public String home(ModelMap model) {
     Long uid = AuthUtil.checkCurrentUid();
 
-    String userSelfJson = JsonUtil.json(userService.getSelf(uid));
-    model.addAttribute("userSelfJson", userSelfJson);
-    String tagTreeJson = JsonUtil.json(tagService.getTagTree());
-    model.addAttribute("tagTreeJson", tagTreeJson);
     String friendsJson = JsonUtil.json(relationService.friends(uid));
     model.addAttribute("friendsJson", friendsJson);
     return "home";
