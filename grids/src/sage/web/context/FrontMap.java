@@ -6,6 +6,8 @@ import org.springframework.ui.ModelMap;
 public class FrontMap extends ModelMap {
   public static final String NAME = "frontMap";
   
+  protected FrontMap() {}
+  
   public static FrontMap from(ModelMap model) {
     FrontMap fm = new FrontMap();
     model.addAttribute(NAME, fm);
