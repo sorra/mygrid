@@ -18,7 +18,7 @@ public class FrontMap extends ModelMap {
   
   @Override
   public String toString() {
-    logger.debug("Keys: ", this.keySet());
+    logger.debug("Keys: " + this.keySet());
     return JsonUtil.json(this);
   }
 
