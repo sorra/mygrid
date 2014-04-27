@@ -15,10 +15,8 @@ import sage.domain.service.UserService;
 import sage.entity.Tag;
 import sage.transfer.TagCard;
 import sage.transfer.TagLabel;
-import sage.transfer.UserCard;
 import sage.web.auth.AuthUtil;
 import sage.web.context.FrontMap;
-import sage.web.context.JsonUtil;
 
 @Controller
 public class StreamPageController {
@@ -29,7 +27,8 @@ public class StreamPageController {
 
   @RequestMapping("/public/{id}")
   public String publicPage(@PathVariable("id") long id, ModelMap model) {
-    model.addAttribute("id", id);
+    FrontMap fm = FrontMap.from(model);
+    fm.put("id", id);
     
     List<TagLabel> coreTags = new ArrayList<>();
     List<TagLabel> nonCoreTags = new ArrayList<>();
@@ -44,7 +43,6 @@ public class StreamPageController {
     
     Collection<Tag> sameNameTags = tagService.getSameNameTags(id);
     
-    FrontMap fm = FrontMap.from(model);
     fm.put("coreTags", coreTags);
     fm.put("nonCoreTags", nonCoreTags);
     fm.put("sameNameTags", sameNameTags);
@@ -68,6 +66,7 @@ public class StreamPageController {
       fm.put("isSelfPage", true);
     }
     fm.put("thisUser", userService.getUserCard(uid, id));
+    
     model.remove("userSelfJson");
     return "private-page";
   }

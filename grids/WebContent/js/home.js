@@ -5,7 +5,7 @@ $(document).ready(function(){
     $selfCard.find('.follow').remove();
     $selfCard.appendTo($('.self-card'));
     
-    window.friends = $.parseJSON($('#friends-json').text());
+    var friends = window.frontMap.friends;
     var $friends = $('.friends');
     for (var _i in friends) {
         var $li = $('<li>');

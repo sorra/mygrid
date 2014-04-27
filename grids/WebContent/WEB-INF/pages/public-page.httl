@@ -8,7 +8,6 @@
 </head>
 <body>
 $!{include("navbar.httl")}
-<div id="id-holder" style="display:none">${id}</div>
 
 <div class="container" id="container">
 	<div id="chain"></div>
@@ -26,7 +25,7 @@ $!{include("proto.httl")}
 $!{includeJS()}
 <script type="text/javascript">
 $(document).ready(function(){
-	var tagId = $('#id-holder').text();
+	var tagId = window.frontMap.id;
 	getStream('/sage/read/tag/' + tagId).done(function(){addDeleteButtons($('.slist .tweet'));});
 	getTagChain(tagId, $('#chain'));
 });

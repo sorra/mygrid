@@ -40,7 +40,7 @@ public class PageController {
       return "redirect:/";
     }
 
-    model.addAttribute("blog", blog).addAttribute("tweets", tweetReadService.connectTweets(id));
+    model.addAttribute("blog", blog);
     return "blog";
   }
 
