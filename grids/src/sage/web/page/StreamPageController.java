@@ -60,9 +60,14 @@ public class StreamPageController {
 
   @RequestMapping("/private/{id}")
   public String privatePage(@PathVariable("id") long id, ModelMap model) {
-    model.addAttribute("id", id);
-    UserCard thisUser = userService.getUserCard(AuthUtil.checkCurrentUid(), id);
-    model.addAttribute("thisUserJson", JsonUtil.json(thisUser));
+    Long uid = AuthUtil.checkCurrentUid();
+    FrontMap fm = FrontMap.from(model);
+    
+    fm.put("id", id);
+    if (uid.equals(id)) {
+      fm.put("isSelfPage", true);
+    }
+    fm.put("thisUser", userService.getUserCard(uid, id));
     model.remove("userSelfJson");
     return "private-page";
   }

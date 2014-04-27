@@ -8,13 +8,6 @@
 </head>
 <body>
 $!{include("navbar.httl")}
-<div class="data-holder">
-    <span id="id-holder">${id}</span>
-    #if(id.equals(uid))
-    <span id="is-self-page"></span>
-    #end
-    <span id="this-user-holder">${thisUserJson}</span>
-</div>
 
 <div class="container" id="container">
 	<div class="row">
@@ -30,17 +23,20 @@ $!{include("navbar.httl")}
 $!{include("proto.httl")}
 $!{includeJS()}
 <script type="text/javascript">
-$(document).ready(function(){
-	window.thisUser = $.parseJSON($('#this-user-holder').text());
-    var $thisUser = createUserCard(window.thisUser).css('border', '').css('border-radius', '');
-    $thisUser.find('.follow').remove();
-    $thisUser.appendTo($('.side'));
-    
-	var deferred = getStream(webroot+'/read/u/' + $('#id-holder').text());
-	if ($('#is-self-page').length > 0) {
-	    deferred.done(function(){addDeleteButtons($('.slist .tweet'));});
-	}
-});
+
+  $(document).ready(
+      function() {
+        var $thisUser = createUserCard(window.frontMap.thisUser).css('border', '').css('border-radius', '');
+        $thisUser.find('.follow').remove();
+        $thisUser.appendTo($('.side'));
+
+        var deferred = getStream(webroot + '/read/u/' + window.frontMap.id);
+        if (window.frontMap.isSelfPage) {
+          deferred.done(function() {
+            addDeleteButtons($('.slist .tweet'));
+          });
+        }
+      });
 </script>
 </body>
 </html>
