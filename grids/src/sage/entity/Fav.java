@@ -11,6 +11,8 @@ public class Fav {
   private String link;
   private User owner;
   
+  public Fav() {}
+  
   public Fav(String link, User owner) {
     this.link = link;
     this.owner = owner;
