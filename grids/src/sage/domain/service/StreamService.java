@@ -1,8 +1,11 @@
 package sage.domain.service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +13,7 @@ import org.springframework.util.Assert;
 
 import sage.domain.Comparators;
 import sage.domain.Edge;
+import sage.entity.Tag;
 import sage.entity.Tweet;
 import sage.transfer.CombineGroup;
 import sage.transfer.Item;
@@ -19,28 +23,44 @@ import sage.transfer.TweetCard;
 @Service
 public class StreamService {
   @Autowired
-  private TweetReadService tweetReadService;
+  private TweetReadService tweetRead;
   @Autowired
-  private TagService tagService;
-  @Autowired
-  private TransferService transferService;
+  private TransferService transfer;
 
   public Stream istream(long userId) {
     return istream(userId, Edge.none());
   }
 
   public Stream istream(long userId, Edge edge) {
-    List<Tweet> tweets = tweetReadService.byFollowings(userId, edge);
-    return new Stream(higherSort(naiveSort(tweets)));
+    List<TweetCard> tcsByFols = transfer.toTweetCards(tweetRead.byFollowings(userId, edge));
+    
+    List<TweetCard> tcsByTags = new ArrayList<>();
+    Collection<Tag> scribeTags = new ArrayList<>(); //TODO scribe tags
+    for (Tag tag : scribeTags) {
+      List<TweetCard> tagTcs = transfer.toTweetCards(tweetRead.byTag(tag.getId(), edge));
+      for (TweetCard t : tagTcs) {
+        t.beFromTag(tag.getId());
+      }
+      tcsByTags.addAll(tagTcs);
+    }
+
+    //TODO subscribe groups
+
+    Set<TweetCard> mergedSet = new HashSet<>();
+    // TweetsByFollowings must be added first, they are prior
+    mergedSet.addAll(tcsByFols);
+    mergedSet.addAll(tcsByTags);
+    
+    return new Stream(higherSort(naiveSortTC(mergedSet)));
   }
   
   public Stream tagStream(long tagId, Edge edge) {
-    List<Tweet> tweets = tweetReadService.byTags(tagService.getQueryTags(tagId), edge);
+    List<Tweet> tweets = tweetRead.byTag(tagId, edge);
     return new Stream(naiveSort(tweets));
   }
 
   public Stream personalStream(long userId, Edge edge) {
-    List<Tweet> tweets = tweetReadService.byAuthor(userId, edge);
+    List<Tweet> tweets = tweetRead.byAuthor(userId, edge);
     return new Stream(naiveSort(tweets));
   }
 
@@ -49,10 +69,16 @@ public class StreamService {
     return new Stream(naiveSort(tweets));
   }
 
-  private List<TweetCard> naiveSort(List<Tweet> tweets) {
-    List<TweetCard> tcs= transferService.listTweetCards(tweets, false);
+  private List<TweetCard> naiveSort(Collection<Tweet> tweets) {
+    List<TweetCard> tcs = transfer.toTweetCards(tweets);
     Collections.sort(tcs, Comparators.tweetCardOnId());
     return tcs;
+  }
+  
+  private List<TweetCard> naiveSortTC(Collection<TweetCard> tcs) {
+    List<TweetCard> tcList = new ArrayList<>(tcs);
+    Collections.sort(tcList, Comparators.tweetCardOnId());
+    return tcList;
   }
 
   private List<Item> higherSort(List<TweetCard> tcs) {

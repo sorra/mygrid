@@ -13,6 +13,7 @@ import sage.domain.Comparators;
 import sage.domain.Edge;
 import sage.domain.repository.CommentRepository;
 import sage.domain.repository.FollowRepository;
+import sage.domain.repository.TagRepository;
 import sage.domain.repository.TweetRepository;
 import sage.entity.Comment;
 import sage.entity.Follow;
@@ -26,9 +27,13 @@ public class TweetReadService {
   private static final int FETCH_SIZE = 20;
 
   @Autowired
+  private TagService tagService;
+  @Autowired
   private TransferService transferService;
   @Autowired
   private TweetRepository tweetRepo;
+  @Autowired
+  private TagRepository tagRepo;
   @Autowired
   private FollowRepository followRepo;
   @Autowired
@@ -55,10 +60,11 @@ public class TweetReadService {
     return tops;
   }
 
-  public List<Tweet> byTags(Collection<Tag> tags, Edge edge) {
-    return new ArrayList<>(tweetRepo.byTags(tags, edge));
+  public List<Tweet> byTag(long tagId, Edge edge) {
+    Tag tag = tagRepo.load(tagId);
+    return new ArrayList<>(tweetRepo.byTag(tag, edge));
   }
-
+  
   public List<Tweet> byAuthor(long authorId, Edge edge) {
     return new ArrayList<>(tweetRepo.byAuthor(authorId, edge));
   }

@@ -1,6 +1,7 @@
 package sage.domain.service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,10 +34,7 @@ public class TransferService {
         commentCount(tweet.getId()));
   }
 
-  public List<TweetCard> listTweetCards(List<Tweet> tweets, boolean eagerCopy) {
-    if (eagerCopy) {
-      tweets = new ArrayList<>(tweets);
-    }
+  public List<TweetCard> toTweetCards(Collection<Tweet> tweets) {
     List<TweetCard> tcs = new ArrayList<>(MIN_LIST_SIZE);
     for (Tweet t : tweets) {
       tcs.add(toTweetCard(t));

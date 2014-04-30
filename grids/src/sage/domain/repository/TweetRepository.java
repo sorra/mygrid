@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.hibernate.Query;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import sage.domain.Edge;
@@ -18,14 +17,17 @@ import sage.entity.Tweet;
 @Repository
 public class TweetRepository extends BaseRepository<Tweet> {
   private static final int MAX_RESULTS = 20;
-  @Autowired
-  private TagRepository tagRepo;
 
-  public List<Tweet> byTags(Collection<Tag> tags) {
-    return byTags(tags, Edge.none());
+  public List<Tweet> byTag(Tag tag) {
+    return byTag(tag, Edge.none());
+  }
+  
+  public List<Tweet> byTag(Tag tag, Edge edge) {
+    Collection<Tag> qtags = TagRepository.getQueryTags(tag);
+    return byTags(qtags, edge);
   }
 
-  public List<Tweet> byTags(Collection<Tag> tags, Edge edge) {
+  List<Tweet> byTags(Collection<Tag> tags, Edge edge) {
     if (tags.isEmpty()) {
       return new LinkedList<>();
     }
@@ -35,11 +37,6 @@ public class TweetRepository extends BaseRepository<Tweet> {
         .setParameterList("tags", tags)
         .setMaxResults(MAX_RESULTS)
         .list();
-  }
-
-  public List<Tweet> byTag(Tag tag) {
-    Collection<Tag> qtags = TagRepository.getQueryTags(tag);
-    return byTags(qtags);
   }
 
   public List<Tweet> byAuthor(long authorId) {
