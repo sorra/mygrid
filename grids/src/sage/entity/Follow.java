@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 
 @Entity(name = "Follow")
 public class Follow {
-  private long id;
+  private Long id;
   private User source;
   private User target;
   private Set<Tag> tags = new HashSet<>();
@@ -30,11 +30,10 @@ public class Follow {
 
   @Id
   @GeneratedValue
-  public long getId() {
+  public Long getId() {
     return id;
   }
-
-  public void setId(long id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
@@ -42,7 +41,6 @@ public class Follow {
   public User getSource() {
     return source;
   }
-
   public void setSource(User source) {
     this.source = source;
   }
@@ -51,7 +49,6 @@ public class Follow {
   public User getTarget() {
     return target;
   }
-
   public void setTarget(User target) {
     this.target = target;
   }
@@ -60,7 +57,6 @@ public class Follow {
   public Set<Tag> getTags() {
     return tags;
   }
-
   public void setTags(Set<Tag> tags) {
     this.tags = tags;
   }

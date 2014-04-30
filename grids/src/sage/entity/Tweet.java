@@ -19,7 +19,7 @@ import javax.persistence.OneToOne;
 
 @Entity(name = "Tweet")
 public class Tweet {
-  private long id;
+  private Long id;
   private String content;
   private User author;
   private Date time;
@@ -59,11 +59,11 @@ public class Tweet {
 
   @Id
   @GeneratedValue
-  public long getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(long id) {
+  public void setId(Long id) {
     this.id = id;
   }
 

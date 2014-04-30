@@ -15,7 +15,7 @@ import javax.persistence.ManyToOne;
 
 @Entity(name = "Blog")
 public class Blog {
-  private long id;
+  private Long id;
   private String title;
   private String content;
   private User author;
@@ -35,11 +35,11 @@ public class Blog {
 
   @Id
   @GeneratedValue
-  public long getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(long id) {
+  public void setId(Long id) {
     this.id = id;
   }
 

@@ -9,7 +9,7 @@ import javax.persistence.ManyToOne;
 
 @Entity(name = "Comment")
 public class Comment {
-  private long id;
+  private Long id;
   private String content;
   private User author;
   private Date time;
@@ -27,11 +27,11 @@ public class Comment {
 
   @Id
   @GeneratedValue
-  public long getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(long id) {
+  public void setId(Long id) {
     this.id = id;
   }
 

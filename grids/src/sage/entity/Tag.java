@@ -21,7 +21,7 @@ public class Tag {
   public static final long ROOT_ID = 1;
   public static final String ROOT_NAME = "无";
 
-  private long id;
+  private Long id;
   private String name;
   private boolean isCore;
   private Set<Tag> children = new HashSet<>();
@@ -41,7 +41,7 @@ public class Tag {
 
   @Id
   @GeneratedValue
-  public long getId() {
+  public Long getId() {
     return id;
   }
 
