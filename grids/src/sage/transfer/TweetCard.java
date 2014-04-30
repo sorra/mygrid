@@ -10,8 +10,8 @@ import sage.entity.Tweet;
 public class TweetCard implements Item {
   private final String type = "TweetCard";
 
-  private long id;
-  private long authorId;
+  private Long id;
+  private Long authorId;
   private String authorName;
   private String avatar;
   private String content;
@@ -61,11 +61,11 @@ public class TweetCard implements Item {
     origin = null;
   }
 
-  public long getId() {
+  public Long getId() {
     return id;
   }
 
-  public long getAuthorId() {
+  public Long getAuthorId() {
     return authorId;
   }
 
@@ -121,7 +121,28 @@ public class TweetCard implements Item {
   }
 
   @Override
+  public int hashCode() {
+    return id.hashCode();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    TweetCard other = (TweetCard) obj;
+    if (id != other.id)
+      return false;
+    return true;
+  }
+
+  @Override
   public String toString() {
     return authorName + ": " + content + tags;
   }
+  
+  
 }

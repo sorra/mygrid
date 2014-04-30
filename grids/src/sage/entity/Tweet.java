@@ -148,7 +148,7 @@ public class Tweet {
 
   @Override
   public int hashCode() {
-    return Long.valueOf(id).hashCode();
+    return id.hashCode();
   }
 
   @Override
