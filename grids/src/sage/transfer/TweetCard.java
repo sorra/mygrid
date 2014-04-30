@@ -19,8 +19,12 @@ public class TweetCard implements Item {
   private TweetCard origin = null;
   private String prefo = null;
   private List<TagLabel> tags = new ArrayList<>();
+  
   private long forwardCount;
   private long commentCount;
+  
+  private Long fromTag = null;
+  private Long fromGroup = null;
 
   public TweetCard(Tweet tweet, long forwardCount, long commentCount) {
     id = tweet.getId();
@@ -38,6 +42,16 @@ public class TweetCard implements Item {
     }
     this.forwardCount = forwardCount;
     this.commentCount = commentCount;
+  }
+  
+  public TweetCard beFromTag(Long tagId) {
+    fromTag = tagId;
+    return this;
+  }
+  
+  public TweetCard beFromGroup(Long groupId) {
+    fromGroup = groupId;
+    return this;
   }
 
   /**
@@ -91,6 +105,14 @@ public class TweetCard implements Item {
 
   public long getCommentCount() {
     return commentCount;
+  }
+  
+  public Long getFromTag() {
+    return fromTag;
+  }
+  
+  public Long getFromGroup() {
+    return fromGroup;
   }
 
   @Override
