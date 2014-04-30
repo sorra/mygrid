@@ -34,7 +34,7 @@ public class TweetReadService {
   @Autowired
   private CommentRepository commentRepo;
 
-  public List<TweetCard> istream(long userId, Edge edge) {
+  public List<TweetCard> byFollowings(long userId, Edge edge) {
     List<Tweet> tweets = new ArrayList<>();
 
     tweets.addAll(tweetRepo.byAuthor(userId, edge));
@@ -55,11 +55,11 @@ public class TweetReadService {
     return transferService.listTweetCards(tops, false);
   }
 
-  public List<Tweet> tweetsByTags(Collection<Tag> tags, Edge edge) {
+  public List<Tweet> byTags(Collection<Tag> tags, Edge edge) {
     return new ArrayList<>(tweetRepo.byTags(tags, edge));
   }
 
-  public List<Tweet> tweetsByAuthor(long authorId, Edge edge) {
+  public List<Tweet> byAuthor(long authorId, Edge edge) {
     return new ArrayList<>(tweetRepo.byAuthor(authorId, edge));
   }
 
