@@ -30,14 +30,35 @@ public class StreamService {
   }
 
   public Stream istream(long userId, Edge edge) {
-    List<TweetCard> tcs = tweetReadService.byFollowings(userId, edge);
-    return new Stream(higherSort(tcs));
+    List<Tweet> tweets = tweetReadService.byFollowings(userId, edge);
+    return new Stream(higherSort(naiveSort(tweets)));
   }
   
+  public Stream tagStream(long tagId, Edge edge) {
+    List<Tweet> tweets = tweetReadService.byTags(tagService.getQueryTags(tagId), edge);
+    return new Stream(naiveSort(tweets));
+  }
+
+  public Stream personalStream(long userId, Edge edge) {
+    List<Tweet> tweets = tweetReadService.byAuthor(userId, edge);
+    return new Stream(naiveSort(tweets));
+  }
+
+  public Stream groupStream(long groupId, Edge edge) {
+    List<Tweet> tweets = null;
+    return new Stream(naiveSort(tweets));
+  }
+
+  private List<TweetCard> naiveSort(List<Tweet> tweets) {
+    List<TweetCard> tcs= transferService.listTweetCards(tweets, false);
+    Collections.sort(tcs, Comparators.tweetCardOnId());
+    return tcs;
+  }
+
   private List<Item> higherSort(List<TweetCard> tcs) {
     List<Item> cleanList = new ArrayList<>();
     cleanList.addAll(tcs);
-
+  
     // TODO Pull-near
     return combine(tcs);
   }
@@ -65,7 +86,7 @@ public class StreamService {
         }
       }
     }
-
+  
     List<Item> sequence = new ArrayList<>(groupSeq.size());
     for (CombineGroup group : groupSeq) {
       if (group.getForwards().isEmpty()) {
@@ -85,25 +106,5 @@ public class StreamService {
       }
     }
     return null;
-  }
-
-  public Stream tagStream(long tagId, Edge edge) {
-    List<Tweet> tweets = tweetReadService.byTags(tagService.getQueryTags(tagId), edge);
-    return new Stream(naiveSort(tweets));
-  }
-
-  public Stream personalStream(long userId, Edge edge) {
-    List<Tweet> tweets = tweetReadService.byAuthor(userId, edge);
-    return new Stream(naiveSort(tweets));
-  }
-
-  public Stream groupStream(long groupId, Edge edge) {
-    return null;
-  }
-
-  private List<TweetCard> naiveSort(List<Tweet> tweets) {
-    List<TweetCard> tcs = transferService.listTweetCards(tweets, false);
-    Collections.sort(tcs, Comparators.tweetCardOnId());
-    return tcs;
   }
 }

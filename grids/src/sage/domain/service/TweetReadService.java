@@ -34,7 +34,7 @@ public class TweetReadService {
   @Autowired
   private CommentRepository commentRepo;
 
-  public List<TweetCard> byFollowings(long userId, Edge edge) {
+  public List<Tweet> byFollowings(long userId, Edge edge) {
     List<Tweet> tweets = new ArrayList<>();
 
     tweets.addAll(tweetRepo.byAuthor(userId, edge));
@@ -52,7 +52,7 @@ public class TweetReadService {
     List<Tweet> tops = (FETCH_SIZE < tweets.size())
         ? tweets.subList(0, FETCH_SIZE) : tweets;
     // How to optimize the counting inside, by Hibernate L1 cache?
-    return transferService.listTweetCards(tops, false);
+    return tops;
   }
 
   public List<Tweet> byTags(Collection<Tag> tags, Edge edge) {
