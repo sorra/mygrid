@@ -16,7 +16,7 @@ public class ReplaceMentionTest {
             @Override
             public User findByName(String name) {
                 User user = new User();
-                user.setId(1000);
+                user.setId(1000L);
                 user.setName(name);
                 return user;
             }
