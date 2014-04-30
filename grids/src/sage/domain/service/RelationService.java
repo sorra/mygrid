@@ -64,32 +64,30 @@ public class RelationService {
 
   @Transactional(readOnly = true)
   public Collection<Follow> followings(long userId) {
-    return followRepo.followings(userId);
+    return new ArrayList<>(followRepo.followings(userId));
   }
 
   @Transactional(readOnly = true)
   public Collection<Follow> followers(long userId) {
-    return followRepo.followers(userId);
+    return new ArrayList<>(followRepo.followers(userId));
   }
 
   @Transactional(readOnly = true)
   public Collection<UserLabel> friends(long userId) {
-    List<Follow> followings = new ArrayList<Follow>(followings(userId));
-    List<User> followingUsers = new ArrayList<>();
-    for (Follow f : followings) {
+    final List<User> followingUsers = new ArrayList<>();
+    for (Follow f : followings(userId)) {
       followingUsers.add(f.getTarget());
     }
 
-    List<Follow> followers = new ArrayList<>(followers(userId));
     List<User> followerUsers = new ArrayList<>();
-    for (Follow f : followers) {
+    for (Follow f : followers(userId)) {
       followerUsers.add(f.getSource());
     }
 
     followingUsers.retainAll(followerUsers);
-    List<User> friendUsers = followingUsers;
+    final List<User> friendUsers = followingUsers;
 
-    List<UserLabel> friends = new ArrayList<>();
+    final List<UserLabel> friends = new ArrayList<>();
     for (User u : friendUsers) {
       friends.add(new UserLabel(u));
     }
