@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import sage.domain.Comparators;
 import sage.domain.Edge;
-import sage.domain.TweetOnIdComparator;
 import sage.entity.Tweet;
 import sage.transfer.CombineGroup;
 import sage.transfer.Item;
@@ -33,7 +33,7 @@ public class StreamService {
     List<TweetCard> tcs = tweetReadService.byFollowings(userId, edge);
     return new Stream(higherSort(tcs));
   }
-
+  
   private List<Item> higherSort(List<TweetCard> tcs) {
     List<Item> cleanList = new ArrayList<>();
     cleanList.addAll(tcs);
@@ -89,17 +89,21 @@ public class StreamService {
 
   public Stream tagStream(long tagId, Edge edge) {
     List<Tweet> tweets = tweetReadService.byTags(tagService.getQueryTags(tagId), edge);
-    Collections.sort(tweets, new TweetOnIdComparator());
-    return new Stream(transferService.listTweetCards(tweets, false));
+    return new Stream(naiveSort(tweets));
   }
 
   public Stream personalStream(long userId, Edge edge) {
     List<Tweet> tweets = tweetReadService.byAuthor(userId, edge);
-    Collections.sort(tweets, new TweetOnIdComparator());
-    return new Stream(transferService.listTweetCards(tweets, false));
+    return new Stream(naiveSort(tweets));
   }
 
   public Stream groupStream(long groupId, Edge edge) {
     return null;
+  }
+
+  private List<TweetCard> naiveSort(List<Tweet> tweets) {
+    List<TweetCard> tcs = transferService.listTweetCards(tweets, false);
+    Collections.sort(tcs, Comparators.tweetCardOnId());
+    return tcs;
   }
 }

@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import sage.domain.Comparators;
 import sage.domain.Edge;
-import sage.domain.TweetOnIdComparator;
 import sage.domain.repository.CommentRepository;
 import sage.domain.repository.FollowRepository;
 import sage.domain.repository.TweetRepository;
@@ -46,7 +46,7 @@ public class TweetReadService {
           follow.getTarget().getId(), follow.getTags(), edge);
       tweets.addAll(result);
     }
-    Collections.sort(tweets, new TweetOnIdComparator());
+    Collections.sort(tweets, Comparators.tweetOnId());
 
     // Select the top items, for later's higher sort
     List<Tweet> tops = (FETCH_SIZE < tweets.size())
