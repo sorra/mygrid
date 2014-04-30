@@ -24,6 +24,10 @@ public class Tweet {
   private User author;
   private Date time;
   private Tweet origin = null;
+  /**
+   * Flattened prefix for nested forwards
+   * @see TweetPostService#enPrefo()
+   */
   private String prefo = null;
   private Long blogId = null;
   private Set<Tag> tags = new HashSet<>();
