@@ -12,7 +12,6 @@ import sage.domain.repository.HeededTagRepository;
 import sage.domain.repository.TagRepository;
 import sage.domain.repository.UserRepository;
 import sage.entity.HeededTag;
-import sage.entity.Tag;
 
 @Service
 @Transactional
