@@ -18,6 +18,7 @@ $!{include("navbar.httl")}
 	<div id="result-list"></div>
 </div>
 $!{include("proto.httl")}
+$!{includeProto}
 $!{includeJS()}
 </body>
 </html>

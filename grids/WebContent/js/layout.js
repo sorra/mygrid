@@ -52,7 +52,7 @@ function buildNavTagTree($lnk, tagTree) {
 //    var $body = $('<div class="modal-body">').appendTo($dialog);
 //    $('<input id="name">').appendTo($body);
 //    $('<input id="parent-id">').appendTo($body);
-    var $dialog = $('.proto > .new-tag-dialog').clone();
+    var $dialog = $('.proto > .new-tag-dialog').warnEmpty().clone();
     
     var $footer = $dialog.find('.modal-footer');
     $('<button class="btn btn-primary">').text('确定').css({float: 'right'}).appendTo($footer)

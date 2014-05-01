@@ -1,9 +1,11 @@
 'use strict';
 
 $(document).ready(function(){
-    if ($('#blog-id').length > 0) {
-        window.blogId = parseInt($('#blog-id').text());
-    }
+  $('#nav-write-blog').addClass('active');
+  
+  if ($('#blog-id').length > 0) {
+      window.blogId = parseInt($('#blog-id').text());
+  }
     
 	buildTagSels();
 	buildTagPlus();

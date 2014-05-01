@@ -49,6 +49,11 @@ public class PageController {
     model.addAttribute("blogs", blogReadService.getAllBlogDatas());
     return "blogs";
   }
+  
+  @RequestMapping("/fav")
+  public String fav(ModelMap model) {
+    return "fav";
+  }
 
   @RequestMapping("/write-blog")
   public String writeBlog() {

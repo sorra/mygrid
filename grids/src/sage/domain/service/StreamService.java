@@ -14,7 +14,6 @@ import org.springframework.util.Assert;
 import sage.domain.Comparators;
 import sage.domain.Edge;
 import sage.entity.HeededTag;
-import sage.entity.Tag;
 import sage.entity.Tweet;
 import sage.transfer.CombineGroup;
 import sage.transfer.Item;

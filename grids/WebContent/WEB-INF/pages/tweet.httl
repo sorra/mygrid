@@ -13,6 +13,7 @@ $!{include("navbar.httl")}
 </div>
 <div class="container"></div>
 $!{include("proto.httl")}
+$!{includeProto}
 $!{includeJS()}
 <script>
 var tc = $.parseJSON($('#tc-json').text());

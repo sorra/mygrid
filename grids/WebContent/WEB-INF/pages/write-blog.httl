@@ -51,6 +51,7 @@ $!{include("navbar.httl")}
 <div class="footer"></div>
 
 $!{include("proto.httl")}
+$!{includeProto}
 $!{includeJS()}
 </body>
 </html>

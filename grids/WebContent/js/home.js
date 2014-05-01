@@ -1,18 +1,20 @@
 'use strict';
 
 $(document).ready(function(){
-    var $selfCard = createUserCard(window.userSelf).css('border', '').css('border-radius', '');
-    $selfCard.find('.follow').remove();
-    $selfCard.appendTo($('.self-card'));
-    
-    var friends = window.frontMap.friends;
-    var $friends = $('.friends');
-    for (var _i in friends) {
-        var $li = $('<li>');
-        createUserLabel(friends[_i]).appendTo($li);
-        $li.appendTo($friends);
-    }
-    $friends.appendTo($('.friends'));
+  $('#nav-home').addClass('active');
+  
+  var $selfCard = createUserCard(window.userSelf).css('border', '').css('border-radius', '');
+  $selfCard.find('.follow').remove();
+  $selfCard.appendTo($('.self-card'));
+  
+  var friends = window.frontMap.friends;
+  var $friends = $('.friends');
+  for (var _i in friends) {
+      var $li = $('<li>');
+      createUserLabel(friends[_i]).appendTo($li);
+      $li.appendTo($friends);
+  }
+  $friends.appendTo($('.friends'));
     
 	buildTagSels();
 	buildTagPlus();
