@@ -13,6 +13,7 @@ import org.springframework.util.Assert;
 
 import sage.domain.Comparators;
 import sage.domain.Edge;
+import sage.entity.HeededTag;
 import sage.entity.Tag;
 import sage.entity.Tweet;
 import sage.transfer.CombineGroup;
@@ -26,6 +27,8 @@ public class StreamService {
   private TweetReadService tweetRead;
   @Autowired
   private TransferService transfer;
+  @Autowired
+  private HeedService heed;
 
   public Stream istream(long userId) {
     return istream(userId, Edge.none());
@@ -35,16 +38,16 @@ public class StreamService {
     List<TweetCard> tcsByFols = transfer.toTweetCards(tweetRead.byFollowings(userId, edge));
     
     List<TweetCard> tcsByTags = new ArrayList<>();
-    Collection<Tag> scribeTags = new ArrayList<>(); //TODO scribe tags
-    for (Tag tag : scribeTags) {
-      List<TweetCard> tagTcs = transfer.toTweetCards(tweetRead.byTag(tag.getId(), edge));
+    for (HeededTag ht : heed.heededTags(userId)) {
+      Long tagId = ht.getTag().getId();
+      List<TweetCard> tagTcs = transfer.toTweetCards(tweetRead.byTag(tagId, edge));
       for (TweetCard t : tagTcs) {
-        t.beFromTag(tag.getId());
+        t.beFromTag(tagId);
       }
       tcsByTags.addAll(tagTcs);
     }
 
-    //TODO subscribe groups
+    //TODO heed groups
 
     Set<TweetCard> mergedSet = new HashSet<>();
     // TweetsByFollowings must be added first, they are prior
