@@ -42,17 +42,19 @@ function buildNavTagTree($lnk, tagTree) {
     var $navTagTree = $('<div>');
     var $createTag = $('<btn>').text('新建').addClass('btn btn-warning').css('display', 'block').appendTo($navTagTree);
     
-    var $dialog = $('<div class="new-tag-dialog modal">')
-        .css({
-            width : '300px',
-            minHeight : '100px',
-            borderRadius : '10px'
-        });
-    $('<div class="modal-header">').text('新的标签').appendTo($dialog);
-    var $body = $('<div class="modal-body">').appendTo($dialog);
-    $('<input id="name">').appendTo($body);
-    $('<input id="parent-id">').appendTo($body);
-    var $footer = $('<div class="modal-footer">').appendTo($dialog);
+//    var $dialog = $('<div class="new-tag-dialog modal">')
+//        .css({
+//            width : '300px',
+//            minHeight : '100px',
+//            borderRadius : '10px'
+//        });
+//    $('<div class="modal-header">').text('新的标签').appendTo($dialog);
+//    var $body = $('<div class="modal-body">').appendTo($dialog);
+//    $('<input id="name">').appendTo($body);
+//    $('<input id="parent-id">').appendTo($body);
+    var $dialog = $('.proto > .new-tag-dialog').clone();
+    
+    var $footer = $dialog.find('.modal-footer');
     $('<button class="btn btn-primary">').text('确定').css({float: 'right'}).appendTo($footer)
         .click(function() {
             $.post(webroot+'/tag/new', {
