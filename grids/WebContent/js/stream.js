@@ -125,7 +125,8 @@ function createTweetCard(tweet) {
     else
         $tc.find('.origin').remove();
     
-    $tc.find('.time').text(showTime(tweet.time)).attr('href', webroot+'/tweet/'+tweet.id);
+    $tc.children('.t-part').children('.row').children('.time')
+      .text(showTime(tweet.time)).attr('href', webroot+'/tweet/'+tweet.id);
     var $tags = $tc.find('.tags');
     var tags = tweet.origin ? tweet.origin.tags : tweet.tags;
     if (tags && tags.length > 0) {
