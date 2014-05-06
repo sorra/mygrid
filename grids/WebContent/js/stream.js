@@ -82,7 +82,7 @@ function createStreamAfter(stream) {
     console.log(stream.items.length);
     console.log(stream);
     var $slist = $('.slist');
-    $.each(stream.items, function(idx, item){
+    $.each(stream.items.reverse(), function(idx, item){
         if (item.type == 'TweetCard') {
             createTweetCard(item).prependTo($slist);
         }
