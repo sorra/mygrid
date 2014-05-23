@@ -170,15 +170,23 @@ function createTweetCard(tweet) {
     });
     $tc.find('.comment').attr('href', 'javascript:;').click(function(){
         event.preventDefault();
+        var $this = $(this);
         var clKey = 'comment-list';
-        var $cl = $(this).data(clKey);
+        var $cl = $this.data(clKey);
+        
         if ($cl) {
             $cl.remove();
-            $(this).removeData(clKey);
+            $this.removeData(clKey);
         }
         else {
-            $cl = createCommentList(tweet.id).appendTo($tc.find('.t-part'));
-            $(this).data(clKey, $cl);
+          var retach = function(funcSelf, $commentList){
+            var $clOld = $this.data(clKey);
+            if ($clOld) $clOld.remove();
+            
+            var $clNew = $commentList.appendTo($tc.find('.t-part'));
+            $this.data(clKey, $clNew);
+          };
+          retach(retach, createCommentList(tweet.id, retach));
         }
     });
     return $tc;
@@ -225,7 +233,7 @@ function createBlogData(blog) {
     return $bd;
 }
 
-function createCommentList(tweetId) {
+function createCommentList(tweetId, funcRetach) {
     var $cl = $('<div>');
     var $input = $('<input>').appendTo($cl);
     $('<button class="btn btn-small btn-success">').text('评论').appendTo($cl)
@@ -233,6 +241,8 @@ function createCommentList(tweetId) {
            $.post(webroot+'/post/comment', {
                content: $input.val(),
                sourceId: tweetId
+           }).success(function(){
+             funcRetach(funcRetach, createCommentList(tweetId, funcRetach));
            });
            $input.val('');
         });
