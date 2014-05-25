@@ -80,7 +80,7 @@ public class User {
 
   @Override
   public String toString() {
-    return name;
+    return String.format("[%d, %s]", id, name);
   }
 
   @Override

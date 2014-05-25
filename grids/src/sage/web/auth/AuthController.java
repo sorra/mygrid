@@ -47,7 +47,7 @@ public class AuthController {
     if (user != null) {
       HttpSession sesison = request.getSession(true);
       sesison.setAttribute(SessionKeys.UID, user.getId());
-      logger.info("User {} logged in.", user.getId());
+      logger.info("User {} logged in.", user);
       if (dest == null) {
         return "redirect:/";
       }
