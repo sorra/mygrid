@@ -13,6 +13,8 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
+import sage.domain.IdCommons;
+
 @Entity(name = "Blog")
 public class Blog {
   private Long id;
@@ -95,7 +97,7 @@ public class Blog {
 
   @Override
   public int hashCode() {
-    return Long.valueOf(id).hashCode();
+    return IdCommons.hashCode(getId());
   }
 
   @Override
@@ -106,9 +108,8 @@ public class Blog {
       return false;
     if (getClass() != obj.getClass())
       return false;
+    
     Blog other = (Blog) obj;
-    if (id != other.id)
-      return false;
-    return true;
+    return IdCommons.equal(getId(), other.getId());
   }
 }

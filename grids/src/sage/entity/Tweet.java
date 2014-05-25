@@ -17,6 +17,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import sage.domain.IdCommons;
+
 @Entity(name = "Tweet")
 public class Tweet {
   private Long id;
@@ -148,7 +150,7 @@ public class Tweet {
 
   @Override
   public int hashCode() {
-    return id.hashCode();
+    return IdCommons.hashCode(getId());
   }
 
   @Override
@@ -159,9 +161,8 @@ public class Tweet {
       return false;
     if (getClass() != obj.getClass())
       return false;
+    
     Tweet other = (Tweet) obj;
-    if (id != other.id)
-      return false;
-    return true;
+    return IdCommons.equal(getId(), other.getId());
   }
 }

@@ -13,6 +13,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import sage.domain.IdCommons;
+
 /**
  * This should be a permanently cached entity-type
  */
@@ -145,7 +147,7 @@ public class Tag {
 
   @Override
   public int hashCode() {
-    return Long.valueOf(id).hashCode();
+    return IdCommons.hashCode(getId());
   }
 
   @Override
@@ -156,9 +158,8 @@ public class Tag {
       return false;
     if (getClass() != obj.getClass())
       return false;
+    
     Tag other = (Tag) obj;
-    if (id != other.id)
-      return false;
-    return true;
+    return IdCommons.equal(getId(), other.getId());
   }
 }

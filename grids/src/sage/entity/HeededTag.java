@@ -5,6 +5,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import sage.domain.IdCommons;
+
 @Entity(name = "HeededTag")
 public class HeededTag {
   private Long id;
@@ -38,5 +40,23 @@ public class HeededTag {
   }
   public void setTag(Tag tag) {
     this.tag = tag;
+  }
+  
+  @Override
+  public int hashCode() {
+    return IdCommons.hashCode(getId());
+  }
+  
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    
+    HeededTag other = (HeededTag) obj;
+    return IdCommons.equal(getId(), other.getId());
   }
 }

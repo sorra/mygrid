@@ -7,6 +7,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import sage.domain.IdCommons;
+
 @Entity(name = "Comment")
 public class Comment {
   private Long id;
@@ -76,7 +78,7 @@ public class Comment {
 
   @Override
   public int hashCode() {
-    return Long.valueOf(id).hashCode();
+    return IdCommons.hashCode(getId());
   }
 
   @Override
@@ -87,9 +89,8 @@ public class Comment {
       return false;
     if (getClass() != obj.getClass())
       return false;
+    
     Comment other = (Comment) obj;
-    if (id != other.id)
-      return false;
-    return true;
+    return IdCommons.equal(getId(), other.getId());
   }
 }

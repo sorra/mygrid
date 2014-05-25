@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import sage.domain.IdCommons;
 import sage.entity.Tag;
 import sage.entity.Tweet;
 
@@ -122,7 +123,7 @@ public class TweetCard implements Item {
 
   @Override
   public int hashCode() {
-    return id.hashCode();
+    return IdCommons.hashCode(getId());
   }
 
   @Override
@@ -133,10 +134,9 @@ public class TweetCard implements Item {
       return false;
     if (getClass() != obj.getClass())
       return false;
+    
     TweetCard other = (TweetCard) obj;
-    if (id != other.id)
-      return false;
-    return true;
+    return IdCommons.equal(getId(), other.getId());
   }
 
   @Override

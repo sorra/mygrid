@@ -5,6 +5,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import sage.domain.IdCommons;
+
 @Entity(name = "Fav")
 public class Fav {
   private Long id;
@@ -28,4 +30,22 @@ public class Fav {
   @OneToOne
   public User getOwner() {return owner;}
   public void setOwner(User owner) {this.owner = owner;}
+  
+  @Override
+  public int hashCode() {
+    return IdCommons.hashCode(getId());
+  }
+  
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    
+    Fav other = (Fav) obj;
+    return IdCommons.equal(getId(), other.getId());
+  }
 }

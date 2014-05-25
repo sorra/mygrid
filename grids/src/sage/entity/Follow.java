@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
+import sage.domain.IdCommons;
+
 @Entity(name = "Follow")
 public class Follow {
   private Long id;
@@ -68,7 +70,7 @@ public class Follow {
 
   @Override
   public int hashCode() {
-    return Long.valueOf(id).hashCode();
+    return IdCommons.hashCode(getId());
   }
 
   @Override
@@ -79,9 +81,8 @@ public class Follow {
       return false;
     if (getClass() != obj.getClass())
       return false;
+    
     Follow other = (Follow) obj;
-    if (id != other.id)
-      return false;
-    return true;
+    return IdCommons.equal(getId(), other.getId());
   }
 }
