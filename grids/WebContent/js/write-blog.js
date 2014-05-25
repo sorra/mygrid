@@ -63,6 +63,11 @@ $(document).ready(function() {
         refresh();
     });
     $('#tabs a[href="#content"]').warnEmpty().tab('show');
+    
+    var $content = $('#content');
+    //TODO is this OK?
+    $content.val(unescapeHtml($content.val()));
+    
     refresh();
 });
 
