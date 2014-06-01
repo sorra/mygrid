@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 import sage.domain.repository.FollowRepository;
 import sage.domain.repository.TagRepository;
@@ -29,32 +28,44 @@ public class RelationService {
   @Autowired
   TagRepository tagRepo;
 
+  /**
+   * Act as 'follow' or 'editFollow'
+   * @param userId The acting user
+   * @param targetId The target user to follow
+   * @param tagIds The tags to follow
+   */
   public void follow(long userId, long targetId, Collection<Long> tagIds) {
     if (userId == targetId) {
       logger.warn("user {} should not follow himself!", userId);
       return;
     }
-    Assert.isNull(followRepo.find(userId, targetId));
-    Follow follow = new Follow(
-        userRepo.load(userId), userRepo.load(targetId),
-        tagRepo.byIds(tagIds));
-    followRepo.save(follow);
-  }
-
-  /*
-   * May optimize it by findByFollowId (surrogate key)
-   */
-  public void editFollow(long userId, long targetId, Collection<Long> tagIds) {
     Follow follow = followRepo.find(userId, targetId);
-    Assert.notNull(follow);
-    follow.setTags(tagRepo.byIds(tagIds));
-    followRepo.merge(follow);
+    if (follow == null) {
+      follow = new Follow(userRepo.load(userId), userRepo.load(targetId), tagRepo.byIds(tagIds));
+      followRepo.save(follow);
+    } else {
+      follow.setTags(tagRepo.byIds(tagIds));
+      followRepo.merge(follow);
+    }
   }
 
   public void unfollow(long userId, long targetId) {
     Follow follow = followRepo.find(userId, targetId);
-    Assert.notNull(follow);
-    followRepo.delete(follow);
+    if (follow != null) {
+      followRepo.delete(follow);
+    } else {
+      logger.warn("user {} should not unfollow duplicately!", userId);
+    }
+  }
+
+  /*
+   * Optional method for 'editFollow'
+   */
+  @Deprecated
+  public void editFollow(long followId, Collection<Long> tagIds) {
+    Follow follow = followRepo.get(followId);
+    follow.setTags(tagRepo.byIds(tagIds));
+    followRepo.merge(follow);
   }
 
   @Transactional(readOnly = true)

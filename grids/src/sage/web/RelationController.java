@@ -29,6 +29,7 @@ public class RelationController {
       tagIds = Collections.EMPTY_LIST;
     }
     relationService.follow(uid, targetId, tagIds);
+    // Send "followed" notification
   }
 
   @RequestMapping("/editfollow/{id}")
@@ -40,7 +41,7 @@ public class RelationController {
     if (tagIds == null) {
       tagIds = Collections.EMPTY_LIST;
     }
-    relationService.editFollow(uid, targetId, tagIds);
+    relationService.follow(uid, targetId, tagIds);
   }
 
   @RequestMapping("/unfollow/{id}")
