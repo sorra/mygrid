@@ -14,7 +14,7 @@ import sage.domain.service.UserService;
 import sage.entity.Follow;
 import sage.transfer.UserCard;
 import sage.web.auth.AuthUtil;
-import sage.web.context.JsonUtil;
+import sage.web.context.FrontMap;
 
 @Controller
 public class RelationPageController {
@@ -28,14 +28,17 @@ public class RelationPageController {
     return "forward:/followings/" + AuthUtil.checkCurrentUid();
   }
 
-  @RequestMapping("/followings/{uid}")
-  public String followings(@PathVariable("uid") long uid, ModelMap model) {
-    List<String> followingsInJson = new ArrayList<>();
-    for (Follow follow : relationService.followings(uid)) {
-      UserCard followingUc = userService.getUserCard(uid, follow.getTarget().getId());
-      followingsInJson.add(JsonUtil.json(followingUc));
+  @RequestMapping("/followings/{userId}")
+  public String followings(@PathVariable("userId") long userId, ModelMap model) {
+    Long curUid = AuthUtil.checkCurrentUid();
+    
+    List<UserCard> followings = new ArrayList<>();
+    for (Follow follow : relationService.followings(userId)) {
+      UserCard following = userService.getUserCard(curUid, follow.getTarget().getId());
+      followings.add(following);
     }
-    model.addAttribute("followings", followingsInJson);
+    
+    FrontMap.from(model).put("followings", followings);
     return "followings";
   }
 
@@ -44,14 +47,17 @@ public class RelationPageController {
     return "forward:/followers/" + AuthUtil.checkCurrentUid();
   }
 
-  @RequestMapping("/followers/{uid}")
-  public String followers(@PathVariable("uid") long uid, ModelMap model) {
-    List<String> followersInJson = new ArrayList<>();
-    for (Follow follow : relationService.followers(uid)) {
-      UserCard followerUc = userService.getUserCard(uid, follow.getSource().getId());
-      followersInJson.add(JsonUtil.json(followerUc));
+  @RequestMapping("/followers/{userId}")
+  public String followers(@PathVariable("userId") long userId, ModelMap model) {
+    Long curUid = AuthUtil.checkCurrentUid();
+    
+    List<UserCard> followers = new ArrayList<>();
+    for (Follow follow : relationService.followers(userId)) {
+      UserCard follower = userService.getUserCard(curUid, follow.getSource().getId());
+      followers.add(follower);
     }
-    model.addAttribute("followers", followersInJson);
+    
+    FrontMap.from(model).put("followers", followers);
     return "followers";
   }
 }

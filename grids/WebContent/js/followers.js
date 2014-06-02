@@ -1,8 +1,7 @@
 'use strict';
 
 $(document).ready(function(){
-	$(".follower-json").each(function(){
-		var uc = $.parseJSON($(this).text());
+	$.each(window.frontMap.followers, function(i_, uc){
 		createUserCard(uc)
 			.css('margin', '10px')
 			.css('float', 'left')

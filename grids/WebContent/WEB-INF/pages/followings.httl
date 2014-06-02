@@ -11,9 +11,6 @@
 <body>
 $!{include("navbar.httl")}
 <div id="container" class="container">
-	#for(each: followings)
-	<span class="following-json" style="display:none">${each}</span>
-	#end
 	<div id="list"></div>
 </div>
 $!{include("proto.httl")}
