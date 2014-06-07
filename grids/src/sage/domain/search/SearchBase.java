@@ -69,7 +69,7 @@ public class SearchBase {
 
   @PreDestroy
   void shutdown() {
-    // node.close();
+    client.close();
   }
 
   /**
