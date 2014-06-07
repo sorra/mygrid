@@ -2,12 +2,12 @@ package sage.transfer;
 
 import sage.entity.Fav;
 
-public class FavItem {
+public class FavInfo {
   private long id;
   private String link;
   private long ownerId;
   
-  public FavItem(Fav fav) {
+  public FavInfo(Fav fav) {
     id = fav.getId();
     link = fav.getLink();
     ownerId = fav.getOwner().getId();
