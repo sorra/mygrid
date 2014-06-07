@@ -1,5 +1,7 @@
 package sage.transfer;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import sage.entity.Tag;
@@ -49,5 +51,13 @@ public class TagLabel {
   @Override
   public String toString() {
     return name;
+  }
+  
+  public static List<TagLabel> listOf(Collection<Tag> tags) {
+    List<TagLabel> labels = new ArrayList<>();
+    for (Tag tag : tags) {
+      labels.add(new TagLabel(tag));
+    }
+    return labels;
   }
 }

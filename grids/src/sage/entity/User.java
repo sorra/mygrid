@@ -82,7 +82,7 @@ public class User {
 
   @Override
   public String toString() {
-    return String.format("[%d, %s]", id, name);
+    return String.format("User[%d, %s]", id, name);
   }
 
   @Override

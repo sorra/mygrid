@@ -21,7 +21,7 @@ public class FavService {
     return new ArrayList<>(favs(userId));
   }
   
-  public void newFav(String link, long ownerId) {
+  public void addFav(String link, long ownerId) {
     Fav fav = new Fav(link, userRepo.load(ownerId));
     favRepo.save(fav);
   }

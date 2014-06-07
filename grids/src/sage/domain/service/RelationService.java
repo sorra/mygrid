@@ -96,12 +96,8 @@ public class RelationService {
     }
 
     followingUsers.retainAll(followerUsers);
-    final List<User> friendUsers = followingUsers;
+    final List<User> friends = followingUsers;
 
-    final List<UserLabel> friends = new ArrayList<>();
-    for (User u : friendUsers) {
-      friends.add(new UserLabel(u));
-    }
-    return friends;
+    return UserLabel.listOf(friends);
   }
 }

@@ -1,5 +1,9 @@
 package sage.transfer;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import sage.entity.User;
 
 public class UserLabel {
@@ -27,5 +31,18 @@ public class UserLabel {
 
   public String getAvatar() {
     return avatar;
+  }
+  
+  @Override
+  public String toString() {
+    return String.format("UserLabel[%d, %s]", id, name);
+  }
+  
+  public static List<UserLabel> listOf(Collection<User> users) {
+    List<UserLabel> labels = new ArrayList<>();
+    for (User user : users) {
+      labels.add(new UserLabel(user));
+    }
+    return labels;
   }
 }
