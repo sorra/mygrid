@@ -1,5 +1,9 @@
 package sage.transfer;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import sage.entity.Fav;
 
 public class FavInfo {
@@ -21,5 +25,13 @@ public class FavInfo {
   }
   public long getOwnerId() {
     return ownerId;
+  }
+  
+  public static List<FavInfo> listOf(Collection<Fav> favs) {
+    List<FavInfo> infos = new ArrayList<>();
+    for (Fav fav : favs) {
+      infos.add(new FavInfo(fav));
+    }
+    return infos;
   }
 }

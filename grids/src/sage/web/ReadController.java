@@ -1,6 +1,5 @@
 package sage.web;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -13,10 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import sage.domain.Edge;
-import sage.domain.service.BlogReadService;
 import sage.domain.service.StreamService;
 import sage.domain.service.TweetReadService;
-import sage.entity.Comment;
 import sage.transfer.CommentCard;
 import sage.transfer.Stream;
 import sage.transfer.TweetCard;
@@ -28,8 +25,6 @@ public class ReadController {
   private final static Logger logger = LoggerFactory.getLogger(ReadController.class);
   @Autowired
   private StreamService streamService;
-  @Autowired
-  private BlogReadService blogReadService;
   @Autowired
   private TweetReadService tweetReadService;
 
@@ -53,11 +48,7 @@ public class ReadController {
   @RequestMapping("/{tweetId}/comments")
   @ResponseBody
   public List<CommentCard> comments(@PathVariable("tweetId") Long tweetId) {
-    List<CommentCard> list = new ArrayList<>();
-    for (Comment comment : tweetReadService.getComments(tweetId)) {
-      list.add(new CommentCard(comment));
-    }
-    return list;
+    return CommentCard.listOf(tweetReadService.getComments(tweetId));
   }
 
   @RequestMapping("/tag/{id}")

@@ -1,6 +1,9 @@
 package sage.transfer;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import sage.entity.Comment;
 
@@ -43,5 +46,13 @@ public class CommentCard {
 
   public Date getTime() {
     return time;
+  }
+  
+  public static List<CommentCard> listOf(Collection<Comment> comments) {
+    List<CommentCard> cards = new ArrayList<>();
+    for (Comment comment : comments) {
+      cards.add(new CommentCard(comment));
+    }
+    return cards;
   }
 }

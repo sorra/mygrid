@@ -1,6 +1,5 @@
 package sage.web;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import sage.domain.service.FavService;
-import sage.entity.Fav;
 import sage.transfer.FavInfo;
 import sage.web.auth.AuthUtil;
 
@@ -38,10 +36,6 @@ public class FavController {
   public Collection<FavInfo> favs() {
     Long uid =AuthUtil.checkCurrentUid();
     
-    Collection<FavInfo> favItems = new ArrayList<>();
-    for (Fav fav : favService.favs(uid)) {
-      favItems.add(new FavInfo(fav));
-    }
-    return favItems;
+    return FavInfo.listOf(favService.favs(uid));
   }
 }
