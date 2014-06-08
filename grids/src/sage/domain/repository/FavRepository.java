@@ -13,9 +13,4 @@ public class FavRepository extends BaseRepository<Fav> {
     return session().createQuery("from Fav where owner.id = :ownerId")
         .setLong("ownerId", ownerId).list();
   }
-  
-  @Override
-  protected Class<Fav> getEntityClass() {
-    return Fav.class;
-  }
 }

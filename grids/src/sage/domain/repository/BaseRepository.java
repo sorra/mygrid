@@ -1,26 +1,27 @@
 package sage.domain.repository;
 
+import java.lang.reflect.ParameterizedType;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class BaseRepository<T> {
+  protected Class<T> entityClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+
   @Autowired
   private SessionFactory sessionFactory;
-
-  // Another approach is generic-type reflection
-  protected abstract Class<T> getEntityClass();
 
   protected Session session() {
     return sessionFactory.getCurrentSession();
   }
 
   public T load(long id) {
-    return (T) session().load(getEntityClass(), id);
+    return (T) session().load(entityClass, id);
   }
 
   public T get(long id) {
-    return (T) session().get(getEntityClass(), id);
+    return (T) session().get(entityClass, id);
   }
 
   public void save(T entity) {

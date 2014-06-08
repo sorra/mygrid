@@ -19,9 +19,4 @@ public class UserRepository extends BaseRepository<User> {
         .setString("name", name);
     return (User) query.uniqueResult();
   }
-
-  @Override
-  protected Class<User> getEntityClass() {
-    return User.class;
-  }
 }

@@ -24,9 +24,4 @@ public class CommentRepository extends BaseRepository<Comment> {
     return (long) query.uniqueResult();
   }
 
-  @Override
-  protected Class<Comment> getEntityClass() {
-    return Comment.class;
-  }
-
 }

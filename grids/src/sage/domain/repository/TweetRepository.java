@@ -141,9 +141,4 @@ public class TweetRepository extends BaseRepository<Tweet> {
     }
     return false;
   }
-
-  @Override
-  protected Class<Tweet> getEntityClass() {
-    return Tweet.class;
-  }
 }

@@ -58,8 +58,4 @@ public class TagRepository extends BaseRepository<Tag> {
   // return true;
   // }
 
-  @Override
-  protected Class<Tag> getEntityClass() {
-    return Tag.class;
-  }
 }

@@ -18,10 +18,5 @@ public class HeededTagRepository extends BaseRepository<HeededTag> {
     return session().createQuery("from HeededTag ht where ht.user.id=:userId")
         .setLong("userId", userId).list();
   }
-  
-  @Override
-  protected Class<HeededTag> getEntityClass() {
-    return HeededTag.class;
-  }
 
 }

@@ -38,9 +38,4 @@ public class FollowRepository extends BaseRepository<Follow> {
   public int followerCount(long userId) {
     return followers(userId).size();
   }
-
-  @Override
-  protected Class<Follow> getEntityClass() {
-    return Follow.class;
-  }
 }
