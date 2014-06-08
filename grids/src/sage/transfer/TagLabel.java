@@ -12,6 +12,8 @@ public class TagLabel {
   private boolean isCore;
   private String chainStr;
 
+  TagLabel() {}
+  
   public TagLabel(Tag tag) {
     id = tag.getId();
     name = tag.getName();

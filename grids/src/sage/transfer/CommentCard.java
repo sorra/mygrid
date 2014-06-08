@@ -15,6 +15,8 @@ public class CommentCard {
   private String avatar;
   private Date time;
 
+  CommentCard() {}
+  
   public CommentCard(Comment comment) {
     id = comment.getId();
     content = comment.getContent();

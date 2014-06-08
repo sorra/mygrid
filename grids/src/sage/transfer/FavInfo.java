@@ -11,6 +11,8 @@ public class FavInfo {
   private String link;
   private long ownerId;
   
+  FavInfo() {}
+  
   public FavInfo(Fav fav) {
     id = fav.getId();
     link = fav.getLink();

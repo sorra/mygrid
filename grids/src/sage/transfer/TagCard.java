@@ -14,6 +14,8 @@ public class TagCard {
   private List<TagLabel> chainUp = new ArrayList<>();
   private Collection<TagLabel> children = new HashSet<>();
 
+  TagCard() {}
+  
   public TagCard(Tag tag) {
     id = tag.getId();
     name = tag.getName();

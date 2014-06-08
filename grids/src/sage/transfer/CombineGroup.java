@@ -10,6 +10,8 @@ public class CombineGroup implements Item {
   private TweetCard origin;
   private boolean containsOrigin = false;
 
+  CombineGroup() {}
+  
   public static CombineGroup newByFirst(TweetCard first) {
     CombineGroup group = new CombineGroup();
     group.origin = first.getOrigin();

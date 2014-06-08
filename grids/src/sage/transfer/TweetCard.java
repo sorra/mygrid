@@ -27,6 +27,8 @@ public class TweetCard implements Item {
   private Long fromTag = null;
   private Long fromGroup = null;
 
+  TweetCard() {}
+  
   public TweetCard(Tweet tweet, long forwardCount, long commentCount) {
     id = tweet.getId();
     authorId = tweet.getAuthor().getId();

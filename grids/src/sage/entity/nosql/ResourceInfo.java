@@ -4,6 +4,8 @@ public class ResourceInfo {
   private String link;
   private String desc;
   
+  ResourceInfo() {}
+  
   public ResourceInfo(String link, String desc) {
     this.link = link;
     this.desc = desc;

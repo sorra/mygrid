@@ -19,6 +19,8 @@ public class BlogData {
   private String content;
   private Date time;
   private List<TagLabel> tags;
+  
+  BlogData() {}
 
   public BlogData(Blog blog) {
     id = blog.getId();

@@ -11,6 +11,8 @@ public class TagNode {
   private boolean isCore;
   private Collection<TagNode> children = new ArrayList<>();
 
+  TagNode() {}
+  
   public TagNode(Tag tag) {
     id = tag.getId();
     name = tag.getName();

@@ -11,6 +11,8 @@ public class UserLabel {
   private String name;
   private String avatar;
 
+  UserLabel() {}
+  
   public UserLabel(User user) {
     this(user.getId(), user.getName(), user.getAvatar());
   }

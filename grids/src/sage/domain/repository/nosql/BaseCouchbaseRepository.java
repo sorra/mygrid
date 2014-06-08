@@ -20,8 +20,11 @@ public abstract class BaseCouchbaseRepository<T> {
     return JsonUtil.object(json, entityClass);
   }
   
+  public Future<Boolean> add(String key, T value) {
+    return client.add(key, JsonUtil.json(value));
+  }
+
   public Future<Boolean> set(String key, T value) {
     return client.set(key, JsonUtil.json(value));
   }
-  
 }

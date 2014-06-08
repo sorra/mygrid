@@ -18,6 +18,8 @@ public class UserSelf {
 
   private Collection<TagLabel> topTags = new ArrayList<>();
 
+  UserSelf() {}
+  
   public UserSelf(User user, int _followingCount, int _followerCount, int _blogCount,
       int _tweetCount,
       Collection<TagLabel> _topTags) {

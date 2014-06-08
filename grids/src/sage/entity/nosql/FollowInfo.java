@@ -10,6 +10,8 @@ public class FollowInfo {
   private UserLabel target;
   private Collection<TagLabel> tags;
   
+  FollowInfo() {}
+  
   public FollowInfo(Follow follow) {
     target = new UserLabel(follow.getTarget());
     tags = TagLabel.listOf(follow.getTags());

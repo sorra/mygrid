@@ -24,6 +24,8 @@ public class UserCard {
   private List<TagLabel> tags = new ArrayList<>();
   private List<Long> followedTagIds = new ArrayList<>();
 
+  UserCard() {}
+  
   public UserCard(User user, int _followerCount, int _blogCount, int _tweetCount,
       Follow followFromCurrentUser, Follow followToCurrentUser, Collection<TagLabel> _tags) {
     id = user.getId();
