@@ -42,7 +42,7 @@ public class TagLabel {
     return name;
   }
   
-  public boolean isCore() {
+  public boolean getIsCore() {
     return isCore;
   }
 
