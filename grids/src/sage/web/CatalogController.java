@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import sage.domain.service.CatalogService;
 import sage.domain.service.RelationService;
 import sage.entity.nosql.FollowCatalog;
+import sage.entity.nosql.FollowCatalogLite;
 import sage.entity.nosql.ResourceCatalog;
 import sage.web.auth.AuthUtil;
 import sage.web.context.JsonUtil;
@@ -48,8 +49,7 @@ public class CatalogController {
     Long uid = AuthUtil.checkCurrentUid();
     
     ResourceCatalog rc = JsonUtil.object(catalog, ResourceCatalog.class);
-    rc.setOwnerId(uid);
-    return catalogs.addResourceCatalog(rc) ? rc.getId() : null;
+    return catalogs.addResourceCatalog(rc, uid) ? rc.getId() : null;
   }
   
   @RequestMapping(value = "/follow/{id}", method = RequestMethod.GET)
@@ -61,22 +61,21 @@ public class CatalogController {
   
   @RequestMapping(value = "/follow/{id}", method = RequestMethod.POST)
   @ResponseBody
-  public Boolean updateFollowCatalog(@PathVariable("id") String id, @RequestParam("catalog") String catalog) {
+  public Boolean updateFollowCatalog(@PathVariable("id") String id, @RequestParam("catalogLite") String catalogLite) {
     Long uid = AuthUtil.checkCurrentUid();
     
-    FollowCatalog fc = JsonUtil.object(catalog, FollowCatalog.class);
-    Assert.isTrue(fc.getOwnerId().equals(uid));
-    Assert.isTrue(fc.getId().equals(id));
-    return catalogs.updateFollowCatalog(fc);
+    FollowCatalogLite fcLite = JsonUtil.object(catalogLite, FollowCatalogLite.class);
+    Assert.isTrue(fcLite.getOwnerId().equals(uid));
+    Assert.isTrue(fcLite.getId().equals(id));
+    return catalogs.updateFollowCatalog(fcLite);
   }
 
   @RequestMapping(value = "/follow/add", method = RequestMethod.POST)
   @ResponseBody
-  public String addFollowCatalog(@RequestParam("catalog") String catalog) {
+  public String addFollowCatalog(@RequestParam("catalogLite") String catalogLite) {
     Long uid = AuthUtil.checkCurrentUid();
 
-    FollowCatalog fc = JsonUtil.object(catalog, FollowCatalog.class);
-    fc.setOwnerId(uid);
-    return catalogs.addFollowCatalog(fc) ? fc.getId() : null;
+    FollowCatalogLite fcLite = JsonUtil.object(catalogLite, FollowCatalogLite.class);
+    return catalogs.addFollowCatalog(fcLite, uid) ? fcLite.getId() : null;
   }
 }
