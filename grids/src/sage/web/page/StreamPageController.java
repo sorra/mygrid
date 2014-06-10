@@ -34,7 +34,7 @@ public class StreamPageController {
     List<TagLabel> nonCoreTags = new ArrayList<>();
     TagCard tagCard = tagService.getTagCard(id);
     for (TagLabel child : tagCard.getChildren()) {
-      if (child.isCore()) {
+      if (child.getIsCore()) {
         coreTags.add(child);
       } else {
         nonCoreTags.add(child);
