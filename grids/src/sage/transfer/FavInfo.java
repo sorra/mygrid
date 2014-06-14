@@ -7,9 +7,9 @@ import java.util.List;
 import sage.entity.Fav;
 
 public class FavInfo {
-  private long id;
+  private Long id;
   private String link;
-  private long ownerId;
+  private Long ownerId;
   
   FavInfo() {}
   
@@ -19,13 +19,13 @@ public class FavInfo {
     ownerId = fav.getOwner().getId();
   }
   
-  public long getId() {
+  public Long getId() {
     return id;
   }
   public String getLink() {
     return link;
   }
-  public long getOwnerId() {
+  public Long getOwnerId() {
     return ownerId;
   }
   

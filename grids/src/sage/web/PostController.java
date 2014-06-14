@@ -30,6 +30,7 @@ public class PostController {
   @ResponseBody
   public boolean tweet(
       @RequestParam("content") String content,
+      @RequestParam(value = "attachmentRefs[]", defaultValue = "") Collection<String> attachmentRefs,
       @RequestParam(value = "tagIds[]", defaultValue = "") Collection<Long> tagIds) {
     Long uid = AuthUtil.checkCurrentUid();
     if (content.isEmpty()) {
@@ -39,6 +40,7 @@ public class PostController {
       return false;
     }
 
+    //TODO Process attachments
     Tweet tweet = tweetPostService.newTweet(uid, content, tagIds);
     logger.info("post tweet {} success", tweet.getId());
     return true;

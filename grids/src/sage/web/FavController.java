@@ -29,6 +29,8 @@ public class FavController {
       favService.addFav(link, uid);
     } else if (tweetId != null && link == null) {
       favService.addFav(TWEET_PR + tweetId, uid);
+    } else {
+      throw new IllegalArgumentException();
     }
   }
   
