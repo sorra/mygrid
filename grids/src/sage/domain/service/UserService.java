@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import org.jasypt.util.password.StrongPasswordEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -65,7 +66,7 @@ public class UserService {
     if (user == null) {
       return null;
     }
-    if (encrypt(password).equals(user.getPassword())) {
+    if (checkPassword(password, user.getPassword())) {
       return user;
     }
     else
@@ -79,7 +80,7 @@ public class UserService {
     }
     // XXX existsName?
 
-    user.setPassword(encrypt(user.getPassword()));
+    user.setPassword(encryptPassword(user.getPassword()));
     userRepo.save(user);
     return user.getId();
   }
@@ -88,10 +89,12 @@ public class UserService {
     return userRepo.findByEmail(user.getEmail()) != null;
   }
 
-  @Deprecated
-  private String encrypt(String password) {
-    // XXX
-    return password;
+  private boolean checkPassword(String plainPassword, String encryptedPassword) {
+    return new StrongPasswordEncryptor().checkPassword(plainPassword, encryptedPassword);
+  }
+
+  private String encryptPassword(String plainPassword) {
+    return new StrongPasswordEncryptor().encryptPassword(plainPassword);
   }
 
   public List<PersonValue> recommend(long userId) {
