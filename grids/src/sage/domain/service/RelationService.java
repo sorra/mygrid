@@ -15,6 +15,8 @@ import sage.domain.repository.TagRepository;
 import sage.domain.repository.UserRepository;
 import sage.entity.Follow;
 import sage.entity.User;
+import sage.entity.nosql.FollowCatalogLite;
+import sage.entity.nosql.FollowInfoLite;
 import sage.transfer.UserLabel;
 
 @Service
@@ -55,6 +57,12 @@ public class RelationService {
       followRepo.delete(follow);
     } else {
       logger.warn("user {} should not unfollow duplicately!", userId);
+    }
+  }
+  
+  public void applyFollows(Long userId, FollowCatalogLite fcl) {
+    for (FollowInfoLite info : fcl.getList()) {
+      follow(userId, info.getUserId(), info.getTagIds());
     }
   }
 

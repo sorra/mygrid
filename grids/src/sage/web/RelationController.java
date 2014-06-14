@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import sage.domain.service.RelationService;
+import sage.entity.nosql.FollowCatalogLite;
 import sage.web.auth.AuthUtil;
+import sage.web.context.JsonUtil;
 
 @Controller
 @RequestMapping
@@ -46,9 +48,19 @@ public class RelationController {
 
   @RequestMapping("/unfollow/{id}")
   @ResponseBody
-  private void unfollow(@PathVariable("id") Long targetId) {
+  public void unfollow(@PathVariable("id") Long targetId) {
     Long uid = AuthUtil.checkCurrentUid();
 
     relationService.unfollow(uid, targetId);
+  }
+  
+  @RequestMapping("/apply-follows")
+  @ResponseBody
+  public void applyFollows(@RequestParam("catalogLite") String catalogLite) {
+    Long uid = AuthUtil.checkCurrentUid();
+    
+    FollowCatalogLite fcl = JsonUtil.object(catalogLite, FollowCatalogLite.class);
+    //TODO Be able to unapply this catalog
+    relationService.applyFollows(uid, fcl);
   }
 }
