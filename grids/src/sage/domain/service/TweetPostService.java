@@ -4,6 +4,8 @@ import httl.util.StringUtils;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +29,9 @@ public class TweetPostService {
   @Autowired
   private SearchBase searchBase;
   @Autowired
-  private TransferService transferService;
+  private TransferService transfers;
+  @Autowired
+  private NotificationService notifs;
   @Autowired
   private UserRepository userRepo;
   @Autowired
@@ -38,16 +42,24 @@ public class TweetPostService {
   private CommentRepository commentRepo;
 
   public Tweet newTweet(long userId, String content, Collection<Long> tagIds) {
-    content = processContent(content);
+    ParsedContent parsedContent = processContent(content);
+    content = parsedContent.content;
+    
     Tweet tweet = new Tweet(content, userRepo.load(userId), new Date(),
         tagRepo.byIds(tagIds));
     tweetRepo.save(tweet);
-    searchBase.index(tweet.getId(), transferService.toTweetCardNoCount(tweet));
+    
+    for (Long each : parsedContent.mentionedIds) {
+      notifs.mentionedByTweet(each, tweet.getId());
+    }
+    searchBase.index(tweet.getId(), transfers.toTweetCardNoCount(tweet));
     return tweet;
   }
 
   public Tweet forward(long userId, String content, long originId) {
-    content = processContent(content);
+    ParsedContent parsedContent = processContent(content);
+    content = parsedContent.content;
+    
     Tweet origin = tweetRepo.load(originId);
     Tweet tweet;
     if (origin.getOrigin() == null) {
@@ -58,15 +70,29 @@ public class TweetPostService {
           enPrefo(origin));
     }
     tweetRepo.save(tweet);
-    searchBase.index(tweet.getId(), transferService.toTweetCardNoCount(tweet));
+    
+    //TODO notify every origin
+    notifs.forwarded(origin.getId(), tweet.getId());
+    for (Long each : parsedContent.mentionedIds) {
+      notifs.mentionedByTweet(each, tweet.getId());
+    }
+    searchBase.index(tweet.getId(), transfers.toTweetCardNoCount(tweet));
     return tweet;
   }
 
   public Comment comment(long userId, String content, long sourceId) {
-    content = processContent(content);
+    ParsedContent parsedContent = processContent(content);
+    content = parsedContent.content;
+    
+    Tweet source = tweetRepo.load(sourceId);
     Comment comment = new Comment(content, userRepo.load(userId),
-        new Date(), tweetRepo.load(sourceId));
+        new Date(), source);
     commentRepo.save(comment);
+    
+    notifs.commented(source.getAuthor().getId(), comment.getId());
+    for (Long each : parsedContent.mentionedIds) {
+      notifs.mentionedByComment(each, comment.getId());
+    }
     return comment;
   }
 
@@ -84,7 +110,7 @@ public class TweetPostService {
         new Date(),
         blog);
     tweetRepo.save(tweet);
-    searchBase.index(tweet.getId(), transferService.toTweetCardNoCount(tweet));
+    searchBase.index(tweet.getId(), transfers.toTweetCardNoCount(tweet));
   }
 
   public boolean delete(long userId, long tweetId) {
@@ -127,39 +153,42 @@ public class TweetPostService {
   /*
    * Escape HTML and replace mentions
    */
-  private String processContent(String content) {
+  private ParsedContent processContent(String content) {
     content = StringUtils.escapeXml(content);
-    return replaceMention(content, 0, new StringBuilder(), userRepo);
+    Set<Long> mentionedIds = new HashSet<>();
+    content = replaceMention(content, 0, new StringBuilder(), mentionedIds);
+    
+    return new ParsedContent(content, mentionedIds);
   }
 
   /*
    * Replace "@xxx" mentions recursively
    */
-  public static String replaceMention(String content, int startIndex, StringBuilder sb,
-      UserRepository ur) {
+  public String replaceMention(String content, int startIndex, StringBuilder sb, Set<Long> mentionedIds) {
     int indexOfAt = content.indexOf('@', startIndex);
     int indexOfSpace = content.indexOf(' ', indexOfAt);
     int indexOfInnerAt = content.lastIndexOf('@', indexOfSpace - 1);
-    System.out.println(indexOfAt + " " + indexOfSpace + " " + indexOfInnerAt);
 
     if (indexOfAt >= 0 && indexOfSpace >= 0) {
       if (indexOfInnerAt > indexOfAt && indexOfInnerAt < indexOfSpace) {
         indexOfAt = indexOfInnerAt;
       }
       String name = content.substring(indexOfAt + 1, indexOfSpace);
-      User user = ur.findByName(name);
-      System.out.println(user);
+      User user = userRepo.findByName(name);
+      
       if (user != null) {
+        // A valid mention
+        mentionedIds.add(user.getId());
         sb.append(content.substring(startIndex, indexOfAt)).append('@').append(name)
             .append('#').append(user.getId());
-        return replaceMention(content, indexOfSpace, sb, ur);
+        return replaceMention(content, indexOfSpace, sb, mentionedIds);
       }
       else {
         if (startIndex == 0) {
           return content;
         }
         sb.append(content.substring(indexOfAt, indexOfSpace));
-        return replaceMention(content, indexOfSpace, sb, ur);
+        return replaceMention(content, indexOfSpace, sb, mentionedIds);
       }
     }
 
@@ -168,5 +197,15 @@ public class TweetPostService {
       return content;
     }
     return sb.append(content.substring(startIndex)).toString();
+  }
+  
+  private static class ParsedContent {
+    final String content;
+    final Set<Long> mentionedIds;
+    
+    ParsedContent(String content, Set<Long> mentionedIds) {
+      this.content = content;
+      this.mentionedIds = mentionedIds;
+    }
   }
 }

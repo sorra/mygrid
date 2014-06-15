@@ -25,7 +25,7 @@ public class StreamService {
   @Autowired
   private TweetReadService tweetRead;
   @Autowired
-  private TransferService transfer;
+  private TransferService transfers;
   @Autowired
   private HeedService heed;
 
@@ -34,12 +34,12 @@ public class StreamService {
   }
 
   public Stream istream(long userId, Edge edge) {
-    List<TweetCard> tcsByFols = transfer.toTweetCards(tweetRead.byFollowings(userId, edge));
+    List<TweetCard> tcsByFols = transfers.toTweetCards(tweetRead.byFollowings(userId, edge));
     
     List<TweetCard> tcsByTags = new ArrayList<>();
     for (HeededTag ht : heed.heededTags(userId)) {
       Long tagId = ht.getTag().getId();
-      List<TweetCard> tagTcs = transfer.toTweetCards(tweetRead.byTag(tagId, edge));
+      List<TweetCard> tagTcs = transfers.toTweetCards(tweetRead.byTag(tagId, edge));
       for (TweetCard t : tagTcs) {
         t.beFromTag(tagId);
       }
@@ -72,7 +72,7 @@ public class StreamService {
   }
 
   private List<TweetCard> naiveSort(Collection<Tweet> tweets) {
-    List<TweetCard> tcs = transfer.toTweetCards(tweets);
+    List<TweetCard> tcs = transfers.toTweetCards(tweets);
     Collections.sort(tcs, Comparators.tweetCardOnId());
     return tcs;
   }

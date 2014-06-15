@@ -48,6 +48,11 @@ public class TagRepository extends BaseRepository<Tag> {
     return queryTags;
   }
 
+  @Override
+  protected Class<Tag> entityClass() {
+    return Tag.class;
+  }
+
   // public boolean noMatch(Collection<Tag> entityTags, Collection<Tag>
   // queryTags) {
   // for (Tag queryTag : queryTags) {

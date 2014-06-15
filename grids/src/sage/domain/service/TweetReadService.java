@@ -27,7 +27,7 @@ public class TweetReadService {
   private static final int FETCH_SIZE = 20;
 
   @Autowired
-  private TransferService transfer;
+  private TransferService transfers;
   @Autowired
   private TweetRepository tweetRepo;
   @Autowired
@@ -69,7 +69,7 @@ public class TweetReadService {
 
   public TweetCard getTweetCard(long tweetId) {
     Tweet tweet = tweetRepo.get(tweetId);
-    return tweet == null ? null : transfer.toTweetCard(tweet);
+    return tweet == null ? null : transfers.toTweetCard(tweet);
   }
 
   public Collection<Tweet> getForwards(long originId) {
@@ -88,7 +88,7 @@ public class TweetReadService {
   public List<TweetCard> connectTweets(long blogId) {
     List<TweetCard> tcs = new ArrayList<>();
     for (Tweet tweet : tweetRepo.connectTweets(blogId)) {
-      tcs.add(transfer.toTweetCard(tweet));
+      tcs.add(transfers.toTweetCard(tweet));
     }
     return tcs;
   }

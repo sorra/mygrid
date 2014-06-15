@@ -1,21 +1,23 @@
 package sage.domain.repository.nosql;
 
-import java.lang.reflect.ParameterizedType;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.PreDestroy;
+
 import org.springframework.util.Assert;
 
+import sage.domain.nosql.CouchbaseFactory;
 import sage.entity.nosql.IdAble;
 import sage.web.context.JsonUtil;
 
 import com.couchbase.client.CouchbaseClient;
 
 public abstract class BaseCouchbaseRepository<T extends IdAble> {
-  protected Class<T> entityClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
   
-  @Autowired
-  protected CouchbaseClient client;
+  protected CouchbaseClient client = CouchbaseFactory.createClient(entityClass().getSimpleName());
+
+  protected abstract Class<T> entityClass();
   
   public T get(String key) {
     Assert.notNull(key);
@@ -23,7 +25,7 @@ public abstract class BaseCouchbaseRepository<T extends IdAble> {
     if (json ==null) {
       return null;
     }
-    T result = JsonUtil.object(json, entityClass);
+    T result = JsonUtil.object(json, entityClass());
     result.setId(key);
     return result;
   }
@@ -38,5 +40,10 @@ public abstract class BaseCouchbaseRepository<T extends IdAble> {
     Assert.notNull(key);
     Assert.notNull(value);
     return client.set(key, JsonUtil.json(value));
+  }
+  
+  @PreDestroy
+  protected void shutdown() {
+    client.shutdown(10, TimeUnit.SECONDS);
   }
 }

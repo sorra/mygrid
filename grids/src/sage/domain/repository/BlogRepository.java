@@ -41,4 +41,9 @@ public class BlogRepository extends BaseRepository<Blog> {
         .uniqueResult();
   }
 
+  @Override
+  protected Class<Blog> entityClass() {
+    return Blog.class;
+  }
+
 }

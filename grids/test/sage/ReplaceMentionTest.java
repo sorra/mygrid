@@ -1,7 +1,11 @@
 package sage;
 
+import java.lang.reflect.Field;
+import java.util.HashSet;
+
 import org.junit.Assert;
 import org.junit.Test;
+import org.springframework.util.ReflectionUtils;
 
 import sage.domain.repository.UserRepository;
 import sage.domain.service.TweetPostService;
@@ -21,7 +25,11 @@ public class ReplaceMentionTest {
                 return user;
             }
         };
-        String output = TweetPostService.replaceMention(content, 0, new StringBuilder(), ur);
+        TweetPostService tweetPostService = new TweetPostService();
+        Field field = ReflectionUtils.findField(TweetPostService.class, "userRepo");
+        field.setAccessible(true);
+        ReflectionUtils.setField(field, tweetPostService, ur);
+        String output = tweetPostService.replaceMention(content, 0, new StringBuilder(), new HashSet<Long>());
         Assert.assertEquals(output,
                 "@Admin#1000 @Admin@Admin@Admin@Admin@Admin#1000 @Admin@Admin#1000 @Admin@Admin@Admin#1000 @Admi");
     }

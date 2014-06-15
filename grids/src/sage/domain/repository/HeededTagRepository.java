@@ -19,4 +19,9 @@ public class HeededTagRepository extends BaseRepository<HeededTag> {
         .setLong("userId", userId).list();
   }
 
+  @Override
+  protected Class<HeededTag> entityClass() {
+    return HeededTag.class;
+  }
+
 }
