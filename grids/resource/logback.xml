@@ -18,7 +18,7 @@
 			<onMismatch>DENY </onMismatch>
 		</filter>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<FileNamePattern>D:/programs/logs/debug.%d{yyyy-MM-dd}.log
+			<FileNamePattern>logs/debug.%d{yyyy-MM-dd}.log
 			</FileNamePattern>
 			<MaxHistory>30</MaxHistory>
 		</rollingPolicy>
@@ -36,7 +36,7 @@
 			<onMismatch>DENY </onMismatch>
 		</filter>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<FileNamePattern>D:/programs/logs/error.%d{yyyy-MM-dd}.log
+			<FileNamePattern>logs/error.%d{yyyy-MM-dd}.log
 			</FileNamePattern>
 			<MaxHistory>30</MaxHistory>
 		</rollingPolicy>
