@@ -1,6 +1,6 @@
 package sage.domain.service;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +11,13 @@ import sage.entity.nosql.Notif;
 import sage.entity.nosql.Notif.Type;
 
 @Service
-public class NotificationService {
+public class NotifService {
 
   @Autowired
   private NotifRepository notifRepo;
   
-  public List<Notif> getNotifs(Long userId) {
-    
+  public Collection<Notif> getNotifs(Long userId) {
+    return notifRepo.findAll(userId);
   }
   
   public void forwarded(Long userToNotify, Long sourceId) {
@@ -53,6 +53,7 @@ public class NotificationService {
     }
   }
   
+  //TODO This strategy is not suitable! Concurrency can be as high as 10K!
   private String generateId(Notif notif, long time) {
     String id = notif.getOwnerId() + "_" + Long.toHexString(time);
     notif.setId(id);

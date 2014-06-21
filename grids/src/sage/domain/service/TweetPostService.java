@@ -31,7 +31,7 @@ public class TweetPostService {
   @Autowired
   private TransferService transfers;
   @Autowired
-  private NotificationService notifs;
+  private NotifService notifService;
   @Autowired
   private UserRepository userRepo;
   @Autowired
@@ -50,7 +50,7 @@ public class TweetPostService {
     tweetRepo.save(tweet);
     
     for (Long each : parsedContent.mentionedIds) {
-      notifs.mentionedByTweet(each, tweet.getId());
+      notifService.mentionedByTweet(each, tweet.getId());
     }
     searchBase.index(tweet.getId(), transfers.toTweetCardNoCount(tweet));
     return tweet;
@@ -72,9 +72,9 @@ public class TweetPostService {
     tweetRepo.save(tweet);
     
     //TODO notify every origin
-    notifs.forwarded(origin.getId(), tweet.getId());
+    notifService.forwarded(origin.getAuthor().getId(), tweet.getId());
     for (Long each : parsedContent.mentionedIds) {
-      notifs.mentionedByTweet(each, tweet.getId());
+      notifService.mentionedByTweet(each, tweet.getId());
     }
     searchBase.index(tweet.getId(), transfers.toTweetCardNoCount(tweet));
     return tweet;
@@ -89,9 +89,9 @@ public class TweetPostService {
         new Date(), source);
     commentRepo.save(comment);
     
-    notifs.commented(source.getAuthor().getId(), comment.getId());
+    notifService.commented(source.getAuthor().getId(), comment.getId());
     for (Long each : parsedContent.mentionedIds) {
-      notifs.mentionedByComment(each, comment.getId());
+      notifService.mentionedByComment(each, comment.getId());
     }
     return comment;
   }
