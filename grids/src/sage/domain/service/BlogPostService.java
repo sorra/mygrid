@@ -55,7 +55,11 @@ public class BlogPostService {
   }
 
   public boolean delete(long userId, long blogId) {
-    Blog blog = blogRepo.load(blogId);
+    Blog blog = blogRepo.get(blogId);
+    if (blog == null) {
+      return false;
+    }
+    
     if (blog.getAuthor().getId() == userId) {
       blogRepo.delete(blog);
       searchBase.delete(BlogData.class, blog.getId());

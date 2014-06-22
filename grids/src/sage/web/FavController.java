@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,12 +27,19 @@ public class FavController {
     Long uid = AuthUtil.checkCurrentUid();
 
     if (link != null && tweetId == null) {
-      favService.addFav(link, uid);
+      favService.addFav(uid, link);
     } else if (tweetId != null && link == null) {
-      favService.addFav(TWEET_PR + tweetId, uid);
+      favService.addFav(uid, TWEET_PR + tweetId);
     } else {
       throw new IllegalArgumentException();
     }
+  }
+  
+  @RequestMapping(value="/{favId}/delete", method=RequestMethod.POST)
+  public boolean deleteFav(@PathVariable("favId") Long favId) {
+    Long uid =AuthUtil.checkCurrentUid();
+    
+    return favService.deleteFav(uid, favId);
   }
   
   @RequestMapping(value="/")

@@ -30,8 +30,22 @@ public class FavService {
     return favs;
   }
   
-  public void addFav(String link, long ownerId) {
-    Fav fav = new Fav(link, userRepo.load(ownerId), new Date());
+  public void addFav(long userId, String link) {
+    Fav fav = new Fav(link, userRepo.load(userId), new Date());
     favRepo.save(fav);
+  }
+  
+  public boolean deleteFav(long userId, long favId) {
+    Fav fav = favRepo.get(favId);
+    if (fav == null) {
+      return false;
+    }
+    
+    if (fav.getOwner().getId().equals(userId)) {
+      favRepo.delete(fav);
+      return true;
+    } else {
+      return false;
+    }
   }
 }

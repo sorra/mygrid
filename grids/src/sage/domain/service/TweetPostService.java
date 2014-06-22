@@ -126,7 +126,11 @@ public class TweetPostService {
   }
 
   public boolean delete(long userId, long tweetId) {
-    Tweet tweet = tweetRepo.load(tweetId);
+    Tweet tweet = tweetRepo.get(tweetId);
+    if (tweet == null) {
+      return false;
+    }
+    
     if (userId == tweet.getAuthor().getId()) {
       tweetRepo.delete(tweet);
       searchBase.delete(TweetCard.class, tweetId);
