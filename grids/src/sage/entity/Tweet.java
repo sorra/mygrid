@@ -45,10 +45,10 @@ public class Tweet {
     this.tags.addAll(tags);
   }
 
-  public Tweet(String content, User author, Date time, Tweet origin) {
-    this(content, author, time, origin.getTags());
-    setOrigin(origin);
-    if (origin.getOrigin() != null) {// XXX need better approach
+  public Tweet(String content, User author, Date time, Tweet initialOrigin) {
+    this(content, author, time, initialOrigin.getTags());
+    setOrigin(initialOrigin);
+    if (initialOrigin.getOrigin() != null) {
       throw new IllegalArgumentException("tweet's origin should not be nested!");
     }
   }
