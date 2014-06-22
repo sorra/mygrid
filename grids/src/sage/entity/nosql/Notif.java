@@ -4,13 +4,15 @@ public class Notif implements IdAble {
   
   private String id;
   private Long ownerId;
+  private Long senderId;
   private Type type;
   private Long sourceId;
   
   Notif() {}
   
-  public Notif(Long ownerId, Type type, Long sourceId) {
+  public Notif(Long ownerId, Long senderId, Type type, Long sourceId) {
     this.ownerId = ownerId;
+    this.senderId = senderId;
     this.type = type;
     this.sourceId = sourceId;
   }
@@ -26,6 +28,10 @@ public class Notif implements IdAble {
   
   public Long getOwnerId() {
     return ownerId;
+  }
+  
+  public Long getSenderId() {
+    return senderId;
   }
 
   public Type getType() {

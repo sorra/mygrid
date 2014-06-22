@@ -3,6 +3,7 @@ package sage.domain.service;
 import java.util.Collection;
 import java.util.concurrent.ExecutionException;
 
+import org.elasticsearch.common.base.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,23 +21,30 @@ public class NotifService {
     return notifRepo.findAll(userId);
   }
   
-  public void forwarded(Long userToNotify, Long sourceId) {
-    sendNotif(new Notif(userToNotify, Type.FORWARDED, sourceId));
+  //TODO filter & black-list
+  
+  public void forwarded(Long toUser, Long fromUser, Long sourceId) {
+    sendNotif(new Notif(toUser, fromUser, Type.FORWARDED, sourceId));
   }
   
-  public void commented(Long userToNotify, Long sourceId) {
-    sendNotif(new Notif(userToNotify, Type.COMMENTED, sourceId));
+  public void commented(Long toUser, Long fromUser, Long sourceId) {
+    sendNotif(new Notif(toUser, fromUser, Type.COMMENTED, sourceId));
   }
   
-  public void mentionedByTweet(Long userToNotify, Long sourceId) {
-    sendNotif(new Notif(userToNotify, Type.MENTIONED_TWEET, sourceId));
+  public void mentionedByTweet(Long toUser, Long fromUser, Long sourceId) {
+    sendNotif(new Notif(toUser, fromUser, Type.MENTIONED_TWEET, sourceId));
   }
   
-  public void mentionedByComment(Long userToNotify, Long sourceId) {
-    sendNotif(new Notif(userToNotify, Type.MENTIONED_COMMENT, sourceId));
+  public void mentionedByComment(Long toUser, Long fromUser, Long sourceId) {
+    sendNotif(new Notif(toUser, fromUser, Type.MENTIONED_COMMENT, sourceId));
   }
   
   private Boolean sendNotif(Notif notif) {
+    // Don't send to oneself
+    if (Objects.equal(notif.getOwnerId(), notif.getSenderId())) {
+      return false;
+    }
+    
     long time = System.currentTimeMillis();
     String id = generateId(notif, time);
     try {
@@ -53,9 +61,14 @@ public class NotifService {
     }
   }
   
-  //TODO This strategy is not suitable! Concurrency can be as high as 10K!
+  /**
+   * Format: senderId_timeHexString
+   * @param notif The notif
+   * @param time Current system time
+   * @return generated doc id
+   */
   private String generateId(Notif notif, long time) {
-    String id = notif.getOwnerId() + "_" + Long.toHexString(time);
+    String id = notif.getSenderId() + "_" + Long.toHexString(time);
     notif.setId(id);
     return id;
   }

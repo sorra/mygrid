@@ -49,8 +49,8 @@ public class TweetPostService {
         tagRepo.byIds(tagIds));
     tweetRepo.save(tweet);
     
-    for (Long each : parsedContent.mentionedIds) {
-      notifService.mentionedByTweet(each, tweet.getId());
+    for (Long mentioned : parsedContent.mentionedIds) {
+      notifService.mentionedByTweet(mentioned, userId, tweet.getId());
     }
     searchBase.index(tweet.getId(), transfers.toTweetCardNoCount(tweet));
     return tweet;
@@ -72,9 +72,9 @@ public class TweetPostService {
     tweetRepo.save(tweet);
     
     //TODO notify every origin
-    notifService.forwarded(origin.getAuthor().getId(), tweet.getId());
-    for (Long each : parsedContent.mentionedIds) {
-      notifService.mentionedByTweet(each, tweet.getId());
+    notifService.forwarded(origin.getAuthor().getId(), userId, tweet.getId());
+    for (Long mentioned : parsedContent.mentionedIds) {
+      notifService.mentionedByTweet(mentioned, userId, tweet.getId());
     }
     searchBase.index(tweet.getId(), transfers.toTweetCardNoCount(tweet));
     return tweet;
@@ -89,9 +89,9 @@ public class TweetPostService {
         new Date(), source);
     commentRepo.save(comment);
     
-    notifService.commented(source.getAuthor().getId(), comment.getId());
-    for (Long each : parsedContent.mentionedIds) {
-      notifService.mentionedByComment(each, comment.getId());
+    notifService.commented(source.getAuthor().getId(), userId, comment.getId());
+    for (Long mentioned : parsedContent.mentionedIds) {
+      notifService.mentionedByComment(mentioned, userId, comment.getId());
     }
     return comment;
   }
