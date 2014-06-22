@@ -1,5 +1,7 @@
 package sage.entity;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -12,12 +14,14 @@ public class Fav {
   private Long id;
   private String link;
   private User owner;
+  private Date time;
   
   public Fav() {}
   
-  public Fav(String link, User owner) {
+  public Fav(String link, User owner, Date time) {
     this.link = link;
     this.owner = owner;
+    this.time = time;
   }
   
   @Id @GeneratedValue
@@ -30,6 +34,9 @@ public class Fav {
   @OneToOne
   public User getOwner() {return owner;}
   public void setOwner(User owner) {this.owner = owner;}
+  
+  public Date getTime() {return time;}
+  public void setTime(Date time) {this.time = time;}
   
   @Override
   public int hashCode() {

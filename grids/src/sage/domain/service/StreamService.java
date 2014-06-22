@@ -73,13 +73,13 @@ public class StreamService {
 
   private List<TweetCard> naiveSort(Collection<Tweet> tweets) {
     List<TweetCard> tcs = transfers.toTweetCards(tweets);
-    Collections.sort(tcs, Comparators.tweetCardOnId());
+    Collections.sort(tcs, Comparators.tweetCardOnId);
     return tcs;
   }
   
   private List<TweetCard> naiveSortTC(Collection<TweetCard> tcs) {
     List<TweetCard> tcList = new ArrayList<>(tcs);
-    Collections.sort(tcList, Comparators.tweetCardOnId());
+    Collections.sort(tcList, Comparators.tweetCardOnId);
     return tcList;
   }
 

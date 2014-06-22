@@ -49,7 +49,7 @@ public class TweetReadService {
           follow.getTarget().getId(), follow.getTags(), edge);
       tweets.addAll(result);
     }
-    Collections.sort(tweets, Comparators.tweetOnId());
+    Collections.sort(tweets, Comparators.tweetOnId);
 
     // Select the top items, for later's higher sort
     List<Tweet> tops = (FETCH_SIZE < tweets.size())
