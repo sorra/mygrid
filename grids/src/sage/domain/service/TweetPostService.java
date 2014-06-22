@@ -2,8 +2,10 @@ package sage.domain.service;
 
 import httl.util.StringUtils;
 
+import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Deque;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -52,6 +54,7 @@ public class TweetPostService {
     for (Long mentioned : parsedContent.mentionedIds) {
       notifService.mentionedByTweet(mentioned, userId, tweet.getId());
     }
+    
     searchBase.index(tweet.getId(), transfers.toTweetCardNoCount(tweet));
     return tweet;
   }
@@ -62,20 +65,28 @@ public class TweetPostService {
     
     Tweet origin = tweetRepo.load(originId);
     Tweet tweet;
+    Deque<Tweet> furtherOrigins = null;
     if (origin.getOrigin() == null) {
       tweet = new Tweet(content, userRepo.load(userId), new Date(), origin);
     }
     else {
-      tweet = new Tweet(content, userRepo.load(userId), new Date(), pureOrigin(origin),
-          enPreforw(origin));
+      furtherOrigins = furtherOrigins(origin);
+      Tweet initialOrigin = furtherOrigins.getLast();
+      tweet = new Tweet(content, userRepo.load(userId), new Date(), initialOrigin, enPreforw(origin));
     }
     tweetRepo.save(tweet);
     
-    //TODO notify every origin
     notifService.forwarded(origin.getAuthor().getId(), userId, tweet.getId());
+    if (furtherOrigins != null) {
+      for (Tweet eachOrigin : furtherOrigins) {
+        notifService.forwarded(eachOrigin.getAuthor().getId(), userId, tweet.getId());
+      }
+    }
+    
     for (Long mentioned : parsedContent.mentionedIds) {
       notifService.mentionedByTweet(mentioned, userId, tweet.getId());
     }
+    
     searchBase.index(tweet.getId(), transfers.toTweetCardNoCount(tweet));
     return tweet;
   }
@@ -110,6 +121,7 @@ public class TweetPostService {
         new Date(),
         blog);
     tweetRepo.save(tweet);
+    
     searchBase.index(tweet.getId(), transfers.toTweetCardNoCount(tweet));
   }
 
@@ -130,15 +142,16 @@ public class TweetPostService {
   }
 
   /*
-   * Find the ultimate origin of Tweet
+   * Find the further origins of this origin
    */
-  private Tweet pureOrigin(Tweet tweet) {
-    if (tweet.getOrigin() == null) {
-      return tweet;
+  private Deque<Tweet> furtherOrigins(Tweet origin) {
+    Deque<Tweet> origins = new ArrayDeque<>();
+    origin = origin.getOrigin();
+    while (origin != null) {
+      origins.add(origin);
+      origin = origin.getOrigin();
     }
-    else {
-      return pureOrigin(tweet.getOrigin());
-    }
+    return origins;
   }
 
   private String enPreforw(Tweet tweet) {
