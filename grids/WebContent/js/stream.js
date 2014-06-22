@@ -115,7 +115,7 @@ function createTweetCard(tweet) {
     $tc.find('a.avatar').attr(userLinkAttrs(tweet.authorId))
         .find('img').attr('src', tweet.avatar);
     $tc.find('.author-name').attr(userLinkAttrs(tweet.authorId)).text(tweet.authorName); 
-    var content = tweet.prefo ? tweet.content+tweet.prefo : tweet.content;
+    var content = tweet.preforw ? tweet.content+tweet.preforw : tweet.content;
     $tc.find('.content').html(replaceMention(content));
     
     $tc.find('a[uid]').mouseenter(launchUcOpener).mouseleave(launchUcCloser);

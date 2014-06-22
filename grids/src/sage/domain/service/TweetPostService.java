@@ -67,7 +67,7 @@ public class TweetPostService {
     }
     else {
       tweet = new Tweet(content, userRepo.load(userId), new Date(), pureOrigin(origin),
-          enPrefo(origin));
+          enPreforw(origin));
     }
     tweetRepo.save(tweet);
     
@@ -141,13 +141,13 @@ public class TweetPostService {
     }
   }
 
-  private String enPrefo(Tweet tweet) {
-    String asPrefo = " ||@" + tweet.getAuthor().getName() + "#" + tweet.getAuthor().getId() + " : "
+  private String enPreforw(Tweet tweet) {
+    String asPreforw = " ||@" + tweet.getAuthor().getName() + "#" + tweet.getAuthor().getId() + " : "
         + tweet.getContent();
-    if (tweet.getPrefo() == null)
-      return asPrefo;
+    if (tweet.getPreforw() == null)
+      return asPreforw;
     else
-      return asPrefo + tweet.getPrefo();
+      return asPreforw + tweet.getPreforw();
   }
 
   /*

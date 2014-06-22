@@ -28,9 +28,9 @@ public class Tweet {
   private Tweet origin = null;
   /**
    * Flattened prefix for nested forwards
-   * @see TweetPostService#enPrefo()
+   * @see TweetPostService#enPreforw()
    */
-  private String prefo = null;
+  private String preforw = null;
   private Long blogId = null;
   private Set<Tag> tags = new HashSet<>();
   private Collection<Comment> comments = new ArrayList<>();
@@ -53,9 +53,9 @@ public class Tweet {
     }
   }
 
-  public Tweet(String content, User author, Date time, Tweet origin, String prefo) {
+  public Tweet(String content, User author, Date time, Tweet origin, String preforw) {
     this(content, author, time, origin);
-    setPrefo(prefo);
+    setPreforw(preforw);
   }
 
   public Tweet(String content, User author, Date time, Blog sourceBlog) {
@@ -109,12 +109,12 @@ public class Tweet {
     this.origin = origin;
   }
 
-  public String getPrefo() {
-    return prefo;
+  public String getPreforw() {
+    return preforw;
   }
 
-  public void setPrefo(String prefo) {
-    this.prefo = prefo;
+  public void setPreforw(String preforw) {
+    this.preforw = preforw;
   }
 
   public Long getBlogId() {
