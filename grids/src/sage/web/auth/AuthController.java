@@ -81,6 +81,34 @@ public class AuthController {
       @RequestParam("email") String email,
       @RequestParam("password") String password) {
     logger.info("register email: {}", email);
-    return String.valueOf(userService.register(new User(email, password)));
+    
+    if (email.length() > 0) {
+      return EMAIL_TOO_LONG;
+    }
+    int idxOfAt = email.indexOf('@');
+    if (idxOfAt <= 0) {
+      return EMAIL_INVALID;
+    }
+    if (email.indexOf('.', idxOfAt) <= 0) {
+      return EMAIL_INVALID;
+    }
+    
+    if (password.length() < 8) {
+      return PASSWORD_TOO_SHORT;
+    }
+    if (password.length() > 20) {
+      return PASSWORD_TOO_LONG;
+    }
+    
+    if (userService.register(new User(email, password)) >= 0) {
+      return "成功注册";
+    } else {
+      return "注册失败";
+    }
   }
+  
+  private static final String EMAIL_TOO_LONG = "Email不能超过50个字符",
+      EMAIL_INVALID = "Email无效",
+      PASSWORD_TOO_SHORT = "密码太短，至少要8位",
+      PASSWORD_TOO_LONG = "密码太长，不要超过20位";
 }
