@@ -18,7 +18,7 @@ public class NotifController {
   @Autowired
   private NotifService notifSvc;
   
-  @RequestMapping("/all")
+  @RequestMapping("/get")
   @ResponseBody
   public Collection<Notif> notifs() {
     Long uid = AuthUtil.checkCurrentUid();

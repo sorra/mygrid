@@ -14,7 +14,7 @@ import sage.transfer.FavInfo;
 import sage.web.auth.AuthUtil;
 
 @Controller
-@RequestMapping("/fav")
+@RequestMapping("/favs")
 public class FavController {
   public final String TWEET_PR = "tweet:";
   
@@ -42,7 +42,7 @@ public class FavController {
     return favService.deleteFav(uid, favId);
   }
   
-  @RequestMapping(value="/")
+  @RequestMapping(value="/get")
   public Collection<FavInfo> favs() {
     Long uid =AuthUtil.checkCurrentUid();
     
